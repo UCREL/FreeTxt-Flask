@@ -1,0 +1,512 @@
+,Equivalent Tag,f_reference,USAS Tags
+0,Z5,312904,Grammatical bin
+1,Z8,72023,Pronouns
+2,A3+,24177,Existing
+3,Z99,22165,Unmatched
+4,Z1,16434,Personal names
+5,N1,15606,Numbers 
+6,Z2,14502,Geographical names
+7,A1.1.1,12189,General actions / making
+8,A7+,10590,Likely
+9,M1,10157,Moving/ coming and going
+10,A9+,10082,Getting and possession
+11,M6,9859,Location and direction
+12,Q2.2,9724,Speech acts
+13,S7.1+,8413,In power 
+14,T1.3,8327,Time: Period
+15,Z6,8052,Negative
+16,Q2.1,7024,Speech: Communicative
+17,N4,6620,Linear order
+18,N5,6385,Quantities
+19,O2,6100,Objects generally
+20,N5.1+,5944,Entire; maximum
+21,M7,5888,Places
+22,S5+,5811,Belonging to a group 
+23,B1,5489,Anatomy and physiology
+24,M2,5347,Putting/ pulling/ pushing/ transporting
+25,X7+,5233,Wanted
+26,S6+,4861,Strong obligation or necessity
+27,T1.1.3,4846,Time: Future
+28,Z3,4809,Other proper names
+29,A13.3,4808,Degree: Boosters
+30,A6.1-,4629,Comparing: Different
+31,A9-,4474,Giving 
+32,N5+,4457,Quantities: many/much
+33,A2.2,4362,Cause&Effect/Connection
+34,Z4,4344,Discourse Bin
+35,S8+,4225,Helping 
+36,X2.1,4139,Thought/ belief
+37,A10+,4107,Open; Finding; Showing
+38,G1.2,4064,Politics
+39,S4,4002,Kin
+40,A2.1+,3939,Change
+41,A4.1,3769,Generally kinds/ groups/ examples
+42,O4.3,3747,Colour and colour patterns
+43,P1,3691,Education in general
+44,Q1.2,3691,Paper documents and writing
+45,N5+,3576,Quantities: many/much
+46,G1.1,3542,Government
+47,I1,3515,Money generally
+48,W3,3466,Geographical terms
+49,I3.1,3381,Work and employment: Generally
+50,L2,3225,Living creatures: animals/ birds/ etc. 
+51,G3,3152,Warfare/ defence and the army; weapons
+52,X4.2,3108,Mental object: Means/ method
+53,T3-,3043,Time: New and young 
+54,S9,3016,Religion and the supernatural
+55,F1,2974,Food
+56,T1.1.2,2961,Time: Present; simultaneous
+57,A5.1+,2905,Evaluation: Good 
+58,S2,2896,People
+59,A11.1+,2803,Important
+60,X3.4,2795,Sensory: Sight
+61,T2+,2757,Time: Beginning 
+62,I2.2,2738,Business: Selling
+63,A14,2674,Exclusivizers/particularizers
+64,I1.1,2654,Money and pay
+65,H2,2642,Parts of buildings
+66,O4.1,2642,General appearance and physical properties
+67,I2.1,2634,Business: Generally
+68,B5,2625,Clothes and personal belongings
+69,T1.1.1,2598,Time: Past
+70,H1,2580,Architecture/ houses and buildings
+71,Q1.1,2564,Linguistic Actions/ States And Processes; Communication
+72,S2.2,2534,People: Male  
+73,L3,2439,Plants
+74,G2.1,2418,Law and order
+75,X2.2+,2302,Knowledgeable
+76,A6.2+,2275,Comparing: Usual 
+77,C1,2263,Arts and crafts
+78,O4.4,2239,Shape
+79,N5-,2235,Quantities: little
+80,X2.4,2176,Investigate/ examine/ test/ search
+81,M3,2171,Vehicles and transport on land
+82,T2+,2162,Time: Beginning 
+83,S1.1.1,2089,Social Actions/ States And Processes
+84,Z7,2071,If
+85,H5,2062,Furniture and household fittings
+86,K1,2058,Entertainment generally
+87,K5.1,2053,Sports
+88,T2-,2035,Time: Ending
+89,O1.1,1991,Substances and materials: Solid
+90,A1.5.1,1965,Using
+91,X4.1,1947,Mental object: Conceptual object
+92,A6.1+,1924,Comparing: Similar 
+93,T1,1913,Time
+94,Q4.1,1741,The Media: Books
+95,B3,1711,Medicines and medical treatment
+96,Q3,1653,Language/ speech and grammar
+97,N6+,1651,Frequent
+98,E3-,1647,Violent/Angry
+99,A4.2+,1625,Detailed
+100,A1.8+,1624,Inclusion
+101,A10-,1609,Closed; Hiding/Hidden 
+102,N3.2+,1606,Size: Big 
+103,O4.2+,1604,Judgement of appearance: Beautiful
+104,H4,1592,Residence
+105,A12-,1590,Difficult
+106,L1-,1585,Dead
+107,X5.2+,1511,Interested/excited/energetic
+108,N5.1-,1470,Part
+109,A13.2,1439,Degree: Maximizers
+110,A5.4-,1413,Evaluation: Unauthentic
+111,N3.3,1411,Measurement: Distance
+112,A13.4,1409,Degree: Approximators
+113,A8,1409,Seem
+114,X9.2+,1382,Success 
+115,E2+,1372,Like
+116,E4.1+,1370,Happy 
+117,S2.1,1364,People: Female
+118,I1.2,1318,Money: Debts
+119,N3.8+,1282,Speed: Fast
+120,B2-,1275,Disease 
+121,X3.2,1271,Sensory: Sound
+122,S7.4+,1270,Allowed
+123,I1.3,1254,Money: Cost and price
+124,T1.2,1251,Time: Momentary
+125,N3.2-,1218,Size: Small 
+126,K2,1207,Music and related activities
+127,X8+,1179,Trying hard
+128,A5.4+,1149,Evaluation: Authentic
+129,Y2,1126,Information technology and computing
+130,S3.1,1122,Personal relationship: General
+131,N5.2+,1121,Exceed; waste
+132,A1.7+,1071,Constraint
+133,X9.1+,1060,Able/intelligent
+134,O4.6+,988,Temperature: Hot / on fire     
+135,O1.2,983,Substances and materials: Liquid
+136,E4.1-,979,Sad 
+137,N3.7,965,Measurement: Length & height
+138,F2,963,Drinks and alcohol
+139,E6-,961,Worry 
+140,T3+,961,Time: Old; grown-up
+141,S1.1.3+,918,Participating
+142,F4,912,Farming & Horticulture
+143,W1,912,The universe
+144,X6+,911,Decided
+145,S1.1.2+,905,Reciprocal
+146,S8-,885,Hindering
+147,B4,883,Cleaning and personal care
+148,A6.3+,860,Comparing: Varied
+149,A13.6,856,Degree: Diminishers
+150,M4,843,Sailing/ swimming/ etc.
+151,H3,838,Areas around or near houses
+152,Q4.2,828,The Media: Newspapers etc.
+153,N3.7+,818,Long/ tall and wide
+154,A1.1.2,815,Damaging and destroying
+155,I1.3-,780,Cheap
+156,A5.2+,779,Evaluation: True 
+157,O4.5,778,Texture
+158,Y1,778,Science and technology in general
+159,W4,770,Weather 
+160,S5-,761,Not part of a group
+161,N2,760,Mathematics
+162,E5-,757,Fear/shock
+163,Q4,740,The Media
+164,K4,738,Drama/ the theatre and show business
+165,T1.3+,733,Time period: long
+166,A1.7-,727,No constraint
+167,A5.1+,723,Evaluation: Good 
+168,T3,722,Time: Old/ new and young; age
+169,X2.6+,714,Expected
+170,S7.1-,697,No power 
+171,Q4.3,690,The Media: TV/ Radio and Cinema
+172,O1,689,Substances and materials generally
+173,A6.2-,684,Comparing: Unusual 
+174,I4,674,Industry 
+175,A6.1+,668,Comparing: Similar 
+176,N3.3-,665,Distance: Near
+177,A1.4,664,Chance/ luck
+178,A6,660,Comparing
+179,O4.2-,660,Judgement of appearance: Ugly
+180,A13.5,658,Degree: Compromisers
+181,A13.1,653,Degree: Non-specific
+182,O3,651,Electricity and electrical equipment
+183,M5,643,Flying and aircraft 
+184,N5+,629,Quantities: many/much
+185,A5.1-,624,Evaluation: Bad
+186,E3+,623,Calm 
+187,A5.1+,619,Evaluation: Good 
+188,M8,610,Stationary
+189,A12+,603,Easy 
+190,L1,594,Life and living things
+191,G2.1-,570,Crime 
+192,A1,552,General And Abstract Terms
+193,X2.5+,551,Understanding
+194,A11.2+,546,Noticeable
+195,A5.3+,544,Evaluation: Accurate
+196,G2.2-,516,Unethical
+197,N3.2,510,Measurement: Size 
+198,S3.2,508,Relationship: Intimacy and sex
+199,A1.2+,504,Suitable
+200,A5.1,478,Evaluation: Good/bad
+201,A7-,474,Unlikely
+202,N6,463,Frequency
+203,E2-,453,Dislike
+204,A7,448,Probability
+205,N3.3+,441,Distance: Far
+206,A13.7,439,Degree: Minimizers
+207,S1.2.5+,433,Tough/strong 
+208,T4-,423,Time: Late
+209,N3.1,413,Measurement: General
+210,N6-,410,Infrequent
+211,Q1.3,409,Telecommunications
+212,G2.2+,405,Ethical
+213,E2+,384,Like
+214,N6+,378,Frequent
+215,E1,373,Emotional Actions/ States And Processes General
+216,A15-,370,Danger
+217,X9.2-,369,Failure
+218,T4+,367,Time: Early 
+219,X7-,358,Unwanted
+220,A1.9,354,Avoiding
+221,E4.2+,352,Content
+222,A5.3-,344,Evaluation: Inaccurate
+223,X5.1+,344,Attentive
+224,T1.3-,341,Time period: short
+225,N3.8,340,Measurement: Speed
+226,N3.5,338,Measurement: Weight
+227,A5.2-,332,Evaluation: False
+228,T4-,330,Time: Late
+229,N3.4,325,Measurement: Volume
+230,A11.1-,322,Unimportant
+231,X3.2-,320,Sound: Quiet
+232,S7.2+,316,Respected
+233,K3,312,Recorded sound
+234,N3.7-,310,Short and narrow
+235,X2.3+,307,Learning
+236,S7.4-,306,Not allowed
+237,A1.3+,305,Cautious
+238,O4.6-,303,Temperature: Cold     
+239,O1.3,300,Substances and materials: Gas
+240,I3.1-,296,Unemployed
+241,T3+,295,Time: Old; grown-up
+242,X5.2-,284,Uninterested/bored/unenergetic
+243,S1.2.1+,280,Informal/Friendly
+244,N3.8-,270,Speed: Slow
+245,T3-,266,Time: New and young 
+246,I3.2+,259,Professional
+247,S1.2.1-,258,Formal/Unfriendly
+248,X2.2-,252,No knowledge
+249,A2.1-,250,No change
+250,A1.6,248,Concrete/Abstract 
+251,N3.2+,247,Size: Big 
+252,E6+,245,Confident
+253,I1.1-,242,Money: Lack
+254,I1.1+,239,Money: Affluence
+255,W5,225,Green issues
+256,A1.8-,224,Exclusion
+257,A1.5.2+,220,Useful
+258,X2.5-,212,Not understanding
+259,S7.3+,206,Competitive
+260,S1.2.6+,204,Sensible
+261,N3.7+,202,Long/ tall and wide
+262,T3-,197,Time: New and young 
+263,B2+,195,Healthy
+264,S1.2.3+,191,Selfish
+265,X3,188,Sensory
+266,S1.2.6-,184,Foolish
+267,N5-,182,Quantities: little
+268,A4.2-,177,General 
+269,X3.1,176,Sensory: Taste
+270,A15+,166,Safe 
+271,X1,158,Psychological Actions/ States And Processes
+272,E4.2-,157,Discontent
+273,N3.2+,157,Size: Big 
+274,X9.1-,157,Inability/unintelligence
+275,S6-,156,No obligation or necessity
+276,A1.2,153,Suitability
+277,O1.2-,151,Dry
+278,T2+,150,Time: Beginning 
+279,G2.2,147,General ethics
+280,N3.8+,147,Speed: Fast
+281,S1.2.5-,146,Weak
+282,F3,135,Smoking and non-medical drugs
+283,A7+,134,Likely
+284,E5+,134,Bravery 
+285,S7.1,132,Power/ organizing
+286,X3.4-,131,Unseen
+287,S1.2.2-,130,Generous
+288,S1.2.4+,130,Polite
+289,B2,129,Health and disease
+290,N3.5-,126,Weight: Light
+291,A11.2-,121,Unnoticeable
+292,G2.1+,117,Lawful
+293,K5,117,Sports and games generally
+294,S1.1.3-,117,Non-participating
+295,S1.2.2+,117,Greedy
+296,A1.4+,115,Lucky
+297,N3.5+,113,Weight: Heavy
+298,S7.1+,111,In power 
+299,O4.6,110,Temperature     
+300,S1.2.4-,109,Impolite
+301,X3.5,109,Sensory: Smell
+302,X3.3,108,Sensory: Touch
+303,K6,107,Children’s games and toys
+304,A1.3,106,Caution
+305,S7.3,103,Competition
+306,X2.6-,100,Unexpected
+307,N3.2-,97,Size: Small 
+308,A11.1+,95,Important
+309,A5.1-,94,Evaluation: Bad
+310,L1+,93,Alive
+311,N3.6,93,Measurement: Area
+312,T3+,91,Time: Old; grown-up
+313,X2.2,87,Knowledge
+314,T1.3+,83,Time period: long
+315,F1-,81,Lack of food
+316,A1.7,75,Constraint
+317,E2+,74,Like
+318,A1.4-,73,Unlucky
+319,S1.2,73,Personality traits
+320,A1.5.2-,71,Useless
+321,A12+,71,Easy 
+322,K5.2,68,Games
+323,X5.1-,68,Inattentive
+324,N5-,65,Quantities: little
+325,A1.2+,64,Suitable
+326,I1.3+,64,Expensive
+327,N3.3-,61,Distance: Near
+328,N5.1,59,Entirety; maximum
+329,N3.4-,58,Volume: Compressed
+330,N3.7+,55,Long/ tall and wide
+331,S4-,55,No kin
+332,A5.1-,54,Evaluation: Bad
+333,A6.3-,54,Comparing: Unvaried 
+334,S1.1.4+,54,Deserving
+335,X3.2+,53,Sound: Loud
+336,X3.4+,53,Seen
+337,X3.2+,52,Sound: Loud
+338,F2+,51,Excessive drinking
+339,X9.2,51,Success and failure
+340,N3.4+,50,Volume: Inflated
+341,G3-,48,Anti-war 
+342,I3.2,48,Work and employment: Professionalism
+343,O4.2,47,Judgement of appearance
+344,T1.1,47,Time: General
+345,X2,46,Mental actions and processes
+346,S1.2.3-,42,Unselfish
+347,X3-,40,
+348,B5-,38,Without clothes 
+349,X2.6,37,Expect
+350,X6,37,Deciding
+351,T2,35,Time: Beginning and ending
+352,A11.1,34,Importance 
+353,A2.1,34,Modify/ change
+354,A6.1,32,Comparing: Similar/different
+355,N3.3-,32,Distance: Near
+356,Q2.1-,32,Speech: Not communicating
+357,S7.2-,32,No respect
+358,A12+,31,Easy 
+359,G1.1-,31,Non-governmental
+360,I3.2-,31,Unprofessional
+361,N5.1-,31,Part
+362,X9.1,31,Ability and intelligence
+363,S1.1.2-,29,Unilateral
+364,S3,29,Relationship
+365,A11.1+,28,Important
+366,S7.1-,28,No power 
+367,A1.2-,27,Unsuitable
+368,N3.6+,27,Spacious
+369,X9.1+,27,Able/intelligent
+370,E1-,24,Unemotional 
+371,I1.3-,24,Cheap
+372,N3.7-,24,Short and narrow
+373,S1.2.5+,24,Tough/strong 
+374,X2.1-,24,Without thinking
+375,A1.5.1+,22,Used
+376,A1.5.2,22,Usefulness
+377,E3,22,Calm/Violent/Angry
+378,X5.1+,22,Attentive
+379,S1.1.4,21,Deserve
+380,A1.5.1-,20,Unused
+381,N3,20,Measurement
+382,A2.2-,19,Unconnected
+383,E2,19,Liking
+384,S1.2.5+,19,Tough/strong 
+385,N3.2-,18,Size: Small 
+386,T1.3+,18,Time period: long
+387,N3.8+,17,Speed: Fast
+388,S7.4,17,Permission
+389,F2-,16,Not drinking
+390,I1.1+,15,Money: Affluence
+391,N3.8+,15,Speed: Fast
+392,S1.2.5-,15,Weak
+393,A3-,14,Non-existing
+394,A1.3-,13,No caution
+395,A10+,13,Open; Finding; Showing
+396,A5.2,13,Evaluation: True/false
+397,S7.3-,13,No competition
+398,X5.2+,13,Interested/excited/energetic
+399,A8+,11,Seem
+400,A9,11,Getting and giving; possession
+401,E4.1+,11,Happy 
+402,N3.5-,11,Weight: Light
+403,A11.1-,10,Unimportant
+404,A5,10,Evaluation
+405,H4-,10,Non-resident
+406,N3.7-,10,Short and narrow
+407,T4,10,Time: Early/late
+408,X8+,10,Trying hard
+409,A13.3+,9,Degree: Boosters
+410,A4.2-,9,General 
+411,A5.1+,9,Evaluation: Good 
+412,E4.1+,9,Happy 
+413,I1.1-,9,Money: Lack
+414,O4.6-,9,Temperature: Cold     
+415,A6.2+,8,Comparing: Usual 
+416,O4.6+,8,Temperature: Hot / on fire     
+417,S9-,8,Non-religious
+418,X5.2,8,Interest/boredom/excited/energetic
+419,O4.2+,7,Judgement of appearance: Beautiful
+420,S8,7,Helping/hindering
+421,X6-,7,Undecided
+422,E4.1-,6,Sad 
+423,G2.2+,6,Ethical
+424,S5,6,Groups and affiliation
+425,A11.2,5,Noticeability
+426,E4.1-,5,Sad 
+427,I1.1+,5,Money: Affluence
+428,P1-,5,Not educated
+429,S1.2.5-,5,Weak
+430,X2.1+,5,
+431,A1.1.1-,4,Inaction
+432,A15+,4,Safe 
+433,I1.3-,4,Cheap
+434,N3.3-+,4,
+435,Q2.2-,4,Speech acts: Not speaking
+436,S1.2.4,4,Politeness
+437,S3.1-,4,No personal relationship 
+438,S5+,4,Belonging to a group 
+439,X5.2+,4,Interested/excited/energetic
+440,A1.7+,3,Constraint
+441,A4.1+,3,
+442,A4.2-,3,General 
+443,A5.3+,3,Evaluation: Accurate
+444,B2+,3,Healthy
+445,F2+,3,Excessive drinking
+446,N6+,3,Frequent
+447,O1.3-,3,Gasless
+448,S3.2-,3,Relationship: Asexual
+449,T4+,3,Time: Early 
+450,X7,3,Wanting; planning; choosing
+451,A1.5,2,Use
+452,A13.7+,2,
+453,A5.1-+,2,
+454,A5.4+,2,Evaluation: Authentic
+455,A6.2-,2,Comparing: Unusual 
+456,B4-,2,Dirty 
+457,E3+,2,Calm 
+458,E3-,2,Violent/Angry
+459,F3-,2,Non-smoking / no use of drugs
+460,N3.3+,2,Distance: Far
+461,N3.6-,2,
+462,N3.8-+,2,
+463,N5+,2,Quantities: many/much
+464,O4.1+,2,
+465,O4.2+,2,Judgement of appearance: Beautiful
+466,O4.3-,2,
+467,O4.6-,2,Temperature: Cold     
+468,S1.2.3+,2,Selfish
+469,S1.2.5+,2,Tough/strong 
+470,X3+,2,
+471,X3.2-,2,Sound: Quiet
+472,A1.1.2-,1,Fixing and mending
+473,A1.2.6-,1,
+474,A1.8,1,
+475,A12,1,Easy/difficult
+476,A12+,1,Easy 
+477,A12+,1,Easy 
+478,A13.2+,1,
+479,A13.4+,1,
+480,A15+,1,Safe 
+481,A4.1-,1,Unclassified
+482,A4.2+,1,Detailed
+483,A5.2+,1,Evaluation: True 
+484,A6.2+,1,Comparing: Usual 
+485,A7+,1,Likely
+486,B2+,1,Healthy
+487,E2-,1,Dislike
+488,G1.2-,1,Non-political
+489,H5-,1,Unfurnished
+490,I1.1-,1,Money: Lack
+491,M4-,1,Non-swimming
+492,M5+,1,
+493,N3.1-,1,
+494,N3.3+,1,Distance: Far
+495,N3.3-+,1,
+496,N3.4-,1,Volume: Compressed
+497,N3.7+,1,Long/ tall and wide
+498,N5.1+,1,Entire; maximum
+499,N5.1+,1,Entire; maximum
+500,O4.2-,1,Judgement of appearance: Ugly
+501,O4.4+,1,
+502,S1.2.2-,1,Generous
+503,S4T1.1.1,1,
+504,T1.1.2-,1,Time: Asynchronous
+505,T1.3+,1,Time period: long
+506,T23-,1,
+507,T4-+,1,
+508,X5.1,1,Attention
+509,X8+,1,Trying hard
+510,X8-,1,Not trying

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel='stylesheet' href='static/css/style-template.css' />
+<link rel='stylesheet' href='static/css/style-file-analysis.css' />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://srv.buysellads.com/ads/CWYDP2QE.json?callback=customJSONPCallback"></script>
+<script src="https://cdpn.io/cpe/boomboom/pen.js?key=pen.js-0100b4e1-c39b-1fdc-08bc-8243e02bb835" crossorigin=""></script>
+<!-- JS Libraries -->
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery UI -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!-- Choices.js -->
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+<!-- Select2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- D3.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.6.0/d3.min.js" charset="utf-8"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js" charset="utf-8"></script>
+<!-- Google Charts -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
+<!-- jQuery library -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="static/js/script.js"></script>
+
+<link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+  
+<meta name="apple-mobile-web-app-title" content="CodePen">
+
+<link rel="shortcut icon" type="image/x-icon" href="static/images/icon.ico">
+
+<link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+
+<link rel="canonical" href="https://codepen.io/knyttneve/pen/eYdQbpN">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
+<!-- jQuery library -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+
+    <title>Report</title>
+    <style>
+         @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
+
+
+       
+
+html, body {
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f5f5f5;
+}
+
+body {
+    
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+.header-container {
+        display: flex;
+        align-items: center;
+        background-color: #85a47b;
+        color: #fff;
+        padding: 15px 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+        .logo-corner {
+            width: 150px;
+            margin-right: 10px; /* Reduced margin */
+        }
+        h1 {
+            margin: 0; /* Remove default margin of the h1 to reduce space */
+        }
+        main {
+            flex: 1; 
+           
+            margin-top: 100px;
+            flex: 1;
+       
+        background-color: #ffffff;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        footer {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 12px;
+        margin-bottom: 20px;
+    }
+        .content-container {
+        margin: 20px 0;
+        padding: 20px;
+        border-radius: 5px;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .content-container:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Styling specific sections */
+    #SentimentView, #SentimentPlot, #SentimentPlotbar, #wordtree, #summary {
+        background-color: #fafafa;
+        border: 1px solid #e5e5e5;
+    }
+
+    /* Titles for specific divs to differentiate */
+    .section-title {
+        font-weight: 600;
+        border-bottom: 2px solid #ddd;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        font-size: 18px;
+    }
+    #wordtree_basic {
+    width: 50%;
+    height: 100vh;  /* this makes the div take up the full viewport height */
+
+}
+#wordtree {
+    width: 100%;   /* or another desired width */
+    height: auto;
+    max-height: 800px; /* or another desired height */
+    overflow: auto; /* Adds scrollbar if content exceeds the max height */
+}
+.sentiment-table-container {
+    width: 100%;
+    overflow-x: auto; /* Allows for scrolling if the table is too wide */
+}
+
+.sentiment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+.sentiment-table thead tr {
+    background-color: #1e2020;
+    color: white;
+    text-align: left;
+}
+
+.sentiment-table th, .sentiment-table td {
+    padding: 12px 15px;
+}
+
+.sentiment-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.sentiment-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.sentiment-table tbody tr:last-of-type {
+    border-bottom: 2px
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+    </style>
+</head>
+
+<body>
+    
+    <header><div class="header-container">
+        <img src="{{ request.url_root }}static/images/logo.png" alt="Logo" class="logo-corner">
+        <h1>Adroddiad TestunRhydd/Freetxt Report</h1>
+    </div></header>
+
+    <main>
+
+           {% if 'sentimentData' in selected_sections %}
+        <div class="sentiment-table-container">
+            <table class="sentiment-table">
+                <thead>
+                    <tr>
+                        <th>Review</th>
+                        <th>Sentiment Label</th>
+                        <th>Sentiment Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in sentiment_content %}
+                    <tr>
+                        <td>{{ item['Review'] }}</td>
+                        <td>{{ item['Sentiment Label'] }}</td>
+                        <td>{{ item['Sentiment Score'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+{% if 'sentimentPlotPie' in selected_sections %}
+    <img src="{{ SentimentPlot }}" alt="Sentiment Pie Plot">
+    <div id="sentimentExplanation">
+    {{ sentiment_explanation | safe }}
+<hr>    
+</div>
+{% endif %}
+
+{% if 'sentimentPlotBar' in selected_sections %}
+    <img src="{{ SentimentPlotbar }}" alt="Sentiment Bar Plot">
+	 <div id="sentimentExplanation-bar">
+    {{ sentiment_explanation | safe }}
+<hr>    
+</div>
+{% endif %}
+
+{% if 'wordCloud' in selected_sections %}
+<div id="cloudtype">Cloud Type: 
+    {{ cloudtype | safe }}
+</div>
+<div id="cloudmeasure"> Cloud Measure:
+    {{ cloudmeasure | safe }}
+</div>
+<img src="{{ word_cloud_image_src}}" alt="Word Cloud Image"style=" margin: 0 auto; hight:800px; width :1000px">
+<hr>
+{% endif %}
+
+{% if 'wordTreeData' in selected_sections %}
+<div>{{ wordtree |safe }}
+<hr>
+</div>
+
+{% endif %}
+{% if 'summary' in selected_sections %}
+<div>{{ summary |safe }}
+<hr>
+</div>
+{% endif %}
+      
+    </main>
+    <footer>
+        Generated on: {{ datetime.now().strftime('%Y-%m-%d %H:%M:%S') }}
+        &copy; TestunRhydd/Freetxt
+    </footer>
+</body>
+</html>

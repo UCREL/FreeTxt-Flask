@@ -1,0 +1,273 @@
+{% extends "template.html" %}
+{% block data %}
+<style>
+body{
+margin:0;
+padding:0;
+
+}
+
+.content-container {
+		
+		
+    margin: 20px; /* Margin around the edges */
+    padding: 20px; /* Padding inside the div */
+    max-width: 90%; /* Maximum width of the div */
+    margin-left: auto; /* Centering the div */
+    margin-right: auto; /* Centering the div */
+
+}
+    .input-container {
+        background-color: lightgrey;
+        padding: 1em;
+        border-radius: 5px;
+        color: black;
+        font-size: 1rem; /* Use relative font-size for scalability */
+        max-width: 100%; /* Ensures the div won't exceed its container */
+        word-wrap: break-word; /* Breaks words to the next line if they are too long */
+    }
+    .square {
+    display: flex;        /* Using Flexbox */
+    flex-direction: column; /* Children should stack vertically */
+    justify-content: center; /* Center children vertically */
+    align-items: center;    /* Center children horizontally */
+    text-align: center;     /* Ensures text within the square is centered */
+    position: relative;     /* To make sure hover content can be positioned relative to the square */
+    }
+
+    @media (max-width: 480px) {
+        .input-container {
+            font-size: 0.8rem; /* Smaller font size for mobile devices */
+            padding: 0.5em; /* Smaller padding for mobile devices */
+        }
+    }
+
+    /* Media query for smaller screens (e.g., up to 768px width) */
+@media (max-width: 768px) {
+    .square {
+        min-width: calc(50% - 20px); /* Two items per row on smaller screens */
+    }
+    .text-size-60 {
+        font-size: 40px; /* Reduce the font size */
+    }
+    .hover-content img {
+        max-width: 70%; /* Reduce the image size */
+    }
+    h3 {
+        font-size: 1rem; /* Adjust heading size */
+    }
+}
+
+
+/* Media query for very small screens (e.g., up to 480px width) */
+@media (max-width: 480px) {
+    .square {
+        min-width: 100%; /* One item per row on very small screens */
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .logo-description h1 {
+        font-size: 18px; /* Even smaller heading */
+    }
+
+    .logo-description .lead {
+        font-size: 12px; /* Even smaller paragraph text */
+    }
+
+    .logo-description .feature i {
+        font-size: 18px; /* Even smaller icons */
+        margin-right: 8px; /* Adjusted margin */
+    }
+
+    .logo-description .feature p {
+        font-size: 12px; /* Even smaller feature text */
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .squares-column .grid {
+        display: grid;
+        grid-template-columns: 1fr; /* Stack squares in one column */
+        grid-gap: 8px; /* Adjusted gap between squares */
+    }
+
+    .squares-column .square {
+        font-size: 12px; /* Further adjusted text size in squares */
+    }
+
+    .squares-column .square .text-size-60 {
+        font-size: 35px; /* Further reduced icons in squares */
+    }
+
+    .squares-column .square h3 {
+        font-size: 14px; /* Further reduced headings in squares */
+    }
+}
+
+</style>
+
+
+<div class="main-container">
+
+   <!-- Left column for the logo and description -->
+<div class="logo-column">
+	<div class="logo-wrapper">
+    <img src="/static/images/logo.png" alt="Freetxt" class="page-logo">
+		</div>
+   
+        <div class="logo-description">
+
+			
+
+				<h1 data-lang-en="Discover. Analyse. Visualise." data-lang-cy="Darganfod. Dadansoddi. Delweddu." ><strong>Discover. Analyse. Visualise.</strong></h1>
+<p class="lead">
+    <strong data-lang-en="Unlock the secrets of your text data with" data-lang-cy="Datgelwch gyfrinachau data eich testun gyda">
+        Unlock the secrets of your text data with
+    </strong>
+    <strong>FreeTxt</strong>
+</p>
+
+<div class="feature">
+    <i class="icon-language"></i>
+    <p>
+        <strong data-lang-en="Bilingual:" data-lang-cy="Dwyieithog:">Bilingual:</strong>
+        <span data-lang-en="Crafted for both English and Welsh." data-lang-cy="Wedi'i greu ar gyfer y Gymraeg a'r Saesneg.">
+            Crafted for both English and Welsh
+        </span>
+    </p>
+</div>
+			
+                               <div class="feature">
+    <i class="icon-upload"></i>
+    <p><strong data-lang-en="Instant: " data-lang-cy="Ar Wib: ">Instant: </strong> 
+    <span data-lang-en="Upload, analyse and extract patterns from any text data" data-lang-cy="Llwythwch i fyny, dadansoddwch ac echdynnwch batrymau o ddata unrhyw destun.">Upload, analyse and extract patterns from any text data</span></p>
+</div>
+
+<div class="feature">
+    <i class="icon-heartbeat"></i>
+    <p><strong data-lang-en="Understand:" data-lang-cy="Deall:">Understand:</strong> 
+    <span data-lang-en="Discover the core sentiment of your text data" data-lang-cy="Darganfyddwch sentiment creiddiol data eich testun.">Discover the core sentiment of your text data</span></p>
+</div>
+
+<div class="feature">
+    <i class="icon-summary"></i>
+    <p><strong data-lang-en="Summaries:" data-lang-cy="Crynodebau:">Summaries:</strong> 
+    <span data-lang-en="Cut through the noise with concise reports" data-lang-cy="Ewch at wraidd y mater gydag adroddiadau cryno.">Cut through the noise with concise reports</span></p>
+</div>
+
+<div class="feature">
+    <i class="icon-presentation"></i>
+    <p><strong data-lang-en="Visual:" data-lang-cy="Gweledol:">Visual:</strong> 
+    <span data-lang-en="Experience data in stunning visual formats" data-lang-cy="Profwch ddata mewn fformatau gweledol syfrdanol.">Experience data in stunning visual formats</span></p>
+</div>
+
+				<!-- <div class="feature">
+					<i class="icon-global"></i>
+					<p><strong>For All, Everywhere:</strong> Whether in Wales or worldwide, we've got you covered.</p>
+				</div> -->
+			
+			</div>
+			
+		
+</div>
+
+
+    <!-- Right column for the squares -->
+    <div class="squares-column">
+
+       <!-- Squares grid -->
+<section class="grid">
+    <a href="/userguide" class="square background-red">
+        <i class="fas fa-chart-line text-size-60 text-white"></i>
+        <h3 class="text-strong text-uppercase" data-lang-en="Meaning analysis" data-lang-cy="Dadansoddi ystyr">Meaning analysis</h3>
+        <div class="hover-content">
+            <img src="static/images/img/analysis/Meaning-analysis.png" alt="Description for the image">
+            
+        </div>
+    </a>
+    
+    <a href="/userguide" class="square background-blue">
+        <i class="fas fa-comments text-size-60 text-white"></i>
+        <h3 class="text-strong text-uppercase" data-lang-en="Sentiment Chart" data-lang-cy="Siart Sentiment">Sentiment Chart</h3>
+		<div class="hover-content">
+		<img src="static/images/img/analysis/scatter.png" alt="Description for the image">
+            
+            
+           
+        </div>
+    </a>
+    
+    <a href="/userguide" class="square background-green">
+        <i class="fas fa-file-alt text-size-60 text-white"></i>
+        <h3 class="text-strong text-uppercase" data-lang-en="Summarisation" data-lang-cy="Crynodebu">Summarisation</h3>
+<div class="hover-content">
+                <img src="static/images/img/analysis/summarisation.png" alt="Description for the image">
+         </div>
+    </a>
+
+    <a href="/userguide" class="square background-purple">
+        <i class="fas fa-cloud text-size-60 text-white"></i>
+        <h3 class="text-strong text-uppercase"data-lang-en="Word Cloud" data-lang-cy="Cwmwl Geiriau">Word Cloud</h3>
+		<div class="hover-content">
+            <img src="static/images/img/analysis/word_cloud.png" alt="Description for the image">
+            
+        </div>
+    </a>
+
+	<a href="/userguide" class="square background-orange">
+        <i class="fas fa-link text-size-60 text-white"></i>
+        <h3 class="text-strong text-uppercase" data-lang-en="Word Use & Relationships" data-lang-cy="Defnydd a Pherthnasoedd Geiriau">Word Use & Relationships</h3>
+	 <div class="hover-content">
+       		<img src="static/images/img/analysis/collocation.png" alt="Description for the image">
+ 	 </div> 
+	 </a>
+
+    <a href="/userguide" class="square background-aqua">
+        <i class="fas fa-tree text-size-60 text-white"></i>
+
+        <h3 class="text-strong text-uppercase" data-lang-en="Word Tree" data-lang-cy="Coeden Eiriau">Word Tree</h3>
+<div class="hover-content">
+                <img src="static/images/img/analysis/wordtree.png" alt="Description for the image">
+         </div>
+    </a>
+</section>
+
+
+    </div>
+
+</div>
+
+
+<div class="input-container">
+    <p data-lang-en="FreeTxt was developed as part of an AHRC funded collaborative FreeTxt supporting bilingual free-text survey and questionnaire data analysis research project involving colleagues from Cardiff University and Lancaster University (Grant Number AH/W004844/1)." 
+       data-lang-cy="Datblygwyd TestunRhydd fel rhan o brosiect ymchwil ar y cyd a ariannwyd gan yr AHRC 'TestunRhydd yn cefnogi dadansoddi data arolygon a holiaduron testun-rhydd dwyieithog'  gyda chydweithwyr o Brifysgol Caerdydd a Phrifysgol Caerhirfryn (Rhif y Grant AH/W004844/1).">
+       FreeTxt was developed as part of an AHRC funded collaborative FreeTxt supporting bilingual free-text survey and questionnaire data analysis research project involving colleagues from Cardiff University and Lancaster University (Grant Number AH/W004844/1).
+    </p>
+    
+    <p data-lang-en="The team included PI - Dawn Knight; CIs - Paul Rayson, Mo El-Haj; RAs - Ignatius Ezeani, Nouran Khallaf and Steve Morris. The Project Advisory Group included representatives from: National Trust Wales, Cadw, National Museum Wales, CBAC | WJEC and National Centre for Learning Welsh." 
+       data-lang-cy="Roedd y tîm yn cynnwys PY - Dawn Knight; CY - Paul Rayson, Mo El-Haj; Cydymeithion Ymchwil - Ignatius Ezeani, Nouran Khallaf a Steve Morris. Roedd Grŵp Ymgynghorol y Prosiect yn cynnwys cynrychiolwyr o: Ymddiriedolaeth Genedlaethol Cymru, Cadw, Amgueddfa Cymru, CBAC a'r Ganolfan Dysgu Cymraeg Genedlaethol">
+       The team included PI - Dawn Knight; CIs - Paul Rayson, Mo El-Haj; RAs - Ignatius Ezeani, Nouran Khallaf and Steve Morris. The Project Advisory Group included representatives from: National Trust Wales, Cadw, National Museum Wales, CBAC | WJEC and National Centre for Learning Welsh.
+    </p>
+    
+    <p data-lang-en="For further information on the FreeTxt project please contact the project team: CorCenCC@Cardiff.ac.uk" 
+       data-lang-cy="Am ragor o wybodaeth ar brosiect TestunRhydd cysylltwch â thîm y prosiect: CorCenCC@Caerdydd.ac.uk">
+       For further information on the FreeTxt project please contact the project team: CorCenCC@Cardiff.ac.uk
+    </p>
+</div>
+   <div class="input-container">
+    <p data-lang-en="FreeTxt is licensed under Apache 2.0 and thus is freely available for use by professional communities and individuals with an interest in language analysis. When reporting information analyses derived using FreeTxt, FreeTxt should be appropriately acknowledged:" 
+       data-lang-cy="Trwyddedir TestunRhydd/FreeTxt o dan Apache 2.0 ac felly mae ar gael yn rhad ac am ddim i’w ddefnyddio gan gymunedau proffesiynol ac unigolion â diddordeb mewn dadansoddi iaith. Wrth adrodd am ddadansoddiadau gwybodaeth sy’n deillio o TestunRhydd, dylid cydnabod TestunRhydd yn briodol:">
+       FreeTxt is licensed under Apache 2.0 and thus is freely available for use by professional communities and individuals with an interest in language analysis. When reporting information analyses derived using FreeTxt, FreeTxt should be appropriately acknowledged:
+    </p>
+    
+  
+    
+    <p data-lang-en="Khallaf, N., Ezeani, I., Knight, D., Rayson, P., El-Haj, M. and Morris, S. (2023). FreeTxt – a bilingual free-text analysis and visualisation toolkit [Software]. Cardiff University and Lancaster University. Available at: www.freetxt.app" 
+       data-lang-cy="Khallaf, N., Ezeani, I., Knight, D., Rayson, P., El-Haj, M. a Morris, S. (2023). TestunRhydd – pecyn cymorth dwyieithog i ddadansoddi a delweddu testun rhydd [Meddalwedd]. Prifysgol Caerdydd a Phrifysgol Caerhirfryn. www.freetxt.app">
+       Khallaf, N., Ezeani, I., Knight, D., Rayson, P., El-Haj, M. and Morris, S. (2023). FreeTxt – a bilingual free-text analysis and visualisation toolkit [Software]. Cardiff University and Lancaster University. Available at: <a href="https://www.freetxt.app" target="_blank">www.freetxt.app</a></p>
+    </div>
+
+
+
+{% endblock %}

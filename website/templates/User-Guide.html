@@ -1,0 +1,507 @@
+{% extends "template.html" %}
+{% block data %}
+
+
+    <style>
+        body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+    .content-container {
+       
+        width: 100%;  
+        height: 100%; 
+        padding: 0;
+        margin: 0;
+    }
+
+    body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  
+    font-weight: 400;
+    font-size: 16px;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+ 
+  
+  .onboarding {
+    overflow: auto;
+    background-size: 100% 100%;
+    width: 100vw;    /* Fill the viewport width */
+    height: 100vh;   /* Fill the viewport height */
+    display: grid;
+    color: #fff;
+    place-items: center;
+    position: relative;
+    padding: 40px 80px;
+    background: linear-gradient(
+      327deg,
+      #1869b7,
+      #8e50d5,
+      #3d888c,
+      #3b85b7,
+      #8458a7,
+      #31836e
+    );
+    background-size: 1400% 1400%;
+    animation: gradientAnimation 20s ease infinite;
+  }
+  
+  .onboarding:before {
+    content: "";
+    position: absolute;
+    background-size: 100% 100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://images.unsplash.com/photo-1550859492-d5da9d8e45f3?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80");
+    opacity: 0.58;
+    background-size: cover;
+    background-attachment: fixed;
+    animation: gradientAnimation 5s infinite;
+}
+  
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 36% 0%;
+    }
+    50% {
+      background-position: 65% 100%;
+    }
+    100% {
+      background-position: 36% 0%;
+    }
+  }
+  
+  .onboarding__item {
+    max-width: calc(60ch + 30px);
+    width: 100%;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    opacity: 0.2;
+    margin: 40px 0;
+    position: relative;
+    z-index: 1;
+    transition: 0.3s;
+    border-radius: 20px;
+    border: 1px solid transparent;
+  
+    h1,
+    h2 {
+      text-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+  
+    h1 {
+      margin: 0 0 16px 0;
+    }
+  
+    h2 {
+      margin: 30px 0 20px;
+    }
+  
+    p {
+      margin: 0;
+      line-height: 1.4;
+    }
+  
+    a {
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 4px 8px;
+      margin-top: 16px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+    }
+  
+    a > svg {
+      margin-left: 4px;
+    }
+  
+    img {
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.12));
+    }
+  }
+  
+  .onboarding__item img {
+    max-width: 100px;
+    display: block;
+  }
+  
+  .onboarding__item:not(.onboarding__item--active) * {
+    user-select: none;
+  }
+  
+  .onboarding__item:not(.onboarding__item--active):hover {
+    opacity: 0.5;
+    border-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+  }
+  
+  .onboarding__item--active {
+    opacity: 1;
+  }
+  
+  .onboarding__tracker {
+    position: absolute;
+    max-width: 100%;
+    left: 0;
+    top: 0;
+    transition: all 0.32s ease-in-out;
+  }
+  
+  .onboarding__overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.28) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    backdrop-filter: blur(30px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0.5px 0 1px rgba(255, 255, 255, 0.23) inset,
+      0 1px 0 0 rgba(255, 255, 255, 0.66) inset, 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+  
+  .onboarding__tracker--stop-t {
+    transition: none;
+  }
+  
+  .onboarding__nav {
+    position: absolute;
+    left: calc(100% + 16px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .onboarding__nav-button {
+    width: 36px;
+    height: 36px;
+    backdrop-filter: blur(30px);
+    border: 0;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 0.5px 0 1px rgba(255, 255, 255, 0.23) inset,
+      0 1px 0 0 rgba(255, 255, 255, 0.66) inset, 0 4px 16px rgba(0, 0, 0, 0.12);
+    border-radius: 20px;
+    outline: 0;
+    cursor: pointer;
+    transition: 0.2s;
+    background-color: transparent;
+    position: relative;
+  }
+  
+  .onboarding__nav-button + .onboarding__nav-button {
+    margin-top: 10px;
+  }
+  
+  .onboarding__nav-button:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.28) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transition: 0.3s;
+  }
+  
+  .onboarding__nav-button:active {
+    box-shadow: 0 -0.5px 0 1px rgba(255, 255, 255, 0.23) inset,
+      0 1px 0 0 rgba(255, 255, 255, 0.2) inset,
+      0 6px 8px rgba(0, 0, 0, 0.12) inset;
+  }
+  
+  .onboarding__nav-button:hover:before {
+    opacity: 0.3;
+  }
+  
+  .onboarding__nav-button:active:before {
+    opacity: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .onboarding {
+      padding-left: 40px;
+    }
+  }
+  
+  .onboarding--loading {
+    & > *:not(.onboarding__tracker) {
+      opacity: 0 !important;
+    }
+  
+    .onboarding__overlay {
+      border-radius: 20px;
+    }
+  
+    .onboarding__tracker {
+      top: calc(50vh - 30px) !important;
+      width: 60px !important;
+      height: 60px !important;
+      left: calc(50% - 30px) !important;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: 3s;
+      opacity: 1;
+      box-shadow: 0 0.5px 0 1px rgba(255, 255, 255, 0.23) inset,
+        0 1px 0 0 rgba(255, 255, 255, 0.66) inset, 0 4px 16px rgba(0, 0, 0, 0.08);
+  
+      &:after {
+        content: "";
+        position: absolute;
+        left: 10%;
+        top: 10%;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-image: url("data:image/svg+xml, %3Csvg version='1.1' id='loader-1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='40px' height='40px' viewBox='0 0 40 40' enable-background='new 0 0 40 40' xml:space='preserve'%3E%3Cpath opacity='0.2' fill='%23fff' d='M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946 s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634 c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z'/%3E%3Cpath fill='%23fff' d='M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0 C22.32,8.481,24.301,9.057,26.013,10.047z'%3E%3CanimateTransform attributeType='xml' attributeName='transform' type='rotate' from='0 20 20' to='360 20 20' dur='0.5s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E");
+      }
+    }
+  
+    .onboarding__nav {
+      opacity: 0;
+    }
+  }
+  
+
+    </style>
+     
+    <div class="content-container onboarding">
+    <div class="onboarding__item onboarding__item--active">
+      <h1>UserGuide-- Comming soon</h1>
+      <p>Here you can find the userguide
+      </p>
+      
+    </div>
+    <div class="onboarding__item">
+      <img src="https://assets.codepen.io/344846/RoundCube-White-Matte-2.png">
+      <h2>Meaning Analyse</h2>
+      <p> how to do the analysis, what do you get .....................................</p>
+    </div>
+    <div class="onboarding__item">
+      <img src="https://assets.codepen.io/344846/Cone-White-Matte.png">
+      <h2>Sentiment plot</h2>
+      <p></p>
+    </div>
+    <div class="onboarding__item">
+      <img src="https://assets.codepen.io/344846/Cylinder-White-Matte.png">
+      <h2>Summarisation</h2>
+      <p>This tool, adapted from the Welsh Summarisation project, produces a basic extractive summary of the review text from the selected columns.</p>
+    </div>
+    <div class="onboarding__item">
+      <img src="https://assets.codepen.io/344846/RoundCube-White-Matte-1.png">
+      <h2>Word Cloud</h2>
+      <p>When we have a large amount of text, it can be useful sometimes to visualise everything in such a way that all the key words - that is the words which are used most often in the text - are clearly larger and more prominent than others which occur less often.  
+
+ 
+
+        A Word Cloud is one way which enables us to do this. We call it a word cloud because this information is often (but not always) shown in the shape of a cloud.</p>
+    </div>
+    <div class="onboarding__item">
+      <img src="https://assets.codepen.io/344846/Sphere-White-Matte.png">
+      <h2>Word use and Relationships</h2>
+      <p>It might be helpful to think of the word collocation in two parts - the second part, location, tells us where something is and the first part co- is often used to make us think of something together (e.g. cooperate - working together).  So, collocation will tell us about words which are often located together and because they are located together, they combine to create a particular meaning.  </p>
+    </div>
+    <div class="onboarding__item">
+      <img src="https://assets.codepen.io/344846/RoundCube-White-Matte-3.png">
+      <h2>Word Tree</h2>
+      <p>The word tree shows the words which commonly occur before and after your searched word. The bigger the font size, the more often the word occurs. The number of times each word occurs is also shown when you scroll over the word (the number after ‘weight’)</p>
+    </div>
+    <div class="onboarding__item">
+      <img src="https://assets.codepen.io/344846/SuperToroid-White-Matte.png">
+      <h2></h2>
+      <p></p>
+    </div>
+    <div class="onboarding__item">
+      <img src="https://assets.codepen.io/344846/RoundCube-White-Matte.png">
+      <h2></h2>
+      <p></p>
+    </div>
+    <div class="onboarding__tracker" style="top: 80px; left: 177px; height: 220px; width: 529px;">
+      <div class="onboarding__overlay"></div>
+      <div class="onboarding__nav">
+        <button class="onboarding__nav-button onboarding__prev" data-type="prev">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+          </svg></button>
+        <button class="onboarding__nav-button onboarding__next" data-type="next"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg></button>
+      </div>
+    </div>
+  </div>
+    
+        <script id="rendered-js">
+  class Onboarding {
+    constructor() {
+      this.root = this.select(".onboarding");
+      this.items = this.selectAll(".onboarding__item");
+      this.activeItem = this.select(".onboarding__item--active");
+      this.tracker = this.select(".onboarding__tracker");
+      this.navs = this.selectAll(".onboarding__nav-button");
+    }
+  
+    handleTrackerPosition(top, left, height, width) {
+      this.tracker.style.top = `${top}px`;
+      this.tracker.style.left = `${left}px`;
+      this.tracker.style.height = `${height}px`;
+      this.tracker.style.width = `${width}px`;
+    }
+  
+    getNewActiveIndex(type) {
+      let index = 0;
+      if (type === "prev") {
+        index = this.activeItemIndex - 1 >= 0 ? this.activeItemIndex - 1 : 0;
+      } else {
+        index =
+        this.activeItemIndex + 1 <= this.items.length - 1 ?
+        this.activeItemIndex + 1 :
+        this.items.length - 1;
+      }
+  
+      return index;
+    }
+  
+    setTrackerPosition() {
+      const {
+        offsetTop,
+        offsetLeft,
+        clientHeight,
+        clientWidth } =
+      this.activeItem;
+      this.handleTrackerPosition(
+      offsetTop,
+      offsetLeft,
+      clientHeight,
+      clientWidth);
+  
+  
+      const block = innerHeight < clientHeight ? "start" : "center";
+      this.activeItem.scrollIntoView({ block, behavior: "smooth" });
+    }
+  
+    setActiveItemIndex() {
+      this.items.forEach((item, index) => {
+        if (item.classList.contains("onboarding__item--active")) {
+          this.activeItemIndex = index;
+        }
+      });
+    }
+  
+    select(el) {
+      const node = document.querySelector(el);
+      if (node) {
+        return node;
+      } else {
+        console.error("[Onboarding] - Element is not found");
+      }
+    }
+  
+    selectAll(el) {
+      const nodes = document.querySelectorAll(el);
+      if (nodes && nodes.length > 0) {
+        return nodes;
+      } else {
+        console.error("[Onboarding] - Elements are not found");
+      }
+    }
+  
+    setActiveItem(index) {
+      const newActiveItem = this.items[index];
+      this.activeItemIndex = index;
+      this.activeItem.classList.remove("onboarding__item--active");
+      this.activeItem = newActiveItem;
+      this.activeItem.classList.add("onboarding__item--active");
+      this.setTrackerPosition(this.activeItem);
+    }
+  
+    setActiveItemWithItemClick() {
+      this.items.forEach((item, index) => {
+        item.addEventListener("click", () => {
+          this.setActiveItem(index);
+        });
+      });
+    }
+  
+    setNavActions() {
+      this.navs.forEach((nav) =>
+      nav.addEventListener("click", e => {
+        const index = this.getNewActiveIndex(
+        e.currentTarget.getAttribute("data-type"));
+  
+        this.setActiveItem(index);
+      }));
+  
+    }
+  
+    stopTransition() {
+      this.tracker.classList.add("onboarding__tracker--stop-t");
+      const resizeTimer = setTimeout(() => {
+        this.tracker.classList.remove("onboarding__tracker--stop-t");
+        clearTimeout(resizeTimer);
+      }, 400);
+    }
+  
+    handleWindowResize() {
+      window.addEventListener("resize", () => {
+        this.setTrackerPosition();
+        this.stopTransition();
+      });
+    }
+  
+    init() {
+      document.addEventListener("DOMContentLoaded", () => {
+        this.setTrackerPosition();
+        this.setActiveItemIndex();
+        this.setNavActions();
+        this.setActiveItemWithItemClick();
+        this.stopTransition();
+        this.handleWindowResize();
+        const timeout = setTimeout(() => {
+          this.root.classList.remove("onboarding--loading");
+          clearTimeout(timeout);
+        }, 640);
+      });
+    }}
+  
+  
+  const onboarding = new Onboarding();
+  onboarding.init();
+  //# sourceURL=pen.js
+      </script>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,147 @@
+﻿Egu,Enw gwrywaidd unigol
+Ebu,Enw benywaidd unigol
+Egll,Enw gwrywaidd lluosog
+Ebll,Enw benywaidd lluosog
+Egbu,Enw gwrywaidd/benywaidd unigol
+Egbll,Enw gwrywaidd/benywaidd lluosog
+Epg,Enw priod gwrywaidd
+Epb,Enw priod benywaidd
+YFB,Y Fannod Benodol
+Arsym,Arddodiad syml
+Ar1u,"Arddodiad rhediadol, pers. 1af. unigol"
+Ar2u,"Arddodiad rhediadol, 2il pers. unigol"
+Ar3gu,"Arddodiad rhediadol, 3ydd pers. gwrywaidd unigol"
+Ar3bu,"Arddodiad rhediadol, 3ydd pers. benywaidd unigol"
+Ar1ll,"Arddodiad rhediadol, pers 1af. lluosog"
+Ar2ll,"Arddodiad rhediadol, 2il pers.lluosog"
+Ar3ll,"Arddodiad rhediadol, 3ydd pers. lluosog"
+Cyscyd,Cysylltair cydradd
+Cysis,Cysylltair isradd
+Rhifol,Rhifair - rhifolyn (0-10)
+Rhifold,Rhifair - rhifolyn degol (11+)
+Rhifolt,Rhifair - rhifolyn traddodiadol (11+)
+Rhitref,Rhifair – trefnolyn (0-10)
+Rhitrefd,Rhifair – trefnolyn degol (11+)
+Rhitreft,Rhifair – trefnolyn traddodiadol (11+)
+Anscadu,Ansoddair cadarnhaol unigol
+Anscadbu,Ansoddair cadarnhaol benywaidd unigol
+Anscadll,Ansoddair cadarnhaol lluosog
+Anscyf,Ansoddair cyfartal
+Anscym,Ansoddair cymharol
+Anseith,Ansoddair eithaf
+Adf,Adferf
+Be,Berf enw
+Bpres1u,"Berf presennol, pers. 1af. unigol"
+Bpres2u,"Berf presennol, 2il pers. unigol"
+Bpres3u,"Berf presennol, 3ydd pers. unigol"
+Bpres1ll,"Berf presennol, pers. 1af. lluosog"
+Bpres2ll,"Berf presennol, 2il pers. lluosog"
+Bpres3ll,"Berf presennol, 3ydd pers. lluosog"
+Bpresamhers,"Berf presennol, amhersonol"
+Bpres3perth,"Berf presennol, 3ydd pers. perthynnol"
+Bpres3amhen,"Berf presennol, 3ydd pers. amhenodol"
+Bdyf1u,"Berf dyfodol, pers. 1af. unigol"
+Bdyf2u,"Berf dyfodol, 2il pers. unigol"
+Bdyf3u,"Berf dyfodol, 3ydd pers. unigol"
+Bdyf1ll,"Berf dyfodol, pers. 1af. lluosog"
+Bdyf2ll,"Berf dyfodol, 2il pers. lluosog"
+Bdyf3ll,"Berf dyfodol, 3ydd pers. lluosog"
+Bdyfamhers,Berf dyfodol amhersonol
+Bgorb1u,"Berf gorberffaith, pers. 1af. unigol"
+Bgorb2u,"Berf gorberffaith, 2il pers. unigol"
+Bgorb3u,"Berf gorberffaith, 3ydd pers. unigol"
+Bgorb1ll,"Berf gorberffaith, pers. 1af. lluosog"
+Bgorb2ll,"Berf gorberffaith, 2il pers. lluosog"
+Bgorb3ll,"Berf gorberffaith, 3ydd pers. lluosog"
+Bgorbamhers,"Berf gorberffaith, amhersonol"
+Bamherff1u,"Berf amherffaith, pers. 1af. unigol"
+Bamherff2u,"Berf amherffaith, 2il pers. unigol"
+Bamherff3u,"Berf amherffaith, 3ydd pers. unigol"
+Bamherff1ll,"Berf amherffaith, pers. 1af. lluosog"
+Bamherff2ll,"Berf amherffaith, 2il pers. lluosog"
+Bamherff3ll,"Berf amherffaith, 3ydd pers. lluosog"
+Bamherffamhers,"Berf amherffaith, amhersonol"
+Bgorff1u,"Berf gorffennol, pers. 1af. unigol"
+Bgorff2u,"Berf gorffennol, 2il pers. unigol"
+Bgorff3u,"Berf gorffennol, 3ydd pers. unigol"
+Bgorff1ll,"Berf gorffennol, pers. 1af. lluosog"
+Bgorff2ll,"Berf gorffennol, 2il pers. lluosog"
+Bgorff3ll,"Berf gorffennol, 3ydd pers. lluosog"
+Bgorffamhers,"Berf gorffennol, amhersonol"
+Bgorffsef,"Berf gorffennol, sefydlog"
+Bgorch2u,"Berf gorchmynnol, 2il pers. unigol"
+Bgorch3u,"Berf gorchmynnol, 3ydd pers. unigol"
+Bgorch1ll,"Berf gorchmynnol, pers. 1af. lluosog"
+Bgorch2ll,"Berf gorchmynnol, 2il pers. lluosog"
+Bgorch3ll,"Berf gorchmynnol, 3ydd pers. lluosog"
+Bgorchamhers,"Berf gorchmynnol, amhersonol"
+Bdibdyf1u,"Berf dibynnol dyfodol, pers. 1af. unigol"
+Bdibdyf2u,"Berf dibynnol dyfodol, 2il pers. unigol"
+Bdibdyf3u,"Berf dibynnol dyfodol, 3ydd pers. unigol"
+Bdibdyf1ll,"Berf dibynnol dyfodol, pers. 1af. lluosog"
+Bdibdyf2ll,"Berf dibynnol dyfodol, 2il pers. lluosog"
+Bdibdyf3ll,"Berf dibynnol dyfodol, 3ydd pers. lluosog"
+Bdibdyfamhers,"Berf dibynnol dyfodol, amhersonol"
+Bamod1u,"Berf amodol, pers. 1af. unigol"
+Bamod2u,"Berf amodol, 2il pers. unigol"
+Bamod3u,"Berf amodol, 3ydd pers. unigol"
+Bamod1ll,"Berf amodol, pers. 1af. lluosog"
+Bamod2ll,"Berf amodol, 2il pers. lluosog"
+Bamod3ll,"Berf amodol, 3ydd pers. lluosog"
+Bamodamhers,"Berf amodol, amhersonol"
+Rhapers1u,Rhagenw personol pers. 1af. unigol
+Rhapers2u,"Rhagenw personol, 2il pers. unigol"
+Rhapers3gu,"Rhagenw personol, 3ydd pers. gwrywaidd unigol"
+Rhapers3bu,"Rhagenw personol, 3ydd pers. benywaidd unigol"
+Rhapers1ll,"Rhagenw personol, pers. 1af. lluosog"
+Rhapers2ll,"Rhagenw personol, 2il pers. lluosog"
+Rhapers3ll,"Rhagenw personol, 3ydd pers. lluosog"
+Rhadib1u,"Rhagenw dibynnol, pers. 1af. unigol"
+Rhadib2u,"Rhagenw dibynnol, 2il pers. unigol"
+Rhadib3gu,"Rhagenw dibynnol, 3ydd pers. Gwrywaidd unigol"
+Rhadib3bu,"Rhagenw dibynnol, 3ydd pers. benywaidd unigol"
+Rhadib1ll,"Rhagenw dibynnol, pers. 1af. lluosog"
+Rhadib2ll,"Rhagenw dibynnol, 2il pers. lluosog"
+Rhadib3ll,"Rhagenw dibynnol, 3ydd pers. lluosog"
+Rhamedd1u,"Rhagenw meddiannol, pers. 1af. unigol"
+Rhamedd2u,"Rhagenw meddiannol, 2il pers. unigol"
+Rhamedd3gu,"Rhagenw meddiannol, 3ydd pers. gwrywaidd unigol"
+Rhamedd3bu,"Rhagenw meddiannol, 3ydd pers. benywaidd unigol"
+Rhamedd1ll,"Rhagenw meddiannol, pers. 1af. lluosog"
+Rhamedd2ll,"Rhagenw meddiannol, 2il pers. lluosog"
+Rhamedd3ll,"Rhagenw meddiannol, 3ydd pers. lluosog"
+Rhacys1u,Rhagenw cysylltiol pers. 1af. unigol
+Rhacys2u,"Rhagenw cysylltiol, 2il pers. unigol"
+Rhacys3gu,"Rhagenw cysylltiol, 3ydd pers. gwrywaidd unigol"
+Rhacys3bu,"Rhagenw cysylltiol, 3ydd pers. benywaidd unigol"
+Rhacys1ll,"Rhagenw cysylltiol, pers. 1af. lluosog"
+Rhacys2ll,"Rhagenw cysylltiol, 2il pers. lluosog"
+Rhacys3ll,"Rhagenw cysylltiol, 3ydd pers. lluosog"
+Rhagof,Rhagenw gofynnol
+Rhadangg,Rhagenw dangosol gwrywaidd
+Rhadangb,Rhagenw dangosol benywaidd
+Rhadangd,Rhagenw dangosol diryw
+Rhaperth,Rhagenw perthynol
+Rhaatb,Rhagenw atblygol
+Rhacil,Rhagenw cilyddol
+Uneg,Unigryw – geirynnau negyddol
+Ucad,Unigryw – geirynnau cadarnhaol
+Ugof,Unigryw – geirynnau gofynnol
+Utra,Unigryw – geirynnau traethiadol
+Uberf,Unigryw - geirynnau berfol
+Ebych,Ebychiad
+Gwest,Gweddilliol - estron
+Gwfform,Gweddilliol - fformiwla
+Gwsym,Gweddilliol - symbol
+Gwacr,Gweddilliol - acronym
+Gwtalf,Gweddilliol - talfyriad
+Gwdig,Gweddilliol - digid
+Gwllyth,Gweddilliol - llythyren
+Gwrhuf,Gweddilliol – rhifolyn Rhufeinig
+Gwann,Gweddilliol - annosbarthedig
+Atdt,Marc Atalnodi terfynol
+Atdcan,Marc Atalnodi canolig
+Atdchw,"Marc Atalnodi, chwith"
+Atdde,"Marc Atalnodi, de"
+Atdcys,"Marc Atalnodi, cysylltnod"
+Atddyf,"Marc Atalnodi, dyfynnod"
