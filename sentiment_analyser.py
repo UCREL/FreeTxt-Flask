@@ -10,8 +10,7 @@ nlp = spacy.load('/home/khallafn/Freetxt-flask/en_core_web_sm-3.2.0')  # Load th
 nlp.max_length = 9000000
 from nltk.corpus import stopwords
 import nltk
-#nltk.download('punkt')
-#nltk.download('stopwords')
+
 ### stopwords_files
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
@@ -117,8 +116,6 @@ class SentimentAnalyser:
         #print(sentiment_counts)
         return sentiments, sentiment_counts
 
-    
-
     def generate_scattertext_visualization(self, dfanalysis,language):
         # Get the DataFrame with sentiment analysis results
         df = dfanalysis
@@ -196,10 +193,6 @@ class SentimentAnalyser:
         with open(filename, "w", encoding='utf-8') as f:
             f.write(html)
             f.close()
-        
-
-        
-
         # Returning the relative path for web access
         return f"static/wordcloud/scattertext_visualization_{timestamp}.html"
     
