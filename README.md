@@ -63,36 +63,36 @@ Initializes the class with either a text string or a pandas DataFrame. It prepro
   - Other parameters for configuring the analysis.
 - **Returns**: A list of KWIC instances.
 
-### `get_top_n_words(remove_stops, topn)`
+#### `get_top_n_words(remove_stops, topn)`
 - **Purpose**: Retrieves the top N frequent words from the text.
 - **Parameters**: Options to remove stopwords and specify the number of words.
 - **Returns**: A list of the most common words.
 
-### `get_collocs(kwic_insts, topn)`
+#### `get_collocs(kwic_insts, topn)`
 - **Purpose**: Finds collocations from the KWIC instances.
 - **Parameters**: KWIC instances and the number of top collocations.
 - **Returns**: A list of top collocations.
 
-### `plot_coll_14(keyword, collocs, output_file)`
+#### `plot_coll_14(keyword, collocs, output_file)`
 - **Purpose**: Creates a network graph visualization for collocations.
 - **Parameters**: Keyword, collocations, and output file name.
 - **Returns**: Path to the generated network graph.
 
-### `get_collocation_strength(keyword, topn, window_size, by_tag, by_sem)`
+#### `get_collocation_strength(keyword, topn, window_size, by_tag, by_sem)`
 - **Purpose**: Computes collocation strength using mutual information and log-likelihood.
 - **Parameters**: Keyword and configuration for collocation analysis.
 - **Returns**: A list of collocations with their strength scores.
 
-### `tag_semantics(text)`
+#### `tag_semantics(text)`
 - **Purpose**: Tags the input text with semantic tags.
 - **Parameters**: The text to be tagged.
 - **Returns**: A list of tokens with semantic tags.
 
-### `get_sorted_unique_tags()`
+#### `get_sorted_unique_tags()`
 - **Purpose**: Retrieves a sorted list of unique semantic tags.
 - **Returns**: A sorted list of unique tags.
 
-### `get_word_frequencies()`
+#### `get_word_frequencies()`
 - **Purpose**: Computes the frequency of each word in the text.
 - **Returns**: A dictionary of word frequencies.
 
@@ -112,31 +112,31 @@ This class is essential for in-depth text analysis, providing tools for KWIC ana
 
 ## Methods
 
-### `load_image(image_file)`
+#### `load_image(image_file)`
 - Loads an image to be used as a mask for the word cloud.
 
-### `preprocess_data(data, language)`
+#### `preprocess_data(data, language)`
 - Preprocesses the input data based on the specified language.
 
-### `Pymsas_tags(text)`
+#### `Pymsas_tags(text)`
 - Tags the text using the Pymsas API for semantic analysis.
 
-### `calculate_measures(df, measure, language)`
+#### `calculate_measures(df, measure, language)`
 - Calculates statistical measures like KENESS and log-likelihood for words.
 
-### `filter_words(word_list)`
+#### `filter_words(word_list)`
 - Filters out stopwords and punctuation from the word list.
 
-### `get_wordcloud(dataframe, metric, word_list, cloud_shape_path, cloud_outline_color, cloud_type)`
+#### `get_wordcloud(dataframe, metric, word_list, cloud_shape_path, cloud_outline_color, cloud_type)`
 - Generates a word cloud with custom settings and filtering based on the provided parameters.
 
-### `compute_word_frequency(tokenized_words, language)`
+#### `compute_word_frequency(tokenized_words, language)`
 - Computes the frequency of words in the tokenized text.
 
-### `generate_wordcloud_type(input_data, cloud_type, language, cloud_measure, wordlist=None)`
+#### `generate_wordcloud_type(input_data, cloud_type, language, cloud_measure, wordlist=None)`
 - Generates a word cloud of a specific type (e.g., nouns, verbs, semantic tags) based on the language and measure.
 
-### `generate_wordcloud(cloud_shape_path, cloud_outline_color, cloud_type, language, cloud_measure, wordlist={})`
+#### `generate_wordcloud(cloud_shape_path, cloud_outline_color, cloud_type, language, cloud_measure, wordlist={})`
 - Controls the word cloud generation process, integrating all functionalities to produce the final word cloud.
 
 This class is particularly useful for linguistic and textual data visualization, offering versatile word cloud generation capabilities for a wide range of applications.
@@ -166,13 +166,13 @@ The `run_summarizer` function is designed to provide a concise summary of a give
 
 ## Methods
 
-### `detect_language_file(text)`
+#### `detect_language_file(text)`
 - **Purpose**: Identifies the language of a given text string.
 - **Parameters**:
   - `text` (str): The text string for language detection.
 - **Returns**: A language code (e.g., 'en', 'cy') if successful, or `None` if the detection fails.
 
-### `detect_and_split_languages()`
+#### `detect_and_split_languages()`
 - **Purpose**: Enhances the dataframe by adding a language identification column and then segregates the data into separate dataframes based on the detected languages.
 - **Returns**: A tuple of two dataframes, one with all English texts (`'en'`) and the other with all Welsh texts (`'cy'`), if present.
 
