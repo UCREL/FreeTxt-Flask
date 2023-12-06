@@ -33,7 +33,14 @@ def cleanup_old_graphs(directory, age_in_seconds=20):
 
 
 class KWICAnalyser:
+    """
+    A class for performing keyword-in-context (KWIC) analysis on textual data, along with semantic tagging and collocation analysis.
 
+    Attributes:
+    raw_text (str): The original text.
+    text (str): The preprocessed text.
+    tokens_with_semantic_tags (list): List of tokens with associated semantic tags.
+    """
     def __init__(self, text_or_dataframe):
         # If the input is a DataFrame, extract text from its single column
         if isinstance(text_or_dataframe, pd.DataFrame):
