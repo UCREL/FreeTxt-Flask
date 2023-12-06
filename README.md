@@ -8,6 +8,43 @@ Here is the [link to FreeTxt app](https://www.freetxt.app/) which is currently u
 
 - For further information on the FreeTxt project please contact the project team: CorCenCC@Cardiff.ac.uk
 
+# SentimentAnalyser Class
+
+## Overview
+
+`SentimentAnalyser` is a Python class that leverages a pre-trained BERT model for sentiment analysis on textual data. It can process texts in different languages and is equipped to handle both English and Welsh languages specifically.
+
+## Initialisation
+
+Initializes the sentiment analysis model and tokenizer upon instantiation.
+
+## Methods
+
+### `preprocess_text(text)`
+- **Purpose**: Prepares the text for sentiment analysis by removing URLs, mentions, hashtags, punctuation, converting to lowercase, and removing stopwords.
+- **Parameters**:
+  - `text` (str): The text string to preprocess.
+- **Returns**: Preprocessed text.
+
+### `analyse_sentiment(input_text, language, num_classes, max_seq_len=512)`
+- **Purpose**: Conducts sentiment analysis on the input text.
+- **Parameters**:
+  - `input_text` (str): The text to analyze.
+  - `language` (str): The language of the text ('en' for English, 'cy' for Welsh).
+  - `num_classes` (int): Number of sentiment classes (3 or 5).
+  - `max_seq_len` (int, optional): Maximum sequence length for tokenization.
+- **Returns**: A tuple containing the sentiments and sentiment counts.
+
+### `generate_scattertext_visualization(dfanalysis, language)`
+- **Purpose**: Generates a scattertext visualization based on sentiment analysis results.
+- **Parameters**:
+  - `dfanalysis` (pd.DataFrame): DataFrame containing the sentiment analysis results.
+  - `language` (str): The language for the visualization.
+- **Returns**: A path to the generated scattertext visualization HTML file.
+
+This class is suitable for projects requiring detailed sentiment analysis and visualization, especially in bilingual contexts.
+
+
 ## Summariser class
 ### run_summarizer Function Overview
 
