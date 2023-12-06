@@ -6,7 +6,7 @@ import os
 import time
 import scattertext as st
 import spacy
-nlp = spacy.load('/home/khallafn/Freetxt-flask/en_core_web_sm-3.2.0')  # Load the spaCy model
+nlp = spacy.load('./Freetxt-flask/en_core_web_sm-3.2.0')  # Load the spaCy model
 nlp.max_length = 9000000
 from nltk.corpus import stopwords
 import nltk
@@ -14,7 +14,7 @@ import nltk
 ### stopwords_files
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
-cy_stopwords = open('/home/khallafn/Freetxt-flask/website/data/welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
+cy_stopwords = open('./Freetxt-flask/website/data/welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
 STOPWORDS = set(en_stopwords + cy_stopwords)
 PUNCS = '''!→()-[]{};:'"\,<>./?@#$%^&*_~'''
 
@@ -181,7 +181,7 @@ class SentimentAnalyser:
         timestamp = int(time.time())
 
         # Constructing the file path
-        filename = os.path.join("/home/khallafn/Freetxt-flask/website/static/wordcloud", f"scattertext_visualization_{timestamp}.html")
+        filename = os.path.join("./Freetxt-flask/website/static/wordcloud", f"scattertext_visualization_{timestamp}.html")
         addition = """
     <div style="text-align:center; margin-top:30px;">
         Visualisation by <img src="https://ucrel-freetxt-2.lancs.ac.uk/static/images/logo.png" alt="Logo" style="height:40px;">
