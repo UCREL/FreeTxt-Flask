@@ -122,7 +122,7 @@ This class is essential for in-depth text analysis, providing tools for KWIC ana
 - Tags the text using the Pymsas API for semantic analysis.
 
 #### `calculate_measures(df, measure, language)`
-- Calculates statistical measures like KENESS and log-likelihood for words.
+- Calculates statistical measures like Keyness and log-likelihood for words.
 
 #### `filter_words(word_list)`
 - Filters out stopwords and punctuation from the word list.
