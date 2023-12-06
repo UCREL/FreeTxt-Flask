@@ -14,7 +14,7 @@ from pyvis.network import Network
 import math
 STOPWORDS = set(["a", "an", "the", "and", "or", "in", "of", "to", "is", "it", "that", "on", "was", "for", "as", "with", "by"])  # Modify with actual stopwords
 PUNCS = string.punctuation
-nlp = spacy.load('/home/khallafn/Freetxt-flask/en_core_web_sm-3.2.0')
+nlp = spacy.load('./Freetxt-flask/en_core_web_sm-3.2.0')
 
 import time
 import os
@@ -176,11 +176,11 @@ class KWICAnalyser:
             if source in net.get_nodes() and target in net.get_nodes():
                 net.add_edge(source, target, value=freq)
 
-        cleanup_old_graphs("/home/khallafn/Freetxt-flask/website/static/network_graphs")
+        cleanup_old_graphs("./Freetxt-flask/website/static/network_graphs")
         timestamp = int(time.time())
         
         
-        graph_folder = "/home/khallafn/Freetxt-flask/website/static/network_graphs"
+        graph_folder = "./Freetxt-flask/website/static/network_graphs"
         filename = f"network_{timestamp}.html"
         graph_path = os.path.join(graph_folder, filename)
 
@@ -432,7 +432,7 @@ class KWICAnalyser:
             if source in net.get_nodes() and target in net.get_nodes():
                 net.add_edge(source, target, value=10-value)
         timestamp = int(time.time())
-        graph_folder = "/home/khallafn/Freetxt-flask/website/static/network_graphs"
+        graph_folder = "./Freetxt-flask/website/static/network_graphs"
         filename = f"network_{timestamp}.html"
    
         graph_path = os.path.join(graph_folder, filename)
