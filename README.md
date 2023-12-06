@@ -44,6 +44,59 @@ Initializes the sentiment analysis model and tokenizer upon instantiation.
 
 This class is suitable for projects requiring detailed sentiment analysis and visualization, especially in bilingual contexts.
 
+# KWICAnalyser Class
+
+## Overview
+
+`KWICAnalyser` is a Python class tailored for Keyword-in-Context (KWIC) analysis, semantic tagging, and collocation analysis in textual data. It offers comprehensive functionality for textual analysis, especially useful in linguistic and semantic studies.
+
+## Initialisation
+
+Initializes the class with either a text string or a pandas DataFrame. It preprocesses the text, performs semantic tagging, and prepares it for further analysis.
+
+## Methods
+
+### `get_kwic(keyword, window_size, max_instances, lower_case, by_tag, by_sem)`
+- **Purpose**: Performs KWIC analysis for a given keyword.
+- **Parameters**:
+  - `keyword` (str): The target keyword.
+  - Other parameters for configuring the analysis.
+- **Returns**: A list of KWIC instances.
+
+### `get_top_n_words(remove_stops, topn)`
+- **Purpose**: Retrieves the top N frequent words from the text.
+- **Parameters**: Options to remove stopwords and specify the number of words.
+- **Returns**: A list of the most common words.
+
+### `get_collocs(kwic_insts, topn)`
+- **Purpose**: Finds collocations from the KWIC instances.
+- **Parameters**: KWIC instances and the number of top collocations.
+- **Returns**: A list of top collocations.
+
+### `plot_coll_14(keyword, collocs, output_file)`
+- **Purpose**: Creates a network graph visualization for collocations.
+- **Parameters**: Keyword, collocations, and output file name.
+- **Returns**: Path to the generated network graph.
+
+### `get_collocation_strength(keyword, topn, window_size, by_tag, by_sem)`
+- **Purpose**: Computes collocation strength using mutual information and log-likelihood.
+- **Parameters**: Keyword and configuration for collocation analysis.
+- **Returns**: A list of collocations with their strength scores.
+
+### `tag_semantics(text)`
+- **Purpose**: Tags the input text with semantic tags.
+- **Parameters**: The text to be tagged.
+- **Returns**: A list of tokens with semantic tags.
+
+### `get_sorted_unique_tags()`
+- **Purpose**: Retrieves a sorted list of unique semantic tags.
+- **Returns**: A sorted list of unique tags.
+
+### `get_word_frequencies()`
+- **Purpose**: Computes the frequency of each word in the text.
+- **Returns**: A dictionary of word frequencies.
+
+This class is essential for in-depth text analysis, providing tools for KWIC analysis, collocation strength measurement, and semantic tagging, making it particularly valuable in linguistic research and text processing applications.
 
 ## Summariser class
 ### run_summarizer Function Overview
