@@ -16,8 +16,6 @@ STOPWORDS = set(["a", "an", "the", "and", "or", "in", "of", "to", "is", "it", "t
 PUNCS = string.punctuation
 nlp = spacy.load('/home/khallafn/Freetxt-flask/en_core_web_sm-3.2.0')
 
-
-
 import time
 import os
 
@@ -292,7 +290,6 @@ class KWICAnalyser:
 
         # Sort results by MI and LL in descending order
         return sorted(results, key=lambda x: (-x[1], -x[2]))
-    
 
     def tag_semantics(self, text):
         """
