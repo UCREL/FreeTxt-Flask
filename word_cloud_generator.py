@@ -45,7 +45,17 @@ def cleanup_old_graphs(directory, age_in_seconds=20):
             if file_age > age_in_seconds:
                 os.remove(os.path.join(directory, filename))
 class WordCloudGenerator:
-
+    """
+    A class for generating word clouds with various features including semantic tagging, 
+    part-of-speech based filtering, and custom shape and color options.
+    
+    Attributes:
+    text (str): The text data used for generating the word cloud.
+    tokens_with_semantic_tags (DataFrame): Tokens along with their semantic tags.
+    STOPWORDS (set): A set of stopwords to be excluded from the word cloud.
+    PUNCS (list): A list of punctuation marks to be excluded.
+    pymusaslist (DataFrame): A dataframe containing USAS tags and their equivalents.
+    """
     def __init__(self,input_data):
         self.STOPWORDS = set(STOPWORDS)
         self.PUNCS = [".", "!", ":", ";", "-", "_", "?", "&", "*", "(", ")", "$", "@", "#", "%", "+", "=", "<", ">", "/", "|", "]", "[", "{", "}", "\\", "\""]
