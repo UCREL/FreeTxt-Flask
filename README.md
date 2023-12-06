@@ -1,4 +1,4 @@
-## The FreeTxt app
+# The FreeTxt app
 
 Here is the [link to FreeTxt app](https://www.freetxt.app/) which is currently under development. 
 
