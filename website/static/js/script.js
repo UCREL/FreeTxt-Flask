@@ -5,7 +5,7 @@ function resetToDefault() {
     
     
    
-       // Clear any flash messages (assuming they are present in a list and need to be removed)
+       // Clear any flash messages ( they are present in a list and need to be removed)
        $(".flashes").empty();
    
        // Reset Sentiment Analysis and Scatter Plot divs
@@ -328,7 +328,7 @@ function sendSelectedSentences() {
 
 
 let currentPagesent = 1;
-let itemsPerPagesent = 10; // or whatever number you choose
+let itemsPerPagesent = 10; // or whatever number 
 let totalPagessent = 1; // This will be calculated based on data length
 
 // Function to display the overall sentiment score and its explanation
@@ -571,18 +571,18 @@ function setupSelectionListener(elementId) {
         if (eventData) {
             const selectedData = [];
             eventData.points.forEach(point => {
-                // Ensure these mappings match your data structure
+                
                 if (point.y === 'negative') {
                     const datum = {
-                        Review: point.x,          // Assuming point.x corresponds to 'Review'
+                        Review: point.x,          //  point.x corresponds to 'Review'
                         'Sentiment Label': point.y, // point.y corresponds to 'Sentiment Label'
-                        'Sentiment Score': point.z  // Assuming point.z corresponds to 'Sentiment Score'
+                        'Sentiment Score': point.z  //  point.z corresponds to 'Sentiment Score'
                     };
                     selectedData.push(datum);
                 }
             });
 
-            // Now call your displaySentimentTable function with the selected data
+            // Now call  displaySentimentTable function with the selected data
             displaySentimentTable(selectedData);
         }
     });
@@ -618,7 +618,7 @@ function handleWordTreeData(wordTreeData, search_word) {
         // Force a redraw after a slight delay
         setTimeout(() => {
             drawWordTree(currentWordTreeData, currentSearchWord);
-        }, 200); // You can adjust this delay if needed
+        }, 200); 
     });
 }
 
@@ -1530,7 +1530,7 @@ function displayResults(data) {
     // Check for an error message in the response data
     if (data.error) {
         // Display the error message
-        $("#errorContainer").text(data.error); // Assuming you have a container to display errors
+        $("#errorContainer").text(data.error); 
         $("#errorContainer").removeClass("hidden"); // Show the error container
         alert('No instances found. Please choose another category as the data does not have this category.');
     } else {
@@ -1936,7 +1936,7 @@ let gridOptions = {
         params.api.deselectAll();
         selectDisplayedRows();
     },onFirstDataRendered: function() {
-        // Call your function here
+       
         setTimeout(() => {
             getSelectedColumns();
         }, 2000);
@@ -1987,7 +1987,7 @@ let gridOptions = {
                     }
                 },
                 inRangeInclusive: true,
-                browserDatePicker: true,  // If you want to use the browser's date picker
+                browserDatePicker: true,  
                 clearButton: true         // For resetting the filter
             }
         }
@@ -2304,7 +2304,7 @@ function getSelectedColumns() {
 
 
 function getMinMaxDatesFromGrid(columnName) {
-    // Assuming gridOptions is your grid configuration
+    
     const allDates = gridOptions.api.getColumnValues(columnName);
     const validDates = allDates.filter(date => moment(date, 'DD/MM/YYYY').isValid());
     return {
@@ -2559,7 +2559,7 @@ async function handleCategoryChange() {
             option.value = tag;
             option.text = tag;
             option.setAttribute('data-lang-en', tag);
-            option.setAttribute('data-lang-cy', tag); // Assuming you have the same value for both languages, adjust if needed
+            option.setAttribute('data-lang-cy', tag); 
             option.setAttribute('data-type', 'semtag');
             subCategoryDropdown.appendChild(option);
         });
@@ -2606,10 +2606,10 @@ function updateGraph(graphType) {
     loadingElement.style.display = 'flex';
     const collocs = collocsData.map(row => {
         return {
-            word: row[0], // Assuming first column is 'Word'
-            frequency: row[1], // Assuming second column is 'Frequency'
-            MI: row[2], // Assuming third column is 'MI'
-            LL: row[3], // Assuming fourth column is 'LL',
+            word: row[0], //  first column is 'Word'
+            frequency: row[1], //  second column is 'Frequency'
+            MI: row[2], //  third column is 'MI'
+            LL: row[3], //  fourth column is 'LL',
         };
     });
 
@@ -2654,7 +2654,6 @@ function setLanguage(language) {
 
     
 
-    // Save other necessary state as per your application's requirements
 
     // Step 2: Update localeText based on the language
     gridOptions.localeText = language === 'cy' ? welshTranslations : {};
@@ -2760,7 +2759,7 @@ window.onload = function() {
         }
         fetch('/submit-feedback', {
             method: 'POST',
-            body: formData,  credentials: 'include',  // if your setup requires credentials
+            body: formData,  credentials: 'include',  
             headers: {
                 'Accept': 'application/json',}
         })
