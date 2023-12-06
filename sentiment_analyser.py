@@ -19,7 +19,19 @@ STOPWORDS = set(en_stopwords + cy_stopwords)
 PUNCS = '''!→()-[]{};:'"\,<>./?@#$%^&*_~'''
 
 class SentimentAnalyser:
+    """
+    A class for performing sentiment analysis on textual data using pre-trained BERT models.
+    
+    Methods:
+    preprocess_text(text): Preprocesses the text for sentiment analysis.
+    analyse_sentiment(input_text, language, num_classes, max_seq_len=512): Analyzes the sentiment of the input text.
+    generate_scattertext_visualization(dfanalysis, language): Generates a scattertext visualization for the sentiment analysis results.
+    """
+    
     def __init__(self):
+        """
+        Initializes the SentimentAnalyser class, loading the tokenizer and model for sentiment analysis.
+        """
         # Loading tokenizer and model during initialization to avoid doing it multiple times.
         self.tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
         self.model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
