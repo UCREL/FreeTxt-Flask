@@ -25,7 +25,7 @@ The `run_summarizer` function is designed to provide a concise summary of a give
 
 `LanguageChecker` is a Python class designed for efficient language detection and segregation within pandas dataframes. It is particularly useful for processing multilingual text datasets and can specifically handle English and Welsh texts.
 
-## Initialization
+## Initialisation
 
 - **Dataframe (`data`)**: The pandas dataframe to be processed.
 - **Column Name (`column`)**: The name of the column in the dataframe containing the text.
