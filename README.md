@@ -98,6 +98,50 @@ Initializes the class with either a text string or a pandas DataFrame. It prepro
 
 This class is essential for in-depth text analysis, providing tools for KWIC analysis, collocation strength measurement, and semantic tagging, making it particularly valuable in linguistic research and text processing applications.
 
+# WordCloudGenerator Class
+
+## Overview
+
+`WordCloudGenerator` is a Python class for creating visually appealing word clouds with custom shapes, colors, and filtering options. It is capable of semantic tagging, handling different languages, and applying various statistical measures for word selection.
+
+## Initialisation
+
+- Initializes with `input_data`, which can be a DataFrame or raw text.
+- Sets up stopwords, punctuation, and USAS tags list.
+- Prepares the text and semantic tags for word cloud generation.
+
+## Methods
+
+### `load_image(image_file)`
+- Loads an image to be used as a mask for the word cloud.
+
+### `preprocess_data(data, language)`
+- Preprocesses the input data based on the specified language.
+
+### `Pymsas_tags(text)`
+- Tags the text using the Pymsas API for semantic analysis.
+
+### `calculate_measures(df, measure, language)`
+- Calculates statistical measures like KENESS and log-likelihood for words.
+
+### `filter_words(word_list)`
+- Filters out stopwords and punctuation from the word list.
+
+### `get_wordcloud(dataframe, metric, word_list, cloud_shape_path, cloud_outline_color, cloud_type)`
+- Generates a word cloud with custom settings and filtering based on the provided parameters.
+
+### `compute_word_frequency(tokenized_words, language)`
+- Computes the frequency of words in the tokenized text.
+
+### `generate_wordcloud_type(input_data, cloud_type, language, cloud_measure, wordlist=None)`
+- Generates a word cloud of a specific type (e.g., nouns, verbs, semantic tags) based on the language and measure.
+
+### `generate_wordcloud(cloud_shape_path, cloud_outline_color, cloud_type, language, cloud_measure, wordlist={})`
+- Controls the word cloud generation process, integrating all functionalities to produce the final word cloud.
+
+This class is particularly useful for linguistic and textual data visualization, offering versatile word cloud generation capabilities for a wide range of applications.
+
+
 ## Summariser class
 ### run_summarizer Function Overview
 
