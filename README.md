@@ -8,7 +8,7 @@ Here is the [link to FreeTxt app](https://www.freetxt.app/) which is currently u
 
 - For further information on the FreeTxt project please contact the project team: CorCenCC@Cardiff.ac.uk
 
-### Contacts
+## Contacts
 - [Nouran Khallaf](https://github.com//Nouran-Khallaf)
 - [Ignatius Ezeani](https://github.com/IgnatiusEzeani)
 - [Paul Rayson](https://github.com/perayson)
