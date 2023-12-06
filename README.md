@@ -56,7 +56,7 @@ Initializes the class with either a text string or a pandas DataFrame. It prepro
 
 ## Methods
 
-### `get_kwic(keyword, window_size, max_instances, lower_case, by_tag, by_sem)`
+#### `get_kwic(keyword, window_size, max_instances, lower_case, by_tag, by_sem)`
 - **Purpose**: Performs KWIC analysis for a given keyword.
 - **Parameters**:
   - `keyword` (str): The target keyword.
