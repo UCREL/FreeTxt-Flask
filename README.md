@@ -1,6 +1,6 @@
 ## The FreeTxt app
 
-Here is the [link to FreeTxt tool](https://www.freetxt.app/) which is currently under development. 
+Here is the [link to FreeTxt app](https://www.freetxt.app/) which is currently under development. 
 
 
 
