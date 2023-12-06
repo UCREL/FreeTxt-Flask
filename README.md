@@ -8,14 +8,17 @@ Here is the [link to FreeTxt app](https://www.freetxt.app/) which is currently u
 
 - For further information on the FreeTxt project please contact the project team: CorCenCC@Cardiff.ac.uk
 
-## Summariser.py
+# Summariser.py
+## run_summarizer Function Overview
 
-The run_summarizer function is designed to provide a concise summary of a given text using the TextRank algorithm. This function is versatile, as it can accept both strings and iterable objects as input. If the input is not a string, the function converts it into one. The core of this function lies in its ability to adjust the length of the summary based on the chosen_ratio parameter, which dictates the proportion of the original text to be included in the summary.
+The `run_summarizer` function is designed to provide a concise summary of a given text using the TextRank algorithm. This function is versatile, as it can accept both strings and iterable objects as input. If the input is not a string, the function converts it into one. The core of this function lies in its ability to adjust the length of the summary based on the `chosen_ratio` parameter, which dictates the proportion of the original text to be included in the summary.
 
-### Key Features:
-Input Flexibility: Handles both string and iterable inputs, seamlessly converting iterables into a string format.
-Customizable Summary Length: Allows the user to specify the summary length through the chosen_ratio parameter, with a minimum threshold set at 0.1.
-Language Support: Primarily supports English (default) but can be adapted for other languages.
+### Key Features
+
+- **Input Flexibility**: Handles both string and iterable inputs, seamlessly converting iterables into a string format.
+- **Customizable Summary Length**: Allows the user to specify the summary length through the `chosen_ratio` parameter, with a minimum threshold set at 0.1.
+- **Language Support**: Primarily supports English (default) and welsh but can be adapted for other languages.
+
 
 ## Contacts
 - [Nouran Khallaf](https://github.com//Nouran-Khallaf)
