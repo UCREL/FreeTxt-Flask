@@ -8,7 +8,7 @@ Here is the [link to FreeTxt app](https://www.freetxt.app/) which is currently u
 
 - For further information on the FreeTxt project please contact the project team: CorCenCC@Cardiff.ac.uk
 
-# SentimentAnalyser Class
+## SentimentAnalyser Class
 
 ## Overview
 
@@ -44,7 +44,7 @@ Initializes the sentiment analysis model and tokenizer upon instantiation.
 
 This class is suitable for projects requiring detailed sentiment analysis and visualization, especially in bilingual contexts.
 
-# KWICAnalyser Class
+## KWICAnalyser Class
 
 ## Overview
 
@@ -98,7 +98,7 @@ Initializes the class with either a text string or a pandas DataFrame. It prepro
 
 This class is essential for in-depth text analysis, providing tools for KWIC analysis, collocation strength measurement, and semantic tagging, making it particularly valuable in linguistic research and text processing applications.
 
-# WordCloudGenerator Class
+## WordCloudGenerator Class
 
 ## Overview
 
