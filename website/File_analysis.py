@@ -119,7 +119,7 @@ def read_file(file_path):
 
 def cleanup_expired_sessions():
     filepath = session.get('uploaded_file_path')
-    # Path where you want to check for file existence
+    # Path where to check for file existence
     specific_path = "/home/khallafn/Freetxt-flask/website/static/example-data-hub/"
     
     # Check if the file exists in the specific directory
@@ -129,7 +129,7 @@ def cleanup_expired_sessions():
         return  # exit the function as the file exists in the specified directory
 
     # Check if the session is expired
-    # This is a simple example; your session management might be different.
+    
     elif 'expiration_time' in session and session['expiration_time'] <= time.time():
         os.remove(filepath)
         session.pop('uploaded_file_path', None)
@@ -632,7 +632,7 @@ def generate_pdf():
         SentimentPlotbar= 'https://ucrel-freetxt-2.lancs.ac.uk/static/Sentiment_plots/sentiment_bar.png'
         word_cloud_image_src = request.form['wordCloudImageSrc'] if 'wordCloudImageSrc' in request.form else ""
         rendered_html = render_template('report.html', 
-                                        # Assuming you want to use it in the template
+                                       
                                        sentiment_content=sentiment_content, SentimentPlot=SentimentPlot,
                                        SentimentPlotbar=SentimentPlotbar,wordtree=wordtree, sentiment_explanation=sentiment_explanation,
                                        word_cloud_image_src=word_cloud_image_src, summary = summary, selected_sections=selected_sections,
@@ -646,7 +646,7 @@ def generate_pdf():
         response.headers['Content-Disposition'] = 'inline; filename=report.pdf'
         return response
     else:
-        # Handle GET request if needed. You can return a form or a message.
+        # Handle GET request if needed. 
         return "This endpoint accepts POST requests with form data to generate a PDF."
 
 
@@ -759,7 +759,7 @@ def add_logo_and_text_to_image(image_path):
     # Open the word cloud image
     wc_image = Image.open(image_path)
 
-    # Open the logo image (update the path to your logo's path)
+    # Open the logo image 
     logo_image = Image.open("home/khallafn/Freetxt-flask/website/static/images/logo.png")
     logo_image = logo_image.resize((100, 40))  # Resize logo
 
@@ -846,7 +846,7 @@ def get_keyword_data():
                 }
             )
     except Exception as e:
-        # Handle your exception here
+        # Handle  exception here
         return "Server encountered an error", 500
 
 
@@ -904,7 +904,7 @@ def regenerate_wordcloud():
 @FileAnalysis.route('/update_graph', methods=['POST'])
 def handle_graph_update():
     data = request.get_json()
-    keyword = data.get('keyword')  # Replace with your actual keyword
+    keyword = data.get('keyword') 
     collocs = data.get('collocs', [])
     graph_type = data.get('graphType', 'frequency')
     
@@ -940,5 +940,5 @@ def get_collos_data():
                 }
             )
     except Exception as e:
-        # Handle your exception here
+       
         return "Server encountered an error", 500
