@@ -8,7 +8,7 @@ Here is the [link to FreeTxt app](https://www.freetxt.app/) which is currently u
 
 - For further information on the FreeTxt project please contact the project team: CorCenCC@Cardiff.ac.uk
 
-## Summariser.py
+## Summariser class
 ### run_summarizer Function Overview
 
 The `run_summarizer` function is designed to provide a concise summary of a given text using the TextRank algorithm. This function is versatile, as it can accept both strings and iterable objects as input. If the input is not a string, the function converts it into one. The core of this function lies in its ability to adjust the length of the summary based on the `chosen_ratio` parameter, which dictates the proportion of the original text to be included in the summary.
@@ -19,6 +19,30 @@ The `run_summarizer` function is designed to provide a concise summary of a give
 - **Customizable Summary Length**: Allows the user to specify the summary length through the `chosen_ratio` parameter, with a minimum threshold set at 0.1.
 - **Language Support**: Primarily supports English (default) and welsh but can be adapted for other languages.
 
+# LanguageChecker Class
+
+## Overview
+
+`LanguageChecker` is a Python class designed for efficient language detection and segregation within pandas dataframes. It is particularly useful for processing multilingual text datasets and can specifically handle English and Welsh texts.
+
+## Initialization
+
+- **Dataframe (`data`)**: The pandas dataframe to be processed.
+- **Column Name (`column`)**: The name of the column in the dataframe containing the text.
+
+## Methods
+
+### `detect_language_file(text)`
+- **Purpose**: Identifies the language of a given text string.
+- **Parameters**:
+  - `text` (str): The text string for language detection.
+- **Returns**: A language code (e.g., 'en', 'cy') if successful, or `None` if the detection fails.
+
+### `detect_and_split_languages()`
+- **Purpose**: Enhances the dataframe by adding a language identification column and then segregates the data into separate dataframes based on the detected languages.
+- **Returns**: A tuple of two dataframes, one with all English texts (`'en'`) and the other with all Welsh texts (`'cy'`), if present.
+
+This class is an essential tool for projects dealing with bilingual or multilingual datasets, offering streamlined processing for language-specific analysis or operations.
 
 ## Contacts
 - [Nouran Khallaf](https://github.com//Nouran-Khallaf)
