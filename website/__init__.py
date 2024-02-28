@@ -32,10 +32,7 @@ def create_app(debug=True):
     with app.app_context():
         db.create_all()
 
-        # Set up a scheduler to clear directories every two days
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(func=clear_directories, trigger='interval', days=2)
-    scheduler.start()
+
     from .Home import Home
     app.register_blueprint(Home, url_prefix = '/')
     
