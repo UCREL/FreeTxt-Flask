@@ -6,8 +6,6 @@ import os
 from datetime import timedelta
 from .extensions import db
 from .models import Feedback
-from .utilits import clear_directories
-from apscheduler.schedulers.background import BackgroundScheduler
 import logging
 logging.basicConfig()
 logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
