@@ -39,9 +39,6 @@ def create_app(debug=True):
     from .Home import Userguide
     app.register_blueprint(Userguide)
 
-    from .Text_analysis import TextAnalysis
-    app.register_blueprint(TextAnalysis)
-
     from .File_analysis import FileAnalysis
     app.register_blueprint(FileAnalysis)
     return app
