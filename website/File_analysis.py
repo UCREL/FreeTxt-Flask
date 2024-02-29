@@ -558,10 +558,10 @@ def analyse():
     selected_tag = request.form.get('tag_selection')
     selected_semantic = request.form.get('sem_selection')
     kwic_option = request.form.get('kwic_option')
-    
+    language = session.get('language')
     data_json = session.get('mergedData')
     input_data = pd.DataFrame(data_json)
-    analyzer = KWICAnalyser(input_data)
+    analyzer = KWICAnalyser(input_data, language='en')
 
     if kwic_option == "word" and selected_word:
         kwic_results = analyzer.get_kwic(selected_word, window_size)
