@@ -134,7 +134,7 @@ class SentimentAnalyser:
         positive_label = "Cadarnhaol" if language == 'cy' else "Positive"
         if positive_label not in dfanalysis['Sentiment Label'].unique():
             # Notify the user that the 'Positive' category is not present
-            # This could be a return statement, raising an exception, or setting a flag in your application
+            # This could be a return statement, raising an exception, 
             return f"No data for the '{positive_label}' category found. Scattertext visualization cannot be generated."
 
         # Parse the text using spaCy
