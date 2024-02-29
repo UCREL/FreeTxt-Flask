@@ -430,7 +430,7 @@ class KWICAnalyser:
         return tokens_with_semantic_tags
   
     def update_graph(keyword, collocs, graph_type, output_file='network.html'):
-    # Convert collocs to the required format for your graph function
+   
         words, values = zip(*[(item['word'], item[graph_type]) for item in collocs])
     
     # Creating a DataFrame
