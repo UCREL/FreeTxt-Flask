@@ -193,7 +193,7 @@ class SentimentAnalyser:
         timestamp = int(time.time())
 
         # Constructing the file path
-        filename = "website/static/wordcloud" + f"scattertext_visualization_{timestamp}.html"
+        filename = "website/static/wordcloud/" + f"scattertext_visualization_{timestamp}.html"
         addition = """
     <div style="text-align:center; margin-top:30px;">
         Visualisation by <img src="https://ucrel-freetxt-2.lancs.ac.uk/static/images/logo.png" alt="Logo" style="height:40px;">
