@@ -11,7 +11,7 @@ Here is the [link to FreeTxt app](https://www.freetxt.app/) which is currently u
 
 # FreeTxt-Flask Setup Instructions
 
-FreeTxt-Flask project! Follow these steps to set up the project on your local machine.
+Follow these steps to set up the project on your local machine.
 
 ## Prerequisites
 
