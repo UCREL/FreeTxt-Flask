@@ -8,6 +8,107 @@ Here is the [link to FreeTxt app](https://www.freetxt.app/) which is currently u
 
 - For further information on the FreeTxt project please contact the project team: CorCenCC@Cardiff.ac.uk
 
+
+# FreeTxt-Flask Setup Instructions
+
+Welcome to the FreeTxt-Flask project! Follow these steps to set up the project on your local machine.
+
+## Prerequisites
+
+Before you start, make sure you have installed:
+- Git
+- Python 3
+- pip (Python package installer)
+
+## Step 1: Clone the Repository
+
+Clone the FreeTxt-Flask repository from GitHub to your local machine:
+
+```bash
+git clone https://github.com/UCREL/FreeTxt-Flask.git
+cd FreeTxt-Flask
+```
+
+## Step 2: Set Up a Python Virtual Environment
+
+It's recommended to use a Python virtual environment for project dependencies to avoid conflicts with other projects or system-wide Python packages.
+
+### Create a Virtual Environment
+
+For Unix/Linux/macOS:
+
+```bash
+python3 -m venv venv
+```
+
+For Windows:
+
+```cmd
+python -m venv venv
+```
+
+### Activate the Virtual Environment
+
+On Unix/Linux/macOS:
+
+```bash
+source venv/bin/activate
+```
+
+On Windows (Command Prompt):
+
+```cmd
+.\venv\Scripts\activate
+```
+
+On Windows (PowerShell):
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+## Step 3: Install Project Dependencies
+
+With your virtual environment activated, install the project dependencies using:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Step 4: Configure the Flask Application
+
+Inform Flask about the entry point of your application by setting the `FLASK_APP` environment variable:
+
+### Unix/Linux/macOS:
+
+```bash
+export FLASK_APP=main.py
+```
+
+### Windows (Command Prompt):
+
+```cmd
+set FLASK_APP=main.py
+```
+
+### Windows (PowerShell):
+
+```powershell
+$env:FLASK_APP = "main.py"
+```
+
+## Step 5: Run the Flask Application
+
+Now you're ready to run the application:
+
+```bash
+flask run
+```
+
+This will start a local web server. By default, the Flask application will be accessible at `http://127.0.0.1:5000/` from your web browser.
+
+---
+
 ## SentimentAnalyser Class
 
 ## Overview
