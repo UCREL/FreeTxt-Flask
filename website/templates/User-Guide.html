@@ -8,500 +8,653 @@
     padding: 0;
     height: 100%;
 }
-    .content-container {
-       
-        width: 100%;  
-        height: 100%; 
-        padding: 0;
-        margin: 0;
-    }
 
-    body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-  
-    font-weight: 400;
-    font-size: 16px;
-  }
-  
-  * {
-    box-sizing: border-box;
-  }
-  
+
+
+
  
-  
-  .onboarding {
-    overflow: auto;
-    background-size: 100% 100%;
-    width: 100vw;    /* Fill the viewport width */
-    height: 100vh;   /* Fill the viewport height */
-    display: grid;
-    color: #fff;
-    place-items: center;
-    position: relative;
-    padding: 40px 80px;
-    background: linear-gradient(
-      327deg,
-      #1869b7,
-      #8e50d5,
-      #3d888c,
-      #3b85b7,
-      #8458a7,
-      #31836e
-    );
-    background-size: 1400% 1400%;
-    animation: gradientAnimation 20s ease infinite;
-  }
-  
-  .onboarding:before {
-    content: "";
-    position: absolute;
-    background-size: 100% 100%;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("https://images.unsplash.com/photo-1550859492-d5da9d8e45f3?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80");
-    opacity: 0.58;
-    background-size: cover;
-    background-attachment: fixed;
-    animation: gradientAnimation 5s infinite;
+
+
+.banner {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #f3f3f3;
+    padding: 20px;
+    overflow: hidden;
 }
-  
-  @keyframes gradientAnimation {
-    0% {
-      background-position: 36% 0%;
-    }
-    50% {
-      background-position: 65% 100%;
-    }
-    100% {
-      background-position: 36% 0%;
-    }
-  }
-  
-  .onboarding__item {
-    max-width: calc(60ch + 30px);
-    width: 100%;
-    padding: 40px 30px;
+
+.banner-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    justify-content: center;
-    opacity: 0.2;
-    margin: 40px 0;
-    position: relative;
-    z-index: 1;
-    transition: 0.3s;
-    border-radius: 20px;
-    border: 1px solid transparent;
-  
-    h1,
-    h2 {
-      text-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
-      font-weight: 700;
-      line-height: 1.4;
-    }
-  
-    h1 {
-      margin: 0 0 16px 0;
-    }
-  
-    h2 {
-      margin: 30px 0 20px;
-    }
-  
-    p {
-      margin: 0;
-      line-height: 1.4;
-    }
-  
-    a {
-      color: #fff;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 4px 8px;
-      margin-top: 16px;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 30px;
-    }
-  
-    a > svg {
-      margin-left: 4px;
-    }
-  
-    img {
-      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.12));
-    }
-  }
-  
-  .onboarding__item img {
-    max-width: 100px;
-    display: block;
-  }
-  
-  .onboarding__item:not(.onboarding__item--active) * {
-    user-select: none;
-  }
-  
-  .onboarding__item:not(.onboarding__item--active):hover {
-    opacity: 0.5;
-    border-color: rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease, color 0.3s ease;
     cursor: pointer;
-  }
-  
-  .onboarding__item--active {
-    opacity: 1;
-  }
-  
-  .onboarding__tracker {
-    position: absolute;
-    max-width: 100%;
-    left: 0;
-    top: 0;
-    transition: all 0.32s ease-in-out;
-  }
-  
-  .onboarding__overlay {
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.28) 0%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    backdrop-filter: blur(30px);
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 20px;
-    width: 100%;
-    height: 100%;
-    box-shadow: 0 0.5px 0 1px rgba(255, 255, 255, 0.23) inset,
-      0 1px 0 0 rgba(255, 255, 255, 0.66) inset, 0 4px 16px rgba(0, 0, 0, 0.12);
-  }
-  
-  .onboarding__tracker--stop-t {
-    transition: none;
-  }
-  
-  .onboarding__nav {
-    position: absolute;
-    left: calc(100% + 16px);
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  
-  .onboarding__nav-button {
-    width: 36px;
-    height: 36px;
-    backdrop-filter: blur(30px);
-    border: 0;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    box-shadow: 0 0.5px 0 1px rgba(255, 255, 255, 0.23) inset,
-      0 1px 0 0 rgba(255, 255, 255, 0.66) inset, 0 4px 16px rgba(0, 0, 0, 0.12);
-    border-radius: 20px;
-    outline: 0;
-    cursor: pointer;
-    transition: 0.2s;
-    background-color: transparent;
-    position: relative;
-  }
-  
-  .onboarding__nav-button + .onboarding__nav-button {
+}
+
+.banner-item i {
+    font-size: 2rem;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.banner-item:hover i {
+    transform: scale(1.1);
+    color: var(--color);
+}
+
+.banner-item span {
     margin-top: 10px;
-  }
-  
-  .onboarding__nav-button:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    overflow: hidden;
-    border-radius: 50%;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.banner-item:hover span {
+    color: var(--color);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animated-item {
+    animation: fadeIn 1s ease forwards;
+}
+
+
+
+    .accordion {
+    background-color: #060506; 
+    color: #fff; /* White text */
+    cursor: pointer;
+    padding: 20px;
     width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.28) 0%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    transition: 0.3s;
-  }
-  
-  .onboarding__nav-button:active {
-    box-shadow: 0 -0.5px 0 1px rgba(255, 255, 255, 0.23) inset,
-      0 1px 0 0 rgba(255, 255, 255, 0.2) inset,
-      0 6px 8px rgba(0, 0, 0, 0.12) inset;
-  }
-  
-  .onboarding__nav-button:hover:before {
-    opacity: 0.3;
-  }
-  
-  .onboarding__nav-button:active:before {
-    opacity: 0;
-  }
-  
-  @media (max-width: 768px) {
-    .onboarding {
-      padding-left: 40px;
-    }
-  }
-  
-  .onboarding--loading {
-    & > *:not(.onboarding__tracker) {
-      opacity: 0 !important;
-    }
-  
-    .onboarding__overlay {
-      border-radius: 20px;
-    }
-  
-    .onboarding__tracker {
-      top: calc(50vh - 30px) !important;
-      width: 60px !important;
-      height: 60px !important;
-      left: calc(50% - 30px) !important;
-      border-radius: 20px;
-      overflow: hidden;
-      transition: 3s;
-      opacity: 1;
-      box-shadow: 0 0.5px 0 1px rgba(255, 255, 255, 0.23) inset,
-        0 1px 0 0 rgba(255, 255, 255, 0.66) inset, 0 4px 16px rgba(0, 0, 0, 0.08);
-  
-      &:after {
-        content: "";
-        position: absolute;
-        left: 10%;
-        top: 10%;
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        background-image: url("data:image/svg+xml, %3Csvg version='1.1' id='loader-1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='40px' height='40px' viewBox='0 0 40 40' enable-background='new 0 0 40 40' xml:space='preserve'%3E%3Cpath opacity='0.2' fill='%23fff' d='M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946 s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634 c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z'/%3E%3Cpath fill='%23fff' d='M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0 C22.32,8.481,24.301,9.057,26.013,10.047z'%3E%3CanimateTransform attributeType='xml' attributeName='transform' type='rotate' from='0 20 20' to='360 20 20' dur='0.5s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E");
-      }
-    }
-  
-    .onboarding__nav {
-      opacity: 0;
-    }
-  }
-  
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 20px; 
+    transition: background-color 0.4s, transform 0.4s;
+}
+
+.accordion:hover, .active {
+    background-color: #051b57b0; 
+}
+
+.accordion:after {
+    content: '\002B'; /* Unicode character for "+" sign */
+    color: #fff;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: "\2212"; /* Unicode character for "-" sign */
+}
+
+.panel {
+    padding: 0 20px;
+    background-color: white;
+    display: none;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    border-left: 3px solid #0a0a0a; 
+    border-right: 3px solid #0a0a0a; 
+}
+
+.panel p {
+    font-size: 20px; /* Slightly larger font for better readability */
+    line-height: 1.6; /* Improved line spacing */
+    color: #333; /* Darker font color for better contrast */
+    margin-bottom: 15px; /* Space between paragraphs */
+}
+
+.panel h3 {
+    font-size: 20px; /* Larger font size for headings */
+    color: #ae2746; /* Color for headings */
+    margin-top: 20px; /* Space above headings */
+}
+
+.panel ol {
+    padding-left: 20px; /* Indent for ordered list */
+    margin-bottom: 15px; /* Space below list */
+}
+
+.panel li {
+    margin-bottom: 10px; /* Space between list items */
+}
+
+.special-image {
+   
+   max-width: 800px;
+   display: flex;
+   margin: auto; 
+    margin-top: 15px; /* Space above the image */
+    margin-bottom: 15px; /* Space below the image */
+    border-radius: 8px; /* Rounded corners for images */
+}
+
+hr {
+    border-top: 1px solid #706f6f; /* Lighter and subtler horizontal line */
+    margin-top: 20px; /* Space above the horizontal line */
+    margin-bottom: 20px; /* Space below the horizontal line */
+}
+.text-size-large {
+  font-size: 22px; 
+}
+
 
     </style>
-     
-    <div class="content-container onboarding">
-    <div class="onboarding__item onboarding__item--active">
-      <h1>UserGuide-- Comming soon</h1>
-      <p>Here you can find the userguide
-      </p>
+
+
+  <div class="banner">
+   
+    <div class="banner-item animated-item" style="--color: #e74c3c;">
+        <i class="fas fa-chart-line"></i>
+        <span data-lang-en="Meaning analysis" data-lang-cy="Dadansoddi ystyr">Meaning Analysis</span>
+    </div>
+    <div class="banner-item animated-item" style="--color: #3498db;">
+        <i class="fas fa-comments"></i>
+        <span data-lang-en="Sentiment Chart" data-lang-cy="Siart Sentiment">Sentiment Chart</span>
+    </div>
+    <div class="banner-item animated-item" style="--color: #2ecc71;">
+        <i class="fas fa-file-alt"></i>
+        <span data-lang-en="Summarisation" data-lang-cy="Crynodebu">Summarisation</span>
+    </div>
+    <div class="banner-item animated-item" style="--color: #9b59b6;">
+        <i class="fas fa-cloud"></i>
+        <span data-lang-en="Word Cloud" data-lang-cy="Cwmwl Geiriau">Word Cloud</span>
+    </div>
+    <div class="banner-item animated-item" style="--color: #f39c12;">
+        <i class="fas fa-link"></i>
+        <span data-lang-en= "Word Use & Relationships" data-lang-cy="Defnydd a Pherthnasoedd Geiriau">Word Use & Relationships</span>
+    </div>
+    <div class="banner-item animated-item" style="--color: #1abc9c;">
+        <i class="fas fa-tree"></i>
+        <span data-lang-en="Word Tree" data-lang-cy="Coeden Eiriau">Word Tree</span>
+    </div>
+</div>
+
+
       
-    </div>
-    <div class="onboarding__item">
-      <img src="https://assets.codepen.io/344846/RoundCube-White-Matte-2.png">
-      <h2>Meaning Analyse</h2>
-      <p> how to do the analysis, what do you get .....................................</p>
-    </div>
-    <div class="onboarding__item">
-      <img src="https://assets.codepen.io/344846/Cone-White-Matte.png">
-      <h2>Sentiment plot</h2>
-      <p></p>
-    </div>
-    <div class="onboarding__item">
-      <img src="https://assets.codepen.io/344846/Cylinder-White-Matte.png">
-      <h2>Summarisation</h2>
-      <p>This tool, adapted from the Welsh Summarisation project, produces a basic extractive summary of the review text from the selected columns.</p>
-    </div>
-    <div class="onboarding__item">
-      <img src="https://assets.codepen.io/344846/RoundCube-White-Matte-1.png">
-      <h2>Word Cloud</h2>
-      <p>When we have a large amount of text, it can be useful sometimes to visualise everything in such a way that all the key words - that is the words which are used most often in the text - are clearly larger and more prominent than others which occur less often.  
-
- 
-
-        A Word Cloud is one way which enables us to do this. We call it a word cloud because this information is often (but not always) shown in the shape of a cloud.</p>
-    </div>
-    <div class="onboarding__item">
-      <img src="https://assets.codepen.io/344846/Sphere-White-Matte.png">
-      <h2>Word use and Relationships</h2>
-      <p>It might be helpful to think of the word collocation in two parts - the second part, location, tells us where something is and the first part co- is often used to make us think of something together (e.g. cooperate - working together).  So, collocation will tell us about words which are often located together and because they are located together, they combine to create a particular meaning.  </p>
-    </div>
-    <div class="onboarding__item">
-      <img src="https://assets.codepen.io/344846/RoundCube-White-Matte-3.png">
-      <h2>Word Tree</h2>
-      <p>The word tree shows the words which commonly occur before and after your searched word. The bigger the font size, the more often the word occurs. The number of times each word occurs is also shown when you scroll over the word (the number after ‘weight’)</p>
-    </div>
-    <div class="onboarding__item">
-      <img src="https://assets.codepen.io/344846/SuperToroid-White-Matte.png">
-      <h2></h2>
-      <p></p>
-    </div>
-    <div class="onboarding__item">
-      <img src="https://assets.codepen.io/344846/RoundCube-White-Matte.png">
-      <h2></h2>
-      <p></p>
-    </div>
-    <div class="onboarding__tracker" style="top: 80px; left: 177px; height: 220px; width: 529px;">
-      <div class="onboarding__overlay"></div>
-      <div class="onboarding__nav">
-        <button class="onboarding__nav-button onboarding__prev" data-type="prev">
-          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
-          </svg></button>
-        <button class="onboarding__nav-button onboarding__next" data-type="next"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-          </svg></button>
-      </div>
-    </div>
-  </div>
     
-        <script id="rendered-js">
-  class Onboarding {
-    constructor() {
-      this.root = this.select(".onboarding");
-      this.items = this.selectAll(".onboarding__item");
-      this.activeItem = this.select(".onboarding__item--active");
-      this.tracker = this.select(".onboarding__tracker");
-      this.navs = this.selectAll(".onboarding__nav-button");
-    }
-  
-    handleTrackerPosition(top, left, height, width) {
-      this.tracker.style.top = `${top}px`;
-      this.tracker.style.left = `${left}px`;
-      this.tracker.style.height = `${height}px`;
-      this.tracker.style.width = `${width}px`;
-    }
-  
-    getNewActiveIndex(type) {
-      let index = 0;
-      if (type === "prev") {
-        index = this.activeItemIndex - 1 >= 0 ? this.activeItemIndex - 1 : 0;
-      } else {
-        index =
-        this.activeItemIndex + 1 <= this.items.length - 1 ?
-        this.activeItemIndex + 1 :
-        this.items.length - 1;
-      }
-  
-      return index;
-    }
-  
-    setTrackerPosition() {
-      const {
-        offsetTop,
-        offsetLeft,
-        clientHeight,
-        clientWidth } =
-      this.activeItem;
-      this.handleTrackerPosition(
-      offsetTop,
-      offsetLeft,
-      clientHeight,
-      clientWidth);
-  
-  
-      const block = innerHeight < clientHeight ? "start" : "center";
-      this.activeItem.scrollIntoView({ block, behavior: "smooth" });
-    }
-  
-    setActiveItemIndex() {
-      this.items.forEach((item, index) => {
-        if (item.classList.contains("onboarding__item--active")) {
-          this.activeItemIndex = index;
+    <div class="tab-container">
+      <div class="tab-buttons" id="tab-buttons">
+          <button class="tab-btn background-red" onclick="showTab(0) ; reloadIframe()" >
+              
+              <i class="fas fa-chart-line text-size-22 text-white" ></i> 
+              <span class="text-size-large" data-lang-en="Meaning analysis" data-lang-cy="Dadansoddi ystyr"> Meaning analysis</span>
+          </button> 
+            <button class="tab-btn background-blue" onclick="showTab(1) ; reloadIframe()"  >
+              <i class="fas fa-comments text-size-22 text-white"></i>
+               
+               <span class="button-text text-size-large" data-lang-en="Sentiment Chart" data-lang-cy="Siart Sentiment"> Sentiment Chart</span>
+              </button>
+          <button class="tab-btn background-green" onclick="showTab(2)"  ><i class="fas fa-file-alt text-size-22 text-white"></i> 
+              <span class="button-text text-size-large" data-lang-en="Summarisation" data-lang-cy="Crynodebu"> Summarisation</span></button>
+          <button class="tab-btn background-purple" onclick="showTab(3)" > <i class="fas fa-cloud text-size-22 text-white"></i> 
+              <span class="button-text text-size-large"  data-lang-en="Word Cloud" data-lang-cy="Cwmwl Geiriau"> Word Cloud</span>
+             </button>
+          <button class="tab-btn background-orange" onclick="showTab(4)" ><i class="fas fa-link text-size-22 text-white"></i>
+              <span class="button-text text-size-large" data-lang-en= "Word Use & Relationships" data-lang-cy="Defnydd a Pherthnasoedd Geiriau" > Word Use & Relationships</span>
+              </button>
+          <button class="tab-btn background-aqua" onclick="showTab(5)"  ><i class="fas fa-tree text-size-22 text-white"></i> 
+              <span class="button-text text-size-large" data-lang-en="Word Tree" data-lang-cy="Coeden Eiriau"> Word Tree</span>
+              </button>
+         
+      </div>
+  <div id="tabs" >
+         
+         
+          <div id="tab0" class="tab-content">
+            <section style="font-family: Arial, sans-serif; font-size: 1.1em;">
+              
+              <button class="accordion" id="meaning-analysis-btn">What can I do in 'Meaning Analysis'?</button>
+              <div class="panel" id="meaning-analysis-panel">
+               <p>
+                  Another way of thinking of <strong>Meaning Analysis</strong> is <strong>Sentiment Analysis</strong>. This allows us to '<em>analyse</em>' free-text according to what it tells us about how the respondents '<em>feel</em>' about whatever we have asked them to give comments on. '<em>Sentiment</em>' is another way of saying '<em>feeling</em>' but could include respondents' opinions or reactions too.
+              </p>
+          
+              <p>
+                  In <strong>Meaning Analysis</strong>, you will find the tools to carry out your own <strong>sentiment analysis</strong>. It might be useful to get a broad idea of how <em>positive</em> or <em>negative</em> the feedback you have received is. Once you have selected the data you want to use and put it into the program, your first option is between <strong>3 class sentiments</strong> or <strong>5 class sentiments</strong>.
+              </p>
+          
+              <h3><strong>3 class sentiments</strong></h3>
+              <p>Will let you <strong>analyse</strong> your data according to what percentage of it indicates (1) positive (2) neutral (3) negative feelings (<strong>sentiment</strong>).</p>
+          
+              <h3><strong>5 class sentiments</strong></h3>
+              <p>Will let you <strong>analyse</strong> your data according to what percentage of it indicates (1) very positive (2) positive (3) neutral (4) negative (5) very negative feelings (<strong>sentiment</strong>).</p>
+          
+              <p>
+                  This information can be presented as (i) a <em>pie chart</em> (ii) a <em>bar chart</em> and/or (iii) a <em>sentiment table</em>. You will also see an <strong>overall sentiment</strong> score giving a general indication of whether the overall sentiment of your data is negative, neutral or positive.
+              </p>
+              <hr>
+              </div>
+              <button class="accordion" id="carry-out-button">How can I carry out a 'Meaning Analysis'?</button>
+              <div class="panel" id="carry-out-panel">
+              
+              <p>From the FreeTxt <strong>Home</strong> page, click on <strong>Analysis</strong>.</p>
+          
+              <ol>
+                  <li><strong>Paste a text</strong> [copy and paste text into the box - this is useful if your data is not a .txt, .tsv or .xlsx file e.g. data you may have in a WORD document]</li>
+                  <li><strong>Use example data</strong> [you will need to select from the options below - this is useful if you just want to try out this tool initially]</li>
+                  <li><strong>Upload data file</strong> [this allows you to upload data directly by clicking on choose file and selecting the appropriate file. This option only works for .txt, .tsv or .xlsx files - see (i) above]
+          
+                  </li>
+              </ol>
+              </div>
+              <button class="accordion" id="meaning-start-button">How to start?</button>
+              <div class="panel" id="meaning-start-panel">
+              <p>
+                  Click on <strong>View Data</strong>. Your data is displayed (if you have gone for option (i) above, you will able to select <strong>split sentences</strong> or <strong>whole text</strong> for your data display).
+              </p>
+          
+              <p>
+                  The <strong>Start Analysis</strong> bar at the bottom of the screen will flash and clicking on it will open up seven colour-coded options. Click on the black one <strong>Meaning Analysis.</strong>
+              </p>
+              <hr>
+              <img  src="./static/images/img/analysis/Pic1.png" class="special-image">
+              <hr>
+              <p>
+                  You then have the option of categorizing the sentiments in your data as 3 class sentiments or 5 class sentiments depending on which is most relevant to the level of information you need for your analysis.
+              </p>
+              <img src="./static/images/img/analysis/Pic2.png" class="special-image">
+              <p>
+                  The analysis will then be presented as a 3 class sentiment or a 5 class sentiment (i) <strong>pie chart</strong> and (ii) <strong>bar chart</strong>. By clicking on the <strong>download interactive...</strong> tab under each one, you can save a copy of the required chart(s) as a discrete file. An example of the bar chart is shown below. On the y-axis you can see the ‘<strong>count</strong>’, which indicates the number of times sentences in the text were classified according to each type of <strong>sentiment</strong> shown on the x-axis (i.e. negative, neutral, and positive here). If you scroll over each bar in the bar chart (or piece of the pie chart), the <strong>count</strong> will also be shown.
+              </p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic3.png" class="special-image">
+              <hr>
+              <p>
+                  At the top of the <strong>pie chart</strong> and <strong>bar chart</strong> you will see a little camera icon. By clicking this, you can take a screenshot of your chart, for future use.
+              </p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic4.png" class="special-image">
+              <hr>
+              <p>
+                  In addition, there is a <strong>sentiment table</strong>. In the example below, an overall sentiment score is given which in the case of the data analyzed below, suggests an overall positive sentiment. The number of entries viewed can be changed from 10 to up to 100 entries at a time. The <strong>sentiment label</strong> column will list either one of the 3 class sentiments appropriate to the selected sentence in the table or one of the 5 class sentiments depending on what you chose earlier. The <strong>confidence score</strong> tells you how confident FreeTxt is with the accuracy of the score given here. A confidence score of 0.99 (out of 1) tells you that the tool is very confident that the sentiment label is correct. By clicking on <strong>sentiment label</strong> or <strong>confidence score</strong> you can order your data according to sentiment or confidence accordingly.
+              </p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic5.png" class="special-image">
+              <hr>
+              <p>
+                  The <strong>download sentiment table</strong> allows you to keep your own discrete copy of the <strong>sentiment table</strong> for the data you are analyzing.
+              </p>
+            </div>
+          </section>
+          </div>
+          <div id="tab1" class="tab-content">
+            <section style="font-family: Arial, sans-serif; font-size: 1.1em;">
+              <button class="accordion" id="sentiment-button">What can I do in 'Sentiment Chart'?</button>
+              <div class="panel" id="sentiment-panel">
+            
+              
+              <p>
+                  The <strong>Sentiment Chart</strong> allows you to create a <strong>scatter plot</strong> of your data. You will find an overview of what a <strong>scatter plot</strong> is and how it might be useful to you in the analysis of your data under the <strong>sentiment chart</strong> tab.
+              </p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic6.png" class="special-image">
+              <hr>
+              <p>
+                  Below is a <strong>scatter plot</strong> based on the data in example data in FreeTxt (see <em>'use example data'</em> in the <em>'How can I...'</em> section). The top positive and top negative/neutral words are listed in columns to the right of the plot. Hovering over a word in these lists highlights where it is in the <strong>scatter plot</strong>, which is useful if you have large amounts of data to analyse. By hovering over a specific word in the <strong>scatter plot</strong>, you see information about how often it is used in the dataset, along with its’ score (ranging from -1 to 1).
+              </p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic7.png" class="special-image">
+              <hr>
+              <p>
+                  If you click on an individual word within the <strong>scatter plot</strong>, you can view examples of how it is used in sentences with either a positive and/or negative sentiment in your text. For example, clicking the word <em>'budget'</em> in the sample data, you will see all of the occasions <em>'budget'</em> is used in a sentence that has been analysed as being positive.
+              </p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic8.png" class="special-image">
+              <hr>
+              </div>
+              <button class="accordion" id="sentiment-chart-button">How can I create a 'Sentiment Chart'?</button>
+              <div class="panel" id="sentiment-chart-panel">
+                 <p>From the FreeTxt <strong>Home</strong> page, click on <strong>Analysis</strong>.</p>
+          
+              <ol>
+                  <li><strong>Paste a text</strong> [copy and paste text into the box - this is useful if your data is not a .txt, .tsv or .xlsx file e.g. data you may have in a WORD document]</li>
+                  <li><strong>Use example data</strong> [you will need to select from the options below - this is useful if you just want to try out this tool initially]</li>
+                  <li><strong>Upload data file</strong> [this allows you to upload data directly by clicking on choose file and selecting the appropriate file. This option only works for .txt, .tsv or .xlsx files - see (i) above]</li>
+              </ol>
+              </div>
+              <button class="accordion" id="sentiment-start-button">How to start</button>
+              <div class="panel"id="sentiment-start-panel">
+              <p>
+                  Click on <strong>View Data</strong>. Your data is displayed (if you have gone for option (i) above, you will able to select <strong>split sentences</strong> or <strong>whole text</strong> for your data display).
+              </p>
+          
+              <p>
+                  The <strong>Start Analysis</strong> bar at the bottom of the screen will flash and clicking on it will open up seven colour-coded options. Click on the blue one <strong>Sentiment Chart.</strong>
+              </p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic9.png" class="special-image">
+              <hr>
+              <p>
+                  A <strong>scatter plot</strong>  (similar to the one above) based on the data you have inputted will then be produced. 
+              </p>
+              <p>
+              A <strong>search the chart</strong> box allows you to look for a particular word which might be of interest to your analysis on the chart. <strong>Download interactive scatter text</strong> at the bottom of the page enables you to download a discrete copy of your own <strong>scatter plot</strong>.
+              </p>
+              </div>
+          </section>
+          </div>
+          <div id="tab2" class="tab-content">
+            <section style="font-family: Arial, sans-serif; font-size: 1.1em;">
+            <button class="accordion" id="summarisation-button">What can I do in 'Summarisation'?</button>
+            <div class="panel" id="summarisation-panel">
+            
+              
+              
+            
+              <p>
+                  The <strong>summarisation</strong> tab is self-explanatory. It allows you to create a basic <strong>summary</strong> of the text you are using. It is based on the <em>ACC (Welsh Automatic Text Summarisation)</em> project and you can find more information about that in the <em>Analyse</em> section of the <strong>Welsh Digital Grid</strong> site > <a href="http://digigrid.cymru/analyse/" style="text-decoration: none; color: blue;">http://digigrid.cymru/analyse/</a>.
+              </p>
+          
+              <p>
+                  The summariser can be useful in giving you an initial overview of your data - the main thrust of what it is telling you - and may help you to formulate the next stage of your analysis.
+              </p>
+            </div>
+            <button class="accordion" id="summarisation-carry-button">How can I carry out a 'Summarisation' of my text/data?</button>
+            <div class="panel" id="summarisation-carry-panel">
+                <p>From the FreeTxt <strong>Home</strong> page, click on <strong>Analysis</strong>.</p>
+          
+              <ol>
+                <li><strong>Paste a text</strong> [copy and paste text into the box this is useful if your data is not a .txt, .tsv or .xlsx file e.g. data you may have in a WORD document] </li>
+                <li><strong>Use example data</strong> [you will need to select from the options below - this is useful if you just want to try out this tool initially]</li>
+                <li><strong>Upload data file</strong> [this allows you to upload data directly by clicking on choose file and selecting the appropriate file. This option only works for .txt, .tsv or .xlsx files - see (i) above]</li>
+              </ol>
+          
+              <p>
+                  Click on <strong>View Data</strong>. Your data is displayed (if you have gone for option (i) above, you will able to select <strong>split sentences</strong> or <strong>whole text</strong> for your data display).
+              </p>
+          
+              <p>
+                  The <strong>Start Analysis</strong> bar at the bottom of the screen will flash and clicking on it will open up seven colour-coded options. Click on the yellow one <strong>Summarisation.</strong>
+              </p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic10.png" class="special-image">
+              <hr>
+              <p>
+                  This will produce a summary which equates to 40% of the text which you have uploaded. In the example below - based on the example data in FreeTxt - you can see 40% noted in the top left hand side of the screenshot. This can be adjusted to suit the needs of your particular analysis by clicking along the line above the summary.
+              </p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic11.png" class="special-image">
+              <hr>
+              <p>
+                  Clicking on <strong>Download Summary</strong> allows you to save a copy of your summary to your own device.
+              </p>
+          </div>
+          </section>
+          </div>
+          <div id="tab3" class="tab-content">
+            <section style="font-family: Arial, sans-serif; font-size: 1.1em;">
+              <button class="accordion" id="word-cloud-button">What can I do in 'Word Cloud'?</button>
+                <div class="panel" id="word-cloud-panel">
+          
+             
+              <p>When we have a large amount of text, it can be useful sometimes to visualize everything in such a way that all the key words - that is the words which are used most often in the text - are clearly larger and more prominent than others which occur less often.</p>
+              
+              <p>A <strong>Word Cloud</strong> is one way which enables us to do this. We call it a <strong>word cloud</strong> because this information is often (but not always) shown in the shape of a cloud. Below is an example of a <strong>word cloud</strong> (not in the shape of a cloud!) created using text relating to the TV show Dr Who:</p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic12.png" class="special-image">
+              <hr>
+              <p>Clearly, the most commonly used word here is <em>Doctor</em> as we might expect (its larger size, compared to the other words, tells us this). Other commonly used words include: <em>BBC</em>, <em>series</em>, <em>time</em>, <em>episode/s</em>, <em>television</em>, and <em>first</em>.</p>
+              
+              <p>A <strong>word cloud</strong> is a handy tool for giving us a visual representation of what the important and stand-out words in a piece of text are. This can be useful, for example, in presenting the main emphasis within a text in a simple, visual way to an audience who might be interested in the topic. An example of this is how some news outlets' online sites (e.g., Sky News) occasionally use a <strong>word cloud</strong> to illustrate what the most frequent words in an important political speech were i.e., where the main emphasis was concentrated and what that tells us about the message being conveyed. Using a <strong>word cloud</strong> to do this may be a more effective way of illustrating this to the reader than just through a news article.</p>
+                  </div>
+              <button class="accordion" id="word-cloud-def-button">Is a Word Cloud only based on how often words occur in a specific text?</button>
+                  <div class="panel" id="word-cloud-def-panel">
+               <p>The size of the words in some <strong>word clouds</strong> is directly related to how often they occur in the text you are looking at - these are <strong>word clouds</strong> based on the <strong>frequency</strong> of words in your text. <strong>Word clouds</strong> can also tell us about the nature of the <strong>key words</strong> in them - for example, as the word <em>the</em> is the most common word in the English language, this is the word that we expect to be used most often in a text. Showing <em>the</em> in a word cloud wouldn’t be particularly interesting as it doesn’t show us anything we wouldn’t expect. <em>The</em> is not ‘key’ to a particular text, as it is common to all texts. If a word like <em>castle</em> occurs a lot of time in your text (perhaps if you are looking at reviews of a castle!), it would be defined as ‘key’ because it isn’t expected to be common in everyday language. <strong>Key words</strong> tell us what the most significant words in a given text are (by comparing their frequency to a 100 million word dataset of written and spoken language called the British National Corpus). <strong>Key words</strong> are calculated using a measure called the <strong>keyness value</strong> and we would call a <strong>word cloud</strong> which is directly related to <strong>keyness value</strong> rather than solely frequency a <strong>key word cloud</strong>. You can choose which option you would prefer for your own analysis within the <strong>word cloud</strong> tool (see below) – the <strong>key word cloud</strong> option is the default option for FreeTxt.</p>
+                    </div>
+                <button class="accordion" id="word-cloud-create-button">How can I create a 'Word Cloud' from my data?</button>
+                    <div class="panel" id="word-cloud-create-panel">
+              <p>From the FreeTxt <strong>Home</strong> page, click on <strong>Analysis</strong>. You can either:</p>
+              <ol>
+                  <li><strong>Paste a text:</strong> [copy and paste text into the box - this is useful if your data is not a .txt, .tsv, or .xlsx file e.g., data you may have in a WORD document]</li>
+                  <li><strong>Use example data:</strong> [you will need to select from the options below - this is useful if you just want to try out this tool initially]</li>
+                  <li><strong>Upload data file:</strong> [this allows you to upload data directly by clicking on <strong>choose file</strong> and selecting the appropriate file. This option only works for .txt, .tsv, or .xlsx files - see (i) above]</li>
+              </ol>
+              <p>
+                  <span data-contrast="auto">Click on </span><b><span data-contrast="auto">View Data</span></b><span data-contrast="auto">.</span>
+              </p>
+          
+              <p>
+                  <span data-contrast="auto">Your data is displayed (if you have gone for option (i) above, you will able to select </span><b><span data-contrast="auto">split sentences</span></b><span data-contrast="auto"> or </span><b><span data-contrast="auto">whole text</span></b><span data-contrast="auto"> for your data display).</span>
+              </p>
+          
+              <p>
+                  <span data-contrast="auto">The </span><b><span data-contrast="auto">Start Analysis</span></b><span data-contrast="auto"> bar at the bottom of the screen will flash and clicking on it will open up seven colour-coded options. Click on the purple one </span><b><span data-contrast="auto">Word Cloud.</span></b>
+              </p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic13.png" class="special-image">
+              <hr>
+              <p>
+                  <span data-contrast="auto">The next screenshot illustrates the options you will be offered to create your own bespoke </span><b><span data-contrast="auto">word cloud</span></b><span data-contrast="auto"> based on the text / data you wish to analyse:</span>
+              </p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic15.png" class="special-image">
+              <hr>
+              <p>
+                  <span data-contrast="auto">The four options are:</span>
+                  <ol>
+          
+                      <li>
+                          <b><span data-contrast="auto">Select cloud type</span></b><span data-contrast="auto">: The default here is for </span><i><span data-contrast="auto">All words</span></i><span data-contrast="auto"> However, this can be changed to restrict the word cloud to certain parts of speech e.g. nouns, verbs. In addition, semantic tags can be selected to visualise the semantic areas (i.e. the broad groups of meaning that words can be classified in to – for example, the words football, hockey and tennis would be classfied as being related to sport – for more details of the categories included in <strong>semantic tags</strong>, see here: https://ucrel.lancs.ac.uk/usas/). There is also the possibility to select 2 / 3 / 4 - word clusters. These allow you to view the most common strings of words that occur in a text, for example I loved it would be a 3 word cluster and Chepstow Castle would be a 2 word cluster. Below is a screenshot of a dragon shaped <strong>word cloud</strong>  using FreeTxt's example data and 2-word clusters: 
+                              <hr>
+                              <img src="./static/images/img/analysis/Pic14.png" class="special-image">
+                              <hr>
+                      </li>
+          
+                      <li>
+                          <b><span data-contrast="auto">Select cloud shape</span></b><span data-contrast="auto">: The default option here is </span><i><span data-contrast="auto">cloud</span></i><span data-contrast="auto">. However, as the above screenshot illustrates, the </span><b><span data-contrast="auto">word cloud</span></b><span data-contrast="auto"> can be changed to any of the following shapes: </span><i><span data-contrast="auto">Comment / Light bulb / Volume up / Microphone / Welsh flag / Sherlock Holmes / National Trust / Cadw / Rectangle / Circle / Cadw2</span></i><span data-ccp-props="{}"> </span>
+                      </li>
+                      <li>
+                          <b><span data-contrast="auto">Select cloud outline colour</span></b><span data-contrast="auto">: The default is </span><i><span data-contrast="auto">white</span></i><span data-contrast="auto"> but further options include </span><i><span data-contrast="auto">grey, yellow, black, green, blue, </span></i><span data-contrast="auto">or </span><i><span data-contrast="auto">red</span></i><span data-contrast="auto">. </span>
+                      </li>
+                      <li>
+                          <b><span data-contrast="auto">Select cloud measurement</span></b><span data-contrast="auto">: This refers back to the section above about </span><i><span data-contrast="auto">keyness</span></i><span data-contrast="auto"> and </span><i><span data-contrast="auto">frequency</span></i><span data-contrast="auto">. The default option is </span><i><span data-contrast="auto">keyness</span></i><span data-contrast="auto">.</span>
+                      </li>
+                  </ol>
+              
+                  <p>
+                      <span data-contrast="auto">The screenshot below is once again based on the example data in </span><b><span data-contrast="auto">FreeTxt</span></b><span data-contrast="auto"> using (1) </span><i><span data-contrast="auto">All words</span></i><span data-contrast="auto"> (2) </span><i><span data-contrast="auto">Sherlock Holmes</span></i><span data-contrast="auto"> (3) </span><i><span data-contrast="auto">Blue</span></i><span data-contrast="auto"> and (4) </span><i><span data-contrast="auto">Frequency</span></i><span data-contrast="auto">:</span>
+                  </p>
+                  <hr>
+              <img src="./static/images/img/analysis/Pic16.png" class="special-image">
+              <hr>
+                  <p>
+                      <span data-contrast="auto">The </span><b><span data-contrast="auto">Download Word Cloud Image</span></b><span data-contrast="auto"> tab below the selected </span><b><span data-contrast="auto">word cloud</span></b><span data-contrast="auto"> allows you to download and save any word cloud/s you may have created based on your own data.  Finally, below this you will find </span><b><span data-contrast="auto">Word List</span></b><span data-contrast="auto"> and here you can select / deselect specific words from your </span><b><span data-contrast="auto">word cloud</span></b><span data-contrast="auto"> by ticking or un-ticking the appropriate boxes by the side of the individual words. You may want to do this if you know that a particular word is likely to be frequent in your data, so it isn’t really interesting for you. For example, if you were looking at hotel reviews, you may choose to remove the word </span><i><span data-contrast="auto">hotel</span></i><span data-contrast="auto"> from your word cloud because it doesn’t really tell you anything new or interesting about your text.</span>
+                  </p>
+                  </p>
+                </div>
+              </section>
+          </div>
+          <div id="tab4" class="tab-content">
+            <section style="font-family: Arial, sans-serif; font-size: 1.1em;">
+              <button class="accordion" id="relation-button">What can I do in 'Word Use  Relationships'?</button>
+                  <div class="panel" id="relation-panel">
+          
+          
+              <p>Here you are able to analyse <em>how</em> the words in your data are used (in particular in connection with each other) and <em>what</em> their relationships can tell you about the wider meaning of your text. It is useful to consider more closely how different words can have a different meaning or tell a different story when they occur together. Their relationship with each other and the coming together of two words in this way can be referred to as <strong>collocations</strong>.</p>
+                    </div>
+              <button class="accordion" id="collocation-button">What is a 'Collocation'?</button>
+                    <div class="panel" id="collocation-panel">
+              
+          
+              <p>It might be helpful to think of this term <strong>collocation</strong> as two parts - the second one <strong>location</strong> tells us where something is and the first part <strong>co­­-</strong> is often used to make us think of something together (e.g. <strong>cooperate</strong> - working together). So, <strong>collocation</strong> will tell us about words which are often <strong>located together</strong> and because they are located together, they combine to give a particular meaning.</p>
+          
+              <p>Let's look at a word like <em>pay</em> for example. On its own, it can be a verb <em>to pay someone</em> or a noun <em>I received my pay today</em>. However, it is possible to <strong>locate</strong> other words <strong>together</strong> with <em>pay</em> to create combinations with specific meanings. Some examples might be:</p>
+          
+              <ul>
+                  <li><em>Equal pay</em></li>
+                  <li><em>Pay packet</em></li>
+                  <li><em>Pay scale</em></li>
+                  <li><em>Half pay</em></li>
+                  <li><em>Gladly pay</em></li>
+                  <li><em>Pay up</em></li>
+              </ul>
+          
+              <p>These combinations all add to the meaning of the verb or noun <em>pay</em> and occur naturally in language. In the first four examples, <em>pay</em> = money or earnings but the combinations we have noted with <em>equal / packet / scale / half</em> would not work with <em>money</em> as well.</p>
+          
+              <p><em>Equal money</em> is a possible <strong>collocation</strong> of <em>money</em> but <em>money packet</em>, <em>money scale</em> and <em>half money</em> are not.</p>
+                    </div>
+                    
+             <button class="accordion" id="collocation-why-button">Why might I want to look for collocations / word relationships in FreeTxt?</button>
+                    <div class="panel" id="collocation-why-panel">
+     
+          
+              <p>Being able to search for <strong>collocations</strong> in your text will help you get a greater understanding of meanings which only become apparent when we see two words <strong>located together</strong>. If we consider, for example, text which includes feedback on accommodation. It is probable that the word <em>room</em> will be a high frequency word, that is one which occurs very often in the text.</p>
+          
+              <p>However, in order for the accommodation owner to understand and analyse that information in more detail, being able to identify <strong>collocations</strong> with <em>room</em> would be a very useful tool:</p>
+              <ul>
+                  <li>Which adjectives <strong>collocate</strong> with <em>room</em> and what do they tell us about it e.g. <em>warm</em> or <em>hot / cold</em>; <em>noisy</em> or <em>quiet</em>; <em>double</em> or <em>single</em>.</li>
+                  <li>Does the text refer to specific rooms e.g. <em>dining / bed / reception</em>?</li>
+                  <li>Are there any other specific <strong>collocations</strong> which help the accommodation owner understand more about what is targeted in the feedback e.g. <em>room key / room rates / adjoining room</em>?</li>
+              </ul>
+
+              </div>
+              <button class="accordion" id="relationship-use-button">How can I investigate 'Word Use and Relationships' from my data?</button>
+              <div class="panel" id="relationship-use-panel">
+              
+          
+              <p>From the FreeTxt <strong>Home</strong> page, click on <strong>Analysis</strong>.</p>
+          
+              <p>You can either:</p>
+          
+              <ul>
+                  <li>(i) <strong>Paste a text</strong> [copy and paste text into the box - this is useful if your data is not a .txt, .tsv or .xlsx file e.g. data you may have in a WORD document]</li>
+                  <li>(ii) <strong>Use example data</strong> [you will need to select from the options below - this is useful if you just want to try out this tool initially]</li>
+                  <li>(iii) <strong>Upload data file</strong> [this allows you to upload data directly by clicking on <strong>choose file</strong> and selecting the appropriate file. This option only works for .txt, .tsv or .xlsx files - see (i) above]</li>
+              </ul>
+          
+              <p>Click on <strong>View Data</strong>.</p>
+          
+              <p>Your data is displayed (if you have gone for option (i) above, you will able to select <strong>split sentences</strong> or <strong>whole text</strong> for your data display).</p>
+          
+              <p>The <strong>Start Analysis</strong> bar at the bottom of the screen will flash and clicking on it will open up seven colour-coded options. Click on the brown one <strong>Word Use &amp; Relationships.</strong></p>
+              <hr>
+                  <img src="./static/images/img/analysis/Pic22.png" class="special-image">
+                  <hr>
+              <p>You will be asked to <strong>select a word for analysis</strong> (see screenshot below). You will need to tell FreeTxt whether you wish to use the <strong>word category</strong> (the default setting) or choose the <strong>POS tag</strong> (<em>Part Of Speech</em>) or the <strong>Semantic tag</strong>. The word for analysis in our example is <em>hotel</em> and this is based on the example data in FreeTxt. In addition, when considering the visualization of your data, you are able to adjust the window size by clicking along the line below it.</p>
+              <hr>
+                  <img src="./static/images/img/analysis/Pic23.png" class="special-image">
+                  <hr>
+              <p>The <strong>select a word for analysis</strong> options you have selected will illustrate your keyword as in the next screenshot. 10 entries are shown here but this can be adjusted by clicking on the <em>Show entries</em> box. In <strong>window size</strong>, 5 is selected so the five words to the left of the <strong>keyword</strong> are shown under <strong>Left Context</strong> as are the five to the right in <strong>Right Context</strong>. Clicking on either of these headings will arrange the data in accordance with the appropriate <strong>context</strong> selected.</p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic24.png" class="special-image">
+              <hr>
+              <p>You can also search for specific words that are used in the right and left context of your search term (this visualization is called a <strong>concordance</strong> output). To do this, simply type your word into the search box seen at the top right of the image above.</p>
+          
+              <p><strong>Download keyword results</strong> allows you to save the results from your analysis away from the FreeTxt site.</p>
+          
+              <p>Referring to the discussions on <strong>collocations</strong> (above), a list of <strong>collocations</strong> for <em>hotel</em> in the data is presented below the <strong>concordance</strong> output. Again, this can be downloaded as a discrete file by clicking on <strong>Download Collocation Results</strong>. The example used here has limited data and so the <strong>frequency</strong> is not so great (i.e. the amount of times each word in your text occurs) - however, the greater the amount of data used, the higher the frequency number will be. The other columns relate to <strong>MI - Mutual Information</strong> and <strong>LL - Log Likelihood</strong> (the <strong>MI</strong> score is a statistical measure that shows the strength of association between words; <strong>LL</strong> is a probability statistic that compares the frequency of co-occurrence of two words). Clicking on any of the column headings will arrange the data in order of the specific column selected. Once again, this analysis can be downloaded for use outside of FreeTxt. If you selected a particular <strong>POS Tag</strong> or <strong>Semantic Tag</strong> at the start of your analysis, the words shown in this table are those which most frequently occur within that given category.</p>
+              
+              <hr>
+                  <img src="./static/images/img/analysis/Pic25.png" class="special-image">
+                  <hr>
+              Finally, you are also able to visualise this data as an <strong>interactive network graph</strong> (see below). Not only does this allow you to see the connections - the relationships - between the word you have chosen, but it also allows you to move the click on items and move them around, to make them easier to see and/or to allow you to present the words in whatever way you prefer. The graph can be dowloaded by clicking on the <strong>download interactive network graph</strong> tab underneath.
+            </div>  
+            </section>
+          </div>
+          <div id="tab5" class="tab-content">
+            <section style="font-family: Arial, sans-serif; font-size: 1.1em;">
+              <button class="accordion" id="word-tree-buttton">What can I do in 'Word Tree'?</button>
+              <div class="panel" id="word-tree-panel">
+          
+          
+              <p>It is useful to read the user guide for <strong>Word Use and Relationships</strong> in combination with this guide as it gives information on combinations of words often referred to as <strong>collocations</strong>.</p>
+              
+              <p>The <strong>Word Tree</strong> tab will require you to input a <strong>search word</strong>. In the case below, <em>hotel</em> (based on the FreeTxt example data) is the <strong>search word</strong>. You will be presented with information which explains what a <strong>word tree</strong> is and how to interpret the information contained within it.</p>
+              <hr>
+                  <img src="./static/images/img/analysis/Pic17.png" class="special-image">
+                  <hr>
+              </div>
+
+              <button class="accordion" id="word-tree-investigate-buttton">How can I investigate 'Word Tree' information from my data?</button>
+              <div class="panel" id="word-tree-investigate-panel">
+             
+              <p>From the FreeTxt <strong>Home</strong> page, click on <strong>Analysis</strong>. You can either:</p>
+              <ol>
+                  <li><strong>Paste a text</strong> [copy and paste text into the box - this is useful if your data is not a .txt, .tsv or .xlsx file e.g., data you may have in a WORD document]</li>
+                  <li><strong>Use example data</strong> [you will need to select from the options below - this is useful if you just want to try out this tool initially]</li>
+                  <li><strong>Upload data file</strong> [this allows you to upload data directly by clicking on <strong>choose file</strong> and selecting the appropriate file. This option only works for .txt, .tsv or .xlsx files - see (i) above]</li>
+              </ol>
+          
+              <p>
+                  <span data-contrast="auto">Click on </span><b><span data-contrast="auto">View Data</span></b><span data-contrast="auto">.</span>
+              </p>
+          
+              <p>
+                  <span data-contrast="auto">Your data is displayed (if you have gone for option (i) above, you will able to select </span><b><span data-contrast="auto">split sentences</span></b><span data-contrast="auto"> or </span><b><span data-contrast="auto">whole text</span></b><span data-contrast="auto"> for your data display).</span>
+              </p>
+          
+              <p>
+                  <span data-contrast="auto">The </span><b><span data-contrast="auto">Start Analysis</span></b><span data-contrast="auto"> bar at the bottom of the screen will flash and clicking on it will open up seven colour-coded options. Click on the green one </span><b><span data-contrast="auto">Word Tree.</span></b>
+              </p>
+              <hr>
+                  <img src="./static/images/img/analysis/Pic18.png" class="special-image">
+                  <hr>
+              <p>
+                  <span data-contrast="auto">As mentioned above, you will be asked to </span><b><span data-contrast="auto">select a word for analysis</span></b><span data-contrast="auto"> and </span><b><span data-contrast="auto">Word Tree </span></b><span data-contrast="auto">will create a visualisation (= the </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto">) based on your selection. The screenshot below shows the </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto"> based on the </span><b><span data-contrast="auto">search word</span></b> <em><span data-contrast="auto">hotel</span></em><span data-contrast="auto"> in the FreeTxt example data. (See above for guidance on how to interpret the </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto">).</span>
+              </p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic19.png" class="special-image">
+              <hr>
+              <p>
+                  <span data-contrast="auto">The </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto"> is fully interactive, so you are able to click any word in the tree to see what words commonly occur before and after it. If you click on the word </span><em><span data-contrast="auto">Great</span></em><span data-contrast="auto"> in the above image, you will see the new </span><b><span data-contrast="auto">word tree </span></b><span data-contrast="auto">below. This interactive functionality means you can really delve deep into your data to see what patterns exist.</span>
+              </p>
+              <hr>
+              <img src="./static/images/img/analysis/Pic20.png" class="special-image">
+              <hr>
+              <p>
+                  <span data-contrast="auto">If you scroll over any word in the </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto"> you will see information about the </span><b><span data-contrast="auto">weight</span></b><span data-contrast="auto"> of the word. This is the frequency of the word. The </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto"> below shows that the word </span><em><span data-contrast="auto">price</span></em><span data-contrast="auto"> is used once in the example text.</span>
+              </p>
+              <hr>
+                  <img src="./static/images/img/analysis/Pic21.png" class="special-image">
+                  <hr>
+              <p>
+                  <span data-contrast="auto">Clicking on </span><b><span data-contrast="auto">Download Interactive Word Tree</span></b><span data-contrast="auto"> allows you to save a copy of the </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto"> you have created for further use in your own analysis.</span>
+              </p>
+          </div>
+          </section>  
+          </div>
+      
+  </div>
+
+   
+</div>
+</div>
+
+<script>
+
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+        var currentlyActiveAccordion = document.querySelector(".accordion.active");
+        if(currentlyActiveAccordion && currentlyActiveAccordion!==this) {
+            currentlyActiveAccordion.classList.remove("active");
+            currentlyActiveAccordion.nextElementSibling.style.display = "none";
         }
-      });
-    }
-  
-    select(el) {
-      const node = document.querySelector(el);
-      if (node) {
-        return node;
-      } else {
-        console.error("[Onboarding] - Element is not found");
-      }
-    }
-  
-    selectAll(el) {
-      const nodes = document.querySelectorAll(el);
-      if (nodes && nodes.length > 0) {
-        return nodes;
-      } else {
-        console.error("[Onboarding] - Elements are not found");
-      }
-    }
-  
-    setActiveItem(index) {
-      const newActiveItem = this.items[index];
-      this.activeItemIndex = index;
-      this.activeItem.classList.remove("onboarding__item--active");
-      this.activeItem = newActiveItem;
-      this.activeItem.classList.add("onboarding__item--active");
-      this.setTrackerPosition(this.activeItem);
-    }
-  
-    setActiveItemWithItemClick() {
-      this.items.forEach((item, index) => {
-        item.addEventListener("click", () => {
-          this.setActiveItem(index);
-        });
-      });
-    }
-  
-    setNavActions() {
-      this.navs.forEach((nav) =>
-      nav.addEventListener("click", e => {
-        const index = this.getNewActiveIndex(
-        e.currentTarget.getAttribute("data-type"));
-  
-        this.setActiveItem(index);
-      }));
-  
-    }
-  
-    stopTransition() {
-      this.tracker.classList.add("onboarding__tracker--stop-t");
-      const resizeTimer = setTimeout(() => {
-        this.tracker.classList.remove("onboarding__tracker--stop-t");
-        clearTimeout(resizeTimer);
-      }, 400);
-    }
-  
-    handleWindowResize() {
-      window.addEventListener("resize", () => {
-        this.setTrackerPosition();
-        this.stopTransition();
-      });
-    }
-  
-    init() {
-      document.addEventListener("DOMContentLoaded", () => {
-        this.setTrackerPosition();
-        this.setActiveItemIndex();
-        this.setNavActions();
-        this.setActiveItemWithItemClick();
-        this.stopTransition();
-        this.handleWindowResize();
-        const timeout = setTimeout(() => {
-          this.root.classList.remove("onboarding--loading");
-          clearTimeout(timeout);
-        }, 640);
-      });
-    }}
-  
-  
-  const onboarding = new Onboarding();
-  onboarding.init();
-  //# sourceURL=pen.js
-      </script>
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    });
+}
 
 
+
+
+</script>
+  
 
 
 {% endblock %}
