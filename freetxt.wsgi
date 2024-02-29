@@ -4,7 +4,7 @@ import os
 sys.path.insert(0, './Freetxt-flask')
 
 # Set environment variables if necessary
-os.environ['TRANSFORMERS_CACHE'] = './Freetxt-flask/huggingface_cache'
-os.environ['MPLCONFIGDIR'] = './Freetxt-flask/huggingface_cache'
+os.environ['TRANSFORMERS_CACHE'] = './huggingface_cache'
+os.environ['MPLCONFIGDIR'] = './huggingface_cache'
 
 from main import app as application

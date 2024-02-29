@@ -15,10 +15,10 @@ from pyvis.network import Network
 import math
 STOPWORDS = set(["a", "an", "the", "and", "or", "in", "of", "to", "is", "it", "that", "on", "was", "for", "as", "with", "by"])  # Modify with actual stopwords
 PUNCS = string.punctuation
-nlp = spacy.load('/home/khallafn/Freetxt-flask/en_core_web_sm-3.2.0')
+nlp = spacy.load('en_core_web_sm-3.2.0')
 
 
-PUNCS += '''!→()-[]{};:"\,<>./?@#$%&*_~.'''
+PUNCS += '''!→()-[]{};:"\,<>?@#$%&*_~.'''
 import time
 import os
 
@@ -45,7 +45,7 @@ class KWICAnalyser:
         else:
             # If the input is a single string
             self.text_rows = [self._preprocess_text(text_or_dataframe)]
-        self.pymusaslist = pd.read_csv('home/khallafn/Freetxt-flask/website/data/Pymusas-list.txt', names=['USAS Tags', 'Equivalent Tag'])
+        self.pymusaslist = pd.read_csv('website/data/Pymusas-list.txt', names=['USAS Tags', 'Equivalent Tag'])
         self.text = self.text_rows
         
         #self.tokens_with_tags = self._tag_text(self.text)  # Use the preprocessed text for tagging
@@ -95,7 +95,7 @@ class KWICAnalyser:
         print(len(self.tokens_with_semantic_tags))
 
         self.PUNCS = [".", ",", "!", ":", ";", "-", "_", "?", "&", "*", "(", ")", "$", "@", "#", "%", "^", "+", "=", "<", ">", "/", "|", "]", "[", "{", "}", "\\", "'", "\""]
-        #self.sementic_tags = pd.read_csv('./website/data/Cy_tags.csv')
+        #self.sementic_tags = pd.read_csv('website/data/Cy_tags.csv')
         
 
 
@@ -212,11 +212,11 @@ class KWICAnalyser:
             if source in net.get_nodes() and target in net.get_nodes():
                 net.add_edge(source, target, value=freq)
 
-        cleanup_old_graphs("/home/khallafn/Freetxt-flask/website/static/network_graphs")
+        cleanup_old_graphs("website/static/network_graphs")
         timestamp = int(time.time())
         
         
-        graph_folder = "/home/khallafn/Freetxt-flask/website/static/network_graphs"
+        graph_folder = "website/static/network_graphs"
         filename = f"network_{timestamp}.html"
         graph_path = os.path.join(graph_folder, filename)
 
@@ -362,7 +362,7 @@ class KWICAnalyser:
             cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.replace('([A-Za-z]+\d+).*', r'\1', regex=True)  # Remove characters following the pattern 'letter + number' 
 
             cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split('+').str[0]
-            sementic_tags = pd.read_csv('home/khallafn/Freetxt-flask/website/data/Welsh_pymusas_list.csv')
+            sementic_tags = pd.read_csv('website/data/Welsh_pymusas_list.csv')
             merged_df = pd.merge(cy_tagged, sementic_tags, on='USAS Tags', how='left')
             
             merged_df.loc[merged_df['Equivalent_Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent_Tag'] 
@@ -479,7 +479,7 @@ class KWICAnalyser:
             if source in net.get_nodes() and target in net.get_nodes():
                 net.add_edge(source, target, value=10-value)
         timestamp = int(time.time())
-        graph_folder = "/home/khallafn/Freetxt-flask/website/static/network_graphs"
+        graph_folder = "website/static/network_graphs"
         filename = f"network_{timestamp}.html"
    
         graph_path = os.path.join(graph_folder, filename)
