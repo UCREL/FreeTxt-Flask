@@ -1,4 +1,5 @@
 flask==2.2.2
+Flask-Cors
 Flask-Session
 flask_restful
 gensim
@@ -20,12 +21,15 @@ regex
 reportlab
 requests
 scattertext>=0.0.2.92
+scipy==1.12.0
 seaborn
 spacy>=3.2.4
 summa
 torch
 transformers
 wordcloud
+werkzeug==2.3.3
+weasyprint
 graphviz
 kaleido
 empath
@@ -35,5 +39,4 @@ html2image
 canvas
 apscheduler
 flask_sqlalchemy
-[pymusas-model download link](https://github.com/UCREL/pymusas-models/releases/download/en_dual_none_contextual-0.3.1/en_dual_none_contextual-0.3.1-py3-none-any.whl)
-[pymusas-model download link](https://github.com/UCREL/pymusas-models/releases/download/cy_dual_basiccorcencc2usas_contextual-0.3.0/cy_dual_basiccorcencc2usas_contextual-0.3.0-py3-none-any.whl)
+en-dual-none-contextual @ https://github.com/UCREL/pymusas-models/releases/download/en_dual_none_contextual-0.3.1/en_dual_none_contextual-0.3.1-py3-none-any.whl#sha256=a4541c614ad9061b62ddd57cfd32d4a58f147dcdfe2d2970c25f0012498653d8

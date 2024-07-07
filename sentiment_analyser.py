@@ -33,7 +33,7 @@ class SentimentAnalyser:
         Initializes the SentimentAnalyser class, loading the tokenizer and model for sentiment analysis.
         """
         # Loading tokenizer and model during initialization to avoid doing it multiple times.
-        self.tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+        self.tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment", use_fast=True)
         self.model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
 
     def preprocess_text(self,text):
@@ -157,7 +157,7 @@ class SentimentAnalyser:
             not_categories=df["Sentiment Label"].unique().tolist(),
             minimum_term_frequency=5,
             pmi_threshold_coefficient=5,
-            width_in_pixels=1000,
+            width_in_pixels=900,
             metadata=df["Sentiment Label"],
             term_scorer=term_scorer
         ) 
@@ -170,7 +170,7 @@ class SentimentAnalyser:
             not_categories=df["Sentiment Label"].unique().tolist(),
             minimum_term_frequency=5,
             pmi_threshold_coefficient=5,
-            width_in_pixels=1000,
+            width_in_pixels=900,
             metadata=df["Sentiment Label"],
             term_scorer=term_scorer
         ) 
@@ -188,7 +188,20 @@ class SentimentAnalyser:
             html = html.replace('per', 'fesul')
             html = html.replace('words', 'gair')
             html = html.replace('score', 'sgôr')        
-
+        
+        # Prevents svg being cut off
+        custom_script = """
+        <script>
+         document.addEventListener("DOMContentLoaded", (event) => {
+            const scattertextDiv = document.getElementsByClassName("scattertext")[0];
+            const graphSVG = scattertextDiv.querySelector("svg");
+            
+            if (graphSVG) {
+                graphSVG.setAttribute("width", "1250");
+            }
+        });
+        </script>
+        """
 
         timestamp = int(time.time())
 
@@ -200,7 +213,8 @@ class SentimentAnalyser:
     </div>
     """
         html += addition
-        
+        html = custom_script + html
+
     # Saving the updated HTML content to the file with UTF-8 encoding
         with open(filename, "w", encoding='utf-8') as f:
             f.write(html)

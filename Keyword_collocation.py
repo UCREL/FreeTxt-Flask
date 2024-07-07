@@ -437,6 +437,8 @@ class KWICAnalyser:
             merged_df['POS'] = merged_df['POS'].replace(pos_tag_mapping)
         
         tokens_with_semantic_tags = [(row['Text'], row['POS'], row['USAS Tags']) for _, row in merged_df.iterrows()]
+        #! Add this data to session, for word cloud to use
+        print("tokens with semantic tags here")
         print(tokens_with_semantic_tags)
        
         return tokens_with_semantic_tags
@@ -511,11 +513,11 @@ class KWICAnalyser:
         return f"/static/network_graphs/{filename}"
     def get_sorted_unique_tags(self):
     # Assuming self.tokens_with_semantic_tags is a list of tuples (token, semantic_tag)
-        semantic_tags = [tag for token,pos, tag in self.tokens_with_semantic_tags]
+        semantic_tags = [tag for token, pos, tag in self.tokens_with_semantic_tags]
         sorted_unique_tags = sorted(set(map(str, semantic_tags)))
     
         return sorted_unique_tags
-
+    
     def filter_words(self, word_tag_pairs):
         """Return a list with stopwords, punctuation, and specific tags removed."""
         
@@ -524,15 +526,18 @@ class KWICAnalyser:
 
         return [word for word, tag in word_tag_pairs if str(word) not in STOPWORDS and str(word) not in PUNCS and str(word) not in specific_tokens_to_remove and tag not in tags_to_remove]
 
-    def get_word_frequencies(self):
+    def get_word_frequencies(self, isUnfiltered=False):
         # Extract tokens and their tags from the tuples
         token_tag_pairs = [(token, tag) for token, pos, tag in self.tokens_with_semantic_tags]
-
-        # Apply the filter to remove stopwords, punctuation, and specific tags
-        filtered_tokens = self.filter_words(token_tag_pairs)
-
-        # Calculate word frequencies using nltk.FreqDist
-        fdist = nltk.FreqDist(filtered_tokens)
+        if isUnfiltered:
+            # Calculate word frequencies using nltk.FreqDist
+            unfiltered_tokens = [word for word, tag in token_tag_pairs]
+            fdist = nltk.FreqDist(unfiltered_tokens)
+        else:
+            # Apply the filter to remove stopwords, punctuation, and specific tags
+            filtered_tokens = self.filter_words(token_tag_pairs)
+            # Calculate word frequencies using nltk.FreqDist
+            fdist = nltk.FreqDist(filtered_tokens)
 
         # Convert the frequency distribution to a dictionary
         word_frequencies = dict(fdist)

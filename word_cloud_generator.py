@@ -241,6 +241,7 @@ class WordCloudGenerator:
         MIN_FONT_SIZE=10
         MAX_FONT_SIZE=100
         filtered_words = self.filter_words(word_list)
+        
         max_freq=1
         image_mask = imageio.imread(cloud_shape_path)
         if metric== 'Frequency':
@@ -366,18 +367,18 @@ class WordCloudGenerator:
 
         return df
     
-    def generate_wordcloud_type(self, input_data,cloud_type, language, cloud_measure, wordlist=None):
+    def generate_wordcloud_type(self, input_data, cloud_type, language, cloud_measure, wordlist=None):
         json_data = ' '.join(input_data['Text'].tolist())
         all_words = []
         merged_df = pd.DataFrame()
         tokenized_words = [word for word in input_data['Text']]
         print(tokenized_words)
         df = self.compute_word_frequency(tokenized_words, language)
+        # Possibly initialise KWIC analyser here, get semantic tags and words here
     
         if cloud_type == 'all_words':
             df = self.calculate_measures(df, cloud_measure, language)
             if wordlist:
-                print(wordlist)
                 df = df[df['word'].isin(wordlist)]
                 all_words = df['word'].tolist()
             else:
@@ -429,6 +430,12 @@ class WordCloudGenerator:
                 merged_df = merged_df[merged_df['word'].isin(wordlist)]
 
         elif cloud_type == 'semantic_tags':
+            print()
+            print()
+            print("Semantic tag cloud selected!!!")
+            print()
+            print()
+            
             #tags = self.Pymsas_tags(input_data)
             tags = pd.DataFrame(input_data['USAS Tags'].tolist())
             tags_freq = tags.value_counts().reset_index(name='Frequency')
@@ -452,6 +459,11 @@ class WordCloudGenerator:
 
             all_words = Tags_f_reference['word'].tolist()
             merged_df = Tags_f_reference
+            print()
+            print("semantic tags")
+            print(all_words)
+            print()
+            print(merged_df)
 
             if wordlist:
                 all_words = [word for word in all_words if word in wordlist]
