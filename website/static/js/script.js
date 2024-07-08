@@ -2105,7 +2105,6 @@ const generateWordList = (data, cloud_data) => {
     });
   };
 
-  
   const listSemanticTags = () => {
     const orderedWordListContainer = document.getElementById(
       "orderedWordListContainer"
@@ -3055,6 +3054,7 @@ function validateForm(event, type) {
 
 $(document).ready(function () {
   function switchLanguage(language) {
+    console.log("switchLanguage called");
     $("[data-lang-en], [data-lang-cy]").each(function () {
       if (language === "en") {
         $(this).text($(this).attr("data-lang-en"));
@@ -3078,6 +3078,11 @@ $(document).ready(function () {
         ? "Paste the text to analyse here"
         : "Gludo'r testun i'w ddadansoddi yma";
     $("#text-to-analyze").attr("placeholder", placeholderText);
+
+    // Update the placeholder for the cloud search bar
+    const searchPlaceholderText =
+      language === "en" ? "Search in cloud..." : "Needs Welsh Translation...";
+    $("#cloud-search").attr("placeholder", searchPlaceholderText);
 
     $(".lang-flag").attr("data-active", "false"); // reset all flags
     $(`.lang-flag[data-lang=${language}]`).attr("data-active", "true"); // set the selected flag as active
