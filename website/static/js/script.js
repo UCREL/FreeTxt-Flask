@@ -1005,6 +1005,7 @@ function displaySentimentTable(sentimentData) {
   tableData.className = "w3-table w3-bordered w3-striped w3-hoverable w3-small";
 
   // Define headers
+  //!
   const headers =
     getCurrentLanguage() === "cy"
       ? ["Adolygiad", "Label Sentiment", "Sgôr Hyder"]
