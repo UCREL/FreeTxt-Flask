@@ -1005,10 +1005,9 @@ function displaySentimentTable(sentimentData) {
   tableData.className = "w3-table w3-bordered w3-striped w3-hoverable w3-small";
 
   // Define headers
-  //!
   const headers =
     getCurrentLanguage() === "cy"
-      ? ["Adolygiad", "Label Sentiment", "Sgôr Hyder"]
+      ? ["Adolygiad", "Labelu Sentiment", "Sgôr Hyder"]
       : ["Review", "Sentiment Label", "Confidence Score"];
 
   // Create headers
@@ -3082,8 +3081,13 @@ $(document).ready(function () {
 
     // Update the placeholder for the cloud search bar
     const searchPlaceholderText =
-      language === "en" ? "Search in cloud..." : "Needs Welsh Translation...";
+      language === "en" ? "Search in cloud..." : "Chwilio yn y cwmwl...";
     $("#cloud-search").attr("placeholder", searchPlaceholderText);
+
+    // Update value for cloud submit button
+    const cloudSubmitBtnText =
+      language === "en" ? "Submit selection" : "Cyflwyno dewis";
+    $("#word-changes-submit").attr("value", cloudSubmitBtnText);
 
     $(".lang-flag").attr("data-active", "false"); // reset all flags
     $(`.lang-flag[data-lang=${language}]`).attr("data-active", "true"); // set the selected flag as active
