@@ -2387,26 +2387,76 @@ $(document).ready(function () {
   });
 });
 
+function handleWordFreqSearchChange(event) {
+  const searchBox = event.target;
+  const query = searchBox.value.toLowerCase();
+
+  const subCategoryWordList = document.getElementById("subCategoryWordList");
+  const wordList = subCategoryWordList.querySelectorAll("div");
+
+  wordList.forEach((div) => {
+    // const word = element.value.toLowerCase();
+    // const parentDiv = element.closest("div");
+    const input = div.querySelector("input");
+    const label_text = div.querySelector("label").textContent.toLowerCase();
+
+    if (label_text.includes(query)) {
+      div.style.display = "flex";
+    } else {
+      div.style.display = "none";
+    }
+  });
+}
+
 //! Populates word use and relationships dropdown
 function populateDropdown(wordFrequencies) {
-  const dropdown = document.getElementById("subCategoryDropdown");
-  const subCategoryDropdown = document.getElementById("subCategoryDropdown");
+  // const dropdown = document.getElementById("subCategoryDropdown");
+  // const subCategoryDropdown = document.getElementById("subCategoryDropdown");
+  const subCategoryWordList = document.getElementById("subCategoryWordList");
 
   // Clear the current options
-  while (subCategoryDropdown.firstChild) {
-    subCategoryDropdown.removeChild(subCategoryDropdown.firstChild);
+  // while (subCategoryDropdown.firstChild) {
+  //   subCategoryDropdown.removeChild(subCategoryDropdown.firstChild);
+  // }
+
+  while (subCategoryWordList.firstChild) {
+    subCategoryWordList.removeChild(subCategoryWordList.firstChild);
   }
 
   const wordFrequencyPairs = Object.entries(wordFrequencies);
   wordFrequencyPairs.sort((a, b) => b[1] - a[1]);
-  console.log("wordFrequencies length:", wordFrequencyPairs.length);
-  for (let [word, frequency] of wordFrequencyPairs) {
-    const option = document.createElement("option");
-    option.value = word;
-    option.text = `${word} (${frequency})`;
-    option.setAttribute("data-type", "word");
-    dropdown.add(option);
-  }
+  wordFrequencyPairs.forEach(([word, frequency], i) => {
+    // const option = document.createElement("option");
+    // option.value = word;
+    // option.text = `${word} (${frequency})`;
+    // option.setAttribute("data-type", "word");
+    // dropdown.add(option);
+    console.log(word, frequency);
+    const colContainer = document.createElement("div");
+    colContainer.classList.add("col");
+
+    const wordFreqContainer = document.createElement("div");
+    wordFreqContainer.classList.add("form-check");
+
+    const input = document.createElement("input");
+    input.id = `word-freq-${i}`;
+    input.dataset.word = word;
+    input.dataset.frequency = frequency;
+    input.type = "checkbox";
+    input.classList.add("form-check-input");
+
+    const label = document.createElement("label");
+    label.htmlFor = `word-freq-${i}`;
+    label.classList.add("form-check-label");
+    label.textContent = `${word} (${frequency})`;
+
+    wordFreqContainer.appendChild(input);
+    wordFreqContainer.appendChild(label);
+
+    colContainer.appendChild(wordFreqContainer);
+
+    subCategoryWordList.appendChild(colContainer);
+  });
 }
 
 //! Word use and relationship
