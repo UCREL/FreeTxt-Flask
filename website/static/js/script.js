@@ -2315,7 +2315,7 @@ function regenerateWordCloud() {
     });
 }
 
-function handleSearchChange(event) {
+function handleWordCloudSearchChange(event) {
   const searchBox = event.target;
   const query = searchBox.value.toLowerCase();
 
@@ -2326,8 +2326,13 @@ function handleSearchChange(event) {
     const parentDiv = element.closest("div");
 
     if (word.startsWith(query)) {
+      parentDiv.style.order = 0;
+      parentDiv.style.display = "block";
+    } else if (word.includes(query)) {
+      parentDiv.style.order = 1;
       parentDiv.style.display = "block";
     } else {
+      parentDiv.style.order = 2;
       parentDiv.style.display = "none";
     }
   });
@@ -2395,14 +2400,16 @@ function handleWordFreqSearchChange(event) {
   const wordList = subCategoryWordList.querySelectorAll("div");
 
   wordList.forEach((div) => {
-    // const word = element.value.toLowerCase();
-    // const parentDiv = element.closest("div");
-    const input = div.querySelector("input");
     const label_text = div.querySelector("label").textContent.toLowerCase();
 
-    if (label_text.includes(query)) {
+    if (label_text.startsWith(query)) {
+      div.style.order = 0;
+      div.style.display = "flex";
+    } else if (label_text.includes(query)) {
+      div.style.order = 1;
       div.style.display = "flex";
     } else {
+      div.style.order = 2;
       div.style.display = "none";
     }
   });
@@ -2433,7 +2440,7 @@ function populateDropdown(wordFrequencies) {
     // dropdown.add(option);
     console.log(word, frequency);
     const colContainer = document.createElement("div");
-    colContainer.classList.add("col");
+    colContainer.classList.add("col", "py-1");
 
     const wordFreqContainer = document.createElement("div");
     wordFreqContainer.classList.add("form-check");
@@ -3446,8 +3453,9 @@ function downloadWordTree() {
   }, 5000); // 5 seconds delay to give the chart enough time to render
 }
 
+// Redo for new menu
 async function handleCategoryChange() {
-  const subCategoryDropdown = document.getElementById("subCategoryDropdown");
+  const subCategoryMenu = document.getElementById("subCategoryMenu");
 
   // Clear the current options
   while (subCategoryDropdown.firstChild) {
