@@ -1021,13 +1021,13 @@ function displaySentimentTable(sentimentData) {
 
   // Add data to table body
   sentimentData
-    .sort((a, b) => b["Sentiment Score"] - a["Sentiment Score"])
+    .sort((a, b) => b["Confidence Score"] - a["Confidence Score"])
     .forEach((row) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
             <td>${row.Review}</td>
             <td>${row["Sentiment Label"]}</td>
-            <td>${row["Sentiment Score"]}</td>
+            <td>${row["Confidence Score"]}</td>
         `;
       tbodyData.appendChild(tr);
     });
@@ -1048,7 +1048,7 @@ function displaySentimentTable(sentimentData) {
 function displayTableContent(data, tbodyElement) {
   tbodyElement.innerHTML = "";
   // Sort data based on the sentiment score in descending order
-  data.sort((a, b) => b["Sentiment Score"] - a["Sentiment Score"]);
+  data.sort((a, b) => b["Confidence Score"] - a["Confidence Score"]);
   const startIdx = (currentPagesent - 1) * itemsPerPagesent;
   const endIdx = startIdx + itemsPerPagesent;
 
@@ -1057,7 +1057,7 @@ function displayTableContent(data, tbodyElement) {
     tr.innerHTML = `
             <td>${row.Review}</td>
             <td>${row["Sentiment Label"]}</td>
-            <td>${row["Confiedent Score"]}</td>
+            <td>${row["Confidence Score"]}</td>
         `;
     tbodyElement.appendChild(tr);
   });
@@ -3054,7 +3054,6 @@ function validateForm(event, type) {
 
 $(document).ready(function () {
   function switchLanguage(language) {
-    console.log("switchLanguage called");
     $("[data-lang-en], [data-lang-cy]").each(function () {
       if (language === "en") {
         $(this).text($(this).attr("data-lang-en"));
