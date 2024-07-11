@@ -1264,15 +1264,18 @@ const renderPunctuationMenu = () => {
     PuncTilde: "~",
   };
 
-  const colCount = 6;
+  // Create a row
+  const rowContainer = document.createElement("div");
+  // Classes for smaller screens added
+  rowContainer.classList.add(
+    "row",
+    "row-cols-2",
+    "row-cols-md-4",
+    "row-cols-lg-6"
+  );
+  allPuncListInnerContainer.appendChild(rowContainer);
 
   Object.entries(puncIds).forEach(([key, val], i) => {
-    if (i % colCount === 0) {
-      // Create a row
-      const rowContainer = document.createElement("div");
-      rowContainer.classList.add("row", "row-cols-6");
-      allPuncListInnerContainer.appendChild(rowContainer);
-    }
     const colContainer = document.createElement("div");
     colContainer.classList.add("col", "form-check");
 
@@ -1290,8 +1293,7 @@ const renderPunctuationMenu = () => {
     colContainer.appendChild(input);
     colContainer.appendChild(label);
 
-    const lastRow = allPuncListInnerContainer.lastChild;
-    lastRow.appendChild(colContainer);
+    rowContainer.appendChild(colContainer);
   });
 };
 
