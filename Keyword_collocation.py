@@ -104,6 +104,8 @@ class KWICAnalyser:
        
         self.tokens_with_semantic_tags = self.tag_semantics(self.text)  # Store the semantic tags
         print(len(self.tokens_with_semantic_tags))
+        print("tokens with semantic tags, in keyword colloc")
+        print(self.tokens_with_semantic_tags)
 
         self.PUNCS = [".", ",", "!", ":", ";", "-", "_", "?", "&", "*", "(", ")", "$", "@", "#", "%", "^", "+", "=", "<", ">", "/", "|", "]", "[", "{", "}", "\\", "'", "\""]
         #self.sementic_tags = pd.read_csv('website/data/Cy_tags.csv')

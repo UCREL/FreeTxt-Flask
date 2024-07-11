@@ -1966,46 +1966,52 @@ function sendWordCloudRequest() {
   })
     .then((response) => response.json())
     .then((data) => {
-      wordCloudImageElement.src = data.wordcloud_image_path;
-      wordCloudImageElement.style.display = "block"; // Display the image
-      wordListOuterContainer.style.display = "flex"; // Display the word list
-
-      // Handle word list and generate checkboxes
-      const wordListContainer = document.getElementById("wordListContainer");
-      wordListContainer.innerHTML = ""; // Clear any previous checkboxes
-
-      // Create 'Select/Deselect All' checkbox
-      const selectAllContainer = document.createElement("div");
-      const selectAllLabel = document.createElement("label");
-      const selectAllCheckbox = document.createElement("input");
-      selectAllCheckbox.type = "checkbox";
-      selectAllCheckbox.onclick = function () {
-        toggleCheckboxes(this.checked);
-      };
-      selectAllLabel.appendChild(selectAllCheckbox);
-      if (getCurrentLanguage() === "cy") {
-        selectAllLabel.appendChild(document.createTextNode("Popeth"));
+      if (data.cloud_type === "semantic_tags") {
+        // Data returned is in different format so must be handled differently here
+        console.log("Handling semantic tag cloud!")
+        console.log(data)
       } else {
-        selectAllLabel.appendChild(document.createTextNode("All"));
+        wordCloudImageElement.src = data.wordcloud_image_path;
+        wordCloudImageElement.style.display = "block"; // Display the image
+        wordListOuterContainer.style.display = "flex"; // Display the word list
+
+        // Handle word list and generate checkboxes
+        const wordListContainer = document.getElementById("wordListContainer");
+        wordListContainer.innerHTML = ""; // Clear any previous checkboxes
+
+        // Create 'Select/Deselect All' checkbox
+        const selectAllContainer = document.createElement("div");
+        const selectAllLabel = document.createElement("label");
+        const selectAllCheckbox = document.createElement("input");
+        selectAllCheckbox.type = "checkbox";
+        selectAllCheckbox.onclick = function () {
+          toggleCheckboxes(this.checked);
+        };
+        selectAllLabel.appendChild(selectAllCheckbox);
+        if (getCurrentLanguage() === "cy") {
+          selectAllLabel.appendChild(document.createTextNode("Popeth"));
+        } else {
+          selectAllLabel.appendChild(document.createTextNode("All"));
+        }
+
+        selectAllContainer.appendChild(selectAllLabel);
+        wordListContainer.appendChild(selectAllContainer);
+        generateWordList(data, null);
+
+        data.word_list.sort().forEach((word) => {
+          const wordContainer = document.createElement("div");
+          const label = document.createElement("label");
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.value = word;
+          checkbox.checked = true;
+          checkbox.className = "word-checkbox";
+          label.appendChild(checkbox);
+          label.appendChild(document.createTextNode(` ${word}`));
+          wordContainer.appendChild(label);
+          wordListContainer.appendChild(wordContainer);
+        });
       }
-
-      selectAllContainer.appendChild(selectAllLabel);
-      wordListContainer.appendChild(selectAllContainer);
-      generateWordList(data, null);
-
-      data.word_list.sort().forEach((word) => {
-        const wordContainer = document.createElement("div");
-        const label = document.createElement("label");
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.value = word;
-        checkbox.checked = true;
-        checkbox.className = "word-checkbox";
-        label.appendChild(checkbox);
-        label.appendChild(document.createTextNode(` ${word}`));
-        wordContainer.appendChild(label);
-        wordListContainer.appendChild(wordContainer);
-      });
     })
     .catch((error) => {
       console.error("Error generating word cloud:", error);
@@ -2148,6 +2154,7 @@ const generateWordList = (data, cloud_data) => {
   }
 };
 
+//! called when cloud type is changed
 function generateWordClouds() {
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "flex";
@@ -2184,8 +2191,15 @@ function generateWordClouds() {
           wordCloudImageElement.style.display = "block";
           wordListOuterContainer.style.display = "flex";
           renderWordCheckboxes(data.word_list);
-          console.log(cloud_data.cloud_type);
           generateWordList(data, cloud_data.cloud_type);
+
+          // Handles the display of semantic tag radio selectors
+          const tagsOrWordsRadio = document.getElementById(
+            "sem-tags-radio-selection"
+          );
+          tagsOrWordsRadio.style.display =
+            cloud_data.cloud_type === "semantic_tags" ? "block" : "none";
+
           loadingElement.style.display = "none";
         }, 5000);
 

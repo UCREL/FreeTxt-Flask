@@ -545,13 +545,30 @@ def generate_wordcloud():
             language = 'en'  # default to English if detection fails
         
         cloud_generator = WordCloudGenerator(input_data)
-        wc_path, word_list = cloud_generator.generate_wordcloud(cloud_shape_path, cloud_outline_color, cloud_type, language,cloud_measure,wordlist={})
+        wc_path, word_list = cloud_generator.generate_wordcloud(cloud_shape_path, cloud_outline_color, cloud_type, language, cloud_measure, wordlist={})
+        
         session['word_cloud_src'] = wc_path
-       
+        
+        # Handles the generation of the second cloud, containing the words with the selected semantic tags
+        if cloud_type == 'semantic_tags' and session["tokens_with_semantic_tags"]:
+            words_tags = session["tokens_with_semantic_tags"]
+            words_with_sem_tags = [word for (word, pos, tag) in words_tags if tag in word_list]
+            sec_wc_path, sec_word_list = cloud_generator.generate_wordcloud(cloud_shape_path, cloud_outline_color, 'all_words', language, cloud_measure, words_with_sem_tags)
+            
+            session['sec_word_cloud_src'] = sec_wc_path
+            print("second cloud")
+            print(sec_wc_path)
+            
+            return jsonify({
+                "status": "success",
+                "wordcloud_image_path": (wc_path, sec_wc_path),
+                "word_list": (word_list, sec_word_list)
+            })
+            
         return jsonify({
             "status": "success",
             "wordcloud_image_path": wc_path,
-            "word_list":word_list
+            "word_list": word_list
         })
     return jsonify({"status": "error", "message": "Invalid request method"})
 

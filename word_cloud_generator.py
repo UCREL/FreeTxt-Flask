@@ -68,7 +68,6 @@ class WordCloudGenerator:
             self.text += ' '.join(row) + '\n'
        
         self.tokens_with_semantic_tags = self.Pymsas_tags(self.text)
-        
     def load_image(self, image_file):
         return PilImage.open(image_file)
 
@@ -434,7 +433,7 @@ class WordCloudGenerator:
             print()
             print()
             print("Semantic tag cloud selected!!!")
-            print(self.tokens_with_semantic_tags) # Convert this to dictionary {token: tag}
+            print(self.tokens_with_semantic_tags)
             print()
             print()
             
