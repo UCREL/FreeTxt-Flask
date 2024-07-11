@@ -437,9 +437,6 @@ class KWICAnalyser:
             merged_df['POS'] = merged_df['POS'].replace(pos_tag_mapping)
         
         tokens_with_semantic_tags = [(row['Text'], row['POS'], row['USAS Tags']) for _, row in merged_df.iterrows()]
-        #! Add this data to session, for word cloud to use
-        print("tokens with semantic tags here")
-        print(tokens_with_semantic_tags)
        
         return tokens_with_semantic_tags
   
