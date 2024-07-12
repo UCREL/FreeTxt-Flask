@@ -2177,14 +2177,14 @@ function generateWordClouds() {
     .then((data) => {
       if (data.status !== "success") throw new Error("Error fetching data");
 
-      const wordCloudImageElement = document.getElementById("wordCloudImage");
-      wordCloudImageElement.src = "";
-      wordCloudImageElement.style.display = "none";
-
       const wordCloudImgContainer = document.getElementById(
         "wordCloudImageContainer"
       );
 
+      // Removes previous word clouds
+      const wordCloudImageElement = document.getElementById("wordCloudImage");
+      wordCloudImageElement.src = "";
+      wordCloudImageElement.style.display = "none";
       const secWordCloudImg = document.getElementById("secWordCloudImage");
       if (secWordCloudImg) {
         secWordCloudImg.remove();
@@ -2192,22 +2192,20 @@ function generateWordClouds() {
 
       if (cloud_data.cloud_type === "semantic_tags") {
         setTimeout(() => {
-          // Set the new wordcloud image and checkboxes after the delay
-          const secWordCloudImg = document.createElement("img");
-          secWordCloudImg.id = "secWordCloudImage";
-          secWordCloudImg.alt = "Second Word Cloud Image";
-
+          // For the semantic tag cloud
           wordCloudImageElement.src = data.wordcloud_image_path[0];
-          secWordCloudImg.src = data.wordcloud_image_path[1];
-
           wordCloudImageElement.style.display = "block";
-          secWordCloudImg.style.display = "block";
-
-          wordCloudImgContainer.appendChild(secWordCloudImg);
-
           wordListOuterContainer.style.display = "flex";
           renderWordCheckboxes(data.word_list[0]);
           // generateWordList(data, cloud_data.cloud_type);
+
+          // For the words with semantic tags cloud
+          const secWordCloudImg = document.createElement("img");
+          secWordCloudImg.id = "secWordCloudImage";
+          secWordCloudImg.src = data.wordcloud_image_path[1];
+          secWordCloudImg.alt = "Second Word Cloud Image";
+          secWordCloudImg.style.display = "none";
+          wordCloudImgContainer.appendChild(secWordCloudImg);
 
           // Handles the display of semantic tag radio selectors
           const tagsOrWordsRadio = document.getElementById(
@@ -2216,11 +2214,28 @@ function generateWordClouds() {
           tagsOrWordsRadio.style.display =
             cloud_data.cloud_type === "semantic_tags" ? "block" : "none";
 
-          loadingElement.style.display = "none";
-          console.log("Successfully rendered second word cloud image");
-        }, 5000);
+          // Adds event listener to radio elements
+          const semTagsRadio = document.getElementById("show-semantic-tags");
+          const wordsRadio = document.getElementById("show-words");
 
-        renderWordCheckboxes(data.word_list);
+          semTagsRadio.addEventListener("change", () => {
+            const wordCloudImg = document.getElementById("wordCloudImage");
+            const secWordCloudImg =
+              document.getElementById("secWordCloudImage");
+            wordCloudImg.style.display = "block";
+            secWordCloudImg.style.display = "none";
+          });
+
+          wordsRadio.addEventListener("change", () => {
+            const wordCloudImg = document.getElementById("wordCloudImage");
+            const secWordCloudImg =
+              document.getElementById("secWordCloudImage");
+            secWordCloudImg.style.display = "block";
+            wordCloudImg.style.display = "none";
+          });
+
+          loadingElement.style.display = "none";
+        }, 5000);
       } else {
         setTimeout(() => {
           // Set the new wordcloud image and checkboxes after the delay
@@ -2239,8 +2254,6 @@ function generateWordClouds() {
 
           loadingElement.style.display = "none";
         }, 5000);
-
-        renderWordCheckboxes(data.word_list);
       }
     })
     .catch((error) => {
@@ -2281,6 +2294,7 @@ function renderWordCheckboxes(wordList) {
 }
 
 function regenerateWordCloud() {
+  console.log("regenerateWordCloud called");
   const selectedWords = [];
   const allWords = [];
   document.querySelectorAll(".word-checkbox").forEach((checkbox) => {
@@ -2340,14 +2354,58 @@ function regenerateWordCloud() {
       wordCloudImageElement.src = "";
       wordCloudImageElement.style.display = "none";
 
-      setTimeout(() => {
-        // Set the new wordcloud image and checkboxes after the delay
-        wordCloudImageElement.src = data.wordcloud_image_path;
-        wordCloudImageElement.style.display = "block";
+      const secWordCloudImg = document.getElementById("secWordCloudImage");
+      if (secWordCloudImg) {
+        secWordCloudImg.remove();
+      }
 
-        loadingElement.style.display = "none";
-      }, 5000);
-      renderWordCheckboxes(allWords);
+      const wordCloudImgContainer = document.getElementById(
+        "wordCloudImageContainer"
+      );
+
+      console.log("cloud type is:");
+      console.log(formData.get("cloud_type"));
+
+      if (formData.get("cloud_type") === "semantic_tags") {
+        setTimeout(() => {
+          // Check which radio is selected, to display selected cloud
+          const semTagsRadio = document.getElementById("show-semantic-tags");
+          const wordsRadio = document.getElementById("show-words");
+
+          // Set the new wordcloud image and checkboxes after the delay
+          wordCloudImageElement.src = data.wordcloud_image_path[0];
+          wordCloudImageElement.style.display = semTagsRadio.checked
+            ? "block"
+            : "none";
+
+          // For the words with semantic tags cloud
+          const secWordCloudImg = document.createElement("img");
+          secWordCloudImg.id = "secWordCloudImage";
+          secWordCloudImg.src = data.wordcloud_image_path[1];
+          secWordCloudImg.alt = "Second Word Cloud Image";
+          secWordCloudImg.style.display = wordsRadio.checked ? "block" : "none";
+          wordCloudImgContainer.appendChild(secWordCloudImg);
+
+          console.log("word cloud image paths");
+          console.log(data.wordcloud_image_path[0]);
+          console.log(data.wordcloud_image_path[1]);
+
+          console.log("word lists");
+          console.log(data.word_list[0]);
+          console.log(data.word_list[1]);
+
+          loadingElement.style.display = "none";
+        }, 5000);
+      } else {
+        setTimeout(() => {
+          // Set the new wordcloud image and checkboxes after the delay
+          wordCloudImageElement.src = data.wordcloud_image_path;
+          wordCloudImageElement.style.display = "block";
+
+          loadingElement.style.display = "none";
+        }, 5000);
+        renderWordCheckboxes(allWords);
+      }
       // Re-enable the checkboxes after the word cloud has been regenerated
       // If rendered checkbox is in the list of selected words to be removed, uncheck it
       // All other words are checked

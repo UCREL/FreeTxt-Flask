@@ -553,10 +553,9 @@ def generate_wordcloud():
         if cloud_type == 'semantic_tags' and session["tokens_with_semantic_tags"]:
             words_tags = session["tokens_with_semantic_tags"]
             words_with_sem_tags = [word for (word, pos, tag) in words_tags if tag in word_list]
-            sec_wc_path, sec_word_list = cloud_generator.generate_wordcloud(cloud_shape_path, cloud_outline_color, 'all_words', language, cloud_measure, words_with_sem_tags)
+            sec_wc_path, sec_word_list = cloud_generator.generate_wordcloud(cloud_shape_path, cloud_outline_color, 'all_words', language, cloud_measure, words_with_sem_tags, f"{time.time()}_words")
             
             session['sec_word_cloud_src'] = sec_wc_path
-            print("second cloud")
             print(sec_wc_path)
             
             return jsonify({
@@ -920,6 +919,7 @@ def retain_clusters(text, clusters):
     words = text.split()
     retained_words = [word for word in words if any(cluster in word for cluster in clusters)]
     return ' '.join(retained_words)
+
 @FileAnalysis.route('/regenerate_wordcloud', methods=['POST'])
 def regenerate_wordcloud():
     if request.method == 'POST':
@@ -954,9 +954,30 @@ def regenerate_wordcloud():
             language = 'en'  # default to English if detection fails
         
         cloud_generator = WordCloudGenerator(input_data)
-        wc_path, word_list = cloud_generator.generate_wordcloud(cloud_shape_path, cloud_outline_color, cloud_type, language ,cloud_measure, provided_words)
+        wc_path, word_list = cloud_generator.generate_wordcloud(cloud_shape_path, cloud_outline_color, cloud_type, language, cloud_measure, provided_words)
        
         session['word_cloud_src'] = wc_path
+        
+        print("regenerating")
+        
+        # Handles the generation of the second cloud, containing the words with the selected semantic tags
+        if cloud_type == 'semantic_tags' and session["tokens_with_semantic_tags"]:
+            print("In regenerate word cloud if statement")
+            words_tags = session["tokens_with_semantic_tags"]
+            words_with_sem_tags = [word for (word, pos, tag) in words_tags if tag in word_list]
+            sec_wc_path, sec_word_list = cloud_generator.generate_wordcloud(cloud_shape_path, cloud_outline_color, 'all_words', language, cloud_measure, words_with_sem_tags, f"{time.time()}_words")
+            
+            print("WORD CLOUD PATHS")
+            print(wc_path)
+            print(sec_wc_path)
+            
+            session['sec_word_cloud_src'] = sec_wc_path
+            
+            return jsonify({
+                "status": "success",
+                "wordcloud_image_path": [wc_path, sec_wc_path],
+                "word_list": [word_list, sec_word_list]
+            })
         
         return jsonify({
             "status": "success",
@@ -965,6 +986,7 @@ def regenerate_wordcloud():
         })
 
     return jsonify({"status": "error", "message": "Invalid request method"})
+
 @FileAnalysis.route('/update_graph', methods=['POST'])
 def handle_graph_update():
     data = request.get_json()
