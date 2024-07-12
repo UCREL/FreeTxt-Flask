@@ -561,8 +561,8 @@ def generate_wordcloud():
             
             return jsonify({
                 "status": "success",
-                "wordcloud_image_path": (wc_path, sec_wc_path),
-                "word_list": (word_list, sec_word_list)
+                "wordcloud_image_path": [wc_path, sec_wc_path],
+                "word_list": [word_list, sec_word_list]
             })
             
         return jsonify({
