@@ -573,6 +573,21 @@
     }
   }
 
+  .word-checkbox {
+    min-width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+  }
+
+  .fixed-width-label {
+    display: inline-block;
+    max-width: 100%; /* Allow label to use the full width of the container */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow if the content exceeds the width */
+    text-overflow: ellipsis; /* Show ellipsis for overflowing text */
+    vertical-align: middle; /* Aligns the label content vertically centered */
+  }
+
   #scattertextIframe > svg {
     min-width: 1250px;
   }
@@ -603,6 +618,7 @@
 >
   How would you like to start your analysis?
 </h1>
+
 <form
   id="text-analysis-form"
   method="POST"
@@ -1451,36 +1467,11 @@
               </select>
             </div>
           </div>
-          <div
-            id="wordCloudImageContainer"
-            style="
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              height: 170vh;
-            "
-          >
-            <img id="wordCloudImage" src="" alt="Word Cloud Image" />
-          </div>
         </form>
-        <a href="/get-word-cloud" download>
-          <button
-            class="analyze-btn"
-            data-lang-en="Download Word Cloud image"
-            data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau"
-          >
-            Download Word Cloud image
-          </button>
-        </a>
-      </div>
-      <div class="my-5">
-        <h2 data-lang-en="Word List" data-lang-cy="Rhestr Geiriau">
-          Word List
-        </h2>
       </div>
       <div
         id="wordListOuterContainer"
-        class="responsive-flex rounded border border-light shadow"
+        class="responsive-flex rounded border border-light shadow my-5"
       >
         <div class="d-flex flex-column align-items-center search-container">
           <div class="rounded p-4 w-100 border border-light bg-light">
@@ -1543,10 +1534,26 @@
           </div>
         </div>
         <div
-          id="orderedWordListContainer"
-          class="container-fluid d-flex flex-column align-items-center w-100 ordered-list-container"
-        ></div>
+          id="wordCloudImageContainer"
+          class="container-fluid d-flex flex-column justify-content-center align-items-center w-100 ordered-list-container"
+        >
+          <img
+            id="wordCloudImage"
+            class="w-100"
+            src=""
+            alt="Word Cloud Image"
+          />
+        </div>
       </div>
+      <a id="word-cloud-download-1" href="/get-word-cloud" download>
+        <button
+          class="analyze-btn"
+          data-lang-en="Download Word Cloud image"
+          data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau"
+        >
+          Download Word Cloud image
+        </button>
+      </a>
 
       <!--class="form-group col-md-4"-->
     </div>

@@ -1921,12 +1921,16 @@ function reloadIframe() {
   //iframe.src = iframe.src;
   iframe.contentWindow.location.reload(true);
 }
+
 let selectedCloudType = "";
 let selectedcloudmeasure = "";
 let selectedCloudtext = "";
 let cloudmeasuretxt = "";
 
 function sendWordCloudRequest() {
+  const downloadWordCloudBtn = document.getElementById("word-cloud-download-1");
+  downloadWordCloudBtn.style.display = "none";
+
   const cloudTypeDropdown = document.querySelector('select[name="cloud_type"]');
   selectedCloudType = cloudTypeDropdown.value;
   selectedCloudtext =
@@ -1966,46 +1970,13 @@ function sendWordCloudRequest() {
   })
     .then((response) => response.json())
     .then((data) => {
-      wordCloudImageElement.src = data.wordcloud_image_path;
+      wordCloudImageElement.src = data.wordcloud_image_path[0];
       wordCloudImageElement.style.display = "block"; // Display the image
       wordListOuterContainer.style.display = "flex"; // Display the word list
-
-      // Handle word list and generate checkboxes
-      const wordListContainer = document.getElementById("wordListContainer");
-      wordListContainer.innerHTML = ""; // Clear any previous checkboxes
-
-      // Create 'Select/Deselect All' checkbox
-      const selectAllContainer = document.createElement("div");
-      const selectAllLabel = document.createElement("label");
-      const selectAllCheckbox = document.createElement("input");
-      selectAllCheckbox.type = "checkbox";
-      selectAllCheckbox.onclick = function () {
-        toggleCheckboxes(this.checked);
-      };
-      selectAllLabel.appendChild(selectAllCheckbox);
-      if (getCurrentLanguage() === "cy") {
-        selectAllLabel.appendChild(document.createTextNode("Popeth"));
-      } else {
-        selectAllLabel.appendChild(document.createTextNode("All"));
-      }
-
-      selectAllContainer.appendChild(selectAllLabel);
-      wordListContainer.appendChild(selectAllContainer);
-      generateWordList(data, null);
-
-      data.word_list.sort().forEach((word) => {
-        const wordContainer = document.createElement("div");
-        const label = document.createElement("label");
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.value = word;
-        checkbox.checked = true;
-        checkbox.className = "word-checkbox";
-        label.appendChild(checkbox);
-        label.appendChild(document.createTextNode(` ${word}`));
-        wordContainer.appendChild(label);
-        wordListContainer.appendChild(wordContainer);
-      });
+      renderWordCheckboxes(data.word_list[0]);
+      // Checks all checkboxes
+      toggleCheckboxes(true);
+      downloadWordCloudBtn.style.display = "block";
     })
     .catch((error) => {
       console.error("Error generating word cloud:", error);
@@ -2017,6 +1988,7 @@ function toggleCheckboxes(isChecked) {
     checkbox.checked = isChecked;
   });
 }
+
 document.addEventListener("DOMContentLoaded", function () {
   const cloudTypeDropdown = document.querySelector('[name="cloud_type"]');
   const cloudShapeDropdown = document.querySelector('[name="cloud_shape"]');
@@ -2032,127 +2004,12 @@ document.addEventListener("DOMContentLoaded", function () {
   cloudOutlineColorDropdown.addEventListener("change", regenerateWordCloud);
 });
 
-// Generates the list beneath the word cloud
-const generateWordList = (data, cloud_data) => {
-  const wordListArray = data.word_list;
-  // Filters any numbers in the word list
-  const filteredWordList = wordListArray.filter((word) => !/\d/.test(word));
-
-  const listWordsAlphabetically = () => {
-    const initialLettersSet = Array.from(
-      new Set(filteredWordList.map((word) => word.trim().toUpperCase()[0]))
-    ).sort();
-    const wordListMap = new Map(
-      initialLettersSet.map((l) => [
-        l,
-        filteredWordList.filter((word) => word.toUpperCase().startsWith(l)),
-      ])
-    );
-    // Regex to determine if array element is numeric
-    const numberRegex = /^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$/;
-    const numbersList = wordListArray.filter((word) => numberRegex.test(word));
-    // Adding numbers to map
-    if (numbersList.length > 0) {
-      wordListMap.set("Numbers", numbersList);
-    }
-    const orderedWordListContainer = document.getElementById(
-      "orderedWordListContainer"
-    );
-    // Removes old word list
-    orderedWordListContainer.innerHTML = "";
-
-    // Generates word list, a map with each initial letter as key, and list of words begining with that letter as the value
-    wordListMap.forEach((val, key) => {
-      const columnLimit = 4;
-      const sectionContainer = document.createElement("div");
-      const initialContainer = document.createElement("div");
-      const initialWrapper = document.createElement("span");
-      const wordsContainer = document.createElement("div");
-
-      sectionContainer.id = `section${key}`;
-      sectionContainer.classList.add(
-        "d-flex",
-        "flex-column",
-        "align-items-center",
-        "w-100",
-        "mb-4"
-      );
-      initialContainer.classList.add("d-inline", "my-2");
-      initialWrapper.id = `initial${key}`;
-      initialWrapper.appendChild(document.createTextNode(key));
-      initialWrapper.classList.add("p-3", "word-list-letter");
-      wordsContainer.id = `list${key}`;
-      wordsContainer.classList.add("container");
-
-      val.forEach((word, i) => {
-        const col = document.createElement("div");
-        col.classList.add("col", "d-flex", "justify-content-center");
-        col.appendChild(document.createTextNode(word));
-
-        if (i === 0 || i % columnLimit === 0) {
-          const row = document.createElement("div");
-          row.classList.add("row", `row-cols-${columnLimit}`, "my-1");
-          row.id = `row${i / columnLimit}`;
-          wordsContainer.appendChild(row);
-        }
-
-        const currentRow = wordsContainer.lastElementChild;
-        currentRow.append(col);
-      });
-
-      sectionContainer.appendChild(initialContainer);
-      initialContainer.appendChild(initialWrapper);
-      sectionContainer.appendChild(wordsContainer);
-      orderedWordListContainer.appendChild(sectionContainer);
-    });
-  };
-
-  const listSemanticTags = () => {
-    const orderedWordListContainer = document.getElementById(
-      "orderedWordListContainer"
-    );
-    // Removes old word list
-    orderedWordListContainer.innerHTML = "";
-
-    // Generates word list, a map with each initial letter as key, and list of words begining with that letter as the value
-    wordListArray.forEach((tag, i) => {
-      const tagContainer = document.createElement("div");
-
-      tagContainer.id = `tag${i}`;
-      tagContainer.classList.add(
-        "d-flex",
-        "align-items-center",
-        "w-100",
-        i === 0 ? "my-4" : "mb-4",
-        "justify-content-center"
-      );
-
-      tagContainer.appendChild(document.createTextNode(tag));
-      orderedWordListContainer.appendChild(tagContainer);
-    });
-  };
-
-  // For initial word cloud generation
-  if (cloud_data === null) {
-    listWordsAlphabetically();
-    return;
-  }
-
-  if (cloud_data === "all_words") {
-    listWordsAlphabetically();
-  } else if (cloud_data === "semantic_tags") {
-    listSemanticTags();
-  } else {
-    // Default to list alphabetically
-    listWordsAlphabetically();
-  }
-};
-
-//! called when cloud type is changed
 function generateWordClouds() {
-  console.log("generateWordClouds called");
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "flex";
+  const downloadWordCloudBtn = document.getElementById("word-cloud-download-1");
+  downloadWordCloudBtn.style.display = "none";
+
   const formData = new FormData(document.getElementById("wordCloudForm"));
   const cloud_data = {
     cloud_type: formData.get("cloud_type"),
@@ -2190,29 +2047,21 @@ function generateWordClouds() {
         secWordCloudImg.remove();
       }
 
-      if (cloud_data.cloud_type === "semantic_tags") {
-        setTimeout(() => {
-          // For the semantic tag cloud
-          wordCloudImageElement.src = data.wordcloud_image_path[0];
-          wordCloudImageElement.style.display = "block";
-          wordListOuterContainer.style.display = "flex";
-          renderWordCheckboxes(data.word_list[0]);
-          // generateWordList(data, cloud_data.cloud_type);
+      setTimeout(() => {
+        // Set the new wordcloud image and checkboxes after the delay
+        wordCloudImageElement.src = data.wordcloud_image_path[0];
+        wordCloudImageElement.style.display = "block";
+        wordListOuterContainer.style.display = "flex";
 
+        if (cloud_data.cloud_type === "semantic_tags") {
           // For the words with semantic tags cloud
           const secWordCloudImg = document.createElement("img");
           secWordCloudImg.id = "secWordCloudImage";
+          secWordCloudImg.classList.add("w-100");
           secWordCloudImg.src = data.wordcloud_image_path[1];
           secWordCloudImg.alt = "Second Word Cloud Image";
           secWordCloudImg.style.display = "none";
           wordCloudImgContainer.appendChild(secWordCloudImg);
-
-          // Handles the display of semantic tag radio selectors
-          const tagsOrWordsRadio = document.getElementById(
-            "sem-tags-radio-selection"
-          );
-          tagsOrWordsRadio.style.display =
-            cloud_data.cloud_type === "semantic_tags" ? "block" : "none";
 
           // Adds event listener to radio elements
           const semTagsRadio = document.getElementById("show-semantic-tags");
@@ -2233,28 +2082,22 @@ function generateWordClouds() {
             secWordCloudImg.style.display = "block";
             wordCloudImg.style.display = "none";
           });
+        }
 
-          loadingElement.style.display = "none";
-        }, 5000);
-      } else {
-        setTimeout(() => {
-          // Set the new wordcloud image and checkboxes after the delay
-          wordCloudImageElement.src = data.wordcloud_image_path;
-          wordCloudImageElement.style.display = "block";
-          wordListOuterContainer.style.display = "flex";
-          renderWordCheckboxes(data.word_list);
-          generateWordList(data, cloud_data.cloud_type);
+        renderWordCheckboxes(data.word_list[0]);
+        // Checks all checkboxes
+        toggleCheckboxes(true);
+        downloadWordCloudBtn.style.display = "block";
 
-          // Handles the display of semantic tag radio selectors
-          const tagsOrWordsRadio = document.getElementById(
-            "sem-tags-radio-selection"
-          );
-          tagsOrWordsRadio.style.display =
-            cloud_data.cloud_type === "semantic_tags" ? "block" : "none";
+        // Handles the display of semantic tag radio selectors
+        const tagsOrWordsRadio = document.getElementById(
+          "sem-tags-radio-selection"
+        );
+        tagsOrWordsRadio.style.display =
+          cloud_data.cloud_type === "semantic_tags" ? "block" : "none";
 
-          loadingElement.style.display = "none";
-        }, 5000);
-      }
+        loadingElement.style.display = "none";
+      }, 5000);
     })
     .catch((error) => {
       console.error("Error generating word cloud:", error);
@@ -2294,7 +2137,6 @@ function renderWordCheckboxes(wordList) {
 }
 
 function regenerateWordCloud() {
-  console.log("regenerateWordCloud called");
   const selectedWords = [];
   const allWords = [];
   document.querySelectorAll(".word-checkbox").forEach((checkbox) => {
@@ -2363,11 +2205,12 @@ function regenerateWordCloud() {
         "wordCloudImageContainer"
       );
 
-      console.log("cloud type is:");
-      console.log(formData.get("cloud_type"));
+      // Set the new wordcloud image and checkboxes after the delay
+      wordCloudImageElement.src = data.wordcloud_image_path[0];
+      wordCloudImageElement.style.display = "block";
 
-      if (formData.get("cloud_type") === "semantic_tags") {
-        setTimeout(() => {
+      setTimeout(() => {
+        if (formData.get("cloud_type") === "semantic_tags") {
           // Check which radio is selected, to display selected cloud
           const semTagsRadio = document.getElementById("show-semantic-tags");
           const wordsRadio = document.getElementById("show-words");
@@ -2381,41 +2224,15 @@ function regenerateWordCloud() {
           // For the words with semantic tags cloud
           const secWordCloudImg = document.createElement("img");
           secWordCloudImg.id = "secWordCloudImage";
+          secWordCloudImg.classList.add("w-100");
           secWordCloudImg.src = data.wordcloud_image_path[1];
           secWordCloudImg.alt = "Second Word Cloud Image";
           secWordCloudImg.style.display = wordsRadio.checked ? "block" : "none";
           wordCloudImgContainer.appendChild(secWordCloudImg);
-
-          console.log("word cloud image paths");
-          console.log(data.wordcloud_image_path[0]);
-          console.log(data.wordcloud_image_path[1]);
-
-          console.log("word lists");
-          console.log(data.word_list[0]);
-          console.log(data.word_list[1]);
-
-          loadingElement.style.display = "none";
-        }, 5000);
-      } else {
-        setTimeout(() => {
-          // Set the new wordcloud image and checkboxes after the delay
-          wordCloudImageElement.src = data.wordcloud_image_path;
-          wordCloudImageElement.style.display = "block";
-
-          loadingElement.style.display = "none";
-        }, 5000);
-        renderWordCheckboxes(allWords);
-      }
-      // Re-enable the checkboxes after the word cloud has been regenerated
-      // If rendered checkbox is in the list of selected words to be removed, uncheck it
-      // All other words are checked
-      document.querySelectorAll(".word-checkbox").forEach((checkbox) => {
-        if (selectedWords.includes(checkbox.value)) {
-          checkbox.checked = true;
-        } else {
-          checkbox.checked = false;
         }
-      });
+
+        loadingElement.style.display = "none";
+      }, 5000);
     })
     .catch((error) => {
       console.error("Error regenerating word cloud:", error);
@@ -2549,7 +2366,6 @@ function populateDropdown(wordFrequencies) {
     // option.text = `${word} (${frequency})`;
     // option.setAttribute("data-type", "word");
     // dropdown.add(option);
-    console.log(word, frequency);
     const colContainer = document.createElement("div");
     colContainer.classList.add("col", "py-1");
 

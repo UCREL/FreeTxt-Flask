@@ -324,7 +324,7 @@ class WordCloudGenerator:
         cleanup_old_graphs("website/static/wordcloud")
         # Generate a unique image name using the current timestamp
         if unique_id:
-            timestamp = unique_id
+            timestamp = f"{time.time()}{unique_id}"
         else:
             timestamp = int(time.time())
         wc_image_path = os.path.join("website/static/wordcloud", f"wordcloud_{timestamp}.png")
@@ -479,8 +479,6 @@ class WordCloudGenerator:
             return None, None
 
         return all_words, merged_df
-
-
 
     def generate_wordcloud(self, cloud_shape_path, cloud_outline_color, cloud_type, language, cloud_measure, wordlist={}, unique_id=None):
         
