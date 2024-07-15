@@ -307,6 +307,17 @@
     text-overflow: ellipsis;
   }
 
+  body.dark-mode .file-name {
+    flex-grow: 1; /* allows the filename span to take available space */
+    padding: 8px 10px;
+    border: 1px solid #d4d4d4;
+    border-radius: 4px;
+    background-color: #121212;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
   .input-hidden {
     position: absolute;
     opacity: 0;
@@ -315,6 +326,7 @@
     width: 100%;
     height: 100%;
     cursor: pointer;
+    background-color: black;
   }
 
   /* Container Style */
@@ -322,6 +334,13 @@
     width: 100%; /* Set to the full width of its parent container */
     padding: 10px 20px;
     background-color: #f7f7f7;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  body.dark-mode .columns-dropdown-container {
+    width: 100%; /* Set to the full width of its parent container */
+    padding: 10px 20px;
+    background-color: #242424;
     border-bottom: 1px solid #e0e0e0;
   }
 
@@ -673,6 +692,7 @@
   </label>
   <div id="text-input" class="input-container">
     <textarea
+      class="data-input"
       name="text-to-analyze"
       id="text-to-analyze"
       value="{{text or 'text'}}"
@@ -717,7 +737,7 @@
   </div>
 
   <div id="example-options" class="hidden">
-    <select id="example-data" name="example-data">
+    <select id="example-data" name="example-data" class="data-input">
       <option
         value=""
         data-lang-en="Select example data file(s)"

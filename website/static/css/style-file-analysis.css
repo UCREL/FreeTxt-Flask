@@ -1,536 +1,557 @@
-	
 .contentcontainer {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 10px;
-    justify-items: center;
-    align-items: center;
-    padding: 10px;
-    border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
+  justify-items: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
 
-    text-align: center;
+  text-align: center;
 }
 
 .contentcontainer > :nth-child(5) {
-    grid-column: 1 / -1;
+  grid-column: 1 / -1;
 }
 .a-image {
-    border-radius: 5px;
-    transition: transform .2s;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
-    position: relative;
+  border-radius: 5px;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
+  position: relative;
 }
 .a-image:hover {
-    transform: scale(1.1);
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  transform: scale(1.1);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 .a-image:hover::after {
-    content: attr(title);
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    padding: 5px 10px;
-    border-radius: 3px;
-    font-size: 14px;
-    color: white;
+  content: attr(title);
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 14px;
+  color: white;
 }
 
-
-
 #text-to-analyze {
-    width: calc(100% - 150px);
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    resize: vertical;
+  width: calc(100% - 150px);
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
 }
 
 .analyze-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #2e2e2f;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2e2e2f;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  position: relative;
 }
 
-.analyze-btn:hover, .tab-btn:hover {
-    background-color: #0c0c0c;
+.analyze-btn:hover,
+.tab-btn:hover {
+  background-color: #0c0c0c;
 }
 
 .analyze-btn i {
-    margin: 0 5px;
-    animation: iconAnimation 1.5s infinite;
+  margin: 0 5px;
+  animation: iconAnimation 1.5s infinite;
 }
 
 @keyframes iconAnimation {
-    0%, 100% {
-        transform: scale(1);
-        filter: brightness(100%);
-    }
-    50% {
-        transform: scale(1.1);
-        filter: brightness(150%);
-    }
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(100%);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(150%);
+  }
 }
 
-
 .tab-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
 }
 
 .tab-buttons {
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    position: relative; /* for z-index positioning */
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  position: relative; /* for z-index positioning */
 }
 
 .tab-btn {
-    padding: 10px 20px;
-    color: white;
-    border: solid;
-    cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s;
-    border-radius: 5px 5px 0 0;
-    margin-right: -10px; /* Overlapping factor */
-    position: relative; /* for z-index positioning */
-    z-index: 1; /* Base z-index */
-    outline: none; /* Removes the blue border on click in some browsers */
+  padding: 10px 20px;
+  color: white;
+  border: solid;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+  border-radius: 5px 5px 0 0;
+  margin-right: -10px; /* Overlapping factor */
+  position: relative; /* for z-index positioning */
+  z-index: 1; /* Base z-index */
+  outline: none; /* Removes the blue border on click in some browsers */
 }
 
 .tab-btn.active {
-    background-color: #080808;
-    z-index: 2; /* Bring the active tab to the front */
-    margin-right: 0; /* Don't overlap the next tab if it's active */
+  background-color: #080808;
+  z-index: 2; /* Bring the active tab to the front */
+  margin-right: 0; /* Don't overlap the next tab if it's active */
 }
 
 .tab-content {
-    border: 1px solid #ddd;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: none; /* Hidden by default */
+  border: 1px solid #ddd;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: none; /* Hidden by default */
 }
 
 /* For Mobile Devices, Adjust Tab Styling */
 @media (max-width: 768px) {
-    .tab-btn {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
+  .tab-btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
 }
-
-
 
 .tab-buttons {
-    flex-direction: column;
-    display: flex;
-    flex-direction: row;
+  flex-direction: column;
+  display: flex;
+  flex-direction: row;
 }
-
-
-
-
 
 .tab-btn-selected {
-    background-color: #070707; 
-    border: 2px solid #070707; 
+  background-color: #070707;
+  border: 2px solid #070707;
 }
 
-
-
-
-.hidden{
-    display: none;
+.hidden {
+  display: none;
 }
 .input-container.hidden {
-    display: none;
+  display: none;
 }
 .heading-frame {
-    background-color: #f2f2f2; /* Set the background color you prefer */
-    padding: 10px;
-    border: 2px solid #ccc; /* Optional border style */
-    border-radius: 5px; /* Optional border radius */
-  }
+  background-color: #f2f2f2; /* Set the background color you prefer */
+  padding: 10px;
+  border: 2px solid #ccc; /* Optional border style */
+  border-radius: 5px; /* Optional border radius */
+}
 .input-container.hidden {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    display: none;
-  }
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: none;
+}
 #wordtree_basic {
-    width: 100%;
-    height: 100vh;  /* this makes the div take up the full viewport height */
+  width: 100%;
+  height: 100vh; /* this makes the div take up the full viewport height */
 }
 
 .input-container input[type="file"],
 .input-container select {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 5px;
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 5px;
 }
 #upload-options {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-
-
 label {
-    font-size: 18px;
-    display: block;
-    margin-bottom: 10px;
+  font-size: 18px;
+  display: block;
+  margin-bottom: 10px;
 }
 
 input[type="radio"] {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
-#example-options, #file-to-analyze {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    display: none; /* Hide by default */
+#example-options,
+#file-to-analyze {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  display: none; /* Hide by default */
 }
 
 input[type="file"] {
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 table {
-    border-collapse: collapse;
-    width: 100%;
+  border-collapse: collapse;
+  width: 100%;
 }
 
-table, th, td {
-    border: 1px solid #dddddd;
+table,
+th,
+td {
+  border: 1px solid #dddddd;
 }
 
-th, td {
-    text-align: left;
-    padding: 8px;
+th,
+td {
+  text-align: left;
+  padding: 8px;
 }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 /* Add styling for the header */
 thead th {
-    background-color: #070707; 
-    color: white;
+  background-color: #070707;
+  color: white;
 }
 .options-container {
-    display: flex;
-    margin: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-inline-end: 20px;
-    margin-block-end: 20px;
+  display: flex;
+  margin: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-inline-end: 20px;
+  margin-block-end: 20px;
 }
 
-input[type=range] {
-    width: 100%;
-    height: 25px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-    -webkit-appearance: none;
-    margin: 10px 0;
+input[type="range"] {
+  width: 100%;
+  height: 25px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  -webkit-appearance: none;
+  margin: 10px 0;
 }
 
-input[type=range]:hover {
-    opacity: 1;
+input[type="range"]:hover {
+  opacity: 1;
 }
 
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background: #ab0d0d;
-    cursor: pointer;
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #ab0d0d;
+  cursor: pointer;
 }
 
-input[type=range]::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: #55629a;
-    cursor: pointer;
+input[type="range"]::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #55629a;
+  cursor: pointer;
 }
 
 .column-item {
-    cursor: pointer;
-    padding: 5px;
+  cursor: pointer;
+  padding: 5px;
 }
 
 .column-item.selected {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 .choices__item {
-    background-color: #cbc4c4;  
+  background-color: #cbc4c4;
 }
 .choices__input {
-    width: 800px !important; 
+  width: 800px !important;
 }
 
 /* Pagination Controls */
 .pagination-controls {
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pagination-controls button {
-    padding: 8px 16px;
-    margin: 0 5px;
-    cursor: pointer;
-    background-color:  #55629a;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    transition: background-color 0.2s;
+  padding: 8px 16px;
+  margin: 0 5px;
+  cursor: pointer;
+  background-color: #55629a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.2s;
 }
 
 .pagination-controls button:hover {
-    background-color: #324496; 
+  background-color: #324496;
 }
 
 .pagination-controls span {
-    margin: 0 15px;	
+  margin: 0 15px;
 }
 iframe#scattertextIframe {
-    width: 100%;
-    height: 800px; /* or any desired height */
-    border: none;  /* to remove the default border */
+  width: 100%;
+  height: 800px; /* or any desired height */
+  border: none; /* to remove the default border */
 }
 #loading {
-    
-    position: fixed !important; /* Makes the loading div fixed and overlays other content */
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important; /* Full viewport width */
-    height: 100vh !important; /* Full viewport height */
-    background-color: rgba(255, 255, 255, 0.7) !important; /* Optional: A semi-transparent white background to "fade out" the content behind it */
-    z-index: 1000 !important; /* Makes sure it's on top of other content */
-    
-    /* Flexbox centering */
-    
-    justify-content: center !important;
-    align-items: center !important;
+  position: fixed !important; /* Makes the loading div fixed and overlays other content */
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important; /* Full viewport width */
+  height: 100vh !important; /* Full viewport height */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.7
+  ) !important; /* Optional: A semi-transparent white background to "fade out" the content behind it */
+  z-index: 1000 !important; /* Makes sure it's on top of other content */
+
+  /* Flexbox centering */
+
+  justify-content: center !important;
+  align-items: center !important;
 }
-.form-control, .btn {
-    font-size: 18px; /* Increase font size */
+.form-control,
+.btn {
+  font-size: 18px; /* Increase font size */
 }
 
 .form-label {
-    font-size: 20px; /* Increase label font size */
+  font-size: 20px; /* Increase label font size */
 }
 #wordListContainer {
-display: grid;
-grid-template-columns: repeat(4, 1fr); /* 4 columns */
-gap: 10px 15px; /* Vertical & horizontal gap */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  gap: 10px 15px; /* Vertical & horizontal gap */
 }
 #wordListContainer > div:first-child label {
-    font-size: 1.5em;
-    margin-bottom: 10px;
+  font-size: 1.5em;
+  margin-bottom: 10px;
 }
 #wordListContainer label {
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 /* Change the text color */
 #wordListContainer label {
-color: #070707; /* Change to your preferred color */
+  color: #070707; /* Change to your preferred color */
 }
 
 /* Style the checkboxes */
 
 #wordListContainer input[type="checkbox"] {
-appearance: none; /* Remove default appearance */
-background-color: #f2f2f2; /* Background color of unchecked state */
-border: 2px solid #3498db; /* Border color */
-border-radius: 4px; /* Rounded corners */
-width: 20px;
-height: 20px;
-cursor: pointer; /* Change cursor to hand icon when hovering over the checkbox */
-position: relative; /* Positioning context for the checkmark */
-outline: none; /* Remove the default browser outline */
-margin-right: 10px; 
+  appearance: none; /* Remove default appearance */
+  background-color: #f2f2f2; /* Background color of unchecked state */
+  border: 2px solid #3498db; /* Border color */
+  border-radius: 4px; /* Rounded corners */
+  width: 20px;
+  height: 20px;
+  cursor: pointer; /* Change cursor to hand icon when hovering over the checkbox */
+  position: relative; /* Positioning context for the checkmark */
+  outline: none; /* Remove the default browser outline */
+  margin-right: 10px;
 }
 
 #wordListContainer input[type="checkbox"]:checked {
-background-color: #3498db; /* Background color of checked state */
+  background-color: #3498db; /* Background color of checked state */
 }
 
 #wordListContainer input[type="checkbox"]:checked::before {
-content: "✓"; /* Checkmark symbol */
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%); /* Center the checkmark */
-color: white; /* Color of checkmark */
-font-weight: bold;
+  content: "✓"; /* Checkmark symbol */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the checkmark */
+  color: white; /* Color of checkmark */
+  font-weight: bold;
 }
 
 /* Style the label for the first child div differently (e.g., "Select/Deselect All") */
 #wordListContainer > div:first-child label {
-font-size: 1.2em;
-margin-bottom: 10px;
-color: #8f2b2b; /* Different color for the "Select/Deselect All" label */
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: #8f2b2b; /* Different color for the "Select/Deselect All" label */
 }
 
 .left-context {
-    text-align: right;
+  text-align: right;
 }
 
 .keyword {
-    text-align: center;
+  text-align: center;
 }
 
 .right-context {
-    text-align: left;
+  text-align: left;
 }
 #kwicTable {
-    border-collapse: collapse;
+  border-collapse: collapse;
 }
 
-#kwicTable td, #kwicTable th {
-    border: none !important;
-    padding: 10px;
+#kwicTable td,
+#kwicTable th {
+  border: none !important;
+  padding: 10px;
 }
 /* Base styles and reset */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
 .input-container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f7f7f7;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 textarea {
-    width: 100%;
-    min-height: 150px;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    resize: vertical; /* allows the textarea to be resized vertically only */
+  width: 100%;
+  min-height: 150px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  resize: vertical; /* allows the textarea to be resized vertically only */
 }
 
 .options-container {
-    display: flex;
-    justify-content: flex-start;  /* Start the elements at the start of the container */
-    margin-bottom: 20px;
-    gap: 15px; 
+  display: flex;
+  justify-content: flex-start; /* Start the elements at the start of the container */
+  margin-bottom: 20px;
+  gap: 15px;
 }
 
 label {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 input[type="radio"] {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
-
-
-
 textarea:focus,
-input[type="radio"]:focus + label, 
+input[type="radio"]:focus + label,
 .analyze-btn:focus {
-    outline: none;
-    box-shadow: 0 0 5px #007BFF;
+  outline: none;
+  box-shadow: 0 0 5px #007bff;
 }
 /* H1 styling */
 h1 {
-    font-size: 24px;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;  /* Dark grey for the text */
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333; /* Dark grey for the text */
 }
 
 /* Form styling */
 #text-analysis-form {
-    max-width: 1400px;
-    margin: 0 auto 20px; /* adding a bottom margin to separate from next elements */
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #e0e0e0;  /* Light grey border for subtle separation */
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  max-width: 1400px;
+  margin: 0 auto 20px; /* adding a bottom margin to separate from next elements */
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0; /* Light grey border for subtle separation */
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 #text-analysis-form label {
-    display: block;  /* each radio option will take full line */
-    margin-bottom: 10px;  /* spacing between radio options */
-    padding: 5px;  /* some padding for easier clicking */
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;  /* for a hover transition */
+  display: block; /* each radio option will take full line */
+  margin-bottom: 10px; /* spacing between radio options */
+  padding: 5px; /* some padding for easier clicking */
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out; /* for a hover transition */
 }
 
 #text-analysis-form label:hover {
-    background-color: #f5f5f5;  /* a light grey for hover effect */
+  background-color: #f5f5f5; /* a light grey for hover effect */
+}
+
+body.dark-mode #text-analysis-form label:hover {
+  background-color: #3a3a3a;
 }
 
 #text-analysis-form input[type="radio"] {
-    margin-right: 8px;
+  margin-right: 8px;
+}
+
+/* Dark mode classes */
+
+body.dark-mode #text-analysis-form {
+  background-color: #242424;
+  border: black;
+  color: #ffffff;
+}
+
+body.dark-mode #text-analysis-form > div {
+  background-color: #242424;
+  border: black;
+  color: #ffffff;
+}
+
+body.dark-mode .data-input {
+  background-color: #121212;
+  border: black;
+  color: #ffffff;
+}
+
+body.dark-mode h1 {
+  color: #ffffff;
+}
+
+body.dark-mode h4 {
+  color: #ffffff;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: white;
-    margin: 50px;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  margin: 50px;
 }
-
 
 #pdfForm {
-    background: #ffffff;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    max-width: 1200px;
-    margin: 0 auto;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
 }
-
-
 
 input[type="checkbox"] {
-    margin-right: 10px;
+  margin-right: 10px;
 }
-
-
