@@ -501,40 +501,8 @@ h1 {
   background-color: #f5f5f5; /* a light grey for hover effect */
 }
 
-body.dark-mode #text-analysis-form label:hover {
-  background-color: #3a3a3a;
-}
-
 #text-analysis-form input[type="radio"] {
   margin-right: 8px;
-}
-
-/* Dark mode classes */
-
-body.dark-mode #text-analysis-form {
-  background-color: #242424;
-  border: black;
-  color: #ffffff;
-}
-
-body.dark-mode #text-analysis-form > div {
-  background-color: #242424;
-  border: black;
-  color: #ffffff;
-}
-
-body.dark-mode .data-input {
-  background-color: #121212;
-  border: black;
-  color: #ffffff;
-}
-
-body.dark-mode h1 {
-  color: #ffffff;
-}
-
-body.dark-mode h4 {
-  color: #ffffff;
 }
 
 body {

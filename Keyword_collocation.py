@@ -103,9 +103,8 @@ class KWICAnalyser:
         
        
         self.tokens_with_semantic_tags = self.tag_semantics(self.text)  # Store the semantic tags
-        print(len(self.tokens_with_semantic_tags))
-        print("tokens with semantic tags, in keyword colloc")
-        print(self.tokens_with_semantic_tags)
+        # print(len(self.tokens_with_semantic_tags))
+        # print(self.tokens_with_semantic_tags)
 
         self.PUNCS = [".", ",", "!", ":", ";", "-", "_", "?", "&", "*", "(", ")", "$", "@", "#", "%", "^", "+", "=", "<", ">", "/", "|", "]", "[", "{", "}", "\\", "'", "\""]
         #self.sementic_tags = pd.read_csv('website/data/Cy_tags.csv')
@@ -209,7 +208,7 @@ class KWICAnalyser:
         top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword]  # remove row where keyword == word
         G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
         n = max(counts)
-        print(G.nodes())
+        # print(G.nodes())
         most_frequent_word = max(collocs, key=lambda x: x[1])[0]
 
         net = Network(notebook=True, height='750px', width='100%')

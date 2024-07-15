@@ -47,10 +47,10 @@ class SentimentAnalyser:
 
     def analyse_sentiment(self, input_text, language,num_classes, max_seq_len=512):
     # Split the input text into separate reviews
-        print(num_classes)
+        # print(num_classes)
         reviews = input_text
-        print(reviews)
-        print(language)
+        # print(reviews)
+        # print(language)
     # Initialize sentiment counters based on num_classes
         if int(num_classes) == 3:
             

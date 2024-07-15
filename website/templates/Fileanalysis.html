@@ -307,17 +307,6 @@
     text-overflow: ellipsis;
   }
 
-  body.dark-mode .file-name {
-    flex-grow: 1; /* allows the filename span to take available space */
-    padding: 8px 10px;
-    border: 1px solid #d4d4d4;
-    border-radius: 4px;
-    background-color: #121212;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
   .input-hidden {
     position: absolute;
     opacity: 0;
@@ -334,13 +323,6 @@
     width: 100%; /* Set to the full width of its parent container */
     padding: 10px 20px;
     background-color: #f7f7f7;
-    border-bottom: 1px solid #e0e0e0;
-  }
-
-  body.dark-mode .columns-dropdown-container {
-    width: 100%; /* Set to the full width of its parent container */
-    padding: 10px 20px;
-    background-color: #242424;
     border-bottom: 1px solid #e0e0e0;
   }
 
@@ -630,6 +612,940 @@
   type="text/css"
   href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
 />
+
+<div
+  id="wordListOuterContainer"
+  class="responsive-flex rounded border border-light shadow my-5"
+  style="display: flex"
+>
+  <div
+    id="responsive-flex-first"
+    class="d-flex flex-column align-items-center search-container"
+  >
+    <div class="rounded p-4 w-100 border border-light bg-light">
+      <div class="pb-4 w-100">
+        <input
+          id="cloud-search"
+          class="p-2 form-control w-100"
+          type="search"
+          placeholder="Search in cloud..."
+          oninput="handleWordCloudSearchChange(event)"
+        />
+      </div>
+      <div
+        id="sem-tags-radio-selection"
+        class="container-fluid responsive-flex-rev justify-content-between mb-4"
+        style="display: none"
+      >
+        <div class="form-check">
+          <label class="form-check-label"
+            ><input
+              id="show-semantic-tags"
+              name="sem-tags-words-rad"
+              type="radio"
+              class="form-check-input"
+              checked=""
+            />
+            Show Semantic Tags
+          </label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label"
+            ><input
+              id="show-words"
+              name="sem-tags-words-rad"
+              type="radio"
+              class="form-check-input"
+            />
+            Show Words
+          </label>
+        </div>
+      </div>
+      <div
+        class="container align-items-center d-flex flex-column overflow-scroll-container"
+      >
+        <div
+          id="wordListContainer"
+          class="word-checkbox-list d-flex flex-column"
+          style="min-width: 100%"
+        >
+          <div>
+            <label><input type="checkbox" /> All</label>
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="1" class="word-checkbox" />
+              1</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="10" class="word-checkbox" />
+              10</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="2" class="word-checkbox" />
+              2</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="absolutely"
+                class="word-checkbox"
+              />
+              absolutely</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="affordable"
+                class="word-checkbox"
+              />
+              affordable</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="alternative"
+                class="word-checkbox"
+              />
+              alternative</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="area" class="word-checkbox" />
+              area</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="average" class="word-checkbox" />
+              average</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="avoid" class="word-checkbox" />
+              avoid</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="away" class="word-checkbox" />
+              away</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="awful" class="word-checkbox" />
+              awful</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="b" class="word-checkbox" />
+              b</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="bad" class="word-checkbox" />
+              bad</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="believe" class="word-checkbox" />
+              believe</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="better" class="word-checkbox" />
+              better</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="beware" class="word-checkbox" />
+              beware</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="bit" class="word-checkbox" />
+              bit</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="blr" class="word-checkbox" />
+              blr</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="bon" class="word-checkbox" />
+              bon</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="book" class="word-checkbox" />
+              book</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="budget" class="word-checkbox" />
+              budget</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="business" class="word-checkbox" />
+              business</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="cats" class="word-checkbox" />
+              cats</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="center" class="word-checkbox" />
+              center</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="cercate" class="word-checkbox" />
+              cercate</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="cheap" class="word-checkbox" />
+              cheap</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="ci" class="word-checkbox" />
+              ci</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="claustrophobics"
+                class="word-checkbox"
+              />
+              claustrophobics</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="clean" class="word-checkbox" />
+              clean</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="consigliato"
+                class="word-checkbox"
+              />
+              consigliato</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="convenient"
+                class="word-checkbox"
+              />
+              convenient</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="cosa" class="word-checkbox" />
+              cosa</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="costofantastico"
+                class="word-checkbox"
+              />
+              costofantastico</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="could" class="word-checkbox" />
+              could</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="court" class="word-checkbox" />
+              court</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="defence" class="word-checkbox" />
+              defence</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="depressing"
+                class="word-checkbox"
+              />
+              depressing</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="dreadful" class="word-checkbox" />
+              dreadful</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="dump" class="word-checkbox" />
+              dump</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="earls" class="word-checkbox" />
+              earls</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="ensuite" class="word-checkbox" />
+              ensuite</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="escapes" class="word-checkbox" />
+              escapes</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="ever" class="word-checkbox" />
+              ever</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="excellent" class="word-checkbox" />
+              excellent</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="excuse" class="word-checkbox" />
+              excuse</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="expect" class="word-checkbox" />
+              expect</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="expected" class="word-checkbox" />
+              expected</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="experience"
+                class="word-checkbox"
+              />
+              experience</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="far" class="word-checkbox" />
+              far</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="fire" class="word-checkbox" />
+              fire</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="friendly" class="word-checkbox" />
+              friendly</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="gardens" class="word-checkbox" />
+              gardens</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="giusto" class="word-checkbox" />
+              giusto</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="give" class="word-checkbox" />
+              give</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="good" class="word-checkbox" />
+              good</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="great" class="word-checkbox" />
+              great</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="harder" class="word-checkbox" />
+              harder</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="hellborn" class="word-checkbox" />
+              hellborn</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="helpful" class="word-checkbox" />
+              helpful</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="horrendous"
+                class="word-checkbox"
+              />
+              horrendous</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="horribilis"
+                class="word-checkbox"
+              />
+              horribilis</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="hotel" class="word-checkbox" />
+              hotel</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="il" class="word-checkbox" />
+              il</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="impersonal"
+                class="word-checkbox"
+              />
+              impersonal</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="io" class="word-checkbox" />
+              io</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="lexham" class="word-checkbox" />
+              lexham</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="located" class="word-checkbox" />
+              located</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="location" class="word-checkbox" />
+              location</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="london" class="word-checkbox" />
+              london</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="londra" class="word-checkbox" />
+              londra</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="loved" class="word-checkbox" />
+              loved</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="march" class="word-checkbox" />
+              march</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="meglio" class="word-checkbox" />
+              meglio</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="molto" class="word-checkbox" />
+              molto</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="money" class="word-checkbox" />
+              money</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="name" class="word-checkbox" />
+              name</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="nice" class="word-checkbox" />
+              nice</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="non" class="word-checkbox" />
+              non</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="nothing" class="word-checkbox" />
+              nothing</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="nt" class="word-checkbox" />
+              nt</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="ok" class="word-checkbox" />
+              ok</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="ottimo" class="word-checkbox" />
+              ottimo</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="paid" class="word-checkbox" />
+              paid</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="pay" class="word-checkbox" />
+              pay</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="perfectly" class="word-checkbox" />
+              perfectly</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="place" class="word-checkbox" />
+              place</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="placeno" class="word-checkbox" />
+              placeno</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="places" class="word-checkbox" />
+              places</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="pleasantly"
+                class="word-checkbox"
+              />
+              pleasantly</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="poor" class="word-checkbox" />
+              poor</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="possibile" class="word-checkbox" />
+              possibile</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="pretty" class="word-checkbox" />
+              pretty</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="price" class="word-checkbox" />
+              price</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="prices" class="word-checkbox" />
+              prices</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="pulito" class="word-checkbox" />
+              pulito</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="rara" class="word-checkbox" />
+              rara</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="really" class="word-checkbox" />
+              really</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="right" class="word-checkbox" />
+              right</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="room" class="word-checkbox" />
+              room</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="scaring" class="word-checkbox" />
+              scaring</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="scary" class="word-checkbox" />
+              scary</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="se" class="word-checkbox" />
+              se</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input
+                type="checkbox"
+                value="shellbourne"
+                class="word-checkbox"
+              />
+              shellbourne</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="small" class="word-checkbox" />
+              small</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="smart" class="word-checkbox" />
+              smart</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="smile" class="word-checkbox" />
+              smile</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="somewhere" class="word-checkbox" />
+              somewhere</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="sssshh" class="word-checkbox" />
+              sssshh</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="staff" class="word-checkbox" />
+              staff</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="stars" class="word-checkbox" />
+              stars</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="stay" class="word-checkbox" />
+              stay</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="stayed" class="word-checkbox" />
+              stayed</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="still" class="word-checkbox" />
+              still</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="suppose" class="word-checkbox" />
+              suppose</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="suprised" class="word-checkbox" />
+              suprised</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="swinging" class="word-checkbox" />
+              swinging</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="terriblew" class="word-checkbox" />
+              terriblew</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="three" class="word-checkbox" />
+              three</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="tiny" class="word-checkbox" />
+              tiny</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="tornerei" class="word-checkbox" />
+              tornerei</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="travel" class="word-checkbox" />
+              travel</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="traveler" class="word-checkbox" />
+              traveler</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="travelers" class="word-checkbox" />
+              travelers</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="try" class="word-checkbox" />
+              try</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="us" class="word-checkbox" />
+              us</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="value" class="word-checkbox" />
+              value</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="visto" class="word-checkbox" />
+              visto</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="wish" class="word-checkbox" />
+              wish</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="worst" class="word-checkbox" />
+              worst</label
+            >
+          </div>
+          <div style="order: 0; display: block">
+            <label
+              ><input type="checkbox" value="years" class="word-checkbox" />
+              years</label
+            >
+          </div>
+        </div>
+      </div>
+      <div class="w-100 d-flex justify-content-center pt-4">
+        <input
+          id="word-changes-submit"
+          class="p-2 btn btn-outline-primary w-100"
+          type="submit"
+          value="Submit selection"
+          onclick="regenerateWordCloud()"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    id="wordCloudImageContainer"
+    class="container-fluid d-flex flex-column justify-content-center align-items-center w-100 ordered-list-container position-relative"
+  >
+    <div class="position-absolute p-2" style="top: 0; right: 0">
+      <label>
+        <input
+          type="checkbox"
+          class="hidden"
+          onchange="handleWordCloudPosChange(event)" /><i
+          id="word-cloud-control-icon"
+          class="fa-solid fa-expand"
+          style="font-size: 30px"
+        ></i
+      ></label>
+    </div>
+    <img
+      id="wordCloudImage"
+      class="w-100"
+      src="static/wordcloud/wordcloud_1721053027.png"
+      alt="Word Cloud Image"
+      style="display: block"
+    />
+  </div>
+</div>
 
 <h1
   data-lang-en="How would you like to start your analysis?"

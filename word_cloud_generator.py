@@ -119,7 +119,7 @@ class WordCloudGenerator:
             cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split('+').str[0]
             
             merged_df = pd.merge(cy_tagged, self.pymusaslist, on='USAS Tags', how='left')
-            print(merged_df)
+            # print(merged_df)
             merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag'] 
             merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
             tags_to_remove = ['Unmatched', 'Grammatical bin', 'Pronouns', 'Period']
@@ -375,7 +375,7 @@ class WordCloudGenerator:
         all_words = []
         merged_df = pd.DataFrame()
         tokenized_words = [word for word in input_data['Text']]
-        print(tokenized_words)
+        # print(tokenized_words)
         df = self.compute_word_frequency(tokenized_words, language)
         # Possibly initialise KWIC analyser here, get semantic tags and words here
     
@@ -421,9 +421,9 @@ class WordCloudGenerator:
                 'adjectives': 'ADJ', 'adverbs': 'ADV', 'numbers': 'NUM'
             }
             doc = nlp(json_data)
-            print('doc',doc)
+            # print('doc',doc)
             all_words = [token.text for token in doc if token.pos_ == pos_dict[cloud_type]]
-            print(all_words)
+            # print(all_words)
             if not all_words:
                 return f"No words of type '{cloud_type}' found. Please select another word type.", pd.DataFrame()
             df = self.compute_word_frequency(all_words, language)
@@ -432,14 +432,7 @@ class WordCloudGenerator:
                 all_words = [word for word in all_words if word in wordlist]
                 merged_df = merged_df[merged_df['word'].isin(wordlist)]
 
-        elif cloud_type == 'semantic_tags':
-            print()
-            print()
-            print("Semantic tag cloud selected!!!")
-            print(self.tokens_with_semantic_tags)
-            print()
-            print()
-            
+        elif cloud_type == 'semantic_tags':        
             #tags = self.Pymsas_tags(input_data)
             tags = pd.DataFrame(input_data['USAS Tags'].tolist())
             tags_freq = tags.value_counts().reset_index(name='Frequency')
@@ -463,11 +456,11 @@ class WordCloudGenerator:
 
             all_words = Tags_f_reference['word'].tolist()
             merged_df = Tags_f_reference
-            print()
-            print("semantic tags")
-            print(all_words)
-            print()
-            print(merged_df)
+            # print()
+            # print("semantic tags")
+            # print(all_words)
+            # print()
+            # print(merged_df)
 
             if wordlist:
                 all_words = [word for word in all_words if word in wordlist]

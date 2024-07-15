@@ -189,7 +189,8 @@ def fileanalysis():
             
         
         elif input_method == 'upload':
-        # Before saving the new file path, let's clean up any previously uploaded file
+            #! Limit allowed file size
+            # Before saving the new file path, let's clean up any previously uploaded file
             previous_file_path = session.get('uploaded_file_path')
             
             if previous_file_path and os.path.exists(previous_file_path):
@@ -212,6 +213,16 @@ def fileanalysis():
                 filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
                 #print(filepath)
                 file.save(filepath)
+                
+                file_length = os.stat(filepath).st_size
+                
+                print()
+                print()
+                print("FILE LENGTH")
+                print(file_length)
+                print()
+                print()
+                
                 session['uploaded_file_path'] = filepath  # save the new file path to session
                 data = read_file(filepath)
                 session['data'] = data.to_json()  # Convert the DataFrame to JSON and store in new session

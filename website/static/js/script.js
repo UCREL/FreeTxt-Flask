@@ -2266,6 +2266,32 @@ function handleWordCloudSearchChange(event) {
   });
 }
 
+const handleWordCloudPosChange = (event) => {
+  const wordCloudContainer = document.getElementById("wordListOuterContainer");
+  const firstChild = document.getElementById("responsive-flex-first");
+  const secondChild = document.getElementById("wordCloudImageContainer");
+
+  const wordCloudControlIcon = document.getElementById(
+    "word-cloud-control-icon"
+  );
+
+  if (event.target.checked) {
+    wordCloudContainer.classList.remove("responsive-flex");
+    wordCloudContainer.classList.add("d-flex", "flex-column");
+    wordCloudContainer.insertBefore(secondChild, firstChild);
+
+    wordCloudControlIcon.classList.remove("fa-solid", "fa-expand");
+    wordCloudControlIcon.classList.add("fa-solid", "fa-minimize");
+  } else {
+    wordCloudContainer.classList.add("responsive-flex");
+    wordCloudContainer.classList.remove("d-flex", "flex-column");
+    wordCloudContainer.insertBefore(firstChild, secondChild);
+
+    wordCloudControlIcon.classList.remove("fa-solid", "fa-minimize");
+    wordCloudControlIcon.classList.add("fa-solid", "fa-expand");
+  }
+};
+
 $(document).ready(function () {
   // Range summarization script
   //$('#chosen_ratio').on('input change', function() {

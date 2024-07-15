@@ -4,17 +4,10 @@ body {
   font-size: 18px;
 }
 
+/* All dark mode classes */
 body.dark-mode {
   background-color: #121212;
   color: #ffffff;
-}
-
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem;
-  background-color: #f6f6f6;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 body.dark-mode .nav-container {
@@ -23,6 +16,95 @@ body.dark-mode .nav-container {
 
 body.dark-mode > footer {
   background-color: #242424;
+}
+
+body.dark-mode .logo-wrapper {
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1); /* A subtle shadow but in light color for dark mode */
+}
+
+body.dark-mode .primary-menu a:hover {
+  background-color: #3a3a3a;
+}
+
+body.dark-mode #text-analysis-form {
+  background-color: #242424;
+  border: black;
+  color: #ffffff;
+}
+
+body.dark-mode #text-analysis-form > div {
+  background-color: #242424;
+  border: black;
+  color: #ffffff;
+}
+
+body.dark-mode #text-analysis-form label:hover {
+  background-color: #3a3a3a;
+}
+
+body.dark-mode .columns-dropdown-container {
+  width: 100%; /* Set to the full width of its parent container */
+  padding: 10px 20px;
+  background-color: #242424;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+body.dark-mode .data-input {
+  background-color: #121212;
+  border: black;
+  color: #ffffff;
+}
+
+body.dark-mode .file-name {
+  flex-grow: 1; /* allows the filename span to take available space */
+  padding: 8px 10px;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  background-color: #121212;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+body.dark-mode h1 {
+  color: #ffffff;
+}
+
+body.dark-mode h4 {
+  color: #ffffff;
+}
+
+body.dark-mode .choices__inner {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode .choices__input {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode .choices__list.choices__list--dropdown.is-active {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode .styled-dropdown {
+  color: #ffffff;
+  background-color: #121212;
+}
+
+body.dark-mode #columns-dropdown {
+  color: #ffffff;
+  background-color: #121212;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #f6f6f6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .primary-menu ul {
@@ -42,10 +124,6 @@ body.dark-mode > footer {
 
 .primary-menu a:hover {
   background-color: #e5e5e5;
-}
-
-body.dark-mode .primary-menu a:hover {
-  background-color: #3a3a3a;
 }
 
 body.light-mode {
@@ -246,10 +324,6 @@ footer {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* A subtle shadow to make the logo pop */
   margin-bottom: 20px; /* Some space below the logo */
   transition: box-shadow 0.3s;
-}
-
-body.dark-mode .logo-wrapper {
-  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1); /* A subtle shadow but in light color for dark mode */
 }
 
 .page-logo {
