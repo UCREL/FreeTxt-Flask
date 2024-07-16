@@ -570,14 +570,17 @@ def generate_wordcloud():
         if cloud_type == 'semantic_tags' and session["tokens_with_semantic_tags"]:
             words_tags = session["tokens_with_semantic_tags"]
             words_with_sem_tags = [word for (word, pos, tag) in words_tags if tag in word_list]
-            sec_wc_path, sec_word_list = cloud_generator.generate_wordcloud(cloud_shape_path, cloud_outline_color, 'all_words', language, cloud_measure, words_with_sem_tags, f"_words")
+            sec_wc_path, sec_word_list = cloud_generator.generate_wordcloud(cloud_shape_path, cloud_outline_color, 'all_words', language, cloud_measure, words_with_sem_tags, f"{time.time()}_words")
+            
+            tag_words_associations = {tag: list({word for (word, pos, tag_entry) in words_tags if tag == tag_entry}) for (word, pos, tag) in words_tags if tag in word_list}
             
             session['sec_word_cloud_src'] = sec_wc_path
             
             json_data = {
                 "status": "success",
                 "wordcloud_image_path": [wc_path, sec_wc_path],
-                "word_list": [word_list, sec_word_list]
+                "word_list": [word_list, sec_word_list],
+                "tag_words_associations": tag_words_associations
                 }
             
         return jsonify(json_data)
@@ -1003,12 +1006,15 @@ def regenerate_wordcloud():
             words_with_sem_tags = [word for (word, pos, tag) in words_tags if tag in word_list]
             sec_wc_path, sec_word_list = cloud_generator.generate_wordcloud(cloud_shape_path, cloud_outline_color, 'all_words', language, cloud_measure, words_with_sem_tags, f"{time.time()}_words")
             
+            tag_words_associations = {tag: list({word for (word, pos, tag_entry) in words_tags if tag == tag_entry}) for (word, pos, tag) in words_tags if tag in word_list}
+            
             session['sec_word_cloud_src'] = sec_wc_path
             
             json_data = {
                 "status": "success",
                 "wordcloud_image_path": [wc_path, sec_wc_path],
-                "word_list": [word_list, sec_word_list]
+                "word_list": [word_list, sec_word_list],
+                "tag_words_associations": tag_words_associations
                 }
         
         return jsonify(json_data)

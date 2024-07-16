@@ -2010,7 +2010,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function generateWordClouds() {
-  console.log("generateWordClouds called");
   const loadingElement = document.getElementById("loading");
   const wordListOuterContainer = document.getElementById(
     "wordListOuterContainer"
@@ -2018,8 +2017,6 @@ function generateWordClouds() {
 
   loadingElement.style.display = "flex";
   wordListOuterContainer.style.setProperty("display", "none", "important");
-
-  console.log(wordListOuterContainer.style.display);
 
   const downloadWordCloudBtn = document.getElementById("word-cloud-download-1");
   const downloadSecWordCloudBtn = document.getElementById(
@@ -2096,6 +2093,8 @@ function generateWordClouds() {
             wordCloudImg.style.display = "none";
           });
 
+          renderTagWordsAssociatons(data.tag_words_associations);
+
           // Make second word cloud download button visible
           downloadSecWordCloudBtn.style.display = "block";
         }
@@ -2155,6 +2154,51 @@ function renderWordCheckboxes(wordList) {
     wordContainer.appendChild(label);
     wordListContainer.appendChild(wordContainer);
   });
+}
+
+function renderTagWordsAssociatons(tagWordsArray) {
+  const listContainer = document.getElementById("tag-words-associations-list");
+  // Reset list
+  listContainer.innerHTML = "";
+  for (let [tag, wordArray] of Object.entries(tagWordsArray)) {
+    tagWordsContainer = document.createElement("div");
+    tagWordsContainer.classList.add("container-fluid", "d-flex", "flex-column");
+
+    const tagContainer = document.createElement("h3");
+    tagContainer.id = `tag-${tag}`;
+    tagContainer.classList.add(
+      "d-flex",
+      "justify-content-center",
+      "align-items-center",
+      "text-break"
+    );
+    tagContainer.appendChild(document.createTextNode(tag));
+
+    const wordListContainer = document.createElement("div");
+    wordListContainer.classList.add(
+      "container-fluid",
+      "row",
+      "row-cols-1",
+      "row-cols-md-auto"
+    );
+
+    wordArray.forEach((word) => {
+      const col = document.createElement("div");
+      col.classList.add(
+        "col",
+        "d-flex",
+        "justify-content-center",
+        "align-items-center",
+        "text-break"
+      );
+      col.appendChild(document.createTextNode(word));
+      wordListContainer.appendChild(col);
+    });
+
+    tagWordsContainer.appendChild(tagContainer);
+    tagWordsContainer.appendChild(wordListContainer);
+    listContainer.appendChild(tagWordsContainer);
+  }
 }
 
 function regenerateWordCloud() {
@@ -2250,6 +2294,8 @@ function regenerateWordCloud() {
           secWordCloudImg.alt = "Second Word Cloud Image";
           secWordCloudImg.style.display = wordsRadio.checked ? "block" : "none";
           wordCloudImgContainer.appendChild(secWordCloudImg);
+
+          renderTagWordsAssociatons(data.tag_words_associations);
         }
 
         loadingElement.style.display = "none";
