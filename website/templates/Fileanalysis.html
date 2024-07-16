@@ -1500,7 +1500,7 @@
                       class="form-check-input"
                       checked
                     />
-                    Show Semantic Tags
+                    Show Tags
                   </label>
                 </div>
                 <div class="form-check">
@@ -1511,7 +1511,7 @@
                       type="radio"
                       class="form-check-input"
                     />
-                    Show Words
+                    Show Words With Tags
                   </label>
                 </div>
               </div>
@@ -1541,7 +1541,7 @@
           class="container-fluid d-flex flex-column justify-content-center align-items-center w-100 position-relative p-0 m-0"
         >
           <div class="position-absolute p-2" style="top: 0; right: 0">
-            <label>
+            <label class="size-btn">
               <input
                 type="checkbox"
                 class="hidden"
@@ -1567,6 +1567,20 @@
           data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau"
         >
           Download Word Cloud image
+        </button>
+      </a>
+      <a
+        id="word-cloud-download-2"
+        href="/get-sec-word-cloud"
+        style="display: none"
+        download
+      >
+        <button
+          class="analyze-btn mt-2"
+          data-lang-en="Download Word Cloud image (Semantic Tags)"
+          data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau (Needs welsh translation)"
+        >
+          Download Word Cloud image (Semantic Tags)
         </button>
       </a>
 
@@ -1639,8 +1653,8 @@
             data-lang-cy="Dewiswch Opsiwn"
             >Select Option</label
           >
-          <!-- <select id="subCategoryDropdown" class="form-control"></select> -->
-          <div
+          <select id="subCategoryDropdown" class="form-control"></select>
+          <!-- <div
             id="subCategoryMenu"
             class="rounded container-fluid bg-light border border-light p-3 shadow mb-4 mt-2 d-flex flex-column"
             style="max-height: 500px"
@@ -1673,15 +1687,25 @@
                 onclick="regenerateWordCloud()"
               />
             </div>
-          </div>
-          <a href="/get-word-frequencies-data" download>
+          </div> -->
+          <a href="/get-filtered-word-frequencies-data" download>
             <button
               type="button"
               class="analyze-btn hidden"
-              data-lang-en="Download Word Frequency Results"
-              data-lang-cy="Llwytho canlyniadau amlder geiriau i lawr"
+              data-lang-en="Download Filtered Word Frequency Results"
+              data-lang-cy="Needs Welsh translation"
             >
-              Download Word Frequency Results
+              Download Filtered Word Frequency Results
+            </button>
+          </a>
+          <a href="/get-unfiltered-word-frequencies-data" download>
+            <button
+              type="button"
+              class="analyze-btn hidden mt-2"
+              data-lang-en="Download Unfiltered Word Frequency Results"
+              data-lang-cy="Needs Welsh translation"
+            >
+              Download Unfiltered Word Frequency Results
             </button>
           </a>
         </div>

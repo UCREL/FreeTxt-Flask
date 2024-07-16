@@ -807,7 +807,6 @@ def add_logo_and_text_to_image(image_path):
     # Save the modified image back to the same path
     wc_image.save(image_path)
 
-
 @FileAnalysis.route('/get-word-cloud')
 def get_word_cloudsrc():
     if 'word_cloud_src' in session:
@@ -816,7 +815,13 @@ def get_word_cloudsrc():
         add_logo_and_text_to_image(os.path.join('website/static/wordcloud/', filename))       
     return send_from_directory(directory='static/wordcloud/', path=filename, as_attachment=True)
 
-
+@FileAnalysis.route('/get-sec-word-cloud')
+def get_sec_word_cloudsrc():
+    if 'sec_word_cloud_src' in session:
+        word_cloud_src = session.get('sec_word_cloud_src')
+        filename = os.path.basename(word_cloud_src)
+        add_logo_and_text_to_image(os.path.join('website/static/wordcloud/', filename))       
+    return send_from_directory(directory='static/wordcloud/', path=filename, as_attachment=True)
 
 @FileAnalysis.route('/get-graph-path')
 def get_graph_path():
@@ -881,46 +886,61 @@ def get_keyword_data():
         # Handle  exception here
         return "Server encountered an error", 500
     
-@FileAnalysis.route('/get-word-frequencies-data')
-def get_word_frequencies():
+@FileAnalysis.route('/get-filtered-word-frequencies-data')
+def get_filtered_word_frequencies():
     try:
-        if 'word_frequencies' in session and 'unfiltered_word_frequencies' in session:
+        if 'word_frequencies' in session:
             word_frequencies = session['word_frequencies']
-            unfiltered_word_frequencies = session['unfiltered_word_frequencies']
             
             # Sorted by frequency
             sorted_word_frequencies = {k: v for k, v in sorted(word_frequencies.items(), key=lambda item: (-item[1], item[0]))}
-            sorted_unfiltered_word_frequencies = {k: v for k, v in sorted(unfiltered_word_frequencies.items(), key=lambda item: (-item[1], item[0]))}
             
-            # The filtered data
             structured_data = [{
                 'word': key,
                 'frequency': val
                 } for key, val in sorted_word_frequencies.items()]
             
-            # The unfiltered data
-            unfiltered_structured_data = [{
-                'word': key,
-                'frequency': val
-                } for key, val in sorted_unfiltered_word_frequencies.items()]
-            
             filtered_data = pd.DataFrame(structured_data)
-            unfiltered_data = pd.DataFrame(unfiltered_structured_data)
-            
-            # Create headings and gaps
-            unfiltered_heading = pd.DataFrame([["Unfiltered Data", ""]], columns=["word", "frequency"])
-            gap = pd.DataFrame([["", ""]], columns=["word", "frequency"])
-            
-            merged_frequency_data = pd.concat([filtered_data, gap, unfiltered_heading, unfiltered_data]).reset_index(drop=True)
             
             buffer = BytesIO()
-            merged_frequency_data.to_csv(buffer, index=False, encoding='utf-8')
+            filtered_data.to_csv(buffer, index=False, encoding='utf-8')
             buffer.seek(0)
             
             return Response(
                 buffer.getvalue(),
                 headers={
-                 "Content-Disposition": "attachment; filename=keywordData.csv",
+                 "Content-Disposition": "attachment; filename=filteredKeywordData.csv",
+                "Content-type": "text/csv"
+                }
+            )
+    except Exception as e:
+        return "Server encountered an error", 500
+
+@FileAnalysis.route('/get-unfiltered-word-frequencies-data')
+def get_unfiltered_word_frequencies():
+    try:
+        if 'unfiltered_word_frequencies' in session:
+            unfiltered_word_frequencies = session['unfiltered_word_frequencies']
+            
+            # Sorted by frequency
+            sorted_unfiltered_word_frequencies = {k: v for k, v in sorted(unfiltered_word_frequencies.items(), key=lambda item: (-item[1], item[0]))}
+            
+            structured_data = [{
+                'word': key,
+                'frequency': val
+                } for key, val in sorted_unfiltered_word_frequencies.items()]
+            
+            
+            unfiltered_data = pd.DataFrame(structured_data)
+            
+            buffer = BytesIO()
+            unfiltered_data.to_csv(buffer, index=False, encoding='utf-8')
+            buffer.seek(0)
+            
+            return Response(
+                buffer.getvalue(),
+                headers={
+                 "Content-Disposition": "attachment; filename=unfilteredKeywordData.csv",
                 "Content-type": "text/csv"
                 }
             )

@@ -70,6 +70,15 @@
   animation: iconAnimation 1.5s infinite;
 }
 
+/* For word cloud */
+.size-btn {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.size-btn:hover {
+  opacity: 0.5;
+}
+
 .cloud-loading {
   animation: iconAnimation 1.5s infinite;
 }
