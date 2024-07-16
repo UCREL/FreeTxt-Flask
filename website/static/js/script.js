@@ -1649,6 +1649,7 @@ function createPaginationControls(container, data) {
 }
 
 let choicesInstance = null;
+
 function populateColumns(columns) {
   document.getElementById("column-selection").classList.remove("hidden");
   const dropdownElement = document.getElementById("columns-dropdown");
@@ -1956,6 +1957,9 @@ function sendWordCloudRequest() {
   );
   wordListOuterContainer.style.display = "none";
 
+  const cloudLoadingElement = document.getElementById("cloudLoading");
+  cloudLoadingElement.style.display = "block";
+
   fetch("/generate_wordcloud", {
     method: "POST",
     headers: {
@@ -1977,6 +1981,7 @@ function sendWordCloudRequest() {
       // Checks all checkboxes
       toggleCheckboxes(true);
       downloadWordCloudBtn.style.display = "block";
+      cloudLoadingElement.style.display = "none";
     })
     .catch((error) => {
       console.error("Error generating word cloud:", error);
@@ -2006,7 +2011,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function generateWordClouds() {
   const loadingElement = document.getElementById("loading");
+  const wordListOuterContainer = document.getElementById(
+    "wordListOuterContainer"
+  );
+
   loadingElement.style.display = "flex";
+  wordListOuterContainer.style.display = "none";
+
   const downloadWordCloudBtn = document.getElementById("word-cloud-download-1");
   downloadWordCloudBtn.style.display = "none";
 
@@ -2017,11 +2028,6 @@ function generateWordClouds() {
     cloud_outline_color: formData.get("cloud_outline_color"),
     cloud_measure: formData.get("cloud_measure"),
   };
-
-  const wordListOuterContainer = document.getElementById(
-    "wordListOuterContainer"
-  );
-  wordListOuterContainer.style.display = "none";
 
   fetch("/generate_wordcloud", {
     method: "POST",
@@ -2094,7 +2100,7 @@ function generateWordClouds() {
           "sem-tags-radio-selection"
         );
         tagsOrWordsRadio.style.display =
-          cloud_data.cloud_type === "semantic_tags" ? "block" : "none";
+          cloud_data.cloud_type === "semantic_tags" ? "flex" : "none";
 
         loadingElement.style.display = "none";
       }, 5000);
@@ -2116,8 +2122,11 @@ function renderWordCheckboxes(wordList) {
   selectAllCheckbox.onclick = function () {
     toggleCheckboxes(this.checked);
   };
+  selectAllContainer.classList.add("mb-1");
   selectAllLabel.appendChild(selectAllCheckbox);
   selectAllLabel.appendChild(document.createTextNode(" All"));
+  selectAllLabel.classList.add("px-1", "text-break");
+  selectAllCheckbox.classList.add("word-checkbox-all", "my-1");
   selectAllContainer.appendChild(selectAllLabel);
   wordListContainer.appendChild(selectAllContainer);
 
@@ -2126,9 +2135,11 @@ function renderWordCheckboxes(wordList) {
     const wordContainer = document.createElement("div");
     const label = document.createElement("label");
     const checkbox = document.createElement("input");
+    wordContainer.classList.add("my-1");
     checkbox.type = "checkbox";
     checkbox.value = word;
-    checkbox.className = "word-checkbox"; // For the select/deselect function
+    checkbox.classList.add("word-checkbox", "my-1"); // For the select/deselect function
+    label.classList.add("d-flex", "align-items-start", "px-1", "text-break");
     label.appendChild(checkbox);
     label.appendChild(document.createTextNode(` ${word}`));
     wordContainer.appendChild(label);
@@ -2270,6 +2281,10 @@ const handleWordCloudPosChange = (event) => {
   const wordCloudContainer = document.getElementById("wordListOuterContainer");
   const firstChild = document.getElementById("responsive-flex-first");
   const secondChild = document.getElementById("wordCloudImageContainer");
+  const wordListContainer = document.getElementById("wordListContainer");
+  const semTagsRadioContainer = document.getElementById(
+    "sem-tags-radio-selection"
+  );
 
   const wordCloudControlIcon = document.getElementById(
     "word-cloud-control-icon"
@@ -2280,8 +2295,25 @@ const handleWordCloudPosChange = (event) => {
     wordCloudContainer.classList.add("d-flex", "flex-column");
     wordCloudContainer.insertBefore(secondChild, firstChild);
 
+    // Replaces expand icon with minimise
     wordCloudControlIcon.classList.remove("fa-solid", "fa-expand");
     wordCloudControlIcon.classList.add("fa-solid", "fa-minimize");
+
+    // Allows list to expand to full width
+    firstChild.classList.remove("search-container");
+
+    // Changes word list layout from single column to grid
+    wordListContainer.classList.remove("d-flex", "flex-column");
+    wordListContainer.classList.add(
+      "row",
+      "row-cols-1",
+      "row-cols-sm-2",
+      "row-cols-md-4",
+      "row-cols-xl-5"
+    );
+
+    // Changes position of radio selectors
+    semTagsRadioContainer.classList.add("justify-content-center");
   } else {
     wordCloudContainer.classList.add("responsive-flex");
     wordCloudContainer.classList.remove("d-flex", "flex-column");
@@ -2289,6 +2321,22 @@ const handleWordCloudPosChange = (event) => {
 
     wordCloudControlIcon.classList.remove("fa-solid", "fa-minimize");
     wordCloudControlIcon.classList.add("fa-solid", "fa-expand");
+
+    // Allows list to expand to 25% of parent max
+    firstChild.classList.add("search-container");
+
+    // Changes word list layout from grid back to single column
+    wordListContainer.classList.remove(
+      "row",
+      "row-cols-1",
+      "row-cols-sm-2",
+      "row-cols-md-4",
+      "row-cols-xl-5"
+    );
+    wordListContainer.classList.add("d-flex", "flex-column");
+
+    // Changes position of radio selectors
+    semTagsRadioContainer.classList.remove("justify-content-center");
   }
 };
 

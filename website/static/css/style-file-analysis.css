@@ -70,6 +70,10 @@
   animation: iconAnimation 1.5s infinite;
 }
 
+.cloud-loading {
+  animation: iconAnimation 1.5s infinite;
+}
+
 @keyframes iconAnimation {
   0%,
   100% {
@@ -343,11 +347,6 @@ iframe#scattertextIframe {
 
 .form-label {
   font-size: 20px; /* Increase label font size */
-}
-#wordListContainer {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns */
-  gap: 10px 15px; /* Vertical & horizontal gap */
 }
 #wordListContainer > div:first-child label {
   font-size: 1.5em;
