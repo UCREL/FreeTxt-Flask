@@ -240,11 +240,12 @@ class WordCloudGenerator:
         MAX_HEIGHT = 2000
         MIN_FONT_SIZE=10
         MAX_FONT_SIZE=100
+        
         filtered_words = self.filter_words(word_list)
         
         max_freq=1
         image_mask = imageio.imread(cloud_shape_path)
-        if metric== 'Frequency':
+        if metric == 'Frequency':
             try:
 
                   filtered_df = dataframe[dataframe['word'].isin(filtered_words)]
@@ -271,14 +272,12 @@ class WordCloudGenerator:
         elif 'Equivalent Tag' in dataframe.columns:
             frequency_dist = Counter(filtered_words)
         else:
-            
-            
             frequency_dist = {row['word']: row[metric] for index, row in dataframe.iterrows()}
-            frequency_dist = {k: v for k, v in frequency_dist.items() if v >= 0}
+            # Error handling
+            if len(frequency_dist) > 1:
+                frequency_dist = {k: v for k, v in frequency_dist.items() if v >= 0}
             max_freq = max(frequency_dist.values())
         # Create a frequency distribution
-        #
-       
         
         filters = set(filtered_words)
       

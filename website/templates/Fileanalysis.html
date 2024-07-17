@@ -1560,11 +1560,33 @@
           />
         </div>
       </div>
-      <div id="tag-words-associations-container" class="container-fluid">
-        <h1>Words Associated with Semantic Tags</h1>
+
+      <div
+        id="tag-words-associations-container"
+        class="container-fluid p-0"
+        style="display: none"
+      >
+        <div
+          class="flex-container align-items-center justify-content-center mb-5"
+        >
+          <h2 class="mr-2">Word &amp; Tag Associations</h2>
+          <label class="form-check-label size-btn" style="width: 30px">
+            <input
+              type="checkbox"
+              class="hidden form-check-input"
+              onchange="handleWordTagListVis(event)"
+            />
+            <i
+              id="word-tag-list-icon"
+              class="fa-solid fa-eye-slash"
+              style="font-size: 30px; min-width: 30px"
+            ></i>
+          </label>
+        </div>
+
         <div
           id="tag-words-associations-list"
-          class="container row row-cols-1 row-cols-sm-2 row-cols-md-4"
+          class="container-fluid w-100 row row-cols-1 row-cols-sm-2 row-cols-lg-4 m-0"
         ></div>
       </div>
       <a id="word-cloud-download-1" href="/get-word-cloud" download>
