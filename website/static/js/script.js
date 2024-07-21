@@ -2482,8 +2482,8 @@ function handleWordFreqSearchChange(event) {
   const searchBox = event.target;
   const query = searchBox.value.toLowerCase();
 
-  const subCategoryWordList = document.getElementById("subCategoryWordList");
-  const wordList = subCategoryWordList.querySelectorAll("div");
+  const subCategoryDropdown = document.getElementById("subCategoryDropdown");
+  const wordList = subCategoryDropdown.querySelectorAll("div");
 
   wordList.forEach((div) => {
     const label_text = div.querySelector("label").textContent.toLowerCase();
@@ -2502,57 +2502,7 @@ function handleWordFreqSearchChange(event) {
 }
 
 //! Populates word use and relationships dropdown
-// function populateDropdown(wordFrequencies) {
-//   // const dropdown = document.getElementById("subCategoryDropdown");
-//   // const subCategoryDropdown = document.getElementById("subCategoryDropdown");
-//   const subCategoryWordList = document.getElementById("subCategoryWordList");
-
-//   // Clear the current options
-//   // while (subCategoryDropdown.firstChild) {
-//   //   subCategoryDropdown.removeChild(subCategoryDropdown.firstChild);
-//   // }
-
-//   while (subCategoryWordList.firstChild) {
-//     subCategoryWordList.removeChild(subCategoryWordList.firstChild);
-//   }
-
-//   const wordFrequencyPairs = Object.entries(wordFrequencies);
-//   wordFrequencyPairs.sort((a, b) => b[1] - a[1]);
-//   wordFrequencyPairs.forEach(([word, frequency], i) => {
-//     // const option = document.createElement("option");
-//     // option.value = word;
-//     // option.text = `${word} (${frequency})`;
-//     // option.setAttribute("data-type", "word");
-//     // dropdown.add(option);
-//     const colContainer = document.createElement("div");
-//     colContainer.classList.add("col", "py-1");
-
-//     const wordFreqContainer = document.createElement("div");
-//     wordFreqContainer.classList.add("form-check");
-
-//     const input = document.createElement("input");
-//     input.id = `word-freq-${i}`;
-//     input.dataset.word = word;
-//     input.dataset.frequency = frequency;
-//     input.type = "checkbox";
-//     input.classList.add("form-check-input");
-
-//     const label = document.createElement("label");
-//     label.htmlFor = `word-freq-${i}`;
-//     label.classList.add("form-check-label");
-//     label.textContent = `${word} (${frequency})`;
-
-//     wordFreqContainer.appendChild(input);
-//     wordFreqContainer.appendChild(label);
-
-//     colContainer.appendChild(wordFreqContainer);
-
-//     subCategoryWordList.appendChild(colContainer);
-//   });
-// }
-
 function populateDropdown(wordFrequencies) {
-  const dropdown = document.getElementById("subCategoryDropdown");
   const subCategoryDropdown = document.getElementById("subCategoryDropdown");
 
   // Clear the current options
@@ -2562,15 +2512,48 @@ function populateDropdown(wordFrequencies) {
 
   const wordFrequencyPairs = Object.entries(wordFrequencies);
   wordFrequencyPairs.sort((a, b) => b[1] - a[1]);
-  console.log("wordFrequencies length:", wordFrequencyPairs.length);
-  for (let [word, frequency] of wordFrequencyPairs) {
-    const option = document.createElement("option");
-    option.value = word;
-    option.text = `${word} (${frequency})`;
-    option.setAttribute("data-type", "word");
-    dropdown.add(option);
-  }
+  wordFrequencyPairs.forEach(([word, frequency], i) => {
+    const colContainer = document.createElement("div");
+    colContainer.classList.add("col", "py-1");
+
+    const input = document.createElement("input");
+    input.id = `word-freq-${i}`;
+    input.dataset.word = word;
+    input.dataset.frequency = frequency;
+    input.setAttribute("data-type", "word");
+    input.type = "checkbox";
+    input.classList.add("hidden");
+
+    const label = document.createElement("label");
+    label.classList.add("form-check-label");
+    label.textContent = `${word} (${frequency})`;
+
+    label.appendChild(input);
+    colContainer.appendChild(label);
+    subCategoryDropdown.appendChild(colContainer);
+  });
 }
+
+// function populateDropdown(wordFrequencies) {
+//   const dropdown = document.getElementById("subCategoryDropdown");
+//   const subCategoryDropdown = document.getElementById("subCategoryDropdown");
+
+//   // Clear the current options
+//   while (subCategoryDropdown.firstChild) {
+//     subCategoryDropdown.removeChild(subCategoryDropdown.firstChild);
+//   }
+
+//   const wordFrequencyPairs = Object.entries(wordFrequencies);
+//   wordFrequencyPairs.sort((a, b) => b[1] - a[1]);
+//   console.log("wordFrequencies length:", wordFrequencyPairs.length);
+//   for (let [word, frequency] of wordFrequencyPairs) {
+//     const option = document.createElement("option");
+//     option.value = word;
+//     option.text = `${word} (${frequency})`;
+//     option.setAttribute("data-type", "word");
+//     dropdown.add(option);
+//   }
+// }
 
 //! Word use and relationship
 function displayResults(data) {
@@ -2623,8 +2606,11 @@ function displayResults(data) {
 }
 
 function isWord(value) {
-  let option = document.querySelector(
-    `#subCategoryDropdown option[value='${value}']`
+  // let option = document.querySelector(
+  //   `#subCategoryDropdown option[value='${value}']`
+  // );
+  const option = subCategoryDropdown.querySelector(
+    'input[type="checkbox"]:checked'
   );
   return option && option.getAttribute("data-type") === "word";
 }
@@ -2645,8 +2631,12 @@ function isSemTag(value) {
 
 //!
 function fetchResults() {
-  let dropdownValue = $("#subCategoryDropdown").val();
-  console.log("Dropdown value is", dropdownValue);
+  const subCategoryDropdown = document.getElementById("subCategoryDropdown");
+  const selectedElement = subCategoryDropdown.querySelector(
+    'input[type="checkbox"]:checked'
+  );
+  const dropdownValue = selectedElement.getAttribute("data-word");
+
   let windowSize = $("#windowSizeRange").val();
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "flex";
@@ -2667,6 +2657,9 @@ function fetchResults() {
 
   postData.window_size = windowSize;
   $.post("/Keyword_collocation", postData, displayResults);
+
+  // Resets checkbox
+  selectedElement.checked = false;
 }
 
 //! event listener for word use and relationships dropdown
@@ -3561,8 +3554,6 @@ function downloadWordTree() {
 
 // Redo for new menu
 async function handleCategoryChange() {
-  const subCategoryMenu = document.getElementById("subCategoryMenu");
-
   // Clear the current options
   while (subCategoryDropdown.firstChild) {
     subCategoryDropdown.removeChild(subCategoryDropdown.firstChild);

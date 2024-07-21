@@ -504,7 +504,8 @@ def handle_selected_rows():
         'sentimentPlotBar': bar_chart_html,
         "wordTreeData": wordTreeData,
         "search_word": search_word,
-        "summary": summary, "sortedUniqueTags": sorted_unique_tags, 
+        "summary": summary,
+        "sortedUniqueTags": sorted_unique_tags, 
         "scatterTextHtml": scatter_text_html
     })
     

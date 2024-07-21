@@ -509,6 +509,7 @@ class KWICAnalyser:
         os.chdir(original_working_dir)
        # Return the relative path to the saved graph
         return f"/static/network_graphs/{filename}"
+    
     def get_sorted_unique_tags(self):
     # Assuming self.tokens_with_semantic_tags is a list of tuples (token, semantic_tag)
         semantic_tags = [tag for token, pos, tag in self.tokens_with_semantic_tags]
@@ -528,14 +529,14 @@ class KWICAnalyser:
         # Extract tokens and their tags from the tuples
         token_tag_pairs = [(token, tag) for token, pos, tag in self.tokens_with_semantic_tags]
         if isUnfiltered:
-            # Calculate word frequencies using nltk.FreqDist
-            unfiltered_tokens = [word for word, tag in token_tag_pairs]
-            fdist = nltk.FreqDist(unfiltered_tokens)
+            # Leave unfiltered
+            tokens = [word for word, tag in token_tag_pairs]
         else:
             # Apply the filter to remove stopwords, punctuation, and specific tags
-            filtered_tokens = self.filter_words(token_tag_pairs)
-            # Calculate word frequencies using nltk.FreqDist
-            fdist = nltk.FreqDist(filtered_tokens)
+            tokens = self.filter_words(token_tag_pairs)
+        
+        # Calculate word frequencies using nltk.FreqDist
+        fdist = nltk.FreqDist(tokens)
 
         # Convert the frequency distribution to a dictionary
         word_frequencies = dict(fdist)
