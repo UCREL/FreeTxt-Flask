@@ -2513,7 +2513,7 @@ function populateDropdown(wordFrequencies) {
   const wordFrequencyPairs = Object.entries(wordFrequencies);
   wordFrequencyPairs.sort((a, b) => b[1] - a[1]);
   wordFrequencyPairs.forEach(([word, frequency], i) => {
-    const row = document.createElement("div");
+    const option = document.createElement("div");
 
     const input = document.createElement("input");
     input.id = `word-freq-${i}`;
@@ -2529,8 +2529,8 @@ function populateDropdown(wordFrequencies) {
     label.textContent = `${word} (${frequency})`;
 
     label.appendChild(input);
-    row.appendChild(label);
-    subCategoryDropdown.appendChild(row);
+    option.appendChild(label);
+    subCategoryDropdown.appendChild(option);
   });
 }
 
@@ -2619,6 +2619,10 @@ function fetchResults() {
   let windowSize = $("#windowSizeRange").val();
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "flex";
+
+  console.log("dropdown value");
+  console.log(dropdownValue);
+
   // Decide the type of request based on the value of the dropdown
   let postData = {};
   if (isWord(dropdownValue)) {
@@ -2633,6 +2637,8 @@ function fetchResults() {
   } else {
     return; // If it doesn't match any criteria, exit the function
   }
+
+  console.log("HERE");
 
   postData.window_size = windowSize;
   $.post("/Keyword_collocation", postData, displayResults);
@@ -3531,8 +3537,10 @@ function downloadWordTree() {
   }, 5000); // 5 seconds delay to give the chart enough time to render
 }
 
-// Redo for new menu
+//! Redo for new menu
 async function handleCategoryChange() {
+  const subCategoryDropdown = document.getElementById("subCategoryDropdown");
+
   // Clear the current options
   while (subCategoryDropdown.firstChild) {
     subCategoryDropdown.removeChild(subCategoryDropdown.firstChild);
@@ -3562,32 +3570,51 @@ async function handleCategoryChange() {
     });
   } else if (document.getElementById("semanticTagRadio").checked) {
     const semanticTags = semantictags;
+    console.log("semantic tag radio selected");
+
     semanticTags.forEach((tag) => {
-      const option = document.createElement("option");
-      option.value = tag;
-      option.text = tag;
-      option.setAttribute("data-lang-en", tag);
-      option.setAttribute("data-lang-cy", tag);
-      option.setAttribute("data-type", "semtag");
+      const option = document.createElement("div");
+
+      const input = document.createElement("input");
+      input.dataset.word = tag;
+      input.setAttribute("data-lang-en", tag);
+      input.setAttribute("data-lang-cy", tag);
+      input.setAttribute("data-type", "semtag");
+      input.type = "checkbox";
+      input.classList.add("hidden");
+
+      const label = document.createElement("label");
+      label.classList.add("form-check-label", "dropdown-item", "w-100");
+      label.style.fontWeight = "bold";
+      label.textContent = `${tag}`;
+
+      label.appendChild(input);
+      option.appendChild(label);
       subCategoryDropdown.appendChild(option);
+
+      console.log(input);
+      console.log(label);
+      console.log(option);
     });
-    updateOptionsLanguage();
+    // updateOptionsLanguage();
   }
 }
 
+//! TODO, edit function to not remove input element, use something other than textContent as it removes all children
 function updateOptionsLanguage() {
   const dropdown = document.getElementById("subCategoryDropdown");
-  const options = dropdown.options;
+  // const options = dropdown.options;
+  const options = dropdown.childNodes;
   const currentLang = getCurrentLanguage();
   console.log("Number of options:", options.length); // Debugging step
 
-  for (let i = 0; i < options.length; i++) {
-    const option = options[i];
-    if (currentLang === "en") {
-      option.textContent = option.getAttribute("data-lang-en");
-    } else if (currentLang === "cy") {
-      option.textContent = option.getAttribute("data-lang-cy");
-    }
+  for (let option of options) {
+    label = option.querySelector("label");
+    input = option.querySelector("input");
+    label.textContent =
+      currentLang === "en"
+        ? input.getAttribute("data-lang-en")
+        : input.getAttribute("data-lang-cy");
   }
 }
 function fetchAndParseCSV() {

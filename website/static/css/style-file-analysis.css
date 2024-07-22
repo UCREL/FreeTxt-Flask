@@ -531,3 +531,60 @@ body {
 input[type="checkbox"] {
   margin-right: 10px;
 }
+
+/* Class for word cloud search bar and word list */
+.responsive-flex {
+  display: flex;
+  flex-direction: column;
+}
+.overflow-scroll-container {
+  height: 80vh;
+  overflow-y: scroll;
+}
+.search-container {
+  width: 100%;
+}
+
+@media (min-width: 992px) {
+  .responsive-flex {
+    flex-direction: row;
+  }
+  .overflow-scroll-container {
+    height: 80vh;
+  }
+  .search-container {
+    width: 100%;
+    max-width: 25%;
+  }
+}
+
+.word-checkbox {
+  min-width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+}
+
+.word-checkbox-all {
+  min-width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+}
+
+.fixed-width-label {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+#scattertextIframe > svg {
+  min-width: 1250px;
+}
+
+.word-use-dropdown {
+  overflow-y: scroll;
+  max-height: 50vh;
+  width: auto;
+}

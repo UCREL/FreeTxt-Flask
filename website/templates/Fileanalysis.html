@@ -534,57 +534,6 @@
       min-width: 100%; /* One item per row on very small screens */
     }
   }
-
-  /* Class for word cloud search bar and word list */
-  .responsive-flex {
-    display: flex;
-    flex-direction: column;
-  }
-  .overflow-scroll-container {
-    height: 80vh;
-    overflow-y: scroll;
-  }
-  .search-container {
-    width: 100%;
-  }
-
-  @media (min-width: 992px) {
-    .responsive-flex {
-      flex-direction: row;
-    }
-    .overflow-scroll-container {
-      height: 80vh;
-    }
-    .search-container {
-      width: 100%;
-      max-width: 25%;
-    }
-  }
-
-  .word-checkbox {
-    min-width: 20px;
-    height: 20px;
-    box-sizing: border-box;
-  }
-
-  .word-checkbox-all {
-    min-width: 20px;
-    height: 20px;
-    box-sizing: border-box;
-  }
-
-  .fixed-width-label {
-    display: inline-block;
-    max-width: 100%; /* Allow label to use the full width of the container */
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflow if the content exceeds the width */
-    text-overflow: ellipsis; /* Show ellipsis for overflowing text */
-    vertical-align: middle; /* Aligns the label content vertically centered */
-  }
-
-  #scattertextIframe > svg {
-    min-width: 1250px;
-  }
 </style>
 <!-- DataTables CSS -->
 <link
@@ -1702,10 +1651,7 @@
                 />
               </div>
               <div class="dropdown-divider"></div>
-              <div
-                id="subCategoryDropdown"
-                style="overflow-y: scroll; height: 50vh"
-              ></div>
+              <div id="subCategoryDropdown" class="word-use-dropdown"></div>
             </div>
           </div>
 
