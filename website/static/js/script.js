@@ -2514,7 +2514,6 @@ function populateDropdown(wordFrequencies) {
   wordFrequencyPairs.sort((a, b) => b[1] - a[1]);
   wordFrequencyPairs.forEach(([word, frequency], i) => {
     const row = document.createElement("div");
-    row.classList.add("dropdown-item");
 
     const input = document.createElement("input");
     input.id = `word-freq-${i}`;
@@ -2525,7 +2524,8 @@ function populateDropdown(wordFrequencies) {
     input.classList.add("hidden");
 
     const label = document.createElement("label");
-    label.classList.add("form-check-label");
+    label.classList.add("form-check-label", "dropdown-item", "w-100");
+    label.style.fontWeight = "bold";
     label.textContent = `${word} (${frequency})`;
 
     label.appendChild(input);
