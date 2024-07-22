@@ -2513,8 +2513,8 @@ function populateDropdown(wordFrequencies) {
   const wordFrequencyPairs = Object.entries(wordFrequencies);
   wordFrequencyPairs.sort((a, b) => b[1] - a[1]);
   wordFrequencyPairs.forEach(([word, frequency], i) => {
-    const colContainer = document.createElement("div");
-    colContainer.classList.add("col", "py-1");
+    const row = document.createElement("div");
+    row.classList.add("dropdown-item");
 
     const input = document.createElement("input");
     input.id = `word-freq-${i}`;
@@ -2529,31 +2529,10 @@ function populateDropdown(wordFrequencies) {
     label.textContent = `${word} (${frequency})`;
 
     label.appendChild(input);
-    colContainer.appendChild(label);
-    subCategoryDropdown.appendChild(colContainer);
+    row.appendChild(label);
+    subCategoryDropdown.appendChild(row);
   });
 }
-
-// function populateDropdown(wordFrequencies) {
-//   const dropdown = document.getElementById("subCategoryDropdown");
-//   const subCategoryDropdown = document.getElementById("subCategoryDropdown");
-
-//   // Clear the current options
-//   while (subCategoryDropdown.firstChild) {
-//     subCategoryDropdown.removeChild(subCategoryDropdown.firstChild);
-//   }
-
-//   const wordFrequencyPairs = Object.entries(wordFrequencies);
-//   wordFrequencyPairs.sort((a, b) => b[1] - a[1]);
-//   console.log("wordFrequencies length:", wordFrequencyPairs.length);
-//   for (let [word, frequency] of wordFrequencyPairs) {
-//     const option = document.createElement("option");
-//     option.value = word;
-//     option.text = `${word} (${frequency})`;
-//     option.setAttribute("data-type", "word");
-//     dropdown.add(option);
-//   }
-// }
 
 //! Word use and relationship
 function displayResults(data) {
