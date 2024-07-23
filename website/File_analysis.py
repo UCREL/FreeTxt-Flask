@@ -621,7 +621,7 @@ def analyse():
     collocs = analyzer.get_collocs(kwic_results)
     combined_collocs = [(colloc, freq, mi, ll) for (colloc, freq) in collocs for _, mi, ll in collocs_strengths if colloc == _]
     combined_collocs.sort(key=lambda x: x[2], reverse=True)
-
+    
     if kwic_option == "word":
         keyword_for_plot = selected_word
     elif kwic_option == "tag":
@@ -630,11 +630,23 @@ def analyse():
         keyword_for_plot = selected_semantic
     else:
         return jsonify({"error": "Invalid KWIC option!"})
+    
+    print(keyword_for_plot)
+    print(collocs)
 
-    graph_path = analyzer.plot_coll_14(keyword_for_plot, collocs)
+    graph_path = analyzer.plot_coll_14(keyword_for_plot, collocs) if collocs and keyword_for_plot else None
+    
+    print(graph_path)
+    
     session['keyword_results'] = kwic_results
     session['combined_collocs'] = combined_collocs
     session['graph_path'] = graph_path
+    
+    print("before return")
+    print(kwic_results)
+    print(combined_collocs)
+    print(graph_path)
+    
     return jsonify({
         "kwic_results": kwic_results,
         "collocs": combined_collocs,

@@ -2513,22 +2513,27 @@ function populateDropdown(wordFrequencies) {
   const wordFrequencyPairs = Object.entries(wordFrequencies);
   wordFrequencyPairs.sort((a, b) => b[1] - a[1]);
   wordFrequencyPairs.forEach(([word, frequency], i) => {
+    // Creates option container
     const option = document.createElement("div");
 
+    // Creates input element
     const input = document.createElement("input");
     input.id = `word-freq-${i}`;
-    input.dataset.word = word;
+    input.name = "word-freq-radio";
+    input.value = word;
     input.dataset.frequency = frequency;
     input.setAttribute("data-type", "word");
-    input.type = "checkbox";
+    input.type = "radio";
     input.classList.add("hidden");
 
+    // Creates label
     const label = document.createElement("label");
+    label.htmlFor = `word-freq-${i}`;
     label.classList.add("form-check-label", "dropdown-item", "w-100");
     label.style.fontWeight = "bold";
     label.textContent = `${word} (${frequency})`;
 
-    label.appendChild(input);
+    option.appendChild(input);
     option.appendChild(label);
     subCategoryDropdown.appendChild(option);
   });
@@ -2536,6 +2541,7 @@ function populateDropdown(wordFrequencies) {
 
 //! Word use and relationship
 function displayResults(data) {
+  console.log("IN DISPLAY RESULTS");
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "none";
 
@@ -2581,30 +2587,31 @@ function displayResults(data) {
     $("#generateGraph").removeClass("hidden");
     $("button.analyze-btn").removeClass("hidden");
     $('label[for="graphType"]').removeClass("hidden");
+
+    console.log("END OF DISPLAY RESULTS");
   }
 }
 
 function isWord(value) {
-  // let option = document.querySelector(
-  //   `#subCategoryDropdown option[value='${value}']`
-  // );
-  const option = subCategoryDropdown.querySelector(
-    'input[type="checkbox"]:checked'
+  let option = document.querySelector(
+    `#subCategoryDropdown input[value='${value}']`
   );
   return option && option.getAttribute("data-type") === "word";
 }
 
 function isTag(value) {
   let option = document.querySelector(
-    `#subCategoryDropdown option[value='${value}']`
+    `#subCategoryDropdown input[value='${value}']`
   );
   return option && option.getAttribute("data-type") === "tag";
 }
 
 function isSemTag(value) {
+  console.log("is sem tag func");
   let option = document.querySelector(
-    `#subCategoryDropdown option[value='${value}']`
+    `#subCategoryDropdown input[value='${value}']`
   );
+  console.log(option);
   return option && option.getAttribute("data-type") === "semtag";
 }
 
@@ -2612,9 +2619,10 @@ function isSemTag(value) {
 function fetchResults() {
   const subCategoryDropdown = document.getElementById("subCategoryDropdown");
   const selectedElement = subCategoryDropdown.querySelector(
-    'input[type="checkbox"]:checked'
+    'input[type="radio"]:checked'
   );
-  const dropdownValue = selectedElement.getAttribute("data-word");
+
+  const dropdownValue = selectedElement.value;
 
   let windowSize = $("#windowSizeRange").val();
   const loadingElement = document.getElementById("loading");
@@ -2641,18 +2649,20 @@ function fetchResults() {
   console.log("HERE");
 
   postData.window_size = windowSize;
-  $.post("/Keyword_collocation", postData, displayResults);
 
-  // Resets checkbox
-  selectedElement.checked = false;
+  console.log("postData");
+  console.log(postData);
+  console.log(displayResults);
+
+  $.post("/Keyword_collocation", postData, displayResults);
 }
 
-//! event listener for word use and relationships dropdown
 // Attach the event handler for dropdown change
 $(document).on("change", "#subCategoryDropdown", fetchResults);
 
 // Handle changes in window size range input
 $(document).on("input", "#windowSizeRange", function () {
+  console.log("Window size changed!");
   $("#windowSizeValue").text(this.value);
   fetchResults();
 });
@@ -3537,7 +3547,7 @@ function downloadWordTree() {
   }, 5000); // 5 seconds delay to give the chart enough time to render
 }
 
-//! Redo for new menu
+//! Redo for new menu, sem tags needs fix, if requested data is returned as None
 async function handleCategoryChange() {
   const subCategoryDropdown = document.getElementById("subCategoryDropdown");
 
@@ -3549,6 +3559,7 @@ async function handleCategoryChange() {
   if (document.getElementById("wordRadio").checked) {
     populateDropdown(wordFrequencies);
   } else if (document.getElementById("posTagRadio").checked) {
+    console.log("pos checked");
     const posTags = [
       { value: "NOUN", en: "Nouns", cy: "Enwau" },
       { value: "PROPN", en: "Proper nouns", cy: "Enwau priod" },
@@ -3558,65 +3569,84 @@ async function handleCategoryChange() {
       { value: "NUM", en: "Numbers", cy: "Rhifau" },
     ];
 
-    posTags.forEach((tag) => {
-      const option = document.createElement("option");
-      option.value = tag.value;
-      option.setAttribute("data-lang-en", tag.en);
-      option.setAttribute("data-lang-cy", tag.cy);
-      option.text = tag.en;
-      option.setAttribute("data-type", "tag");
-      subCategoryDropdown.add(option);
+    posTags.forEach((tag, i) => {
+      // Creates option container
+      const option = document.createElement("div");
+
+      // Creates input element
+      const input = document.createElement("input");
+      input.id = `pos-tags-${i}`;
+      input.name = "pos-tags-radio";
+      input.value = tag.value;
+      input.setAttribute("data-type", "tag");
+      input.type = "radio";
+      input.classList.add("hidden");
+
+      // Creates label
+      const label = document.createElement("label");
+      label.htmlFor = `pos-tags-${i}`;
+      label.setAttribute("data-lang-en", tag.en);
+      label.setAttribute("data-lang-cy", tag.cy);
+      label.classList.add("form-check-label", "dropdown-item", "w-100");
+      label.style.fontWeight = "bold";
+      label.textContent = tag.en;
+
+      option.appendChild(input);
+      option.appendChild(label);
+      subCategoryDropdown.appendChild(option);
+
       updateOptionsLanguage();
     });
   } else if (document.getElementById("semanticTagRadio").checked) {
     const semanticTags = semantictags;
     console.log("semantic tag radio selected");
 
-    semanticTags.forEach((tag) => {
+    semanticTags.forEach((tag, i) => {
+      // Creates option container
       const option = document.createElement("div");
 
+      // Creates input element
       const input = document.createElement("input");
-      input.dataset.word = tag;
-      input.setAttribute("data-lang-en", tag);
-      input.setAttribute("data-lang-cy", tag);
+      input.id = `semtags-${i}`;
+      input.name = "sem-tags-radio";
+      input.value = tag;
       input.setAttribute("data-type", "semtag");
-      input.type = "checkbox";
+      input.type = "radio";
       input.classList.add("hidden");
 
+      // Creates label
       const label = document.createElement("label");
+      label.htmlFor = `semtags-${i}`;
+      label.setAttribute("data-lang-en", tag);
+      label.setAttribute("data-lang-cy", tag);
       label.classList.add("form-check-label", "dropdown-item", "w-100");
       label.style.fontWeight = "bold";
-      label.textContent = `${tag}`;
+      label.textContent = tag;
 
-      label.appendChild(input);
+      option.appendChild(input);
       option.appendChild(label);
       subCategoryDropdown.appendChild(option);
-
-      console.log(input);
-      console.log(label);
-      console.log(option);
     });
-    // updateOptionsLanguage();
+    updateOptionsLanguage();
   }
 }
 
 //! TODO, edit function to not remove input element, use something other than textContent as it removes all children
 function updateOptionsLanguage() {
   const dropdown = document.getElementById("subCategoryDropdown");
-  // const options = dropdown.options;
   const options = dropdown.childNodes;
   const currentLang = getCurrentLanguage();
   console.log("Number of options:", options.length); // Debugging step
 
   for (let option of options) {
     label = option.querySelector("label");
-    input = option.querySelector("input");
     label.textContent =
       currentLang === "en"
-        ? input.getAttribute("data-lang-en")
-        : input.getAttribute("data-lang-cy");
+        ? label.getAttribute("data-lang-en")
+        : label.getAttribute("data-lang-cy");
   }
 }
+
 function fetchAndParseCSV() {
   return fetch("http://ucrel-freetxt-2.lancs.ac.uk/static/keness/Cy_tags.csv")
     .then((response) => response.text())
@@ -3625,6 +3655,7 @@ function fetchAndParseCSV() {
       return results.data;
     });
 }
+
 $(document).ready(function () {
   $("#generateGraph").click(function (event) {
     event.preventDefault(); // This line prevents the form from submitting
@@ -3632,6 +3663,7 @@ $(document).ready(function () {
     updateGraph(graphType);
   });
 });
+
 function updateGraph(graphType) {
   // 1. Fetch the Data from Collocs Table
   const collocsData = $("#collocsTable").DataTable().rows().data().toArray();
