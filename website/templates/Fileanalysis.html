@@ -454,6 +454,19 @@
     display: block;
     margin-top: 5px;
   }
+
+  #select-option-btn {
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  #select-option-btn:hover {
+    color: #666;
+  }
+
   /* Style the container with class sentiment-option */
   .sentiment-option {
     margin-bottom: 15px;
@@ -1632,21 +1645,20 @@
 
           <div class="dropdown">
             <button
-              class="btn btn-primary dropdown-toggle mb-5"
+              class="btn dropdown-toggle mb-5 sentiment-option"
+              id="select-option-btn"
               type="button"
               id="dropdown-button"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
-            >
-              View Options
-            </button>
+            ></button>
             <div class="dropdown-menu" aria-labelledby="dropdown-button">
               <div class="form-group mx-3">
                 <input
                   type="search"
                   class="form-control"
-                  placeholder="Search for words..."
+                  placeholder="Search words/tags..."
                   oninput="handleWordFreqSearchChange(event)"
                 />
               </div>

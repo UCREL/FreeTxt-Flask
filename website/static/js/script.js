@@ -2537,11 +2537,15 @@ function populateDropdown(wordFrequencies) {
     option.appendChild(label);
     subCategoryDropdown.appendChild(option);
   });
+
+  // Set default selected option as first option in array
+  const firstOption = document.getElementById("word-freq-0");
+  firstOption.checked = true;
+  document.getElementById("select-option-btn").innerText = firstOption.value;
 }
 
 //! Word use and relationship
 function displayResults(data) {
-  console.log("IN DISPLAY RESULTS");
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "none";
 
@@ -2587,8 +2591,6 @@ function displayResults(data) {
     $("#generateGraph").removeClass("hidden");
     $("button.analyze-btn").removeClass("hidden");
     $('label[for="graphType"]').removeClass("hidden");
-
-    console.log("END OF DISPLAY RESULTS");
   }
 }
 
@@ -2607,11 +2609,9 @@ function isTag(value) {
 }
 
 function isSemTag(value) {
-  console.log("is sem tag func");
   let option = document.querySelector(
     `#subCategoryDropdown input[value='${value}']`
   );
-  console.log(option);
   return option && option.getAttribute("data-type") === "semtag";
 }
 
@@ -2623,13 +2623,15 @@ function fetchResults() {
   );
 
   const dropdownValue = selectedElement.value;
+  console.log("dropdown");
+  console.log(dropdownValue);
 
   let windowSize = $("#windowSizeRange").val();
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "flex";
 
-  console.log("dropdown value");
-  console.log(dropdownValue);
+  // console.log("Dropdown Value");
+  // console.log(dropdownValue);
 
   // Decide the type of request based on the value of the dropdown
   let postData = {};
@@ -2646,19 +2648,30 @@ function fetchResults() {
     return; // If it doesn't match any criteria, exit the function
   }
 
-  console.log("HERE");
-
   postData.window_size = windowSize;
-
-  console.log("postData");
-  console.log(postData);
-  console.log(displayResults);
 
   $.post("/Keyword_collocation", postData, displayResults);
 }
 
 // Attach the event handler for dropdown change
-$(document).on("change", "#subCategoryDropdown", fetchResults);
+$(document).on("change", "#subCategoryDropdown", () => {
+  // Sets button text to selected value
+  const lang = getCurrentLanguage();
+  const selectedInput = $("#subCategoryDropdown").find(
+    'input[type="radio"]:checked'
+  );
+
+  const label = selectedInput.siblings("label");
+
+  // For semantic and pos tags, sets button text to data-lang attribute, else sets to input value
+  label.attr("data-lang-en") || label.attr("data-lang-cy")
+    ? lang === "en"
+      ? $("#select-option-btn").text(label.attr("data-lang-en"))
+      : $("#select-option-btn").text(label.attr("data-lang-cy"))
+    : $("#select-option-btn").text(selectedInput.val());
+
+  fetchResults();
+});
 
 // Handle changes in window size range input
 $(document).on("input", "#windowSizeRange", function () {
@@ -3547,7 +3560,7 @@ function downloadWordTree() {
   }, 5000); // 5 seconds delay to give the chart enough time to render
 }
 
-//! Redo for new menu, sem tags needs fix, if requested data is returned as None
+//!
 async function handleCategoryChange() {
   const subCategoryDropdown = document.getElementById("subCategoryDropdown");
 
@@ -3559,7 +3572,6 @@ async function handleCategoryChange() {
   if (document.getElementById("wordRadio").checked) {
     populateDropdown(wordFrequencies);
   } else if (document.getElementById("posTagRadio").checked) {
-    console.log("pos checked");
     const posTags = [
       { value: "NOUN", en: "Nouns", cy: "Enwau" },
       { value: "PROPN", en: "Proper nouns", cy: "Enwau priod" },
@@ -3599,7 +3611,6 @@ async function handleCategoryChange() {
     });
   } else if (document.getElementById("semanticTagRadio").checked) {
     const semanticTags = semantictags;
-    console.log("semantic tag radio selected");
 
     semanticTags.forEach((tag, i) => {
       // Creates option container
@@ -3631,12 +3642,12 @@ async function handleCategoryChange() {
   }
 }
 
-//! TODO, edit function to not remove input element, use something other than textContent as it removes all children
+//!
 function updateOptionsLanguage() {
   const dropdown = document.getElementById("subCategoryDropdown");
   const options = dropdown.childNodes;
   const currentLang = getCurrentLanguage();
-  console.log("Number of options:", options.length); // Debugging step
+  // console.log("Number of options:", options.length); // Debugging step
 
   for (let option of options) {
     label = option.querySelector("label");
