@@ -2537,17 +2537,15 @@ function populateDropdown(wordFrequencies) {
     option.appendChild(label);
     subCategoryDropdown.appendChild(option);
   });
-
-  // Set default selected option as first option in array
-  const firstOption = document.getElementById("word-freq-0");
-  firstOption.checked = true;
-  document.getElementById("select-option-btn").innerText = firstOption.value;
 }
 
 //! Word use and relationship
 function displayResults(data) {
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "none";
+
+  // Window range make visible
+  $("#window-size-range-container").css("display", "block");
 
   // Clear previous error messages
   $("#errorContainer").empty();
@@ -2629,9 +2627,6 @@ function fetchResults() {
   let windowSize = $("#windowSizeRange").val();
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "flex";
-
-  // console.log("Dropdown Value");
-  // console.log(dropdownValue);
 
   // Decide the type of request based on the value of the dropdown
   let postData = {};

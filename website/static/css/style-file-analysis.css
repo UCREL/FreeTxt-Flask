@@ -99,7 +99,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  overflow-x: hidden;
 }
 
 .tab-buttons {
@@ -585,6 +584,8 @@ input[type="checkbox"] {
 
 .word-use-dropdown {
   overflow-y: scroll;
+  height: auto;
   max-height: 50vh;
   width: auto;
+  /* resize: vertical; */
 }
