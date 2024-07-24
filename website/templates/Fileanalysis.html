@@ -1643,7 +1643,9 @@
             >Select Option</label
           >
 
-          <div class="container-fluid d-flex p-0 mb-5">
+          <div
+            class="container-fluid d-flex justify-content-start flex-column flex-sm-row p-0 mb-5"
+          >
             <div class="dropdown">
               <button
                 class="btn dropdown-toggle sentiment-option m-0"
@@ -1678,12 +1680,26 @@
             </div>
             <!-- For including/excluding filtered data -->
             <div
-              class="form-check ml-3 d-flex justify-content-center align-items-center"
+              class="form-check ml-0 mt-3 ml-sm-3 mt-sm-0 d-flex justify-content-start justify-content-sm-center align-items-center"
             >
-              <label class="form-check-label"
-                ><input class="form-check-input" type="checkbox" /> Use
-                Unfiltered Data</label
+              <div
+                class="container-fluid d-flex m-0 p-0"
+                title="Includes words assigned with the following tags: Grammatical bin, Pronouns, Period, Being, Discourse Bin, Negative, Punctuation, Unmatched."
               >
+                <input
+                  id="word-freq-include-all-check"
+                  class="form-check-input"
+                  type="checkbox"
+                  onchange="handleWordFreqDatasetChange(event)"
+                />
+                <label
+                  class="form-check-label"
+                  for="word-freq-include-all-check"
+                  data-lang-en="Include all data (stopwords, misfiltered words, etc.)"
+                  data-lang-cy="Needs welsh translation"
+                  >Include all data (stopwords, misfiltered words, etc.)</label
+                >
+              </div>
             </div>
           </div>
 
@@ -1708,7 +1724,11 @@
             </button>
           </a>
         </div>
-        <div id="window-size-range-container" class="my-5" style="display: none">
+        <div
+          id="window-size-range-container"
+          class="my-5"
+          style="display: none"
+        >
           <label
             for="windowSizeRange"
             data-lang-en="Window Size:"

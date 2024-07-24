@@ -498,6 +498,7 @@ def handle_selected_rows():
     return jsonify({
         "status": "success",
         "wordFrequencies": word_frequencies,
+        "unfilteredWordFrequencies" : unfiltered_word_frequencies,
         "sentimentData": sentiment_data,
         "sentimentCounts": sentiment_counts,
         'sentimentPlotPie': pie_chart_html,
