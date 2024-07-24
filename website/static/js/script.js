@@ -2342,6 +2342,12 @@ function regenerateWordCloud() {
       document.querySelectorAll(".word-checkbox").forEach((checkbox) => {
         checkbox.checked = true;
       });
+
+      loadingElement.style.display = "none";
+
+      alert(
+        `Error generating word cloud. Please try again with different values.\n${error}`
+      );
     });
 }
 
@@ -2628,9 +2634,6 @@ function fetchResults() {
   );
 
   const dropdownValue = selectedElement.value;
-  console.log("dropdown");
-  console.log(dropdownValue);
-
   let windowSize = $("#windowSizeRange").val();
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "flex";
@@ -2652,7 +2655,14 @@ function fetchResults() {
 
   postData.window_size = windowSize;
 
-  $.post("/Keyword_collocation", postData, displayResults);
+  $.post("/Keyword_collocation", postData)
+    .done((data) => {
+      displayResults(data);
+    })
+    .fail((jqXHR, textStatus, errorThrown) => {
+      console.error("Request failed: " + textStatus + ", " + errorThrown);
+      loadingElement.style.display = "none";
+    });
 }
 
 // Function for use unfiltered data checkbox
@@ -2684,7 +2694,6 @@ $(document).on("change", "#subCategoryDropdown", () => {
 
 // Handle changes in window size range input
 $(document).on("input", "#windowSizeRange", function () {
-  console.log("Window size changed!");
   $("#windowSizeValue").text(this.value);
   fetchResults();
 });

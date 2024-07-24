@@ -276,7 +276,12 @@ class WordCloudGenerator:
             # Error handling
             if len(frequency_dist) > 1:
                 frequency_dist = {k: v for k, v in frequency_dist.items() if v >= 0}
-            max_freq = max(frequency_dist.values())
+            
+            try:
+                max_freq = max(frequency_dist.values())
+            except ValueError as e:
+                print(e)
+                
         # Create a frequency distribution
         
         filters = set(filtered_words)

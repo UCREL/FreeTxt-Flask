@@ -592,57 +592,61 @@ def generate_wordcloud():
 
 @FileAnalysis.route('/Keyword_collocation', methods=['POST'])
 def analyse():
-    window_size = request.form.get('window_size', 5, type=int)
-    selected_word = request.form.get('word_selection')
-    selected_tag = request.form.get('tag_selection')
-    selected_semantic = request.form.get('sem_selection')
-    kwic_option = request.form.get('kwic_option')
-    language = session.get('language')
-    data_json = session.get('mergedData')
-    input_data = pd.DataFrame(data_json)
-    analyzer = KWICAnalyser(input_data, language='en')
+    try:
+        window_size = request.form.get('window_size', 5, type=int)
+        selected_word = request.form.get('word_selection')
+        selected_tag = request.form.get('tag_selection')
+        selected_semantic = request.form.get('sem_selection')
+        kwic_option = request.form.get('kwic_option')
+        language = session.get('language')
+        data_json = session.get('mergedData')
+        input_data = pd.DataFrame(data_json)
+        analyzer = KWICAnalyser(input_data, language='en')
 
-    if kwic_option == "word" and selected_word:
-        kwic_results = analyzer.get_kwic(selected_word, window_size)
-        collocs_strengths = analyzer.get_collocation_strength(selected_word)
-    elif kwic_option == "tag" and selected_tag:
-        kwic_results = analyzer.get_kwic(selected_tag, window_size, by_tag=True)
-        if not kwic_results:
-           #flash("No instances found. Please choose another category as the data does not have this category.")
-           return jsonify({"error": "Invalid KWIC option or missing selection!", 'message': 'No instances found. Please choose another category as the data does not have this category.'})
+        if kwic_option == "word" and selected_word:
+            kwic_results = analyzer.get_kwic(selected_word, window_size)
+            collocs_strengths = analyzer.get_collocation_strength(selected_word)
+        elif kwic_option == "tag" and selected_tag:
+            kwic_results = analyzer.get_kwic(selected_tag, window_size, by_tag=True)
+            if not kwic_results:
+                # flash("No instances found. Please choose another category as the data does not have this category.")
+                return jsonify({"error": "Invalid KWIC option or missing selection!", 'message': 'No instances found. Please choose another category as the data does not have this category.'})
+            else:
+                collocs_strengths = analyzer.get_collocation_strength(selected_word if selected_word else selected_tag, by_tag=True)
+
+        elif kwic_option == "sem" and selected_semantic:
+            kwic_results = analyzer.get_kwic(selected_semantic, window_size, by_sem=True)
+            collocs_strengths = analyzer.get_collocation_strength(selected_word if selected_word else selected_semantic, by_sem=True)
         else:
-            collocs_strengths = analyzer.get_collocation_strength(selected_word if selected_word else selected_tag, by_tag=True)
+            return jsonify({"error": "Invalid KWIC option or missing selection!"})
 
-    elif kwic_option == "sem" and selected_semantic:
-        kwic_results = analyzer.get_kwic(selected_semantic, window_size, by_sem=True)
-        collocs_strengths = analyzer.get_collocation_strength(selected_word if selected_word else selected_semantic, by_sem=True)
-    else:
-        return jsonify({"error": "Invalid KWIC option or missing selection!"})
-
-    collocs = analyzer.get_collocs(kwic_results)
-    combined_collocs = [(colloc, freq, mi, ll) for (colloc, freq) in collocs for _, mi, ll in collocs_strengths if colloc == _]
-    combined_collocs.sort(key=lambda x: x[2], reverse=True)
-    
-    if kwic_option == "word":
-        keyword_for_plot = selected_word
-    elif kwic_option == "tag":
-        keyword_for_plot = selected_tag
-    elif kwic_option == "sem":
-        keyword_for_plot = selected_semantic
-    else:
-        return jsonify({"error": "Invalid KWIC option!"})
-    
-    graph_path = analyzer.plot_coll_14(keyword_for_plot, collocs) if collocs and keyword_for_plot else None
-    
-    session['keyword_results'] = kwic_results
-    session['combined_collocs'] = combined_collocs
-    session['graph_path'] = graph_path
-    
-    return jsonify({
-        "kwic_results": kwic_results,
-        "collocs": combined_collocs,
-        "graph_path": graph_path
-    })
+        collocs = analyzer.get_collocs(kwic_results)
+        combined_collocs = [(colloc, freq, mi, ll) for (colloc, freq) in collocs for _, mi, ll in collocs_strengths if colloc == _]
+        combined_collocs.sort(key=lambda x: x[2], reverse=True)
+        
+        if kwic_option == "word":
+            keyword_for_plot = selected_word
+        elif kwic_option == "tag":
+            keyword_for_plot = selected_tag
+        elif kwic_option == "sem":
+            keyword_for_plot = selected_semantic
+        else:
+            return jsonify({"error": "Invalid KWIC option!"})
+        
+        graph_path = analyzer.plot_coll_14(keyword_for_plot, collocs) if collocs and keyword_for_plot else None
+        
+        session['keyword_results'] = kwic_results
+        session['combined_collocs'] = combined_collocs
+        session['graph_path'] = graph_path
+        
+        return jsonify({
+            "kwic_results": kwic_results,
+            "collocs": combined_collocs,
+            "graph_path": graph_path
+        })
+        
+    except Exception as e:
+        return jsonify({"status": "error", "message": f"Invalid request method. Exception: {e}"})
 
 @FileAnalysis.route('/get_file_list')
 def get_file_list():
@@ -960,6 +964,8 @@ def retain_clusters(text, clusters):
     retained_words = [word for word in words if any(cluster in word for cluster in clusters)]
     return ' '.join(retained_words)
 
+
+# Issue where if the cloud consists of words that would be filtered out, does not work
 @FileAnalysis.route('/regenerate_wordcloud', methods=['POST'])
 def regenerate_wordcloud():
     if request.method == 'POST':
