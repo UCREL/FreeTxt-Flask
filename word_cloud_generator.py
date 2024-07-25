@@ -375,7 +375,17 @@ class WordCloudGenerator:
         return df
     
     def generate_wordcloud_type(self, input_data, cloud_type, language, cloud_measure, wordlist=None):
-        json_data = ' '.join(input_data['Text'].tolist())
+        
+        print()
+        print("ERROR HERE")
+        print(input_data['Text'].tolist())
+        print()
+        print()
+        
+        # Convert all items to strings
+        text_list = [str(item) for item in input_data['Text'].tolist()]
+        
+        json_data = ' '.join(text_list)
         all_words = []
         merged_df = pd.DataFrame()
         tokenized_words = [word for word in input_data['Text']]

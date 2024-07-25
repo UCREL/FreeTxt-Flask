@@ -530,7 +530,7 @@ class KWICAnalyser:
         token_tag_pairs = [(token, tag) for token, pos, tag in self.tokens_with_semantic_tags]
         if isUnfiltered:
             # Leave unfiltered
-            tokens = [word for word, tag in token_tag_pairs]
+            tokens = [str(word) for word, tag in token_tag_pairs]
         else:
             # Apply the filter to remove stopwords, punctuation, and specific tags
             tokens = self.filter_words(token_tag_pairs)
@@ -538,7 +538,7 @@ class KWICAnalyser:
         # Calculate word frequencies using nltk.FreqDist
         fdist = nltk.FreqDist(tokens)
 
-        # Convert the frequency distribution to a dictionary
-        word_frequencies = dict(fdist)
+        # Convert the frequency distribution to a dictionary, keys typed to strings to avoid comparison errors
+        word_frequencies = {str(word): freq for word, freq in fdist.items()}
 
         return word_frequencies
