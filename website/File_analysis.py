@@ -23,6 +23,7 @@ import pandas as pd
 import plotly.express as px
 import threading
 import json
+import humanize
 
 import string
 from nltk.corpus import stopwords
@@ -219,9 +220,10 @@ def fileanalysis():
                 
                 #! FILE SIZE LIMIT, CURRENTLY 1MB
                 if file_length > 1000000:
+                    readable_file_length = humanize.naturalsize(file_length)
                     return jsonify({
                         "status": "error",
-                        "message": "Uploaded file size is too large. Please upload files less than 1MB."
+                        "message": f"Uploaded file size is too large. Please upload files less than 1MB.\n\nUploaded file size: {readable_file_length}"
                         })
                 
                 session['uploaded_file_path'] = filepath  # save the new file path to session
