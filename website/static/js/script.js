@@ -2707,11 +2707,27 @@ $(document).on("change", "#subCategoryDropdown", () => {
   fetchResults();
 });
 
-// Handle changes in window size range input
+// Delay on input to prevent too many server requests
+function debounce(func, time) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), time);
+  };
+}
+
+// Updates displayed value
 $(document).on("input", "#windowSizeRange", function () {
   $("#windowSizeValue").text(this.value);
-  fetchResults();
 });
+
+// Calls function when used deselects
+$(document).on(
+  "change",
+  "#windowSizeRange",
+  // Delay call by 300ms
+  debounce(fetchResults(), 300)
+);
 
 function displayKWICResults(kwicResults) {
   const kwicTable = $("#kwicTable").DataTable({

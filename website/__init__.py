@@ -1,3 +1,5 @@
+import logging.config
+import logging.handlers
 from flask import Flask
 from flask_cors import CORS
 from flask import Flask, session
@@ -7,9 +9,68 @@ from datetime import timedelta
 from .extensions import db
 from .models import Feedback
 import logging
-logging.basicConfig()
-logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
+LOGGING_CONFIG = {
+    'version': 1,
+    'formatters': {
+        'console': {
+            'format': '%(levelname)s:%(name)s:%(message)s'
+        },
+        'default': {
+            'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
+        }
+    },
+    'handlers': {
+        'console': { 
+            'level': 'INFO',
+            'formatter': 'console',
+            'class': 'logging.StreamHandler',
+            'stream': 'ext://sys.stdout',  # Default is stderr
+        },
+        'info': { # all info
+            'level': 'DEBUG',
+            'formatter': 'default',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'info.log',
+            'mode': 'a',
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 10
+        },
+        'error': { # only errors
+            'level': 'ERROR',
+            'formatter': 'default',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'error.log',
+            'mode': 'a',
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 10
+        }
+    },
+    'loggers': {
+        '': { # root
+            'level': 'DEBUG',
+            'handlers': ['console', 'info', 'error']
+        },
+        'werkzeug': {
+            'level': 'DEBUG',
+            'handlers': ['console', 'info', 'error'],
+            'propagate': False
+        },
+        'flask': {
+            'level': 'DEBUG',
+            'handlers': ['info', 'error'],
+            'propagate': False
+        },
+        '__main__': {
+            'level': 'INFO',
+            'handlers': ['console', 'error'],
+            'propagate': False
+        }
+    },
+}
+
+logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+logging.config.dictConfig(LOGGING_CONFIG)
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the current app directory
 print(BASE_DIR)
