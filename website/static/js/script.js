@@ -2644,9 +2644,11 @@ function isSemTag(value) {
 //!
 function fetchResults() {
   const subCategoryDropdown = document.getElementById("subCategoryDropdown");
-  const selectedElement = subCategoryDropdown.querySelector(
-    'input[type="radio"]:checked'
-  );
+
+  if (subCategoryDropdown === null) return;
+
+  const selectedElement =
+    subCategoryDropdown.querySelector('input[type="radio"]:checked') || null;
 
   const dropdownValue = selectedElement.value;
   let windowSize = $("#windowSizeRange").val();
@@ -2707,27 +2709,15 @@ $(document).on("change", "#subCategoryDropdown", () => {
   fetchResults();
 });
 
-// Delay on input to prevent too many server requests
-function debounce(func, time) {
-  let timeout;
-  return function (...args) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args), time);
-  };
-}
-
 // Updates displayed value
 $(document).on("input", "#windowSizeRange", function () {
   $("#windowSizeValue").text(this.value);
 });
 
-// Calls function when used deselects
-$(document).on(
-  "change",
-  "#windowSizeRange",
-  // Delay call by 300ms
-  debounce(fetchResults(), 300)
-);
+// Calls function when user selects and deselects
+$(document).on("change", "#windowSizeRange", function () {
+  fetchResults();
+});
 
 function displayKWICResults(kwicResults) {
   const kwicTable = $("#kwicTable").DataTable({
