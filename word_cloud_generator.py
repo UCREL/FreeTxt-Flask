@@ -256,9 +256,13 @@ class WordCloudGenerator:
         image_mask = imageio.imread(cloud_shape_path)
         print("metric")
         print(metric)
+        
+        # Replace any NaN values in f_Reference and KENESS columns with 0
+        # for col in dataframe.columns[2:]:
+        #     dataframe[col] = dataframe[col].fillna(1)
+        
         if metric == 'Frequency':
-            try:
-                #! Replace nan values with 0 or 1
+            try:      
                   filtered_df = dataframe[dataframe['word'].isin(filtered_words)]
                   frequency_dist = dict(zip(filtered_df['word'], filtered_df['freq']))
                   frequency_dist = {word: math.log(freq + 1) for word, freq in frequency_dist.items()}
@@ -283,12 +287,14 @@ class WordCloudGenerator:
         elif 'Equivalent Tag' in dataframe.columns:
             frequency_dist = Counter(filtered_words)
         else:
-            print("else block")
+            # print()
+            # print("dataframe")
+            # print(dataframe)
+            # print()
             frequency_dist = {row['word']: row[metric] for index, row in dataframe.iterrows()}
-            # Error handling
-            # if len(frequency_dist) > 1:
-            #     # frequency_dist = {k: v for k, v in frequency_dist_all.items() if v >= 0}
-            #     frequency_dist = {k: v for k, v in frequency_dist.items()}
+            
+            print("frequency dist")
+            print(frequency_dist)
                 
             try:
                 max_freq = max(frequency_dist.values())
@@ -392,12 +398,6 @@ class WordCloudGenerator:
     
     def generate_wordcloud_type(self, input_data, cloud_type, language, cloud_measure, wordlist=None):
         
-        print()
-        print("ERROR HERE")
-        print(input_data['Text'].tolist())
-        print()
-        print()
-        
         # Convert all items to strings
         text_list = [str(item) for item in input_data['Text'].tolist()]
         
@@ -406,6 +406,7 @@ class WordCloudGenerator:
         merged_df = pd.DataFrame()
         tokenized_words = [word for word in input_data['Text']]
         # print(tokenized_words)
+        #! Some computed values are NaN
         df = self.compute_word_frequency(tokenized_words, language)
         # Possibly initialise KWIC analyser here, get semantic tags and words here
     
