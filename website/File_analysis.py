@@ -1059,6 +1059,18 @@ def regenerate_wordcloud():
             
             tag_words_associations = {tag: list({word for (word, pos, tag_entry) in words_tags if tag == tag_entry}) for (word, pos, tag) in words_tags if tag in word_list}
             
+            
+            print()
+            print()
+            print("tag and word associations")
+            print(tag_words_associations)
+            
+            print("word lists")
+            print(word_list)
+            print(sec_word_list)
+            print()
+            print()
+            
             session['sec_word_cloud_src'] = sec_wc_path
             
             json_data = {

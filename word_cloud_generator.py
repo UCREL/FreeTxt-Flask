@@ -215,39 +215,50 @@ class WordCloudGenerator:
             scale = freq / max_freq
             return base_font_size + (max_font_size - base_font_size) * scale
 
-    #def combined_scaling(self, freq, max_freq):
-       
-       # log_scale = math.log(freq + 1) / math.log(max_freq + 1)
-       # exponent = 2  # Adjust the exponent as needed
-       # exponential_scale = log_scale ** exponent
-        #return exponential_scale * 100
     def combined_scaling(self, freq, max_freq):
-       """Apply combined logarithmic and exponential scaling with normalized frequencies."""
-    # Normalize the frequency
-       normalized_freq = freq / max_freq
+        """Apply combined logarithmic and exponential scaling with normalized frequencies."""
+        # Normalize the frequency
+        normalized_freq = freq / max_freq
+        
+        # Apply logarithmic scaling to the normalized frequency
+        log_scale = log(normalized_freq + 1)
 
-    # Apply logarithmic scaling to the normalized frequency
-       log_scale = log(normalized_freq + 1)
-
-    # Apply exponential scaling
-       exponent = 2  # Adjust the exponent as needed
-       exponential_scale = log_scale ** exponent
-
-    # Scale up to a suitable range for word cloud
-       return exponential_scale * 100
+        # Apply exponential scaling
+        exponent = 2  # Adjust the exponent as needed
+        exponential_scale = log_scale ** exponent
+       
+        # Scale up to a suitable range for word cloud
+        result = exponential_scale * 100
+       
+        # Handle nan values
+        if math.isnan(result):
+            return 1
+        else:
+            return result
+   
     def get_wordcloud(self, dataframe, metric, word_list, cloud_shape_path, cloud_outline_color, cloud_type, unique_id=None):
         MAX_WIDTH = 2000
         MAX_HEIGHT = 2000
         MIN_FONT_SIZE=10
         MAX_FONT_SIZE=100
         
+        
+        print()
+        print("word list in get_wordcloud")
+        print(word_list)
+        print()
+        
+        
+        #! Filtering somewhere below here
         filtered_words = self.filter_words(word_list)
         
         max_freq=1
         image_mask = imageio.imread(cloud_shape_path)
+        print("metric")
+        print(metric)
         if metric == 'Frequency':
             try:
-
+                #! Replace nan values with 0 or 1
                   filtered_df = dataframe[dataframe['word'].isin(filtered_words)]
                   frequency_dist = dict(zip(filtered_df['word'], filtered_df['freq']))
                   frequency_dist = {word: math.log(freq + 1) for word, freq in frequency_dist.items()}
@@ -272,22 +283,23 @@ class WordCloudGenerator:
         elif 'Equivalent Tag' in dataframe.columns:
             frequency_dist = Counter(filtered_words)
         else:
+            print("else block")
             frequency_dist = {row['word']: row[metric] for index, row in dataframe.iterrows()}
             # Error handling
-            if len(frequency_dist) > 1:
-                frequency_dist = {k: v for k, v in frequency_dist.items() if v >= 0}
-            
+            # if len(frequency_dist) > 1:
+            #     # frequency_dist = {k: v for k, v in frequency_dist_all.items() if v >= 0}
+            #     frequency_dist = {k: v for k, v in frequency_dist.items()}
+                
             try:
                 max_freq = max(frequency_dist.values())
             except ValueError as e:
                 print(e)
                 
         # Create a frequency distribution
-        
         filters = set(filtered_words)
-      
+        
         #max_freq = max(frequency_dist.values())
-        scaling_factor = min(1, 500 / max_freq) 
+        scaling_factor = min(1, 500 / max_freq)
         width = int(MAX_WIDTH * scaling_factor)
         height = int(MAX_HEIGHT * scaling_factor)
        
@@ -297,13 +309,15 @@ class WordCloudGenerator:
                   #          for word, freq in frequency_dist.items()}
         try:
            top_10_words = dict(sorted(frequency_dist.items(), key=lambda item: item[1], reverse=True)[:10])
+           print("frequency dist")
+           print(frequency_dist)
 
 # Find the maximum frequency among the top 10 words
            max_freq_top = max(top_10_words.values())
 
 # Apply combined scaling to the top 10 words
            scaled_top_words = {word: self.combined_scaling(freq, max_freq_top) for word, freq in top_10_words.items()}
-
+           
 # Now, handle the rest of the words
            rest_words = {word: freq for word, freq in frequency_dist.items() if word not in top_10_words}
            max_freq_rest = max(rest_words.values()) if rest_words else 0
@@ -314,17 +328,19 @@ class WordCloudGenerator:
 # Combine the scaled frequencies
            scaled_frequencies = {**scaled_top_words, **scaled_rest_words}
         except:
-           rest_words = {word: freq for word, freq in frequency_dist.items()}
-           scaled_frequencies = {word: self.combined_scaling(freq, max_freq_rest) * 0.5 for word, freq in rest_words.items()}
-          
+            rest_words = {word: freq for word, freq in frequency_dist.items()}
+            scaled_frequencies = {word: self.combined_scaling(freq, max_freq_rest) * 0.5 for word, freq in rest_words.items()}
+           
         wordcloud = WordCloud(
-        width=width,
-            height=height, contour_color=cloud_outline_color, contour_width = 1,
-        stopwords=self.STOPWORDS,
-        mask=image_mask,
-        background_color='rgba(255, 255, 255, 0)', # transparent background
-          # Ensure the mode is set to RGBA # Ensure the mode is set to RGBA
-        ).generate_from_frequencies(scaled_frequencies)
+            width=width,
+            height=height,
+            contour_color=cloud_outline_color,
+            contour_width = 1,
+            stopwords=self.STOPWORDS,
+            mask=image_mask,
+            background_color='rgba(255, 255, 255, 0)', # transparent background
+            # Ensure the mode is set to RGBA # Ensure the mode is set to RGBA
+            ).generate_from_frequencies(scaled_frequencies)
         cleanup_old_graphs("website/static/wordcloud")
         # Generate a unique image name using the current timestamp
         if unique_id:
@@ -470,15 +486,21 @@ class WordCloudGenerator:
 
             all_words = Tags_f_reference['word'].tolist()
             merged_df = Tags_f_reference
-            # print()
-            # print("semantic tags")
-            # print(all_words)
-            # print()
-            # print(merged_df)
+            print()
+            print("semantic tags")
+            print(all_words)
+            print()
 
             if wordlist:
                 all_words = [word for word in all_words if word in wordlist]
                 merged_df = merged_df[merged_df['word'].isin(wordlist)]
+                
+                print()
+                print("all words")
+                print(all_words)
+                print()
+                print(merged_df)
+                print()
             if not all_words:
                 return f"No words of type '{cloud_type}' found. Please select another word type.", pd.DataFrame()
 
@@ -488,6 +510,5 @@ class WordCloudGenerator:
         return all_words, merged_df
 
     def generate_wordcloud(self, cloud_shape_path, cloud_outline_color, cloud_type, language, cloud_measure, wordlist={}, unique_id=None):
-        
         words_for_cloud, df = self.generate_wordcloud_type(self.tokens_with_semantic_tags, cloud_type, language, cloud_measure, wordlist)
         return self.get_wordcloud(df, cloud_measure, words_for_cloud, cloud_shape_path, cloud_outline_color, cloud_type, unique_id)
