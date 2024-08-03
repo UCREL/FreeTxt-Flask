@@ -589,3 +589,12 @@ input[type="checkbox"] {
   width: auto;
   /* resize: vertical; */
 }
+
+#word-cloud-enlarge-reduce-icon {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+#wordCloudImageContainer:hover #word-cloud-enlarge-reduce-icon {
+  opacity: 1;
+}
