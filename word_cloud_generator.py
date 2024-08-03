@@ -353,9 +353,6 @@ class WordCloudGenerator:
             scaled_frequencies = {word: self.combined_scaling(
                 freq, max_freq_rest) * 0.5 for word, freq in rest_words.items()}
 
-        print("scaled freqs")
-        print(scaled_frequencies)
-
         wordcloud = WordCloud(
             width=width,
             height=height,

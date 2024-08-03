@@ -1500,7 +1500,7 @@
         </div>
         <div
           id="wordCloudImageContainer"
-          class="container-fluid d-flex flex-column justify-content-center align-items-center w-100 position-relative p-0 m-0"
+          class="container-fluid d-flex flex-column justify-content-center align-items-center w-100 position-relative p-1 m-0"
         >
           <div class="position-absolute p-2" style="top: 0; right: 0">
             <label class="size-btn">
@@ -1531,7 +1531,13 @@
         <div
           class="flex-container align-items-center justify-content-center mb-5"
         >
-          <h2 class="mr-2">Word &amp; Tag Associations</h2>
+          <h2
+            class="mr-2"
+            data-lang-en="Word &amp; Tag Associations"
+            data-lang-cy="Needs welsh translation"
+          >
+            Word &amp; Tag Associations
+          </h2>
           <label class="form-check-label size-btn" style="width: 30px">
             <input
               type="checkbox"
@@ -1655,19 +1661,17 @@
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
+                data-default
               >
                 -- Select --
               </button>
-              <div
-                class="dropdown-menu"
-                aria-labelledby="dropdown-button"
-                style="padding-bottom: 0%"
-              >
+              <div class="dropdown-menu pb-0" aria-labelledby="dropdown-button">
                 <div class="form-group mx-3" style="min-width: 200px">
                   <input
+                    id="word-use-dd-search"
                     type="search"
                     class="form-control w-100"
-                    placeholder="Search words/tags..."
+                    placeholder="Search in dropdown..."
                     oninput="handleWordFreqSearchChange(event)"
                   />
                 </div>
@@ -2060,8 +2064,8 @@
             <button
               type="button"
               id="generatePdfBtn"
-              data-lang-en="Generate Pdf"
-              data-lang-cy="Creu Pdf"
+              data-lang-en="Generate PDF"
+              data-lang-cy="Creu PDF"
             >
               <i class="fas fa-file-pdf"></i> Generate PDF
             </button>

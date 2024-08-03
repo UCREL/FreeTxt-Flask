@@ -1949,10 +1949,31 @@ let selectedCloudtext = "";
 let cloudmeasuretxt = "";
 
 function sendWordCloudRequest() {
-  console.log("Generating initial word cloud");
+  // Removes previous word clouds
+  const wordCloudImageElement = document.getElementById("wordCloudImage");
+  wordCloudImageElement.src = "";
+  wordCloudImageElement.style.display = "none";
+  const secWordCloudImg = document.getElementById("secWordCloudImage");
+  if (secWordCloudImg) {
+    secWordCloudImg.remove();
+  }
+
+  // Hides list
+  const wordTagAssociationsContainer = document.getElementById(
+    "tag-words-associations-container"
+  );
+  wordTagAssociationsContainer.style.display = "none";
+
+  // Reset list
+  const listContainer = document.getElementById("tag-words-associations-list");
+  listContainer.innerHTML = "";
 
   const downloadWordCloudBtn = document.getElementById("word-cloud-download-1");
+  const downloadSecWordCloudBtn = document.getElementById(
+    "word-cloud-download-2"
+  );
   downloadWordCloudBtn.style.display = "none";
+  downloadSecWordCloudBtn.style.display = "none";
 
   const cloudTypeDropdown = document.querySelector('select[name="cloud_type"]');
   selectedCloudType = cloudTypeDropdown.value;
@@ -1973,7 +1994,6 @@ function sendWordCloudRequest() {
   selectedcloudmeasure = cloud_measureDropdown.value;
   cloudmeasuretxt =
     cloud_measureDropdown.options[cloud_measureDropdown.selectedIndex].text;
-  const wordCloudImageElement = document.getElementById("wordCloudImage");
   const wordListOuterContainer = document.getElementById(
     "wordListOuterContainer"
   );
@@ -1999,6 +2019,29 @@ function sendWordCloudRequest() {
       wordCloudImageElement.src = data.wordcloud_image_path[0];
       wordCloudImageElement.style.display = "block"; // Display the image
       wordListOuterContainer.style.display = "flex"; // Display the word list
+
+      if (selectedCloudType === "semantic_tags") {
+        const wordCloudImgContainer = document.getElementById(
+          "wordCloudImageContainer"
+        );
+
+        // For the words with semantic tags cloud
+        const secWordCloudImg = document.createElement("img");
+        secWordCloudImg.id = "secWordCloudImage";
+        secWordCloudImg.classList.add("w-100");
+        secWordCloudImg.src = data.wordcloud_image_path[1];
+        secWordCloudImg.alt = "Second Word Cloud Image";
+        secWordCloudImg.style.display = "none";
+        wordCloudImgContainer.appendChild(secWordCloudImg);
+
+        renderTagWordsAssociatons(data.tag_words_associations);
+
+        // Make second word cloud download button visible
+        downloadSecWordCloudBtn.style.display = "block";
+        // Make word list visible
+        wordTagAssociationsContainer.style.display = "";
+      }
+
       renderWordCheckboxes(data.word_list[0]);
       // Checks all checkboxes
       toggleCheckboxes(true);
@@ -2491,11 +2534,11 @@ $(document).ready(function () {
 
   // Dark mode script
   if (localStorage.getItem("dark-mode") === "enabled") {
-    $("#darkModeToggle").prop("checked", true);
+    $("#darkModeToggleCheckbox").prop("checked", true);
     $("body").addClass("dark-mode").removeClass("light-mode");
   }
 
-  $("#darkModeToggle").on("change", function () {
+  $("#darkModeToggleCheckbox").on("change", function () {
     if ($(this).is(":checked")) {
       localStorage.setItem("dark-mode", "enabled");
       $("body").addClass("dark-mode").removeClass("light-mode");
@@ -2641,7 +2684,6 @@ function isSemTag(value) {
   return option && option.getAttribute("data-type") === "semtag";
 }
 
-//!
 function fetchResults() {
   const subCategoryDropdown = document.getElementById("subCategoryDropdown");
 
@@ -2691,6 +2733,10 @@ function handleWordFreqDatasetChange(event) {
 
 // Attach the event handler for dropdown change
 $(document).on("change", "#subCategoryDropdown", () => {
+  // Remove default attribute, prevents language switching from altering dropdown text
+  if ($("#select-option-btn").attr("data-default") !== undefined)
+    $("#select-option-btn").removeAttr("data-default");
+
   // Sets button text to selected value
   const lang = getCurrentLanguage();
   const selectedInput = $("#subCategoryDropdown").find(
@@ -3294,7 +3340,21 @@ $(document).ready(function () {
     $(".lang-flag").attr("data-active", "false"); // reset all flags
     $(`.lang-flag[data-lang=${language}]`).attr("data-active", "true"); // set the selected flag as active
 
-    // save the chosen language to localStorage
+    // Update placeholder text for search bar dropdown in word use and relationships
+    const wordUseDropdownText =
+      language === "en"
+        ? "Search in dropdown..."
+        : "Needs welsh translation...";
+    $("#word-use-dd-search").attr("placeholder", wordUseDropdownText);
+
+    // Update dropdown default option for welsh
+    const selectOptBtn = $("#select-option-btn");
+    if (selectOptBtn.attr("data-default") !== undefined) {
+      language === "en"
+        ? selectOptBtn.text("-- Select --")
+        : selectOptBtn.text("-- Needs welsh translation --");
+    }
+
     localStorage.setItem("chosenLanguage", language);
   }
 

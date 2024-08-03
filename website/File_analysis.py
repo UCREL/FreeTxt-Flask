@@ -752,7 +752,6 @@ def get_file_list():
 @FileAnalysis.route('/generate-pdf', methods=['POST'])
 def generate_pdf():
     if request.method == 'POST':
-        print("generating pdf")
         selected_sections = request.form.getlist(
             'sections') if 'sections' in request.form else []
         # print(selected_sections)
