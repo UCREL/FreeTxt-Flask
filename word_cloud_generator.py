@@ -244,6 +244,9 @@ class WordCloudGenerator:
         # Normalize the frequency
         normalized_freq = freq / max_freq
 
+        if normalized_freq < -1:
+            normalized_freq = 1
+
         # Apply logarithmic scaling to the normalized frequency
         log_scale = log(normalized_freq + 1)
 
@@ -301,8 +304,8 @@ class WordCloudGenerator:
             frequency_dist = {row['word']: row[metric]
                               for index, row in dataframe.iterrows()}
 
-            print("frequency dist")
-            print(frequency_dist)
+            # print("frequency dist")
+            # print(frequency_dist)
 
             try:
                 max_freq = max(frequency_dist.values())
@@ -335,6 +338,7 @@ class WordCloudGenerator:
 # Now, handle the rest of the words
             rest_words = {word: freq for word,
                           freq in frequency_dist.items() if word not in top_10_words}
+
             max_freq_rest = max(rest_words.values()) if rest_words else 0
 
 # Apply a different scaling to the rest of the words
@@ -348,6 +352,9 @@ class WordCloudGenerator:
             rest_words = {word: freq for word, freq in frequency_dist.items()}
             scaled_frequencies = {word: self.combined_scaling(
                 freq, max_freq_rest) * 0.5 for word, freq in rest_words.items()}
+
+        print("scaled freqs")
+        print(scaled_frequencies)
 
         wordcloud = WordCloud(
             width=width,
@@ -469,7 +476,6 @@ class WordCloudGenerator:
             # print('doc',doc)
             all_words = [
                 token.text for token in doc if token.pos_ == pos_dict[cloud_type]]
-            # print(all_words)
             if not all_words:
                 return f"No words of type '{cloud_type}' found. Please select another word type.", pd.DataFrame()
             df = self.compute_word_frequency(all_words, language)
