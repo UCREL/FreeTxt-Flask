@@ -1405,6 +1405,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function startAnalysisfile_uploaded(event) {
+  console.log("file uploaded");
   event.preventDefault(); // To prevent the form from submitting in the traditional way
   validateForm(event, "upload");
   const formData = new FormData(document.getElementById("text-analysis-form"));
@@ -1415,6 +1416,11 @@ function startAnalysisfile_uploaded(event) {
   })
     .then((response) => response.json())
     .then((data) => {
+      if (data.status === "error") {
+        alert(data.message);
+        return;
+      }
+
       if (data.columns) {
         populateColumns(data.columns);
       }
@@ -1649,6 +1655,7 @@ function createPaginationControls(container, data) {
 }
 
 let choicesInstance = null;
+
 function populateColumns(columns) {
   document.getElementById("column-selection").classList.remove("hidden");
   const dropdownElement = document.getElementById("columns-dropdown");
@@ -1690,11 +1697,16 @@ function resetColumnSelection() {
   // Reset visibility of other inner elements
   document.getElementById("columns-container").classList.add("hidden");
 }
+
+// Global variables
 let wordFrequencies = {};
+let unfilteredWordFrequencies = {};
 let semantictags = {};
 let isWordTreeClicked;
 
 function sendSelectedRows() {
+  console.log("sendSelectedRows called");
+
   // Fetch the container holding the column labels
   const container = document.getElementById("columnLabelsContainer");
 
@@ -1811,6 +1823,9 @@ function sendSelectedRows() {
         loadingElement.style.display = "none";
         // Handle the response data
         //displayWordFrequencies(data);
+
+        console.log("response received successfully");
+
         displayOverallSentiment(data.sentimentCounts);
         displaySentimentTable(data.sentimentData);
         displayPlot(data.sentimentPlotPie, "SentimentPlotViewPie");
@@ -1820,14 +1835,20 @@ function sendSelectedRows() {
         handleWordTreeData(data.wordTreeData, data.search_word);
         document.getElementById("search_word").value = data.search_word;
         populateDropdown(data.wordFrequencies);
+
+        // Stores word frequency data
         wordFrequencies = data.wordFrequencies;
+        unfilteredWordFrequencies = data.unfilteredWordFrequencies;
+
         semantictags = data.sortedUniqueTags;
         document.getElementById("tab-buttons").classList.remove("hidden"); // Show the tab buttons
         document.getElementById("tabs").classList.remove("hidden"); // Show the tabs content
         showTab(0); // Automatically switch to the analysis tab
 
         const summaryElement = document.getElementById("summary");
-        summaryElement.textContent = data.summary;
+        summaryElement.textContent = data.summary
+          ? data.summary
+          : "Could not generate summary.";
 
         const iframeElem = document.getElementById("scattertextIframe");
         sendWordCloudRequest();
@@ -1921,12 +1942,39 @@ function reloadIframe() {
   //iframe.src = iframe.src;
   iframe.contentWindow.location.reload(true);
 }
+
 let selectedCloudType = "";
 let selectedcloudmeasure = "";
 let selectedCloudtext = "";
 let cloudmeasuretxt = "";
 
 function sendWordCloudRequest() {
+  // Removes previous word clouds
+  const wordCloudImageElement = document.getElementById("wordCloudImage");
+  wordCloudImageElement.src = "";
+  wordCloudImageElement.style.display = "none";
+  const secWordCloudImg = document.getElementById("secWordCloudImage");
+  if (secWordCloudImg) {
+    secWordCloudImg.remove();
+  }
+
+  // Hides list
+  const wordTagAssociationsContainer = document.getElementById(
+    "tag-words-associations-container"
+  );
+  wordTagAssociationsContainer.style.display = "none";
+
+  // Reset list
+  const listContainer = document.getElementById("tag-words-associations-list");
+  listContainer.innerHTML = "";
+
+  const downloadWordCloudBtn = document.getElementById("word-cloud-download-1");
+  const downloadSecWordCloudBtn = document.getElementById(
+    "word-cloud-download-2"
+  );
+  downloadWordCloudBtn.style.display = "none";
+  downloadSecWordCloudBtn.style.display = "none";
+
   const cloudTypeDropdown = document.querySelector('select[name="cloud_type"]');
   selectedCloudType = cloudTypeDropdown.value;
   selectedCloudtext =
@@ -1946,11 +1994,13 @@ function sendWordCloudRequest() {
   selectedcloudmeasure = cloud_measureDropdown.value;
   cloudmeasuretxt =
     cloud_measureDropdown.options[cloud_measureDropdown.selectedIndex].text;
-  const wordCloudImageElement = document.getElementById("wordCloudImage");
   const wordListOuterContainer = document.getElementById(
     "wordListOuterContainer"
   );
   wordListOuterContainer.style.display = "none";
+
+  const cloudLoadingElement = document.getElementById("cloudLoading");
+  cloudLoadingElement.style.display = "block";
 
   fetch("/generate_wordcloud", {
     method: "POST",
@@ -1966,46 +2016,37 @@ function sendWordCloudRequest() {
   })
     .then((response) => response.json())
     .then((data) => {
-      wordCloudImageElement.src = data.wordcloud_image_path;
+      wordCloudImageElement.src = data.wordcloud_image_path[0];
       wordCloudImageElement.style.display = "block"; // Display the image
       wordListOuterContainer.style.display = "flex"; // Display the word list
 
-      // Handle word list and generate checkboxes
-      const wordListContainer = document.getElementById("wordListContainer");
-      wordListContainer.innerHTML = ""; // Clear any previous checkboxes
+      if (selectedCloudType === "semantic_tags") {
+        const wordCloudImgContainer = document.getElementById(
+          "wordCloudImageContainer"
+        );
 
-      // Create 'Select/Deselect All' checkbox
-      const selectAllContainer = document.createElement("div");
-      const selectAllLabel = document.createElement("label");
-      const selectAllCheckbox = document.createElement("input");
-      selectAllCheckbox.type = "checkbox";
-      selectAllCheckbox.onclick = function () {
-        toggleCheckboxes(this.checked);
-      };
-      selectAllLabel.appendChild(selectAllCheckbox);
-      if (getCurrentLanguage() === "cy") {
-        selectAllLabel.appendChild(document.createTextNode("Popeth"));
-      } else {
-        selectAllLabel.appendChild(document.createTextNode("All"));
+        // For the words with semantic tags cloud
+        const secWordCloudImg = document.createElement("img");
+        secWordCloudImg.id = "secWordCloudImage";
+        secWordCloudImg.classList.add("w-100");
+        secWordCloudImg.src = data.wordcloud_image_path[1];
+        secWordCloudImg.alt = "Second Word Cloud Image";
+        secWordCloudImg.style.display = "none";
+        wordCloudImgContainer.appendChild(secWordCloudImg);
+
+        renderTagWordsAssociatons(data.tag_words_associations);
+
+        // Make second word cloud download button visible
+        downloadSecWordCloudBtn.style.display = "block";
+        // Make word list visible
+        wordTagAssociationsContainer.style.display = "";
       }
 
-      selectAllContainer.appendChild(selectAllLabel);
-      wordListContainer.appendChild(selectAllContainer);
-      generateWordList(data, null);
-
-      data.word_list.sort().forEach((word) => {
-        const wordContainer = document.createElement("div");
-        const label = document.createElement("label");
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.value = word;
-        checkbox.checked = true;
-        checkbox.className = "word-checkbox";
-        label.appendChild(checkbox);
-        label.appendChild(document.createTextNode(` ${word}`));
-        wordContainer.appendChild(label);
-        wordListContainer.appendChild(wordContainer);
-      });
+      renderWordCheckboxes(data.word_list[0]);
+      // Checks all checkboxes
+      toggleCheckboxes(true);
+      downloadWordCloudBtn.style.display = "block";
+      cloudLoadingElement.style.display = "none";
     })
     .catch((error) => {
       console.error("Error generating word cloud:", error);
@@ -2017,6 +2058,7 @@ function toggleCheckboxes(isChecked) {
     checkbox.checked = isChecked;
   });
 }
+
 document.addEventListener("DOMContentLoaded", function () {
   const cloudTypeDropdown = document.querySelector('[name="cloud_type"]');
   const cloudShapeDropdown = document.querySelector('[name="cloud_shape"]');
@@ -2032,125 +2074,26 @@ document.addEventListener("DOMContentLoaded", function () {
   cloudOutlineColorDropdown.addEventListener("change", regenerateWordCloud);
 });
 
-// Generates the list beneath the word cloud
-const generateWordList = (data, cloud_data) => {
-  const wordListArray = data.word_list;
-  // Filters any numbers in the word list
-  const filteredWordList = wordListArray.filter((word) => !/\d/.test(word));
-
-  const listWordsAlphabetically = () => {
-    const initialLettersSet = Array.from(
-      new Set(filteredWordList.map((word) => word.trim().toUpperCase()[0]))
-    ).sort();
-    const wordListMap = new Map(
-      initialLettersSet.map((l) => [
-        l,
-        filteredWordList.filter((word) => word.toUpperCase().startsWith(l)),
-      ])
-    );
-    // Regex to determine if array element is numeric
-    const numberRegex = /^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$/;
-    const numbersList = wordListArray.filter((word) => numberRegex.test(word));
-    // Adding numbers to map
-    if (numbersList.length > 0) {
-      wordListMap.set("Numbers", numbersList);
-    }
-    const orderedWordListContainer = document.getElementById(
-      "orderedWordListContainer"
-    );
-    // Removes old word list
-    orderedWordListContainer.innerHTML = "";
-
-    // Generates word list, a map with each initial letter as key, and list of words begining with that letter as the value
-    wordListMap.forEach((val, key) => {
-      const columnLimit = 4;
-      const sectionContainer = document.createElement("div");
-      const initialContainer = document.createElement("div");
-      const initialWrapper = document.createElement("span");
-      const wordsContainer = document.createElement("div");
-
-      sectionContainer.id = `section${key}`;
-      sectionContainer.classList.add(
-        "d-flex",
-        "flex-column",
-        "align-items-center",
-        "w-100",
-        "mb-4"
-      );
-      initialContainer.classList.add("d-inline", "my-2");
-      initialWrapper.id = `initial${key}`;
-      initialWrapper.appendChild(document.createTextNode(key));
-      initialWrapper.classList.add("p-3", "word-list-letter");
-      wordsContainer.id = `list${key}`;
-      wordsContainer.classList.add("container");
-
-      val.forEach((word, i) => {
-        const col = document.createElement("div");
-        col.classList.add("col", "d-flex", "justify-content-center");
-        col.appendChild(document.createTextNode(word));
-
-        if (i === 0 || i % columnLimit === 0) {
-          const row = document.createElement("div");
-          row.classList.add("row", `row-cols-${columnLimit}`, "my-1");
-          row.id = `row${i / columnLimit}`;
-          wordsContainer.appendChild(row);
-        }
-
-        const currentRow = wordsContainer.lastElementChild;
-        currentRow.append(col);
-      });
-
-      sectionContainer.appendChild(initialContainer);
-      initialContainer.appendChild(initialWrapper);
-      sectionContainer.appendChild(wordsContainer);
-      orderedWordListContainer.appendChild(sectionContainer);
-    });
-  };
-
-  const listSemanticTags = () => {
-    const orderedWordListContainer = document.getElementById(
-      "orderedWordListContainer"
-    );
-    // Removes old word list
-    orderedWordListContainer.innerHTML = "";
-
-    // Generates word list, a map with each initial letter as key, and list of words begining with that letter as the value
-    wordListArray.forEach((tag, i) => {
-      const tagContainer = document.createElement("div");
-
-      tagContainer.id = `tag${i}`;
-      tagContainer.classList.add(
-        "d-flex",
-        "align-items-center",
-        "w-100",
-        i === 0 ? "my-4" : "mb-4",
-        "justify-content-center"
-      );
-
-      tagContainer.appendChild(document.createTextNode(tag));
-      orderedWordListContainer.appendChild(tagContainer);
-    });
-  };
-
-  // For initial word cloud generation
-  if (cloud_data === null) {
-    listWordsAlphabetically();
-    return;
-  }
-
-  if (cloud_data === "all_words") {
-    listWordsAlphabetically();
-  } else if (cloud_data === "semantic_tags") {
-    listSemanticTags();
-  } else {
-    // Default to list alphabetically
-    listWordsAlphabetically();
-  }
-};
-
 function generateWordClouds() {
   const loadingElement = document.getElementById("loading");
+  const wordListOuterContainer = document.getElementById(
+    "wordListOuterContainer"
+  );
+  const wordTagAssociationsContainer = document.getElementById(
+    "tag-words-associations-container"
+  );
+
   loadingElement.style.display = "flex";
+  wordListOuterContainer.style.setProperty("display", "none", "important");
+  wordTagAssociationsContainer.style.display = "none";
+
+  const downloadWordCloudBtn = document.getElementById("word-cloud-download-1");
+  const downloadSecWordCloudBtn = document.getElementById(
+    "word-cloud-download-2"
+  );
+  downloadWordCloudBtn.style.display = "none";
+  downloadSecWordCloudBtn.style.display = "none";
+
   const formData = new FormData(document.getElementById("wordCloudForm"));
   const cloud_data = {
     cloud_type: formData.get("cloud_type"),
@@ -2158,11 +2101,6 @@ function generateWordClouds() {
     cloud_outline_color: formData.get("cloud_outline_color"),
     cloud_measure: formData.get("cloud_measure"),
   };
-
-  const wordListOuterContainer = document.getElementById(
-    "wordListOuterContainer"
-  );
-  wordListOuterContainer.style.display = "none";
 
   fetch("/generate_wordcloud", {
     method: "POST",
@@ -2173,24 +2111,79 @@ function generateWordClouds() {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.status === "success") {
-        const wordCloudImageElement = document.getElementById("wordCloudImage");
-        wordCloudImageElement.src = "";
-        wordCloudImageElement.style.display = "none";
+      if (data.status !== "success") throw new Error("Error fetching data");
 
-        setTimeout(() => {
-          // Set the new wordcloud image and checkboxes after the delay
-          wordCloudImageElement.src = data.wordcloud_image_path;
-          wordCloudImageElement.style.display = "block";
-          wordListOuterContainer.style.display = "flex";
-          renderWordCheckboxes(data.word_list);
-          console.log(cloud_data.cloud_type);
-          generateWordList(data, cloud_data.cloud_type);
-          loadingElement.style.display = "none";
-        }, 5000);
+      const wordCloudImgContainer = document.getElementById(
+        "wordCloudImageContainer"
+      );
 
-        renderWordCheckboxes(data.word_list);
+      // Removes previous word clouds
+      const wordCloudImageElement = document.getElementById("wordCloudImage");
+      wordCloudImageElement.src = "";
+      wordCloudImageElement.style.display = "none";
+      const secWordCloudImg = document.getElementById("secWordCloudImage");
+      if (secWordCloudImg) {
+        secWordCloudImg.remove();
       }
+
+      setTimeout(() => {
+        // Set the new wordcloud image and checkboxes after the delay
+        wordCloudImageElement.src = data.wordcloud_image_path[0];
+        wordCloudImageElement.style.display = "block";
+        wordListOuterContainer.style.display = "flex";
+
+        if (cloud_data.cloud_type === "semantic_tags") {
+          // For the words with semantic tags cloud
+          const secWordCloudImg = document.createElement("img");
+          secWordCloudImg.id = "secWordCloudImage";
+          secWordCloudImg.classList.add("w-100");
+          secWordCloudImg.src = data.wordcloud_image_path[1];
+          secWordCloudImg.alt = "Second Word Cloud Image";
+          secWordCloudImg.style.display = "none";
+          wordCloudImgContainer.appendChild(secWordCloudImg);
+
+          // Adds event listener to radio elements
+          const semTagsRadio = document.getElementById("show-semantic-tags");
+          const wordsRadio = document.getElementById("show-words");
+
+          semTagsRadio.addEventListener("change", () => {
+            const wordCloudImg = document.getElementById("wordCloudImage");
+            const secWordCloudImg =
+              document.getElementById("secWordCloudImage");
+            wordCloudImg.style.display = "block";
+            secWordCloudImg.style.display = "none";
+          });
+
+          wordsRadio.addEventListener("change", () => {
+            const wordCloudImg = document.getElementById("wordCloudImage");
+            const secWordCloudImg =
+              document.getElementById("secWordCloudImage");
+            secWordCloudImg.style.display = "block";
+            wordCloudImg.style.display = "none";
+          });
+
+          renderTagWordsAssociatons(data.tag_words_associations);
+
+          // Make second word cloud download button visible
+          downloadSecWordCloudBtn.style.display = "block";
+          // Make word list visible
+          wordTagAssociationsContainer.style.display = "";
+        }
+
+        renderWordCheckboxes(data.word_list[0]);
+        // Checks all checkboxes
+        toggleCheckboxes(true);
+        downloadWordCloudBtn.style.display = "block";
+
+        // Handles the display of semantic tag radio selectors
+        const tagsOrWordsRadio = document.getElementById(
+          "sem-tags-radio-selection"
+        );
+        tagsOrWordsRadio.style.display =
+          cloud_data.cloud_type === "semantic_tags" ? "flex" : "none";
+
+        loadingElement.style.display = "none";
+      }, 5000);
     })
     .catch((error) => {
       console.error("Error generating word cloud:", error);
@@ -2209,8 +2202,11 @@ function renderWordCheckboxes(wordList) {
   selectAllCheckbox.onclick = function () {
     toggleCheckboxes(this.checked);
   };
+  selectAllContainer.classList.add("mb-1");
   selectAllLabel.appendChild(selectAllCheckbox);
   selectAllLabel.appendChild(document.createTextNode(" All"));
+  selectAllLabel.classList.add("px-1", "text-break");
+  selectAllCheckbox.classList.add("word-checkbox-all", "my-1");
   selectAllContainer.appendChild(selectAllLabel);
   wordListContainer.appendChild(selectAllContainer);
 
@@ -2219,14 +2215,83 @@ function renderWordCheckboxes(wordList) {
     const wordContainer = document.createElement("div");
     const label = document.createElement("label");
     const checkbox = document.createElement("input");
+    wordContainer.classList.add("my-1");
     checkbox.type = "checkbox";
     checkbox.value = word;
-    checkbox.className = "word-checkbox"; // For the select/deselect function
+    checkbox.classList.add("word-checkbox", "my-1"); // For the select/deselect function
+    label.classList.add("d-flex", "align-items-start", "px-1", "text-break");
     label.appendChild(checkbox);
     label.appendChild(document.createTextNode(` ${word}`));
     wordContainer.appendChild(label);
     wordListContainer.appendChild(wordContainer);
   });
+}
+
+function renderTagWordsAssociatons(tagWordsArray) {
+  const listContainer = document.getElementById("tag-words-associations-list");
+  // Reset list
+  listContainer.innerHTML = "";
+
+  for (let [tag, wordArray] of Object.entries(tagWordsArray)) {
+    tagWordsContainer = document.createElement("div");
+    tagWordsContainer.classList.add(
+      "container-fluid",
+      "d-flex",
+      "flex-column",
+      "mb-4"
+    );
+
+    const tagContainer = document.createElement("h1");
+    tagContainer.id = `tag-${tag}`;
+    tagContainer.classList.add(
+      "d-flex",
+      "justify-content-center",
+      "align-items-center",
+      "text-break",
+      "mt-0"
+    );
+    tagContainer.style.fontWeight = "bold";
+    tagContainer.appendChild(document.createTextNode(tag));
+
+    const wordListContainer = document.createElement("div");
+    wordListContainer.classList.add(
+      "container-fluid",
+      "m-0",
+      "row",
+      "row-cols-1",
+      "row-cols-sm-2"
+    );
+
+    wordArray.forEach((word) => {
+      const col = document.createElement("div");
+      col.classList.add(
+        "col",
+        "d-flex",
+        "justify-content-center",
+        "align-items-center",
+        "text-break"
+      );
+      col.appendChild(document.createTextNode(word));
+      wordListContainer.appendChild(col);
+    });
+
+    tagWordsContainer.appendChild(tagContainer);
+    tagWordsContainer.appendChild(wordListContainer);
+    listContainer.appendChild(tagWordsContainer);
+  }
+}
+
+function handleWordTagListVis(event) {
+  const listContainer = document.getElementById("tag-words-associations-list");
+  const iconContainer = document.getElementById("word-tag-list-icon");
+
+  if (event.target.checked) {
+    listContainer.style.display = "none";
+    iconContainer.classList.replace("fa-eye-slash", "fa-eye");
+  } else {
+    listContainer.style.display = "flex";
+    iconContainer.classList.replace("fa-eye", "fa-eye-slash");
+  }
 }
 
 function regenerateWordCloud() {
@@ -2289,24 +2354,45 @@ function regenerateWordCloud() {
       wordCloudImageElement.src = "";
       wordCloudImageElement.style.display = "none";
 
+      const secWordCloudImg = document.getElementById("secWordCloudImage");
+      if (secWordCloudImg) {
+        secWordCloudImg.remove();
+      }
+
+      const wordCloudImgContainer = document.getElementById(
+        "wordCloudImageContainer"
+      );
+
+      // Set the new wordcloud image and checkboxes after the delay
+      wordCloudImageElement.src = data.wordcloud_image_path[0];
+      wordCloudImageElement.style.display = "block";
+
       setTimeout(() => {
-        // Set the new wordcloud image and checkboxes after the delay
-        wordCloudImageElement.src = data.wordcloud_image_path;
-        wordCloudImageElement.style.display = "block";
+        if (formData.get("cloud_type") === "semantic_tags") {
+          // Check which radio is selected, to display selected cloud
+          const semTagsRadio = document.getElementById("show-semantic-tags");
+          const wordsRadio = document.getElementById("show-words");
+
+          // Set the new wordcloud image and checkboxes after the delay
+          wordCloudImageElement.src = data.wordcloud_image_path[0];
+          wordCloudImageElement.style.display = semTagsRadio.checked
+            ? "block"
+            : "none";
+
+          // For the words with semantic tags cloud
+          const secWordCloudImg = document.createElement("img");
+          secWordCloudImg.id = "secWordCloudImage";
+          secWordCloudImg.classList.add("w-100");
+          secWordCloudImg.src = data.wordcloud_image_path[1];
+          secWordCloudImg.alt = "Second Word Cloud Image";
+          secWordCloudImg.style.display = wordsRadio.checked ? "block" : "none";
+          wordCloudImgContainer.appendChild(secWordCloudImg);
+
+          renderTagWordsAssociatons(data.tag_words_associations);
+        }
 
         loadingElement.style.display = "none";
       }, 5000);
-      renderWordCheckboxes(allWords);
-      // Re-enable the checkboxes after the word cloud has been regenerated
-      // If rendered checkbox is in the list of selected words to be removed, uncheck it
-      // All other words are checked
-      document.querySelectorAll(".word-checkbox").forEach((checkbox) => {
-        if (selectedWords.includes(checkbox.value)) {
-          checkbox.checked = true;
-        } else {
-          checkbox.checked = false;
-        }
-      });
     })
     .catch((error) => {
       console.error("Error regenerating word cloud:", error);
@@ -2314,10 +2400,16 @@ function regenerateWordCloud() {
       document.querySelectorAll(".word-checkbox").forEach((checkbox) => {
         checkbox.checked = true;
       });
+
+      loadingElement.style.display = "none";
+
+      alert(
+        `Error generating word cloud. Please try again with different values.\n${error}`
+      );
     });
 }
 
-function handleSearchChange(event) {
+function handleWordCloudSearchChange(event) {
   const searchBox = event.target;
   const query = searchBox.value.toLowerCase();
 
@@ -2328,12 +2420,80 @@ function handleSearchChange(event) {
     const parentDiv = element.closest("div");
 
     if (word.startsWith(query)) {
+      parentDiv.style.order = 0;
+      parentDiv.style.display = "block";
+    } else if (word.includes(query)) {
+      parentDiv.style.order = 1;
       parentDiv.style.display = "block";
     } else {
+      parentDiv.style.order = 2;
       parentDiv.style.display = "none";
     }
   });
 }
+
+const handleWordCloudPosChange = (event) => {
+  const wordCloudContainer = document.getElementById("wordListOuterContainer");
+  const firstChild = document.getElementById("responsive-flex-first");
+  const secondChild = document.getElementById("wordCloudImageContainer");
+  const wordListContainer = document.getElementById("wordListContainer");
+  const semTagsRadioContainer = document.getElementById(
+    "sem-tags-radio-selection"
+  );
+
+  const wordCloudControlIcon = document.getElementById(
+    "word-cloud-control-icon"
+  );
+
+  if (event.target.checked) {
+    wordCloudContainer.classList.remove("responsive-flex");
+    wordCloudContainer.classList.add("d-flex", "flex-column");
+    wordCloudContainer.insertBefore(secondChild, firstChild);
+
+    // Replaces expand icon with minimise
+    wordCloudControlIcon.classList.remove("fa-solid", "fa-expand");
+    wordCloudControlIcon.classList.add("fa-solid", "fa-minimize");
+
+    // Allows list to expand to full width
+    firstChild.classList.remove("search-container");
+
+    // Changes word list layout from single column to grid
+    wordListContainer.classList.remove("d-flex", "flex-column");
+    wordListContainer.classList.add(
+      "row",
+      "row-cols-1",
+      "row-cols-sm-2",
+      "row-cols-md-4",
+      "row-cols-xl-5"
+    );
+
+    // Changes position of radio selectors
+    semTagsRadioContainer.classList.add("justify-content-center");
+  } else {
+    wordCloudContainer.classList.add("responsive-flex");
+    wordCloudContainer.classList.remove("d-flex", "flex-column");
+    wordCloudContainer.insertBefore(firstChild, secondChild);
+
+    wordCloudControlIcon.classList.remove("fa-solid", "fa-minimize");
+    wordCloudControlIcon.classList.add("fa-solid", "fa-expand");
+
+    // Allows list to expand to 25% of parent max
+    firstChild.classList.add("search-container");
+
+    // Changes word list layout from grid back to single column
+    wordListContainer.classList.remove(
+      "row",
+      "row-cols-1",
+      "row-cols-sm-2",
+      "row-cols-md-4",
+      "row-cols-xl-5"
+    );
+    wordListContainer.classList.add("d-flex", "flex-column");
+
+    // Changes position of radio selectors
+    semTagsRadioContainer.classList.remove("justify-content-center");
+  }
+};
 
 $(document).ready(function () {
   // Range summarization script
@@ -2374,11 +2534,11 @@ $(document).ready(function () {
 
   // Dark mode script
   if (localStorage.getItem("dark-mode") === "enabled") {
-    $("#darkModeToggle").prop("checked", true);
+    $("#darkModeToggleCheckbox").prop("checked", true);
     $("body").addClass("dark-mode").removeClass("light-mode");
   }
 
-  $("#darkModeToggle").on("change", function () {
+  $("#darkModeToggleCheckbox").on("change", function () {
     if ($(this).is(":checked")) {
       localStorage.setItem("dark-mode", "enabled");
       $("body").addClass("dark-mode").removeClass("light-mode");
@@ -2389,9 +2549,31 @@ $(document).ready(function () {
   });
 });
 
+function handleWordFreqSearchChange(event) {
+  const searchBox = event.target;
+  const query = searchBox.value.toLowerCase();
+
+  const subCategoryDropdown = document.getElementById("subCategoryDropdown");
+  const wordList = subCategoryDropdown.querySelectorAll("div");
+
+  wordList.forEach((div) => {
+    const label_text = div.querySelector("label").textContent.toLowerCase();
+
+    if (label_text.startsWith(query)) {
+      div.style.order = 0;
+      div.style.display = "flex";
+    } else if (label_text.includes(query)) {
+      div.style.order = 1;
+      div.style.display = "flex";
+    } else {
+      div.style.order = 2;
+      div.style.display = "none";
+    }
+  });
+}
+
 //! Populates word use and relationships dropdown
 function populateDropdown(wordFrequencies) {
-  const dropdown = document.getElementById("subCategoryDropdown");
   const subCategoryDropdown = document.getElementById("subCategoryDropdown");
 
   // Clear the current options
@@ -2401,20 +2583,40 @@ function populateDropdown(wordFrequencies) {
 
   const wordFrequencyPairs = Object.entries(wordFrequencies);
   wordFrequencyPairs.sort((a, b) => b[1] - a[1]);
-  console.log("wordFrequencies length:", wordFrequencyPairs.length);
-  for (let [word, frequency] of wordFrequencyPairs) {
-    const option = document.createElement("option");
-    option.value = word;
-    option.text = `${word} (${frequency})`;
-    option.setAttribute("data-type", "word");
-    dropdown.add(option);
-  }
+  wordFrequencyPairs.forEach(([word, frequency], i) => {
+    // Creates option container
+    const option = document.createElement("div");
+
+    // Creates input element
+    const input = document.createElement("input");
+    input.id = `word-freq-${i}`;
+    input.name = "word-freq-radio";
+    input.value = word;
+    input.dataset.frequency = frequency;
+    input.setAttribute("data-type", "word");
+    input.type = "radio";
+    input.classList.add("hidden");
+
+    // Creates label
+    const label = document.createElement("label");
+    label.htmlFor = `word-freq-${i}`;
+    label.classList.add("form-check-label", "dropdown-item", "w-100");
+    label.style.fontWeight = "bold";
+    label.textContent = `${word} (${frequency})`;
+
+    option.appendChild(input);
+    option.appendChild(label);
+    subCategoryDropdown.appendChild(option);
+  });
 }
 
 //! Word use and relationship
 function displayResults(data) {
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "none";
+
+  // Window range make visible
+  $("#window-size-range-container").css("display", "block");
 
   // Clear previous error messages
   $("#errorContainer").empty();
@@ -2463,32 +2665,38 @@ function displayResults(data) {
 
 function isWord(value) {
   let option = document.querySelector(
-    `#subCategoryDropdown option[value='${value}']`
+    `#subCategoryDropdown input[value='${value}']`
   );
   return option && option.getAttribute("data-type") === "word";
 }
 
 function isTag(value) {
   let option = document.querySelector(
-    `#subCategoryDropdown option[value='${value}']`
+    `#subCategoryDropdown input[value='${value}']`
   );
   return option && option.getAttribute("data-type") === "tag";
 }
 
 function isSemTag(value) {
   let option = document.querySelector(
-    `#subCategoryDropdown option[value='${value}']`
+    `#subCategoryDropdown input[value='${value}']`
   );
   return option && option.getAttribute("data-type") === "semtag";
 }
 
-//!
 function fetchResults() {
-  let dropdownValue = $("#subCategoryDropdown").val();
-  console.log("Dropdown value is", dropdownValue);
+  const subCategoryDropdown = document.getElementById("subCategoryDropdown");
+
+  if (subCategoryDropdown === null) return;
+
+  const selectedElement =
+    subCategoryDropdown.querySelector('input[type="radio"]:checked') || null;
+
+  const dropdownValue = selectedElement.value;
   let windowSize = $("#windowSizeRange").val();
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "flex";
+
   // Decide the type of request based on the value of the dropdown
   let postData = {};
   if (isWord(dropdownValue)) {
@@ -2505,16 +2713,55 @@ function fetchResults() {
   }
 
   postData.window_size = windowSize;
-  $.post("/Keyword_collocation", postData, displayResults);
+
+  $.post("/Keyword_collocation", postData)
+    .done((data) => {
+      displayResults(data);
+    })
+    .fail((jqXHR, textStatus, errorThrown) => {
+      console.error("Request failed: " + textStatus + ", " + errorThrown);
+      loadingElement.style.display = "none";
+    });
 }
 
-//! event listener for word use and relationships dropdown
-// Attach the event handler for dropdown change
-$(document).on("change", "#subCategoryDropdown", fetchResults);
+// Function for use unfiltered data checkbox
+function handleWordFreqDatasetChange(event) {
+  event.target.checked
+    ? populateDropdown(unfilteredWordFrequencies)
+    : populateDropdown(wordFrequencies);
+}
 
-// Handle changes in window size range input
+// Attach the event handler for dropdown change
+$(document).on("change", "#subCategoryDropdown", () => {
+  // Remove default attribute, prevents language switching from altering dropdown text
+  if ($("#select-option-btn").attr("data-default") !== undefined)
+    $("#select-option-btn").removeAttr("data-default");
+
+  // Sets button text to selected value
+  const lang = getCurrentLanguage();
+  const selectedInput = $("#subCategoryDropdown").find(
+    'input[type="radio"]:checked'
+  );
+
+  const label = selectedInput.siblings("label");
+
+  // For semantic and pos tags, sets button text to data-lang attribute, else sets to input value
+  label.attr("data-lang-en") || label.attr("data-lang-cy")
+    ? lang === "en"
+      ? $("#select-option-btn").text(label.attr("data-lang-en"))
+      : $("#select-option-btn").text(label.attr("data-lang-cy"))
+    : $("#select-option-btn").text(selectedInput.val());
+
+  fetchResults();
+});
+
+// Updates displayed value
 $(document).on("input", "#windowSizeRange", function () {
   $("#windowSizeValue").text(this.value);
+});
+
+// Calls function when user selects and deselects
+$(document).on("change", "#windowSizeRange", function () {
   fetchResults();
 });
 
@@ -3093,7 +3340,21 @@ $(document).ready(function () {
     $(".lang-flag").attr("data-active", "false"); // reset all flags
     $(`.lang-flag[data-lang=${language}]`).attr("data-active", "true"); // set the selected flag as active
 
-    // save the chosen language to localStorage
+    // Update placeholder text for search bar dropdown in word use and relationships
+    const wordUseDropdownText =
+      language === "en"
+        ? "Search in dropdown..."
+        : "Needs welsh translation...";
+    $("#word-use-dd-search").attr("placeholder", wordUseDropdownText);
+
+    // Update dropdown default option for welsh
+    const selectOptBtn = $("#select-option-btn");
+    if (selectOptBtn.attr("data-default") !== undefined) {
+      language === "en"
+        ? selectOptBtn.text("-- Select --")
+        : selectOptBtn.text("-- Needs welsh translation --");
+    }
+
     localStorage.setItem("chosenLanguage", language);
   }
 
@@ -3398,6 +3659,7 @@ function downloadWordTree() {
   }, 5000); // 5 seconds delay to give the chart enough time to render
 }
 
+//!
 async function handleCategoryChange() {
   const subCategoryDropdown = document.getElementById("subCategoryDropdown");
 
@@ -3407,7 +3669,9 @@ async function handleCategoryChange() {
   }
 
   if (document.getElementById("wordRadio").checked) {
-    populateDropdown(wordFrequencies);
+    $("#word-freq-include-all-check").is(":checked")
+      ? populateDropdown(unfilteredWordFrequencies)
+      : populateDropdown(wordFrequencies);
   } else if (document.getElementById("posTagRadio").checked) {
     const posTags = [
       { value: "NOUN", en: "Nouns", cy: "Enwau" },
@@ -3418,46 +3682,83 @@ async function handleCategoryChange() {
       { value: "NUM", en: "Numbers", cy: "Rhifau" },
     ];
 
-    posTags.forEach((tag) => {
-      const option = document.createElement("option");
-      option.value = tag.value;
-      option.setAttribute("data-lang-en", tag.en);
-      option.setAttribute("data-lang-cy", tag.cy);
-      option.text = tag.en;
-      option.setAttribute("data-type", "tag");
-      subCategoryDropdown.add(option);
+    posTags.forEach((tag, i) => {
+      // Creates option container
+      const option = document.createElement("div");
+
+      // Creates input element
+      const input = document.createElement("input");
+      input.id = `pos-tags-${i}`;
+      input.name = "pos-tags-radio";
+      input.value = tag.value;
+      input.setAttribute("data-type", "tag");
+      input.type = "radio";
+      input.classList.add("hidden");
+
+      // Creates label
+      const label = document.createElement("label");
+      label.htmlFor = `pos-tags-${i}`;
+      label.setAttribute("data-lang-en", tag.en);
+      label.setAttribute("data-lang-cy", tag.cy);
+      label.classList.add("form-check-label", "dropdown-item", "w-100");
+      label.style.fontWeight = "bold";
+      label.textContent = tag.en;
+
+      option.appendChild(input);
+      option.appendChild(label);
+      subCategoryDropdown.appendChild(option);
+
       updateOptionsLanguage();
     });
   } else if (document.getElementById("semanticTagRadio").checked) {
     const semanticTags = semantictags;
-    semanticTags.forEach((tag) => {
-      const option = document.createElement("option");
-      option.value = tag;
-      option.text = tag;
-      option.setAttribute("data-lang-en", tag);
-      option.setAttribute("data-lang-cy", tag);
-      option.setAttribute("data-type", "semtag");
+
+    semanticTags.forEach((tag, i) => {
+      // Creates option container
+      const option = document.createElement("div");
+
+      // Creates input element
+      const input = document.createElement("input");
+      input.id = `semtags-${i}`;
+      input.name = "sem-tags-radio";
+      input.value = tag;
+      input.setAttribute("data-type", "semtag");
+      input.type = "radio";
+      input.classList.add("hidden");
+
+      // Creates label
+      const label = document.createElement("label");
+      label.htmlFor = `semtags-${i}`;
+      label.setAttribute("data-lang-en", tag);
+      label.setAttribute("data-lang-cy", tag);
+      label.classList.add("form-check-label", "dropdown-item", "w-100");
+      label.style.fontWeight = "bold";
+      label.textContent = tag;
+
+      option.appendChild(input);
+      option.appendChild(label);
       subCategoryDropdown.appendChild(option);
     });
     updateOptionsLanguage();
   }
 }
 
+//!
 function updateOptionsLanguage() {
   const dropdown = document.getElementById("subCategoryDropdown");
-  const options = dropdown.options;
+  const options = dropdown.childNodes;
   const currentLang = getCurrentLanguage();
-  console.log("Number of options:", options.length); // Debugging step
+  // console.log("Number of options:", options.length); // Debugging step
 
-  for (let i = 0; i < options.length; i++) {
-    const option = options[i];
-    if (currentLang === "en") {
-      option.textContent = option.getAttribute("data-lang-en");
-    } else if (currentLang === "cy") {
-      option.textContent = option.getAttribute("data-lang-cy");
-    }
+  for (let option of options) {
+    label = option.querySelector("label");
+    label.textContent =
+      currentLang === "en"
+        ? label.getAttribute("data-lang-en")
+        : label.getAttribute("data-lang-cy");
   }
 }
+
 function fetchAndParseCSV() {
   return fetch("http://ucrel-freetxt-2.lancs.ac.uk/static/keness/Cy_tags.csv")
     .then((response) => response.text())
@@ -3466,6 +3767,7 @@ function fetchAndParseCSV() {
       return results.data;
     });
 }
+
 $(document).ready(function () {
   $("#generateGraph").click(function (event) {
     event.preventDefault(); // This line prevents the form from submitting
@@ -3473,6 +3775,7 @@ $(document).ready(function () {
     updateGraph(graphType);
   });
 });
+
 function updateGraph(graphType) {
   // 1. Fetch the Data from Collocs Table
   const collocsData = $("#collocsTable").DataTable().rows().data().toArray();
@@ -3650,6 +3953,7 @@ function downloadWordTreeAsImage() {
   });
 }
 
+// Handles the visibility of hamburger menu
 document.addEventListener("DOMContentLoaded", function () {
   var menu = document.querySelector(".primary-menu");
   var toggle = document.querySelector(".menu-toggle");
@@ -3660,6 +3964,12 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       menu.style.display = "block";
     }
+  });
+
+  // Handles navbar visibility if screen size changes
+  const mql = window.matchMedia("screen and (max-width: 600px)");
+  mql.addEventListener("change", (mq) => {
+    menu.style.display = mq.matches ? "none" : "flex";
   });
 });
 

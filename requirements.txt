@@ -39,5 +39,6 @@ html2image
 canvas
 apscheduler
 flask_sqlalchemy
+humanize
 en_dual_none_contextual @ https://github.com/UCREL/pymusas-models/releases/download/en_dual_none_contextual-0.3.1/en_dual_none_contextual-0.3.1-py3-none-any.whl
 cy_dual_basiccorcencc2usas_contextual @ https://github.com/UCREL/pymusas-models/releases/download/cy_dual_basiccorcencc2usas_contextual-0.3.3/cy_dual_basiccorcencc2usas_contextual-0.3.3-py3-none-any.whl

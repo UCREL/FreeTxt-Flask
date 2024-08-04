@@ -315,6 +315,7 @@
     width: 100%;
     height: 100%;
     cursor: pointer;
+    background-color: black;
   }
 
   /* Container Style */
@@ -453,6 +454,19 @@
     display: block;
     margin-top: 5px;
   }
+
+  #select-option-btn {
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  #select-option-btn:hover {
+    color: #666;
+  }
+
   /* Style the container with class sentiment-option */
   .sentiment-option {
     margin-bottom: 15px;
@@ -533,54 +547,6 @@
       min-width: 100%; /* One item per row on very small screens */
     }
   }
-
-  /* Classes for word cloud search bar and word list */
-  .responsive-flex {
-    display: flex;
-    flex-direction: column;
-  }
-
-  @media (min-width: 992px) {
-    .responsive-flex {
-      flex-direction: row;
-    }
-  }
-
-  .overflow-scroll-container {
-    height: 80vh;
-    overflow-y: scroll;
-  }
-
-  @media (min-width: 992px) {
-    .overflow-scroll-container {
-      height: 80vh;
-    }
-  }
-
-  .ordered-list-container {
-    width: 100%;
-  }
-
-  @media (min-width: 992px) {
-    .ordered-list-container {
-      max-width: 75%;
-    }
-  }
-
-  .search-container {
-    width: 100%;
-  }
-
-  @media (min-width: 992px) {
-    .search-container {
-      width: 100%;
-      max-width: 25%;
-    }
-  }
-
-  #scattertextIframe > svg {
-    min-width: 1250px;
-  }
 </style>
 <!-- DataTables CSS -->
 <link
@@ -608,6 +574,7 @@
 >
   How would you like to start your analysis?
 </h1>
+
 <form
   id="text-analysis-form"
   method="POST"
@@ -662,6 +629,7 @@
   </label>
   <div id="text-input" class="input-container">
     <textarea
+      class="data-input"
       name="text-to-analyze"
       id="text-to-analyze"
       value="{{text or 'text'}}"
@@ -706,7 +674,7 @@
   </div>
 
   <div id="example-options" class="hidden">
-    <select id="example-data" name="example-data">
+    <select id="example-data" name="example-data" class="data-input">
       <option
         value=""
         data-lang-en="Select example data file(s)"
@@ -880,8 +848,8 @@
       onclick="showTab(0) ; reloadIframe()"
     >
       <i class="fas fa-chart-line text-size-14 text-white"></i>
-      <span data-lang-en="Meaning analysis" data-lang-cy="Dadansoddi ystyr">
-        Meaning analysis</span
+      <span data-lang-en="Meaning Analysis" data-lang-cy="Dadansoddi Ystyr">
+        Meaning Analysis</span
       >
     </button>
     <button
@@ -940,8 +908,8 @@
     </button>
     <button class="tab-btn background-pink" onclick="showTab(6)">
       <i class="fas fa-file-pdf"></i>
-      <span class="button-text" data-lang-en="Pdf" data-lang-cy="Pdf">
-        Pdf</span
+      <span class="button-text" data-lang-en="PDF" data-lang-cy="PDF">
+        PDF</span
       >
     </button>
   </div>
@@ -1456,37 +1424,19 @@
               </select>
             </div>
           </div>
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              height: 170vh;
-            "
-          >
-            <img id="wordCloudImage" src="" alt="Word Cloud Image" />
-          </div>
         </form>
-        <a href="/get-word-cloud" download>
-          <button
-            class="analyze-btn"
-            data-lang-en="Download Word Cloud image"
-            data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau"
-          >
-            Download Word Cloud image
-          </button>
-        </a>
       </div>
-      <div class="my-5">
-        <h2 data-lang-en="Word List" data-lang-cy="Rhestr Geiriau">
-          Word List
-        </h2>
+      <div id="cloudLoading" class="container cloud-loading">
+        <h1>Loading word cloud...</h1>
       </div>
       <div
         id="wordListOuterContainer"
-        class="responsive-flex rounded border border-light shadow"
+        class="responsive-flex rounded border border-light shadow my-5 border border-primary"
       >
-        <div class="d-flex flex-column align-items-center search-container">
+        <div
+          id="responsive-flex-first"
+          class="d-flex flex-column align-items-center search-container"
+        >
           <div class="rounded p-4 w-100 border border-light bg-light">
             <div class="pb-4 w-100">
               <input
@@ -1494,15 +1444,56 @@
                 class="p-2 form-control w-100"
                 type="search"
                 placeholder="Search in cloud..."
-                oninput="handleSearchChange(event)"
+                oninput="handleWordCloudSearchChange(event)"
               />
             </div>
             <div
-              class="container align-items-center d-flex flex-column overflow-scroll-container"
+              id="sem-tags-radio-selection"
+              class="container-fluid align-items-center mb-4"
+              style="display: none"
+            >
+              <div class="d-flex flex-column">
+                <div class="form-check">
+                  <input
+                    id="show-semantic-tags"
+                    name="sem-tags-words-rad"
+                    type="radio"
+                    class="form-check-input"
+                    checked
+                  />
+                  <label
+                    class="form-check-label"
+                    for="show-semantic-tags"
+                    data-lang-en="Show Tags"
+                    data-lang-cy="Needs translation"
+                  >
+                    Show Tags
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    id="show-words"
+                    name="sem-tags-words-rad"
+                    type="radio"
+                    class="form-check-input"
+                  />
+                  <label
+                    class="form-check-label"
+                    for="show-words"
+                    data-lang-en="Show Words With Tags"
+                    data-lang-cy="Needs translation"
+                  >
+                    Show Words With Tags
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div
+              class="container align-items-center d-flex flex-column overflow-scroll-container p-0"
             >
               <div
                 id="wordListContainer"
-                class="word-checkbox-list d-flex flex-column"
+                class="word-checkbox-list w-100 d-flex flex-column"
                 style="min-width: 100%"
               ></div>
             </div>
@@ -1518,12 +1509,91 @@
           </div>
         </div>
         <div
-          id="orderedWordListContainer"
-          class="container-fluid d-flex flex-column align-items-center w-100 ordered-list-container"
-        ></div>
+          id="wordCloudImageContainer"
+          class="container-fluid d-flex flex-column justify-content-center align-items-center w-100 position-relative p-1 m-0"
+        >
+          <div
+            id="word-cloud-enlarge-reduce-icon"
+            class="position-absolute p-2"
+            style="top: 0; right: 0"
+          >
+            <label class="size-btn">
+              <input
+                type="checkbox"
+                class="hidden"
+                onchange="handleWordCloudPosChange(event)" /><i
+                id="word-cloud-control-icon"
+                class="fa-solid fa-expand"
+                style="font-size: 30px"
+              ></i
+            ></label>
+          </div>
+          <img
+            id="wordCloudImage"
+            class="w-100"
+            src=""
+            alt="Word Cloud Image"
+          />
+        </div>
       </div>
 
-      <!--class="form-group col-md-4"-->
+      <div
+        id="tag-words-associations-container"
+        class="container-fluid p-0"
+        style="display: none"
+      >
+        <div
+          class="flex-container align-items-center justify-content-center mb-5"
+        >
+          <h2
+            class="mr-2"
+            data-lang-en="Word &amp; Tag Associations"
+            data-lang-cy="Needs welsh translation"
+          >
+            Word &amp; Tag Associations
+          </h2>
+          <label class="form-check-label size-btn" style="width: 30px">
+            <input
+              type="checkbox"
+              class="hidden form-check-input"
+              onchange="handleWordTagListVis(event)"
+            />
+            <i
+              id="word-tag-list-icon"
+              class="fa-solid fa-eye-slash"
+              style="font-size: 30px; min-width: 30px"
+            ></i>
+          </label>
+        </div>
+
+        <div
+          id="tag-words-associations-list"
+          class="container-fluid w-100 row row-cols-1 row-cols-sm-2 row-cols-lg-4 m-0"
+        ></div>
+      </div>
+      <a id="word-cloud-download-1" href="/get-word-cloud" download>
+        <button
+          class="analyze-btn"
+          data-lang-en="Download Word Cloud image"
+          data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau"
+        >
+          Download Word Cloud image
+        </button>
+      </a>
+      <a
+        id="word-cloud-download-2"
+        href="/get-sec-word-cloud"
+        style="display: none"
+        download
+      >
+        <button
+          class="analyze-btn mt-2"
+          data-lang-en="Download Word Cloud image (Semantic Tags)"
+          data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau (Needs welsh translation)"
+        >
+          Download Word Cloud image (Semantic Tags)
+        </button>
+      </a>
     </div>
     <div id="tab4" class="tab-content">
       <h2
@@ -1592,19 +1662,91 @@
             data-lang-cy="Dewiswch Opsiwn"
             >Select Option</label
           >
-          <select id="subCategoryDropdown" class="form-control"></select>
-          <a href="/get-word-frequencies-data" download>
+
+          <div
+            class="container-fluid d-flex justify-content-start flex-column flex-sm-row p-0 mb-5"
+          >
+            <div class="dropdown">
+              <button
+                class="btn dropdown-toggle sentiment-option m-0"
+                id="select-option-btn"
+                type="button"
+                id="dropdown-button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-default
+              >
+                -- Select --
+              </button>
+              <div class="dropdown-menu pb-0" aria-labelledby="dropdown-button">
+                <div class="form-group mx-3" style="min-width: 200px">
+                  <input
+                    id="word-use-dd-search"
+                    type="search"
+                    class="form-control w-100"
+                    placeholder="Search in dropdown..."
+                    oninput="handleWordFreqSearchChange(event)"
+                  />
+                </div>
+                <div class="dropdown-divider"></div>
+                <div
+                  id="subCategoryDropdown"
+                  class="word-use-dropdown position-static"
+                ></div>
+              </div>
+            </div>
+            <!-- For including/excluding filtered data -->
+            <div
+              class="form-check ml-0 mt-3 ml-sm-3 mt-sm-0 d-flex justify-content-start justify-content-sm-center align-items-center"
+            >
+              <div
+                class="container-fluid d-flex m-0 p-0"
+                title="Includes words assigned with the following tags: Grammatical bin, Pronouns, Period, Being, Discourse Bin, Negative, Punctuation, Unmatched."
+              >
+                <input
+                  id="word-freq-include-all-check"
+                  class="form-check-input"
+                  type="checkbox"
+                  onchange="handleWordFreqDatasetChange(event)"
+                />
+                <label
+                  class="form-check-label"
+                  for="word-freq-include-all-check"
+                  data-lang-en="Include all data (stopwords, misfiltered words, etc.)"
+                  data-lang-cy="Needs welsh translation"
+                  >Include all data (stopwords, misfiltered words, etc.)</label
+                >
+              </div>
+            </div>
+          </div>
+
+          <a href="/get-filtered-word-frequencies-data" download>
             <button
               type="button"
               class="analyze-btn hidden"
-              data-lang-en="Download Word Frequency Results"
-              data-lang-cy="Llwytho canlyniadau amlder geiriau i lawr"
+              data-lang-en="Download Filtered Word Frequency Results"
+              data-lang-cy="Needs Welsh translation"
             >
-              Download Word Frequency Results
+              Download Filtered Word Frequency Results
+            </button>
+          </a>
+          <a href="/get-unfiltered-word-frequencies-data" download>
+            <button
+              type="button"
+              class="analyze-btn hidden mt-2"
+              data-lang-en="Download Unfiltered Word Frequency Results"
+              data-lang-cy="Needs Welsh translation"
+            >
+              Download Unfiltered Word Frequency Results
             </button>
           </a>
         </div>
-        <div>
+        <div
+          id="window-size-range-container"
+          class="my-5"
+          style="display: none"
+        >
           <label
             for="windowSizeRange"
             data-lang-en="Window Size:"
@@ -1936,8 +2078,8 @@
             <button
               type="button"
               id="generatePdfBtn"
-              data-lang-en="Generate Pdf"
-              data-lang-cy="Creu Pdf"
+              data-lang-en="Generate PDF"
+              data-lang-cy="Creu PDF"
             >
               <i class="fas fa-file-pdf"></i> Generate PDF
             </button>
