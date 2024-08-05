@@ -1,3 +1,4 @@
+from pyabsa import AspectPolarityClassification as APC, available_checkpoints
 import traceback
 from io import BytesIO
 from PIL import Image
@@ -27,6 +28,7 @@ import plotly.express as px
 import threading
 import json
 import humanize
+from pyabsa import AspectTermExtraction as ATEPC, available_checkpoints
 
 import string
 from nltk.corpus import stopwords
@@ -168,13 +170,6 @@ def fileanalysis():
         elif input_method == 'example':
             example_file = request.form.get('example-data')
 
-            print()
-            print()
-            print("example file")
-            print(example_file)
-            print()
-            print()
-
             if not example_file:
                 # Handle the error - maybe raise an exception or return an error response.
                 current_app.logger.error(
@@ -185,12 +180,6 @@ def fileanalysis():
                 'website/static/example-data-hub', example_file)
             file_extension = os.path.splitext(
                 file_path)[1].lower()  # Extract the file extension
-
-            print()
-            print()
-            print("file path and ext")
-            print(file_path)
-            print(file_extension)
 
             # Differentiate the behavior based on the file extension
             if file_extension == '.txt':
@@ -308,6 +297,7 @@ def fileanalysis():
 
 @FileAnalysis.route('/process_sentences', methods=['GET', 'POST'])
 def handle_selected_sentences():
+    print("processing sentences")
     data = request.get_json()
     selected_sentences = data.get('sentences', [])
     language = data.get('language', 'en')
@@ -352,6 +342,8 @@ def handle_selected_sentences():
         'sentimentPlotBar': bar_chart_html,
         "wordTreeData": wordTreeData, "search_word": search_word, "summary": summary,  "scatterTextHtml": scatter_text_html
     })
+
+#! Alter function or create new function for ABSA
 
 
 def sentiment_analysis(sentences, language, sentiment_classes=3):
@@ -1207,3 +1199,68 @@ def get_collos_data():
     except Exception as e:
 
         return "Server encountered an error", 500
+
+
+def find_aspects(rows, aspects):
+    """
+    Searches text and finds aspects, ready for analysis.
+
+    Parameters:
+    rows (list[str]): The text to be searched for aspects.
+    aspects (list[str]): The aspects to find in the provided rows.
+
+    Returns:
+    list[str]: The updated rows with the targeted aspects.
+    """
+
+    for idx, row in enumerate(rows):
+
+        replacements = []
+
+        for aspect in aspects:
+            for m in re.finditer(aspect, row):
+                replacements.append(((m.start(), m.end())))
+
+        replacements.sort(reverse=True)
+
+        for start, end in replacements:
+            row = f"{row[:start]}[B-ASP]{row[start:end]}[E-ASP]{row[end:]}"
+
+        rows[idx] = row
+
+    return rows
+
+
+@FileAnalysis.route('/get-absa-results', methods=['POST'])
+def aspect_based_sentiment_analysis():
+
+    #! Get data from client, return and render in pie charts
+
+    ckpts = available_checkpoints()
+    sentiment_classifier = APC.SentimentClassifier(
+        checkpoint="english"
+    )
+
+    examples = [
+        "The phone has a good camera but a bad battery."
+    ]
+
+    rows = find_aspects(
+        examples, ["phone", "battery", "camera"])
+
+    results = []
+
+    for row in rows:
+        sentiment_result = sentiment_classifier.predict(
+            text=row,
+            print_result=True,
+            ignore_error=True,
+            eval_batch_size=32,
+        )
+
+        sentiment_result["probs"] = [np_arr.tolist()
+                                     for np_arr in sentiment_result["probs"]]
+
+        results.append(sentiment_result)
+
+    return jsonify(results)
