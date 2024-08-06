@@ -8,6 +8,8 @@ import os
 import time
 import scattertext as st
 import spacy
+from pyabsa import AspectPolarityClassification as APC, available_checkpoints
+
 nlp = spacy.load('en_core_web_sm-3.2.0')  # Load the spaCy model
 nlp.max_length = 9000000
 
@@ -141,8 +143,65 @@ class SentimentAnalyser:
                 sentiments.append(
                     (original_review, sentiment_label, sentiment_score))
                 sentiment_counts[sentiment_label] += 1
-        # print(sentiment_counts)
         return sentiments, sentiment_counts
+
+    def find_aspects(self, rows, aspects):
+        """
+        Searches text and finds aspects, ready for analysis.
+
+        Parameters:
+        rows (list[str]): The text to be searched for aspects.
+        aspects (list[str]): The aspects to find in the provided rows.
+
+        Returns:
+        list[str]: The updated rows with the targeted aspects, surrounded by [B-ASP] example [E-ASP].
+        """
+
+        # Removes any trailing or leading whitespace
+        modified_rows = [row.strip() for row in rows]
+
+        for idx, row in enumerate(modified_rows):
+            replacements = []
+            for aspect in aspects:
+                for m in re.finditer(aspect, row):
+                    replacements.append((m.start(), m.end()))
+
+            replacements.sort(reverse=True)
+
+            for start, end in replacements:
+                row = f"{row[:start]}[B-ASP]{row[start:end]}[E-ASP]{row[end:]}"
+
+            modified_rows[idx] = row
+
+        return modified_rows
+
+    # Aspect-Based Sentiment Analysis
+    def analyse_aspects_sentiment(self, rows, aspects):
+        ckpts = available_checkpoints()
+        sentiment_classifier = APC.SentimentClassifier(
+            checkpoint="english"
+        )
+
+        rows = self.find_aspects(
+            rows, aspects)
+
+        results = []
+
+        for row in rows:
+            sentiment_result = sentiment_classifier.predict(
+                text=row,
+                print_result=True,
+                ignore_error=True,
+                eval_batch_size=32,
+            )
+            
+            # Converts numpy arrays to python lists, for json
+            sentiment_result["probs"] = [np_arr.tolist()
+                                         for np_arr in sentiment_result["probs"]]
+
+            results.append(sentiment_result)
+
+        return results
 
     def generate_scattertext_visualization(self, dfanalysis, language):
         # Get the DataFrame with sentiment analysis results

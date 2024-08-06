@@ -709,6 +709,44 @@ function toggleInputOption(option) {
   //document.getElementById('tabs').classList.add('hidden');
 }
 
+// function startAnalysisfile(event) {
+//   event.preventDefault();
+//   validateForm(event, "text");
+//   const inputMethod = document.querySelector(
+//     'input[name="input-method"]:checked'
+//   ).value;
+//   let data = new FormData();
+//   if (inputMethod === "example") {
+//     $("column-selection").addClass("hidden");
+//   } else if (inputMethod === "upload") {
+//     const fileInput = document.querySelector('input[type="file"]');
+//     const data = new FormData();
+//     data.append("file", fileInput.files[0]);
+//     data.append("input-method", "upload");
+
+//     //! ... rest of the code for upload
+//   } else if (inputMethod === "text") {
+//     $("column-selection").addClass("hidden");
+//     const text = document.getElementById("text-to-analyze").value;
+
+//     let dataForGrid;
+//     if (
+//       document.querySelector('input[name="text-input-method"]:checked')
+//         .value === "Split sentences"
+//     ) {
+//       const sentences = splitIntoSentences(text);
+//       dataForGrid = sentences.map((sentence) => ({ Review: sentence }));
+//     } else {
+//       // For 'Whole Text' option
+//       dataForGrid = [{ Review: text }];
+//     }
+
+//     onDataFetchedBasedOnSelectedColumn(dataForGrid);
+//     document.getElementById("submit-rows-btn").classList.remove("hidden");
+//   }
+// }
+
+//! modified for absa
 function startAnalysisfile(event) {
   event.preventDefault();
   validateForm(event, "text");
@@ -724,7 +762,7 @@ function startAnalysisfile(event) {
     data.append("file", fileInput.files[0]);
     data.append("input-method", "upload");
 
-    // ... rest of the code for upload
+    //! ... rest of the code for upload
   } else if (inputMethod === "text") {
     $("column-selection").addClass("hidden");
     const text = document.getElementById("text-to-analyze").value;
@@ -2931,6 +2969,7 @@ function handleSentimentOptionChange() {
   updateSentimentAnalysis(selectedOption);
 }
 
+//!
 function updateSentimentAnalysis(sentimentClasses) {
   // Show loading element
   const loadingElement = document.getElementById("loading");
@@ -2959,6 +2998,40 @@ function updateSentimentAnalysis(sentimentClasses) {
     .catch((error) => {
       console.error("Error:", error);
     });
+}
+
+function startABSA() {
+  console.log("startABSA called");
+
+  // Show loading element
+  const loadingElement = document.getElementById("loading");
+  loadingElement.style.display = "flex";
+
+  // Get data from text fields
+  const text = document.getElementById("text-to-analyze").value;
+  const aspects_text = document.getElementById("absa-aspects-to-analyze").value;
+
+  if (
+    document.querySelector('input[name="text-input-method"]:checked').value ===
+    "Split sentences"
+  ) {
+    const sentences = splitIntoSentences(text);
+    const aspects = aspects_text.split(",").map((aspect) => aspect.trim());
+
+    fetch("/absa-analysis", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        rows: sentences,
+        aspects: aspects,
+      }),
+    }).then((data) => {
+      console.log("data received");
+      console.log(data);
+    });
+  }
 }
 
 function handleFileChange() {

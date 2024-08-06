@@ -1,4 +1,3 @@
-from pyabsa import AspectPolarityClassification as APC, available_checkpoints
 import traceback
 from io import BytesIO
 from PIL import Image
@@ -28,11 +27,10 @@ import plotly.express as px
 import threading
 import json
 import humanize
-from pyabsa import AspectTermExtraction as ATEPC, available_checkpoints
-
 import string
 from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize
+
 en_stopwords = list(stopwords.words('english'))
 cy_stopwords = open('website/data/welsh_stopwords.txt', 'r',
                     # replaced 'utf8' with 'iso-8859-1'
@@ -433,10 +431,19 @@ def sentiment_analysis(sentences, language, sentiment_classes=3):
         return data, sentiment_counts, plot_html_pie, plot_html_bar
     return None, None, None
 
+#! Update for ABSA
+
 
 @FileAnalysis.route('/update_sentiment', methods=['POST'])
 def handle_sentiment_update():
     data = request.get_json()
+
+    print()
+    print("data here")
+    print()
+    print(data)
+    print()
+
     language = data.get('language', 'en')
     # print(data)
     chosen_classes = data.get('sentiment_classes', 3)
@@ -1201,66 +1208,29 @@ def get_collos_data():
         return "Server encountered an error", 500
 
 
-def find_aspects(rows, aspects):
-    """
-    Searches text and finds aspects, ready for analysis.
-
-    Parameters:
-    rows (list[str]): The text to be searched for aspects.
-    aspects (list[str]): The aspects to find in the provided rows.
-
-    Returns:
-    list[str]: The updated rows with the targeted aspects.
-    """
-
-    for idx, row in enumerate(rows):
-
-        replacements = []
-
-        for aspect in aspects:
-            for m in re.finditer(aspect, row):
-                replacements.append(((m.start(), m.end())))
-
-        replacements.sort(reverse=True)
-
-        for start, end in replacements:
-            row = f"{row[:start]}[B-ASP]{row[start:end]}[E-ASP]{row[end:]}"
-
-        rows[idx] = row
-
-    return rows
-
-
-@FileAnalysis.route('/get-absa-results', methods=['POST'])
+@FileAnalysis.route('/absa-analysis', methods=['POST'])
 def aspect_based_sentiment_analysis():
 
-    #! Get data from client, return and render in pie charts
+    # Get data from client
 
-    ckpts = available_checkpoints()
-    sentiment_classifier = APC.SentimentClassifier(
-        checkpoint="english"
-    )
+    data = request.get_json()
+    print("data below")
+    print(data)
 
-    examples = [
-        "The phone has a good camera but a bad battery."
-    ]
+    analyser = SentimentAnalyser()
 
-    rows = find_aspects(
-        examples, ["phone", "battery", "camera"])
+    results = analyser.analyse_aspects_sentiment(
+        rows=data.get("rows"), aspects=data.get("aspects"))
 
-    results = []
+    print("results below")
+    print(results)
 
-    for row in rows:
-        sentiment_result = sentiment_classifier.predict(
-            text=row,
-            print_result=True,
-            ignore_error=True,
-            eval_batch_size=32,
-        )
+    #! Get a count for all the aspects and their sentiment
+    aspects_count = Counter()
+    for res in results:
+        aspects_count.update(res["aspect"])
 
-        sentiment_result["probs"] = [np_arr.tolist()
-                                     for np_arr in sentiment_result["probs"]]
+    print("aspects count")
+    print(aspects_count)
 
-        results.append(sentiment_result)
-
-    return jsonify(results)
+    return results

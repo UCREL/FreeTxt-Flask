@@ -225,7 +225,7 @@
   }
   .input-container {
     width: 100%;
-    height: 500px;
+    height: auto;
     margin: auto;
   }
 
@@ -634,6 +634,14 @@
       id="text-to-analyze"
       value="{{text or 'text'}}"
     ></textarea>
+    <h3>For ABSA, enter the aspects to target below:</h3>
+    <textarea
+      class="data-input"
+      name="absa-aspects-to-analyze"
+      placeholder="Paste aspects here"
+      id="absa-aspects-to-analyze"
+      style="height: 200px"
+    ></textarea>
     <div class="options-container">
       <label>
         <input
@@ -969,6 +977,23 @@
           data-lang-en="5 Class Sentiments (Very Positive, Positive, Neutral, Negative, Very Negative)"
           data-lang-cy="Sentimentau 5 Dosbarth (Cadarnhaol Iawn, Cadarnhaol, Niwtral, Negyddol, Negyddol Iawn)"
           >5 Class Sentiments (Very Positive, Positive, Neutral, Negative, Very
+          Negative)</label
+        >
+      </div>
+      <div class="sentiment-option">
+        <input
+          type="radio"
+          id="threeClassABSA"
+          name="sentimentOption"
+          value="absa"
+          onchange="startABSA()"
+        />
+        <label
+          for="threeClassABSA"
+          data-lang-en="3 Class Aspect-Based Sentiment Analysis (Positive,
+          Neutral, Negative)"
+          data-lang-cy="Needs welsh translation"
+          >3 Class Aspect-Based Sentiment Analysis (Positive, Neutral,
           Negative)</label
         >
       </div>
