@@ -341,8 +341,6 @@ def handle_selected_sentences():
         "wordTreeData": wordTreeData, "search_word": search_word, "summary": summary,  "scatterTextHtml": scatter_text_html
     })
 
-#! Alter function or create new function for ABSA
-
 
 def sentiment_analysis(sentences, language, sentiment_classes=3):
     analyser = SentimentAnalyser()
@@ -1138,17 +1136,6 @@ def regenerate_wordcloud():
             tag_words_associations = {tag: list({word for (word, pos, tag_entry) in words_tags if tag == tag_entry}) for (
                 word, pos, tag) in words_tags if tag in word_list}
 
-            print()
-            print()
-            print("tag and word associations")
-            print(tag_words_associations)
-
-            print("word lists")
-            print(word_list)
-            print(sec_word_list)
-            print()
-            print()
-
             session['sec_word_cloud_src'] = sec_wc_path
 
             json_data = {
@@ -1208,29 +1195,98 @@ def get_collos_data():
         return "Server encountered an error", 500
 
 
-@FileAnalysis.route('/absa-analysis', methods=['POST'])
+@FileAnalysis.route('/perform-absa', methods=['POST'])
 def aspect_based_sentiment_analysis():
-
-    # Get data from client
-
     data = request.get_json()
-    print("data below")
-    print(data)
+    rows_data = data.get("rows")
+    aspects_data = data.get("aspects")
+
+    # rows_data = [
+    #     "The wine list is excellent.",
+    #     "They wouldn't even let me finish my glass of wine before offering another",
+    #     "All my co-workers were amazed at how small the dish was",
+    #     "The wait staff is friendly, and the food has gotten better and better!",
+    #     "The last time I went we were seated at a table in the corner next to the kitchen",
+    #     "The pizza here is delicious",
+    #     "The food is uniformly exceptional, with a very capable kitchen which will proudly whip up whatever you feel like eating, whether it's on the menu or not.",
+    #     "But the staff was so horrible to us",
+    #     "Nevertheless, the food itself is pretty good",
+    #     "Two words: Free wine.",
+    #     "The food was delicious but do not come here on an empty stomach",
+    #     "What came to our table was burned beyond recognition and stringy.",
+    #     "Not only was the food outstanding, but the little 'perks' were great."
+    # ]
+
+    # aspects_data = ["wine", "staff", "food", "menu", "pizza", "cats"]
 
     analyser = SentimentAnalyser()
 
+    # Analyses aspect sentiment for each row in rows_data
     results = analyser.analyse_aspects_sentiment(
-        rows=data.get("rows"), aspects=data.get("aspects"))
+        rows=rows_data, aspects=aspects_data)
 
-    print("results below")
-    print(results)
+    return jsonify(results)
 
-    #! Get a count for all the aspects and their sentiment
-    aspects_count = Counter()
-    for res in results:
-        aspects_count.update(res["aspect"])
+    # Count sentiment results for pie chart
+    aspect_sentiment_counter = {aspect: {
+        "Positive": 0, "Neutral": 0, "Negative": 0} for aspect in aspects_data}
 
-    print("aspects count")
-    print(aspects_count)
+    for entry in results:
+        for idx, asp in enumerate(entry["aspect"]):
+            if asp in aspect_sentiment_counter:
+                aspect_sentiment_counter[asp][entry["sentiment"][idx]] += 1
 
-    return results
+    # Generating the pie chart
+    color_map = {
+        "Very negative": "#ff3333",
+        "Negative": "#ff8a3d",
+        "Neutral": "#b0b0b0",
+        "Positive": "#c5e17a",
+        "Very positive": "#6ebd45",
+        "Negyddol Iawn": "#ff3333",
+        "Negyddol": "#ff8a3d",
+        "Niwtral": "#b0b0b0",
+        "Cadarnhaol": "#c5e17a",
+        "Cadarnhaol Iawn": "#6ebd45"
+    }
+
+    # Sort results by highest occuring sentiment
+    aspect_sentiment_counter = dict(sorted(aspect_sentiment_counter.items(
+    ), key=lambda item: item[1]["Positive"] + item[1]["Neutral"] + item[1]["Negative"], reverse=True))
+
+    html_plots = []
+    for aspect, dict_val in aspect_sentiment_counter.items():
+        # If aspect is not in dataset, do not generate pie chart
+        if all(val == 0 for val in dict_val.values()):
+            continue
+
+        fig = px.pie(values=dict_val.values(), names=dict_val.keys(),
+                     title=f"Sentiment Distribution for: {aspect}", color=dict_val.keys(),
+                     color_discrete_map=color_map)
+
+        plot_html_pie = fig.to_html(full_html=False)
+
+        fig.write_image(
+            f"website/static/Sentiment_plots/sentiment_pie_{aspect}.png")
+        fig.write_html(
+            f"website/static/Sentiment_plots/sentiment_pie_{aspect}.html")
+        with open(f"website/static/Sentiment_plots/sentiment_pie_{aspect}.html", "r", encoding="utf-8") as f:
+            content = f.read()
+
+            # Add the "Visualisation by" text and logo image at the bottom
+            addition = """
+        <div style="text-align:center; margin-top:30px;">
+            Visualisation by <img src="https://ucrel-freetxt-2.lancs.ac.uk/static/images/logo.png" alt="Logo" style="height:40px;">
+        </div>
+        """
+
+            # Append the new content just before the closing body tag
+            content = content.replace("</body>", addition + "\n</body>")
+
+            # Write the updated content back to the file
+            with open(f"website/static/Sentiment_plots/sentiment_pie_html_{aspect}.html", "w", encoding="utf-8") as f:
+                f.write(content)
+
+            html_plots.append(plot_html_pie)
+
+    return jsonify(html_plots)

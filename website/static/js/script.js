@@ -1170,6 +1170,53 @@ function displayPlot(plotHtml, elementId) {
     console.error("Cannot find the", elementId, "element");
   }
 }
+
+//! ABSA
+function displayABSAPlots(htmlPlotArray) {
+  const parentContainer = document.getElementById("ABSAContainer");
+  // Resets container
+  parentContainer.innerHTML = "";
+
+  const ord = {
+    0: "",
+    1: "second ",
+    2: "third ",
+    3: "fourth ",
+    4: "fifth ",
+  };
+
+  if (parentContainer) {
+    Array.from(htmlPlotArray).forEach((htmlPlot, i) => {
+      const container = document.createElement("div");
+      container.classList.add("container", "p-0");
+
+      const plotContainer = document.createElement("div");
+      plotContainer.classList.add("container");
+
+      const descContainer = document.createElement("h4");
+      descContainer.classList.add("container");
+
+      const descText =
+        i < 5
+          ? `The figure displays the sentiment analysis of the ${ord[i]}most occuring aspect.`
+          : "";
+      descContainer.innerText = descText;
+
+      const range = document.createRange();
+      const docFrag = range.createContextualFragment(htmlPlot);
+
+      plotContainer.appendChild(docFrag);
+      container.appendChild(plotContainer);
+      container.appendChild(descContainer);
+
+      parentContainer.appendChild(container);
+    });
+    parentContainer.style.display = "block";
+  } else {
+    console.error("Cannot find container");
+  }
+}
+
 function setupSelectionListener(elementId) {
   const parentDiv = document.getElementById(elementId);
   const plotDiv = parentDiv.firstElementChild; // Targeting the first child div
@@ -1863,6 +1910,10 @@ function sendSelectedRows() {
         //displayWordFrequencies(data);
 
         console.log("response received successfully");
+
+        document.getElementById(
+          "standardSentimentAnalysisContainer"
+        ).style.display = "block";
 
         displayOverallSentiment(data.sentimentCounts);
         displaySentimentTable(data.sentimentData);
@@ -2988,9 +3039,11 @@ function updateSentimentAnalysis(sentimentClasses) {
     .then((response) => response.json())
 
     .then((data) => {
+      console.log("data here");
       loadingElement.style.display = "none";
       displayOverallSentiment(data.sentimentCounts);
       displaySentimentTable(data.sentimentData);
+      console.log(data.sentimentPlotPie);
       displayPlot(data.sentimentPlotPie, "SentimentPlotViewPie");
       displayPlot(data.sentimentPlotBar, "SentimentPlotViewBar");
     })
@@ -3018,7 +3071,11 @@ function startABSA() {
     const sentences = splitIntoSentences(text);
     const aspects = aspects_text.split(",").map((aspect) => aspect.trim());
 
-    fetch("/absa-analysis", {
+    document.getElementById(
+      "standardSentimentAnalysisContainer"
+    ).style.display = "none";
+
+    fetch("/perform-absa", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -3027,10 +3084,20 @@ function startABSA() {
         rows: sentences,
         aspects: aspects,
       }),
-    }).then((data) => {
-      console.log("data received");
-      console.log(data);
-    });
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        // Show ABSA results
+        console.log("data received");
+        console.log(data);
+
+        displayABSAPlots(data);
+
+        // Hide loading element
+        loadingElement.style.display = "none";
+      });
   }
 }
 
