@@ -1237,6 +1237,11 @@ def aspect_based_sentiment_analysis():
                 aspect_sentiment_counter[asp][entry["sentiment"][idx]] += 1
 
     # Generating the pie charts
+
+    # Remove previous absa plots
+    remove_previous_plots(
+        "website/static/Sentiment_plots", "sentiment_pie_absa_")
+
     color_map = {
         "Very negative": "#ff3333",
         "Negative": "#ff8a3d",
@@ -1267,10 +1272,10 @@ def aspect_based_sentiment_analysis():
         plot_html_pie = fig.to_html(full_html=False)
 
         fig.write_image(
-            f"website/static/Sentiment_plots/sentiment_pie_{aspect}.png")
+            f"website/static/Sentiment_plots/sentiment_pie_absa_{aspect}.png")
         fig.write_html(
-            f"website/static/Sentiment_plots/sentiment_pie_{aspect}.html")
-        with open(f"website/static/Sentiment_plots/sentiment_pie_{aspect}.html", "r", encoding="utf-8") as f:
+            f"website/static/Sentiment_plots/sentiment_pie_absa_{aspect}.html")
+        with open(f"website/static/Sentiment_plots/sentiment_pie_absa_{aspect}.html", "r", encoding="utf-8") as f:
             content = f.read()
 
             # Add the "Visualisation by" text and logo image at the bottom
@@ -1284,9 +1289,20 @@ def aspect_based_sentiment_analysis():
             content = content.replace("</body>", addition + "\n</body>")
 
             #! Write the updated content back to the file, TODO REMOVE OLD IMAGE AND HTML PIE CHART FILES
-            with open(f"website/static/Sentiment_plots/sentiment_pie_html_{aspect}.html", "w", encoding="utf-8") as f:
+            with open(f"website/static/Sentiment_plots/sentiment_pie_absa_{aspect}.html", "w", encoding="utf-8") as f:
                 f.write(content)
 
             html_plots.append(plot_html_pie)
 
     return jsonify(html_plots)
+
+
+def remove_previous_plots(directory, substring):
+    for filename in os.listdir(directory):
+        if substring in filename:
+            file_path = os.path.join(directory, filename)
+            try:
+                os.remove(file_path)
+                print("Removed file:", file_path)
+            except Exception as e:
+                current_app.logger.exception("Error removing old plots", e)
