@@ -1225,7 +1225,7 @@ def aspect_based_sentiment_analysis():
     results = analyser.analyse_aspects_sentiment(
         rows=rows_data, aspects=aspects_data)
 
-    return jsonify(results)
+    # return jsonify(results)
 
     # Count sentiment results for pie chart
     aspect_sentiment_counter = {aspect: {
@@ -1236,7 +1236,7 @@ def aspect_based_sentiment_analysis():
             if asp in aspect_sentiment_counter:
                 aspect_sentiment_counter[asp][entry["sentiment"][idx]] += 1
 
-    # Generating the pie chart
+    # Generating the pie charts
     color_map = {
         "Very negative": "#ff3333",
         "Negative": "#ff8a3d",
@@ -1283,7 +1283,7 @@ def aspect_based_sentiment_analysis():
             # Append the new content just before the closing body tag
             content = content.replace("</body>", addition + "\n</body>")
 
-            # Write the updated content back to the file
+            #! Write the updated content back to the file, TODO REMOVE OLD IMAGE AND HTML PIE CHART FILES
             with open(f"website/static/Sentiment_plots/sentiment_pie_html_{aspect}.html", "w", encoding="utf-8") as f:
                 f.write(content)
 
