@@ -627,7 +627,7 @@
       >Upload data file</span
     >
   </label>
-  <div id="text-input" class="input-container">
+  <div id="text-input" class="input-container mb-4">
     <textarea
       class="data-input"
       name="text-to-analyze"
@@ -992,16 +992,20 @@
           for="threeClassABSA"
           data-lang-en="3 Class Aspect-Based Sentiment Analysis (Positive,
           Neutral, Negative)"
-          data-lang-cy="Needs welsh translation"
+          data-lang-cy="Dadansoddiad Sentiment wedi’i Seilio ar Agweddau 3 Dosbarth (Cadarnhaol, Niwtral, Negyddol)"
           >3 Class Aspect-Based Sentiment Analysis (Positive, Neutral,
           Negative)</label
         >
       </div>
-      <div id="ABSAContainer" class="container-fluid p-0 m-0" style="display: none;"></div>
       <div
-        id="standardSentimentAnalysisContainer"
+        id="ABSAContainer"
         class="container-fluid p-0 m-0"
+        style="display: none"
       >
+        <div id="AspectPieCharts" class="container"></div>
+        <div id="AspectSentimentTable" class="container"></div>
+      </div>
+      <div id="SentimentAnalysisContainer" class="container-fluid p-0 m-0">
         <div id="SentimentPlotViewPie"></div>
         <p
           data-lang-en="The figure displays the sentiment analysis of the data, you can press on any part of the graph to display the data"
@@ -1494,8 +1498,8 @@
                   <label
                     class="form-check-label"
                     for="show-semantic-tags"
-                    data-lang-en="Show Tags"
-                    data-lang-cy="Needs translation"
+                    data-lang-en="Show semantic tags"
+                    data-lang-cy="Dangos tagiau semantig"
                   >
                     Show Tags
                   </label>
@@ -1510,8 +1514,8 @@
                   <label
                     class="form-check-label"
                     for="show-words"
-                    data-lang-en="Show Words With Tags"
-                    data-lang-cy="Needs translation"
+                    data-lang-en="Show words with semantic tags"
+                    data-lang-cy="Dangos geiriau gyda thagiau semantig"
                   >
                     Show Words With Tags
                   </label>
@@ -1577,8 +1581,8 @@
         >
           <h2
             class="mr-2"
-            data-lang-en="Word &amp; Tag Associations"
-            data-lang-cy="Needs welsh translation"
+            data-lang-en="Word and Tag Associations"
+            data-lang-cy="Cysylltiadau gair a thag"
           >
             Word &amp; Tag Associations
           </h2>
@@ -1618,8 +1622,8 @@
       >
         <button
           class="analyze-btn mt-2"
-          data-lang-en="Download Word Cloud image (Semantic Tags)"
-          data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau (Needs welsh translation)"
+          data-lang-en="Download Word Cloud image (2)"
+          data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau (2)"
         >
           Download Word Cloud image (Semantic Tags)
         </button>
@@ -1744,7 +1748,7 @@
                   class="form-check-label"
                   for="word-freq-include-all-check"
                   data-lang-en="Include all data (stopwords, misfiltered words, etc.)"
-                  data-lang-cy="Needs welsh translation"
+                  data-lang-cy="Cynnwys yr holl ddata (ataleiriau, geiriau wedi'u hidlo'n anghywir, ac ati)"
                   >Include all data (stopwords, misfiltered words, etc.)</label
                 >
               </div>
@@ -1756,7 +1760,7 @@
               type="button"
               class="analyze-btn hidden"
               data-lang-en="Download Filtered Word Frequency Results"
-              data-lang-cy="Needs Welsh translation"
+              data-lang-cy="Llwytho i lawr Ganlyniadau Amledd Geiriau wedi'u Hidlo"
             >
               Download Filtered Word Frequency Results
             </button>
@@ -1766,7 +1770,7 @@
               type="button"
               class="analyze-btn hidden mt-2"
               data-lang-en="Download Unfiltered Word Frequency Results"
-              data-lang-cy="Needs Welsh translation"
+              data-lang-cy="Llwytho i lawr Ganlyniadau Amledd Geiriau heb eu Hidlo"
             >
               Download Unfiltered Word Frequency Results
             </button>

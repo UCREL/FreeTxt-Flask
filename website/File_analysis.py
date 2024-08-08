@@ -295,7 +295,6 @@ def fileanalysis():
 
 @FileAnalysis.route('/process_sentences', methods=['GET', 'POST'])
 def handle_selected_sentences():
-    print("processing sentences")
     data = request.get_json()
     selected_sentences = data.get('sentences', [])
     language = data.get('language', 'en')
@@ -435,13 +434,6 @@ def sentiment_analysis(sentences, language, sentiment_classes=3):
 @FileAnalysis.route('/update_sentiment', methods=['POST'])
 def handle_sentiment_update():
     data = request.get_json()
-
-    print()
-    print("data here")
-    print()
-    print(data)
-    print()
-
     language = data.get('language', 'en')
     # print(data)
     chosen_classes = data.get('sentiment_classes', 3)
@@ -1200,24 +1192,7 @@ def aspect_based_sentiment_analysis():
     data = request.get_json()
     rows_data = data.get("rows")
     aspects_data = data.get("aspects")
-
-    # rows_data = [
-    #     "The wine list is excellent.",
-    #     "They wouldn't even let me finish my glass of wine before offering another",
-    #     "All my co-workers were amazed at how small the dish was",
-    #     "The wait staff is friendly, and the food has gotten better and better!",
-    #     "The last time I went we were seated at a table in the corner next to the kitchen",
-    #     "The pizza here is delicious",
-    #     "The food is uniformly exceptional, with a very capable kitchen which will proudly whip up whatever you feel like eating, whether it's on the menu or not.",
-    #     "But the staff was so horrible to us",
-    #     "Nevertheless, the food itself is pretty good",
-    #     "Two words: Free wine.",
-    #     "The food was delicious but do not come here on an empty stomach",
-    #     "What came to our table was burned beyond recognition and stringy.",
-    #     "Not only was the food outstanding, but the little 'perks' were great."
-    # ]
-
-    # aspects_data = ["wine", "staff", "food", "menu", "pizza", "cats"]
+    language = data.get("language")
 
     analyser = SentimentAnalyser()
 
@@ -1225,7 +1200,8 @@ def aspect_based_sentiment_analysis():
     results = analyser.analyse_aspects_sentiment(
         rows=rows_data, aspects=aspects_data)
 
-    # return jsonify(results)
+    sentiment_data = [{"Review": result["text"], "Aspect": aspect, "Sentiment Label": result["sentiment"][idx],
+                      "Confidence Score": round(result["confidence"][idx], 2)} for result in results for idx, aspect in enumerate(result["aspect"])]
 
     # Count sentiment results for pie chart
     aspect_sentiment_counter = {aspect: {
@@ -1235,8 +1211,6 @@ def aspect_based_sentiment_analysis():
         for idx, asp in enumerate(entry["aspect"]):
             if asp in aspect_sentiment_counter:
                 aspect_sentiment_counter[asp][entry["sentiment"][idx]] += 1
-
-    # Generating the pie charts
 
     # Remove previous absa plots
     remove_previous_plots(
@@ -1260,13 +1234,15 @@ def aspect_based_sentiment_analysis():
     ), key=lambda item: item[1]["Positive"] + item[1]["Neutral"] + item[1]["Negative"], reverse=True))
 
     html_plots = []
+    plot_title = "Sentiment Distribution for: " if language == "en" else "Dosbarthiad Sentiment ar gyfer: "
+
     for aspect, dict_val in aspect_sentiment_counter.items():
         # If aspect is not in dataset, do not generate pie chart
         if all(val == 0 for val in dict_val.values()):
             continue
 
         fig = px.pie(values=dict_val.values(), names=dict_val.keys(),
-                     title=f"Sentiment Distribution for: {aspect}", color=dict_val.keys(),
+                     title=f"{plot_title}{aspect}", color=dict_val.keys(),
                      color_discrete_map=color_map)
 
         plot_html_pie = fig.to_html(full_html=False)
@@ -1288,13 +1264,15 @@ def aspect_based_sentiment_analysis():
             # Append the new content just before the closing body tag
             content = content.replace("</body>", addition + "\n</body>")
 
-            #! Write the updated content back to the file, TODO REMOVE OLD IMAGE AND HTML PIE CHART FILES
             with open(f"website/static/Sentiment_plots/sentiment_pie_absa_{aspect}.html", "w", encoding="utf-8") as f:
                 f.write(content)
 
             html_plots.append(plot_html_pie)
 
-    return jsonify(html_plots)
+    return jsonify({
+        "plots": html_plots,
+        "sentimentData": sentiment_data
+    })
 
 
 def remove_previous_plots(directory, substring):
@@ -1303,6 +1281,6 @@ def remove_previous_plots(directory, substring):
             file_path = os.path.join(directory, filename)
             try:
                 os.remove(file_path)
-                print("Removed file:", file_path)
+                # print("Removed file:", file_path)
             except Exception as e:
                 current_app.logger.exception("Error removing old plots", e)

@@ -709,6 +709,7 @@ function toggleInputOption(option) {
   //document.getElementById('tabs').classList.add('hidden');
 }
 
+//!
 // function startAnalysisfile(event) {
 //   event.preventDefault();
 //   validateForm(event, "text");
@@ -746,7 +747,6 @@ function toggleInputOption(option) {
 //   }
 // }
 
-//! modified for absa
 function startAnalysisfile(event) {
   event.preventDefault();
   validateForm(event, "text");
@@ -761,8 +761,6 @@ function startAnalysisfile(event) {
     const data = new FormData();
     data.append("file", fileInput.files[0]);
     data.append("input-method", "upload");
-
-    //! ... rest of the code for upload
   } else if (inputMethod === "text") {
     $("column-selection").addClass("hidden");
     const text = document.getElementById("text-to-analyze").value;
@@ -1026,8 +1024,15 @@ const welshLanguageSettings = {
 };
 let currentData = []; // Global variable to hold the current subset of data
 
+//!
 function displaySentimentTable(sentimentData) {
-  const outputDiv = document.getElementById("SentimentTable");
+  // If item has 4 entries, is ABSA
+  const isABSA = Object.keys(sentimentData[0]).length === 4 ? true : false;
+
+  const tableContainer = isABSA ? "AspectSentimentTable" : "SentimentTable";
+
+  // Resets table
+  const outputDiv = document.getElementById(tableContainer);
   outputDiv.innerHTML = "";
 
   if (!sentimentData || sentimentData.length === 0) {
@@ -1038,15 +1043,17 @@ function displaySentimentTable(sentimentData) {
   const tableData = document.createElement("table");
   const theadData = document.createElement("thead");
   const tbodyData = document.createElement("tbody");
-
   tableData.id = "data-table";
   tableData.className = "w3-table w3-bordered w3-striped w3-hoverable w3-small";
 
   // Define headers
-  const headers =
-    getCurrentLanguage() === "cy"
-      ? ["Adolygiad", "Labelu Sentiment", "Sgôr Hyder"]
-      : ["Review", "Sentiment Label", "Confidence Score"];
+  const headers = isABSA
+    ? getCurrentLanguage() === "cy"
+      ? ["Adolygiad", "Agwedd", "Labelu Sentiment", "Sgôr Hyder"]
+      : ["Review", "Aspect", "Sentiment Label", "Confidence Score"]
+    : getCurrentLanguage() === "cy"
+    ? ["Adolygiad", "Labelu Sentiment", "Sgôr Hyder"]
+    : ["Review", "Sentiment Label", "Confidence Score"];
 
   // Create headers
   const tr = document.createElement("tr");
@@ -1062,7 +1069,14 @@ function displaySentimentTable(sentimentData) {
     .sort((a, b) => b["Confidence Score"] - a["Confidence Score"])
     .forEach((row) => {
       const tr = document.createElement("tr");
-      tr.innerHTML = `
+      tr.innerHTML = isABSA
+        ? `
+            <td>${row.Review}</td>
+            <td>${row["Aspect"]}</td>
+            <td>${row["Sentiment Label"]}</td>
+            <td>${row["Confidence Score"]}</td>
+        `
+        : `
             <td>${row.Review}</td>
             <td>${row["Sentiment Label"]}</td>
             <td>${row["Confidence Score"]}</td>
@@ -1076,6 +1090,11 @@ function displaySentimentTable(sentimentData) {
 
   // Initialize DataTable with language settings
   $(document).ready(function () {
+    // Destroy previous data tables
+    if ($.fn.DataTable.isDataTable("#data-table")) {
+      $("#data-table").DataTable().clear().destroy();
+    }
+
     $("#data-table").DataTable({
       order: [[2, "desc"]],
       language: getCurrentLanguage() === "cy" ? welshLanguageSettings : {},
@@ -1173,19 +1192,19 @@ function displayPlot(plotHtml, elementId) {
 
 //! ABSA
 function displayABSAPlots(htmlPlotArray) {
-  const parentContainer = document.getElementById("ABSAContainer");
+  parentContainer = document.getElementById("ABSAContainer");
+  const pieChartsContainer = document.getElementById("AspectPieCharts");
   // Resets container
-  parentContainer.innerHTML = "";
+  pieChartsContainer.innerHTML = "";
 
+  const lang = getCurrentLanguage();
   const ord = {
     0: "",
-    1: "second ",
-    2: "third ",
-    3: "fourth ",
-    4: "fifth ",
+    1: lang === "en" ? "second " : "ail ",
+    2: lang === "en" ? "third " : "drydedd ",
   };
 
-  if (parentContainer) {
+  if (pieChartsContainer) {
     Array.from(htmlPlotArray).forEach((htmlPlot, i) => {
       const container = document.createElement("div");
       container.classList.add("container", "p-0");
@@ -1197,9 +1216,12 @@ function displayABSAPlots(htmlPlotArray) {
       descContainer.classList.add("container");
 
       const descText =
-        i < 5
-          ? `The figure displays the sentiment analysis of the ${ord[i]}most occuring aspect.`
+        i < 3
+          ? lang === "en"
+            ? `The figure displays the sentiment analysis of the ${ord[i]}most occuring aspect.`
+            : `Mae'r ffigur yn dangos dadansoddiad sentiment yr ${ord[i]}agwedd sy'n digwydd amlaf.`
           : "";
+
       descContainer.innerText = descText;
 
       const range = document.createRange();
@@ -1209,7 +1231,7 @@ function displayABSAPlots(htmlPlotArray) {
       container.appendChild(plotContainer);
       container.appendChild(descContainer);
 
-      parentContainer.appendChild(container);
+      pieChartsContainer.appendChild(container);
     });
     parentContainer.style.display = "block";
   } else {
@@ -1512,7 +1534,9 @@ function startAnalysisfile_uploaded(event) {
     })
     .catch((error) => console.error("Error:", error));
 }
+
 let fetchedData = null;
+
 function viewSelectedColumns(event) {
   document.getElementById("submit-rows-btn").classList.remove("hidden");
   if (event) event.preventDefault();
@@ -1906,14 +1930,8 @@ function sendSelectedRows() {
     .then((data) => {
       if (data.status === "success") {
         loadingElement.style.display = "none";
-        // Handle the response data
-        //displayWordFrequencies(data);
-
-        console.log("response received successfully");
-
-        document.getElementById(
-          "standardSentimentAnalysisContainer"
-        ).style.display = "block";
+        document.getElementById("SentimentAnalysisContainer").style.display =
+          "block";
 
         displayOverallSentiment(data.sentimentCounts);
         displaySentimentTable(data.sentimentData);
@@ -2661,7 +2679,6 @@ function handleWordFreqSearchChange(event) {
   });
 }
 
-//! Populates word use and relationships dropdown
 function populateDropdown(wordFrequencies) {
   const subCategoryDropdown = document.getElementById("subCategoryDropdown");
 
@@ -2699,7 +2716,6 @@ function populateDropdown(wordFrequencies) {
   });
 }
 
-//! Word use and relationship
 function displayResults(data) {
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "none";
@@ -3018,9 +3034,12 @@ function handleSentimentOptionChange() {
 
   // Call backend to update the sentiment analysis
   updateSentimentAnalysis(selectedOption);
+
+  // Display results container if it is hidden, and hide ABSA container
+  document.getElementById("SentimentAnalysisContainer").style.display = "block";
+  document.getElementById("ABSAContainer").style.display = "none";
 }
 
-//!
 function updateSentimentAnalysis(sentimentClasses) {
   // Show loading element
   const loadingElement = document.getElementById("loading");
@@ -3037,13 +3056,10 @@ function updateSentimentAnalysis(sentimentClasses) {
     }),
   })
     .then((response) => response.json())
-
     .then((data) => {
-      console.log("data here");
       loadingElement.style.display = "none";
       displayOverallSentiment(data.sentimentCounts);
       displaySentimentTable(data.sentimentData);
-      console.log(data.sentimentPlotPie);
       displayPlot(data.sentimentPlotPie, "SentimentPlotViewPie");
       displayPlot(data.sentimentPlotBar, "SentimentPlotViewBar");
     })
@@ -3053,9 +3069,8 @@ function updateSentimentAnalysis(sentimentClasses) {
     });
 }
 
+//! Make more readable for future devs
 function startABSA() {
-  console.log("startABSA called");
-
   // Show loading element
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "flex";
@@ -3071,9 +3086,10 @@ function startABSA() {
     const sentences = splitIntoSentences(text);
     const aspects = aspects_text.split(",").map((aspect) => aspect.trim());
 
-    document.getElementById(
-      "standardSentimentAnalysisContainer"
-    ).style.display = "none";
+    if (aspects.length === 0) {
+      alert("Please enter aspects to analyse.");
+      return;
+    }
 
     fetch("/perform-absa", {
       method: "POST",
@@ -3081,19 +3097,18 @@ function startABSA() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        language: getCurrentLanguage(),
         rows: sentences,
         aspects: aspects,
       }),
     })
-      .then((response) => {
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
-        // Show ABSA results
-        console.log("data received");
-        console.log(data);
+        displayABSAPlots(data.plots);
+        displaySentimentTable(data.sentimentData);
 
-        displayABSAPlots(data);
+        document.getElementById("SentimentAnalysisContainer").style.display =
+          "none";
 
         // Hide loading element
         loadingElement.style.display = "none";
@@ -3483,8 +3498,8 @@ $(document).ready(function () {
     // Update placeholder text for search bar dropdown in word use and relationships
     const wordUseDropdownText =
       language === "en"
-        ? "Search in dropdown..."
-        : "Needs welsh translation...";
+        ? "Search in dropdown list..."
+        : "Chwilio yn y rhestr ddewis...";
     $("#word-use-dd-search").attr("placeholder", wordUseDropdownText);
 
     // Update dropdown default option for welsh
@@ -3492,7 +3507,7 @@ $(document).ready(function () {
     if (selectOptBtn.attr("data-default") !== undefined) {
       language === "en"
         ? selectOptBtn.text("-- Select --")
-        : selectOptBtn.text("-- Needs welsh translation --");
+        : selectOptBtn.text("-- Dewis --");
     }
 
     localStorage.setItem("chosenLanguage", language);
@@ -3799,7 +3814,6 @@ function downloadWordTree() {
   }, 5000); // 5 seconds delay to give the chart enough time to render
 }
 
-//!
 async function handleCategoryChange() {
   const subCategoryDropdown = document.getElementById("subCategoryDropdown");
 
