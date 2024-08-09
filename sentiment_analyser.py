@@ -183,7 +183,10 @@ class SentimentAnalyser:
         )
 
         rows = self.find_aspects(
-            rows, aspects)
+            rows, aspects) if rows else []
+
+        if (len(rows) == 0):
+            return Exception("Error, no data to analyse")
 
         results = []
 
@@ -193,7 +196,7 @@ class SentimentAnalyser:
                 ignore_error=True,
                 eval_batch_size=32,
             )
-            
+
             # Converts numpy arrays to python lists, for json
             sentiment_result["probs"] = [np_arr.tolist()
                                          for np_arr in sentiment_result["probs"]]

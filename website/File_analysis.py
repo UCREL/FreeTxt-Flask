@@ -535,18 +535,19 @@ def handle_selected_rows():
     random_word = random.choice(list(sorted_word_frequencies.keys()))
     search_word = random_word
     # Initialize the KWICAnalyser with the merged rows
-    analyser = KWICAnalyser(' '.join(merged_rows), language='en')
-    # Adding to session for word cloud to use
-    session["tokens_with_semantic_tags"] = analyser.tokens_with_semantic_tags
+    #! Big bottleneck request speed, KWICAnalyser / ucrel api
+    # analyser = KWICAnalyser(' '.join(merged_rows), language='en')
+    # # Adding to session for word cloud to use
+    # session["tokens_with_semantic_tags"] = analyser.tokens_with_semantic_tags
 
-    # Get the sorted unique list of semantic tags
-    sorted_unique_tags = analyser.get_sorted_unique_tags()
-    word_frequencies = analyser.get_word_frequencies()
+    # # Get the sorted unique list of semantic tags
+    # sorted_unique_tags = analyser.get_sorted_unique_tags()
+    # word_frequencies = analyser.get_word_frequencies()
 
-    unfiltered_word_frequencies = analyser.get_word_frequencies(
-        isUnfiltered=True)
-    session['unfiltered_word_frequencies'] = unfiltered_word_frequencies
-    session['word_frequencies'] = word_frequencies
+    # unfiltered_word_frequencies = analyser.get_word_frequencies(
+    #     isUnfiltered=True)
+    # session['unfiltered_word_frequencies'] = unfiltered_word_frequencies
+    # session['word_frequencies'] = word_frequencies
     session['mergedData'] = merged_rows
     session['sentiment_data'] = sentiment_data
 
@@ -557,7 +558,7 @@ def handle_selected_rows():
     return jsonify({
         "status": "success",
         "wordFrequencies": word_frequencies,
-        "unfilteredWordFrequencies": unfiltered_word_frequencies,
+        # "unfilteredWordFrequencies": unfiltered_word_frequencies,
         "sentimentData": sentiment_data,
         "sentimentCounts": sentiment_counts,
         'sentimentPlotPie': pie_chart_html,
@@ -565,7 +566,7 @@ def handle_selected_rows():
         "wordTreeData": wordTreeData,
         "search_word": search_word,
         "summary": summary,
-        "sortedUniqueTags": sorted_unique_tags,
+        # "sortedUniqueTags": sorted_unique_tags,
         "scatterTextHtml": scatter_text_html
     })
 
@@ -1187,18 +1188,32 @@ def get_collos_data():
         return "Server encountered an error", 500
 
 
-@FileAnalysis.route('/perform-absa', methods=['POST'])
+@FileAnalysis.route('/aspect-based-analysis', methods=['POST'])
 def aspect_based_sentiment_analysis():
     data = request.get_json()
-    rows_data = data.get("rows")
-    aspects_data = data.get("aspects")
-    language = data.get("language")
+    rows_data = data.get("rows", [])
+    aspects_data = data.get("aspects", [])
+    language = data.get("language", "en")
 
     analyser = SentimentAnalyser()
 
     # Analyses aspect sentiment for each row in rows_data
-    results = analyser.analyse_aspects_sentiment(
-        rows=rows_data, aspects=aspects_data)
+    try:
+        if not rows_data:
+            return jsonify({"status": "error", "message": "No rows data provided. Please provide text data to analyze."}), 400
+
+        if not aspects_data:
+            return jsonify({"status": "error", "message": "No aspects provided. Please provide aspects to analyse in the text."}), 400
+
+        if len(aspects_data) > 10:
+            return jsonify({"status": "error", "message": f"Too many aspects provided. You can include a maximum of 10 aspects. Current count: {len(aspects_data)}."}), 400
+
+        results = analyser.analyse_aspects_sentiment(
+            rows=rows_data, aspects=aspects_data)
+
+    except Exception as e:
+        current_app.logger.exception("Error executing ABSA:")
+        return jsonify({"status": "error", "message": f"Error executing ABSA. {e}. Please try again."}), 500
 
     sentiment_data = [{"Review": result["text"], "Aspect": aspect, "Sentiment Label": result["sentiment"][idx],
                       "Confidence Score": round(result["confidence"][idx], 2)} for result in results for idx, aspect in enumerate(result["aspect"])]
@@ -1270,6 +1285,7 @@ def aspect_based_sentiment_analysis():
             html_plots.append(plot_html_pie)
 
     return jsonify({
+        "status": "success",
         "plots": html_plots,
         "sentimentData": sentiment_data
     })

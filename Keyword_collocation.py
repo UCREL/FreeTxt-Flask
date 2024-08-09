@@ -440,6 +440,9 @@ class KWICAnalyser:
             # Convert the list back to a string and read it into a DataFrame
             cleaned_text = '\n'.join(cleaned_lines)
 
+            print("response from ucrel")
+            print(cleaned_text)
+
             en_tagged = pd.read_csv(io.StringIO(
                 cleaned_text), sep='\t', names=columns, header=None)
 

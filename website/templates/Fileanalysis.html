@@ -634,14 +634,6 @@
       id="text-to-analyze"
       value="{{text or 'text'}}"
     ></textarea>
-    <h3>For ABSA, enter the aspects to target below:</h3>
-    <textarea
-      class="data-input"
-      name="absa-aspects-to-analyze"
-      placeholder="Paste aspects here"
-      id="absa-aspects-to-analyze"
-      style="height: 200px"
-    ></textarea>
     <div class="options-container">
       <label>
         <input
@@ -985,8 +977,8 @@
           type="radio"
           id="threeClassABSA"
           name="sentimentOption"
-          value="absa"
-          onchange="startABSA()"
+          value="3-absa"
+          onchange="handleSentimentOptionChange()"
         />
         <label
           for="threeClassABSA"
@@ -997,9 +989,41 @@
           Negative)</label
         >
       </div>
+      <div id="ABSAInputContainer" class="mt-4" style="display: none">
+        <h3>Enter aspects to analyse:</h3>
+        <textarea
+          class="data-input m-0"
+          name="absa-aspects-to-analyze"
+          placeholder="Enter words separated by commas or whitespace, e.g., example, words, here"
+          id="absa-aspects-to-analyze"
+          oninput="handleAspectInputChanges()"
+        ></textarea>
+        <div id="enteredAspects" class="my-2">
+          <span
+            id="aspects-bold-text"
+            class="font-weight-bold"
+            style="opacity: 0%"
+            >Aspects:</span
+          >
+          <span
+            id="aspects-input-list"
+            class="text-primary font-weight-bold d-inline text-wrap"
+            style="white-space: pre"
+          ></span>
+        </div>
+        <button
+          type="button"
+          class="btn btn-dark mb-4"
+          data-lang-en="Start ABSA"
+          data-lang-cy="Needs welsh translation"
+          onclick="startABSA()"
+        >
+          Start ABSA
+        </button>
+      </div>
       <div
-        id="ABSAContainer"
-        class="container-fluid p-0 m-0"
+        id="ABSAResultsContainer"
+        class="container-fluid p-0 my-1"
         style="display: none"
       >
         <div id="AspectPieCharts" class="container"></div>
@@ -1959,8 +1983,7 @@
             <div class="mx-4">
               <input class="form-check-input" type="checkbox" checked="" />
               <p
-                class="ml-1"
-                style="font-weight: bold"
+                class="ml-1 font-weight-bold"
                 data-lang-en="Included"
                 data-lang-cy="Wedi&rsquo;i gynnwys"
               >
@@ -1970,8 +1993,7 @@
             <div class="mx-4">
               <input class="form-check-input" type="checkbox" />
               <p
-                class="ml-1"
-                style="font-weight: bold"
+                class="ml-1 font-weight-bold"
                 data-lang-en="Excluded"
                 data-lang-cy="Wedi&rsquo;i hepgor"
               >

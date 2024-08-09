@@ -583,6 +583,8 @@ samp {
 }
 
 pre {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica,
+    sans-serif !important;
   border: 0.1rem solid #dcd7ca;
   line-height: 1.5;
   margin: 4rem 0;

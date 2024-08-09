@@ -1192,7 +1192,7 @@ function displayPlot(plotHtml, elementId) {
 
 //! ABSA
 function displayABSAPlots(htmlPlotArray) {
-  parentContainer = document.getElementById("ABSAContainer");
+  parentContainer = document.getElementById("ABSAResultsContainer");
   const pieChartsContainer = document.getElementById("AspectPieCharts");
   // Resets container
   pieChartsContainer.innerHTML = "";
@@ -1918,6 +1918,9 @@ function sendSelectedRows() {
   // Reset word tree tab
   isWordTreeClicked = false;
 
+  // Update currentData var with mergedData
+  currentData = mergedData;
+
   // Send the mergedData to the server for processing
   fetch("/process_rows", {
     method: "POST",
@@ -1958,7 +1961,7 @@ function sendSelectedRows() {
           : "Could not generate summary.";
 
         const iframeElem = document.getElementById("scattertextIframe");
-        sendWordCloudRequest();
+        // sendWordCloudRequest();
         iframeElem.style.opacity = 0.99;
         requestAnimationFrame(() => {
           iframeElem.src = data.scatterTextHtml + "?t=" + new Date().getTime();
@@ -2355,9 +2358,9 @@ function renderTagWordsAssociatons(tagWordsArray) {
       "justify-content-center",
       "align-items-center",
       "text-break",
-      "mt-0"
+      "mt-0",
+      "font-weight-bold"
     );
-    tagContainer.style.fontWeight = "bold";
     tagContainer.appendChild(document.createTextNode(tag));
 
     const wordListContainer = document.createElement("div");
@@ -2706,8 +2709,12 @@ function populateDropdown(wordFrequencies) {
     // Creates label
     const label = document.createElement("label");
     label.htmlFor = `word-freq-${i}`;
-    label.classList.add("form-check-label", "dropdown-item", "w-100");
-    label.style.fontWeight = "bold";
+    label.classList.add(
+      "form-check-label",
+      "dropdown-item",
+      "w-100",
+      "font-weight-bold"
+    );
     label.textContent = `${word} (${frequency})`;
 
     option.appendChild(input);
@@ -3032,19 +3039,25 @@ function handleSentimentOptionChange() {
   let radios = document.getElementsByName("sentimentOption");
   let selectedOption = Array.from(radios).find((r) => r.checked).value;
 
-  // Call backend to update the sentiment analysis
-  updateSentimentAnalysis(selectedOption);
-
-  // Display results container if it is hidden, and hide ABSA container
-  document.getElementById("SentimentAnalysisContainer").style.display = "block";
-  document.getElementById("ABSAContainer").style.display = "none";
+  if (selectedOption === "3-absa") {
+    // Display ABSA input
+    document.getElementById("ABSAInputContainer").style.display = "block";
+    // Hide other sentiment data
+    document.getElementById("SentimentAnalysisContainer").style.display =
+      "none";
+  } else updateSentimentAnalysis(selectedOption);
 }
 
 function updateSentimentAnalysis(sentimentClasses) {
   // Show loading element
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "flex";
+
+  // Hide ABSA elements
+  document.getElementById("ABSAInputContainer").style.display = "none";
+
   const currentLang = getCurrentLanguage();
+
   fetch("/update_sentiment", {
     method: "POST",
     headers: {
@@ -3057,63 +3070,103 @@ function updateSentimentAnalysis(sentimentClasses) {
   })
     .then((response) => response.json())
     .then((data) => {
-      loadingElement.style.display = "none";
+      document.getElementById("SentimentAnalysisContainer").style.display =
+        "block";
+      document.getElementById("ABSAResultsContainer").style.display = "none";
+
       displayOverallSentiment(data.sentimentCounts);
       displaySentimentTable(data.sentimentData);
       displayPlot(data.sentimentPlotPie, "SentimentPlotViewPie");
       displayPlot(data.sentimentPlotBar, "SentimentPlotViewBar");
-    })
 
+      loadingElement.style.display = "none";
+    })
     .catch((error) => {
       console.error("Error:", error);
     });
 }
 
+function handleAspectInputChanges() {
+  const listSpan = $("#aspects-input-list");
+
+  const aspectsText = $("#absa-aspects-to-analyze").val();
+  const aspects = aspectsText
+    .split(/\s*,\s*|\s+/)
+    .map((aspect) => aspect.trim())
+    .filter((aspect) => aspect.length > 0);
+
+  let aspectsString = "";
+
+  if (aspectsText !== "") {
+    aspects.forEach((aspect) => {
+      aspect !== "" ? (aspectsString += `  ${aspect}`) : "";
+    });
+
+    if (aspectsString !== "") {
+      $("#aspects-bold-text").css("opacity", "100%");
+      listSpan.text(aspectsString);
+    }
+  } else {
+    $("#aspects-bold-text").css("opacity", "0%");
+    listSpan.text("");
+  }
+}
+
 //! Make more readable for future devs
 function startABSA() {
+  // Get data from text field
+  const aspectsText = $("#absa-aspects-to-analyze").val();
+  // Filter text
+  const aspects = aspectsText
+    .split(/\s*,\s*|\s+/)
+    .map((aspect) => aspect.trim())
+    .filter((aspect) => aspect.length > 0);
+
+  if (aspects.length < 1) {
+    alert("No aspects entered. Enter an aspect and try again.");
+    return;
+  }
+
   // Show loading element
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "flex";
 
-  // Get data from text fields
-  const text = document.getElementById("text-to-analyze").value;
-  const aspects_text = document.getElementById("absa-aspects-to-analyze").value;
-
-  if (
-    document.querySelector('input[name="text-input-method"]:checked').value ===
-    "Split sentences"
-  ) {
-    const sentences = splitIntoSentences(text);
-    const aspects = aspects_text.split(",").map((aspect) => aspect.trim());
-
-    if (aspects.length === 0) {
-      alert("Please enter aspects to analyse.");
-      return;
-    }
-
-    fetch("/perform-absa", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        language: getCurrentLanguage(),
-        rows: sentences,
-        aspects: aspects,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        displayABSAPlots(data.plots);
-        displaySentimentTable(data.sentimentData);
-
-        document.getElementById("SentimentAnalysisContainer").style.display =
-          "none";
-
-        // Hide loading element
-        loadingElement.style.display = "none";
-      });
+  if (aspects.length === 0) {
+    alert("Please enter aspects to analyse.");
+    return;
   }
+
+  fetch("/aspect-based-analysis", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      language: getCurrentLanguage(),
+      rows: currentData,
+      aspects: aspects,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === "error") {
+        alert(data.message);
+        throw new Error("Error executing ABSA");
+      }
+      displayABSAPlots(data.plots);
+      displaySentimentTable(data.sentimentData);
+
+      document.getElementById("SentimentAnalysisContainer").style.display =
+        "none";
+
+      // Hide loading element
+      loadingElement.style.display = "none";
+    })
+    .catch((error) => {
+      console.log("Error executing ABSA:", error);
+      // Hide loading element
+      loadingElement.style.display = "none";
+    });
 }
 
 function handleFileChange() {
@@ -3854,8 +3907,12 @@ async function handleCategoryChange() {
       label.htmlFor = `pos-tags-${i}`;
       label.setAttribute("data-lang-en", tag.en);
       label.setAttribute("data-lang-cy", tag.cy);
-      label.classList.add("form-check-label", "dropdown-item", "w-100");
-      label.style.fontWeight = "bold";
+      label.classList.add(
+        "form-check-label",
+        "dropdown-item",
+        "w-100",
+        "font-weight-bold"
+      );
       label.textContent = tag.en;
 
       option.appendChild(input);
@@ -3885,8 +3942,12 @@ async function handleCategoryChange() {
       label.htmlFor = `semtags-${i}`;
       label.setAttribute("data-lang-en", tag);
       label.setAttribute("data-lang-cy", tag);
-      label.classList.add("form-check-label", "dropdown-item", "w-100");
-      label.style.fontWeight = "bold";
+      label.classList.add(
+        "form-check-label",
+        "dropdown-item",
+        "w-100",
+        "font-weight-bold"
+      );
       label.textContent = tag;
 
       option.appendChild(input);
