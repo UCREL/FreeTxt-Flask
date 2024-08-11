@@ -1212,8 +1212,8 @@ def aspect_based_sentiment_analysis():
             rows=rows_data, aspects=aspects_data)
 
     except Exception as e:
-        current_app.logger.exception("Error executing ABSA:")
-        return jsonify({"status": "error", "message": f"Error executing ABSA. {e}. Please try again."}), 500
+        current_app.logger.exception(f"Error: {e}")
+        return jsonify({"status": "error", "message": f"Error: {e}. Please try again."}), 500
 
     sentiment_data = [{"Review": result["text"], "Aspect": aspect, "Sentiment Label": result["sentiment"][idx],
                       "Confidence Score": round(result["confidence"][idx], 2)} for result in results for idx, aspect in enumerate(result["aspect"])]

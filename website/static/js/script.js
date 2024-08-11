@@ -1040,6 +1040,11 @@ function displaySentimentTable(sentimentData) {
     return;
   }
 
+  // Remove previously generated datatables
+  if (document.getElementById("data-table")) {
+    document.getElementById("data-table").remove();
+  }
+
   const tableData = document.createElement("table");
   const theadData = document.createElement("thead");
   const tbodyData = document.createElement("tbody");
