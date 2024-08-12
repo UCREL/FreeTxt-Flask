@@ -601,8 +601,25 @@ function resetToDefault() {
 
   // Reset Sentiment Analysis and Scatter Plot divs
   $(
-    "#SentimentPlotViewPie, #SentimentPlotViewBar, #SentimentView, #SentimentTable, #scattertextIframe"
+    "#SentimentPlotViewPie, #SentimentPlotViewBar, #SentimentView, #SentimentTable, #scattertextIframe, #AspectPieCharts, #AspectSentimentTable"
   ).empty();
+
+  // Suspend events before resetting checkbox
+  // const radios = $("#threeClass, #fiveClass, #threeClassABSA");
+
+  // radios.off("change");
+
+  $("#threeClass").prop("checked", true);
+  $("#ABSAInputContainer").css("display", "none");
+
+  // radios.on("change", function () {
+  //   handleSentimentOptionChange();
+  // });
+
+  $("#absa-aspects-to-analyze").val("");
+  $("#aspects-bold-text").css("opacity", "0%");
+  $("#aspects-input-list").text("");
+
   // Hide additional buttons and elements
   $("#submit-rows-btn, #loading, #tab-buttons, #tabs, #dateSlider").addClass(
     "hidden"
@@ -1210,15 +1227,20 @@ function displayABSAPlots(htmlPlotArray) {
   };
 
   if (pieChartsContainer) {
-    Array.from(htmlPlotArray).forEach((htmlPlot, i) => {
+    Array.from(htmlPlotArray).forEach(([htmlPlot, total], i) => {
+      console.log("totals");
+      console.log(total);
       const container = document.createElement("div");
-      container.classList.add("container", "p-0");
+      container.classList.add("container", "p-0", "mt-5");
 
       const plotContainer = document.createElement("div");
       plotContainer.classList.add("container");
 
       const descContainer = document.createElement("h4");
       descContainer.classList.add("container");
+
+      const totalContainer = document.createElement("h4");
+      totalContainer.classList.add("container");
 
       const descText =
         i < 3
@@ -1229,12 +1251,16 @@ function displayABSAPlots(htmlPlotArray) {
 
       descContainer.innerText = descText;
 
+      const totalText = `Total occurrences: ${total}`;
+      totalContainer.innerText = totalText;
+
       const range = document.createRange();
       const docFrag = range.createContextualFragment(htmlPlot);
 
       plotContainer.appendChild(docFrag);
       container.appendChild(plotContainer);
       container.appendChild(descContainer);
+      container.appendChild(totalContainer);
 
       pieChartsContainer.appendChild(container);
     });
@@ -3097,7 +3123,7 @@ function handleAspectInputChanges() {
   const aspectsText = $("#absa-aspects-to-analyze").val();
   const aspects = aspectsText
     .split(/\s*,\s*|\s+/)
-    .map((aspect) => aspect.trim())
+    .map((aspect) => aspect.trim().toLowerCase())
     .filter((aspect) => aspect.length > 0);
 
   let aspectsString = "";
@@ -3124,7 +3150,7 @@ function startABSA() {
   // Filter text
   const aspects = aspectsText
     .split(/\s*,\s*|\s+/)
-    .map((aspect) => aspect.trim())
+    .map((aspect) => aspect.trim().toLowerCase())
     .filter((aspect) => aspect.length > 0);
 
   if (aspects.length < 1) {

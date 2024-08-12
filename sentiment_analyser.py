@@ -145,25 +145,34 @@ class SentimentAnalyser:
                 sentiment_counts[sentiment_label] += 1
         return sentiments, sentiment_counts
 
-    def find_aspects(self, rows, aspects):
+    def find_aspects(self, rows, aspects, includeGlobalSentiments=False):
         """
         Searches text and finds aspects, ready for analysis.
 
         Parameters:
         rows (list[str]): The text to be searched for aspects.
         aspects (list[str]): The aspects to find in the provided rows.
+        includeGlobalSentiments (boolean): If True, rows with Global Sentiments will be included (rows that do not contain any of the entered aspects).
 
         Returns:
         list[str]: The updated rows with the targeted aspects, surrounded by [B-ASP] example [E-ASP].
         """
 
-        # Removes any trailing or leading whitespace
-        modified_rows = [row.strip() for row in rows]
+        # Removes any trailing or leading whitespace, converts to lower case
+        aspects = [aspect.lower().strip() for aspect in aspects]
+
+        if includeGlobalSentiments:
+            modified_rows = [row.strip() for row in rows]
+        else:
+            # Filters out any rows that do not have any of the entered aspects
+            modified_rows = [row.strip() for row in rows if any(
+                aspect in row.lower() for aspect in aspects)]
 
         for idx, row in enumerate(modified_rows):
             replacements = []
             for aspect in aspects:
-                for m in re.finditer(aspect, row):
+                # Ignores case
+                for m in re.finditer(re.escape(aspect), row.lower()):
                     replacements.append((m.start(), m.end()))
 
             replacements.sort(reverse=True)

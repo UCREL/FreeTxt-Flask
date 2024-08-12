@@ -1224,6 +1224,9 @@ def aspect_based_sentiment_analysis():
 
     for entry in results:
         for idx, asp in enumerate(entry["aspect"]):
+            # Ignores case
+            asp = asp.lower()
+
             if asp in aspect_sentiment_counter:
                 aspect_sentiment_counter[asp][entry["sentiment"][idx]] += 1
 
@@ -1282,7 +1285,8 @@ def aspect_based_sentiment_analysis():
             with open(f"website/static/Sentiment_plots/sentiment_pie_absa_{aspect}.html", "w", encoding="utf-8") as f:
                 f.write(content)
 
-            html_plots.append(plot_html_pie)
+            # Tuple containing the plot, and number of total occurrences
+            html_plots.append((plot_html_pie, sum(dict_val.values())))
 
     return jsonify({
         "status": "success",
