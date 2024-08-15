@@ -12,6 +12,7 @@ from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import networkx as nx
 from pyvis.network import Network
+from flask import current_app
 import math
 STOPWORDS = set(["a", "an", "the", "and", "or", "in", "of", "to", "is", "it", "that", "on", "was", "for", "as", "with", "by"])  # Modify with actual stopwords
 PUNCS = string.punctuation
@@ -22,18 +23,28 @@ PUNCS += '''!→()-[]{};:"\,<>./?@#$%&*_~.'''
 import time
 import os
 
-def cleanup_old_graphs(directory, age_in_seconds=20): 
+def cleanup_old_graphs(subdirectory, age_in_seconds=20):
+    # Construct the path to the subdirectory within the static directory
+    directory = os.path.join(current_app.static_folder, subdirectory)
+
+    # Ensure the directory exists to avoid FileNotFoundError
+    if not os.path.exists(directory):
+        print(f"Directory {directory} does not exist. Creating...")
+        os.makedirs(directory)
+
     current_time = time.time()
 
+    # Iterate through files in the specified directory
     for filename in os.listdir(directory):
         if filename.startswith("network_") and filename.endswith(".html"):
             file_timestamp = int(filename.split("_")[1].split(".")[0])
             file_age = current_time - file_timestamp
 
+            # Remove the file if it is older than the specified age
             if file_age > age_in_seconds:
-                os.remove(os.path.join(directory, filename))
-
-
+                file_path = os.path.join(directory, filename)
+                os.remove(file_path)
+                print(f"Removed old graph: {filename}")
 
 class KWICAnalyser:
 
@@ -95,7 +106,7 @@ class KWICAnalyser:
         print(len(self.tokens_with_semantic_tags))
 
         self.PUNCS = [".", ",", "!", ":", ";", "-", "_", "?", "&", "*", "(", ")", "$", "@", "#", "%", "^", "+", "=", "<", ">", "/", "|", "]", "[", "{", "}", "\\", "'", "\""]
-        #self.sementic_tags = pd.read_csv('./website/data/Cy_tags.csv')
+        #self.sementic_tags = pd.read_csv('website/data/Cy_tags.csv')
         
 
 

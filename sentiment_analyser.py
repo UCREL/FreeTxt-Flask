@@ -10,17 +10,28 @@ nlp = spacy.load('/freetxt/en_core_web_sm-3.2.0')  # Load the spaCy model
 nlp.max_length = 9000000
 from nltk.corpus import stopwords
 import nltk
-#nltk.download('punkt')
-#nltk.download('stopwords')
+
 ### stopwords_files
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
 cy_stopwords = open('/freetxt/website/data/welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
 STOPWORDS = set(en_stopwords + cy_stopwords)
-PUNCS = '''!→()-[]{};:'"\,<>./?@#$%^&*_~'''
+PUNCS = '''!→()-[]{};:'"\,<>?@#$%^&*_~'''
 
 class SentimentAnalyser:
+    """
+    A class for performing sentiment analysis on textual data using pre-trained BERT models.
+    
+    Methods:
+    preprocess_text(text): Preprocesses the text for sentiment analysis.
+    analyse_sentiment(input_text, language, num_classes, max_seq_len=512): Analyzes the sentiment of the input text.
+    generate_scattertext_visualization(dfanalysis, language): Generates a scattertext visualization for the sentiment analysis results.
+    """
+    
     def __init__(self):
+        """
+        Initializes the SentimentAnalyser class, loading the tokenizer and model for sentiment analysis.
+        """
         # Loading tokenizer and model during initialization to avoid doing it multiple times.
         self.tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
         self.model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
@@ -117,15 +128,13 @@ class SentimentAnalyser:
         #print(sentiment_counts)
         return sentiments, sentiment_counts
 
-    
-
     def generate_scattertext_visualization(self, dfanalysis,language):
         # Get the DataFrame with sentiment analysis results
         df = dfanalysis
         positive_label = "Cadarnhaol" if language == 'cy' else "Positive"
         if positive_label not in dfanalysis['Sentiment Label'].unique():
             # Notify the user that the 'Positive' category is not present
-            # This could be a return statement, raising an exception, or setting a flag in your application
+            # This could be a return statement, raising an exception, 
             return f"No data for the '{positive_label}' category found. Scattertext visualization cannot be generated."
 
         # Parse the text using spaCy

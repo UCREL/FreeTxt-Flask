@@ -18,7 +18,6 @@ import time
 from PIL import Image, ImageDraw, ImageFont
 import random
 from sentiment_analyser import SentimentAnalyser
-from word_tree_generator import WordTreeGenerator
 from Summariser import run_summarizer
 from word_cloud_generator import WordCloudGenerator
 from Keyword_collocation import KWICAnalyser
@@ -39,7 +38,7 @@ STOPWORDS = set(en_stopwords + cy_stopwords+ ["a", "an", "the", "and", "or", "in
 
 PUNCS = string.punctuation
 
-PUNCS += '''!→()-[]{};:"\,<>./?@#$%^&*_~'''
+PUNCS += '''!→()-[]{};:"\,<>?@#$%^&*_~'''
 # Initialize a lock
 file_lock = threading.Lock()
 
@@ -696,7 +695,7 @@ def generate_pdf():
         response.headers['Content-Disposition'] = 'inline; filename=report.pdf'
         return response
     else:
-        # Handle GET request if needed. You can return a form or a message.
+        # Handle GET request if needed. 
         return "This endpoint accepts POST requests with form data to generate a PDF."
 
 
@@ -957,7 +956,7 @@ def get_keyword_data():
                 }
             )
     except Exception as e:
-        # Handle your exception here
+        # Handle  exception here
         return "Server encountered an error", 500
 
 
@@ -1014,7 +1013,7 @@ def regenerate_wordcloud():
 @FileAnalysis.route('/update_graph', methods=['POST'])
 def handle_graph_update():
     data = request.get_json()
-    keyword = data.get('keyword')  # Replace with your actual keyword
+    keyword = data.get('keyword') 
     collocs = data.get('collocs', [])
     graph_type = data.get('graphType', 'frequency')
     
@@ -1050,5 +1049,5 @@ def get_collos_data():
                 }
             )
     except Exception as e:
-        # Handle your exception here
+       
         return "Server encountered an error", 500
