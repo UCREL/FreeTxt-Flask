@@ -6,11 +6,15 @@ import os
 from datetime import timedelta
 from .extensions import db
 from .models import Feedback
-
+from .utilits import clear_directories
+from apscheduler.schedulers.background import BackgroundScheduler
+import logging
+logging.basicConfig()
+logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the current app directory
-
+print(BASE_DIR)
 def create_app(debug=True):
    
     app = Flask(__name__)
@@ -29,6 +33,11 @@ def create_app(debug=True):
     db.init_app(app)
     with app.app_context():
         db.create_all()
+
+        # Set up a scheduler to clear directories every two days
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(func=clear_directories, trigger='interval', days=2)
+    scheduler.start()
     from .Home import Home
     app.register_blueprint(Home, url_prefix = '/')
     
@@ -39,8 +48,13 @@ def create_app(debug=True):
     from .Home import Userguide
     app.register_blueprint(Userguide)
 
-    from .Text_analysis import TextAnalysis
-    app.register_blueprint(TextAnalysis)
+    from .feedback import feedback_bp
+    app.register_blueprint(feedback_bp)
+
+
+
+    from .summary import fileanalysis_summary
+    app.register_blueprint(fileanalysis_summary)
 
     from .File_analysis import FileAnalysis
     app.register_blueprint(FileAnalysis)

@@ -495,7 +495,16 @@ input[type=range]::after {
 .sentiment-option label:hover {
     color: #666;
 }
+.camera-btn {
+    text-decoration: none;
+    color: rgb(120, 118, 118); /* or your preferred text color */
+    font-size: 16px; /* Adjust size as needed */
+    transition: color 0.3s ease;
+}
 
+.camera-btn:hover, .camera-btn:hover .fa {
+    color: #050505; /* Example hover effect: change color */
+}
 
 
 /* Responsive adjustments */
@@ -769,7 +778,9 @@ data-lang-cy="Mae'r ystod rhwng -1 ac 1, gyda sgorau yn agos at 0 yn cynrychioli
 <p data-lang-en="Hovering over the dots on the plot reveals word frequency statistics per 25,000 words for both classes and a Scaled F-Score. This frequency determines each point's plot position. For instance, a given metric might be 195:71 per 25k words. Using the query box or clicking on a dot provides more details, like the frequency per 1,000 Reddit posts ('doc')." 
 data-lang-cy="Mae hofran uwchben y dotiau ar y plot yn dangos ystadegau amlder geiriau fesul 25,000 gair ar gyfer dosbarthiadau a Sgôr-F Graddfa. Mae'r amlder yma yn pennu safle pob pwynt ar y plot. Er enghraifft, gellid bwrw metrig 195:71 fesul 25 mil o eiriau. Bydd defnyddio'r blwch ymholiadau neu glicio ar ddot yn rhoi mwy o fanylion, fel yr amlder fesul 1,000 post Reddir ('doc')."
 >Hovering over the dots on the plot reveals word frequency statistics per 25,000 words for both classes and a Scaled F-Score. This frequency determines each point's plot position. For instance, a given metric might be 195:71 per 25k words. Using the query box or clicking on a dot provides more details, like the frequency per 1,000 Reddit posts ('doc').</p>
-
+<a href="get_image_scatter" download  class="camera-btn">
+    <i class="fa fa-camera" aria-hidden="true"></i> 
+</a>
             <iframe id="scattertextIframe" src="" width="100%" height="1000" frameborder="0" ></iframe>
             <a href="/get-html-scatter" download>
                 <button class="analyze-btn" data-lang-en="Download Interactive Scatter Text" data-lang-cy="Lawrlwytho Testun Gwasgariad Rhyngweithiol">Download Interactive Scatter Text</button>
@@ -814,19 +825,21 @@ data-lang-cy="Mae hofran uwchben y dotiau ar y plot yn dangos ystadegau amlder g
                             <label class="form-label" data-lang-en="Select cloud shape:" data-lang-cy="Dewiswch siâp y cwmwl:" >Select cloud shape:</label>
                             <select name="cloud_shape" class="form-control">
                                
-<option value="static/images/img/cloud.png"  data-lang-en="Cloud" data-lang-cy="Cwmwl">Cloud</option>
+<option value="https://freetxt.app/static/images/img/cloud.png"  data-lang-en="Cloud" data-lang-cy="Cwmwl">Cloud</option>
                               
- <option value="static/images/img/comments2.png" data-lang-en="Comment" data-lang-cy="Sylw">Comment</option>
-                                <option value="static/images/img/lightbulb.png" data-lang-en="Light bulb" data-lang-cy="Bwlb golau">Light Bulb</option>
-                                <option value="static/images/img/volumeup.png" data-lang-en="Volume up" data-lang-cy="Lefel sain i fyny">Volume up</option>
-                                <option value="static/images/img/Mic.png" data-lang-en="Microphone" data-lang-cy="Meicroffon">Microphone</option>
-                                 <option value="static/images/img/welsh_flag.png" data-lang-en="Welsh Flag" data-lang-cy="Baner Cymru">Welsh Flag</option>
-                                <option value="static/images/img/holmes_silhouette.png" data-lang-en="Sherlock Holmes" data-lang-cy="Sherlock Holmes">Sherlock Holmes</option>
-                                <option value="static/images/img/national-trust-logo-black-on-white-silhouette.jpg" data-lang-en="National Trust" data-lang-cy="Ymddiriedolaeth Genedlaethol">National Trust</option>
-                                <option value="static/images/img/cadw-clip.jpeg" data-lang-en="Cadw" data-lang-cy="Cadw">Cadw</option>
-                                <option value="static/images/img/blue_rectangle.jpg" data-lang-en="Rectangle" data-lang-cy="Petryal">Rectangle</option> 
-                                <option value="static/images/img/circle.png" data-lang-en="Circle" data-lang-cy="Cylch">Circle</option>
-                                <option value="static/images/img/CadwLogo.png" data-lang-en="Cadw2" data-lang-cy="Cadw2">Cadw2</option>
+ <option value="https://freetxt.app/static/images/img/comments2.png" data-lang-en="Comment" data-lang-cy="Sylw">Comment</option>
+                                <option value="https://freetxt.app/static/images/img/lightbulb.png" data-lang-en="Light bulb" data-lang-cy="Bwlb golau">Light Bulb</option>
+                                <option value="https://freetxt.app/static/images/img/volumeup.png" data-lang-en="Volume up" data-lang-cy="Lefel sain i fyny">Volume up</option>
+                                <option value="https://freetxt.app/static/images/img/Mic.png" data-lang-en="Microphone" data-lang-cy="Meicroffon">Microphone</option>
+                                 <option value="https://freetxt.app/static/images/img/welsh_flag.png" data-lang-en="Welsh Flag" data-lang-cy="Baner Cymru">Welsh Flag</option>
+                                <option value="https://freetxt.app/static/images/img/holmes_silhouette.png" data-lang-en="Sherlock Holmes" data-lang-cy="Sherlock Holmes">Sherlock Holmes</option>
+                                <option value="https://freetxt.app/static/images/img/national-trust-logo-black-on-white-silhouette.jpg" data-lang-en="National Trust" data-lang-cy="Ymddiriedolaeth Genedlaethol">National Trust</option>
+                                <option value="https://freetxt.app/static/images/img/cadw-clip.jpeg" data-lang-en="Cadw" data-lang-cy="Cadw">Cadw</option>
+                                <option value="https://freetxt.app/static/images/img/blue_rectangle.jpg" data-lang-en="Rectangle" data-lang-cy="Petryal">Rectangle</option> 
+                                <option value="https://freetxt.app/static/images/img/circle.png" data-lang-en="Circle" data-lang-cy="Cylch">Circle</option>
+                                <option value="https://freetxt.app/static/images/img/CadwLogo.png" data-lang-en="Cadw2" data-lang-cy="Cadw2">Cadw2</option>
+                                <option value="https://freetxt.app/static/images/img/image-png.png" data-lang-en="Learn Welsh" data-lang-cy=" Dysgu Cymraeg">Learn Welsh</option>
+                                
                             </select>
                         </div>
         
@@ -976,11 +989,11 @@ data-lang-cy="Mae hofran uwchben y dotiau ar y plot yn dangos ystadegau amlder g
             <form id='pdfForm' action="/generate-pdf" method="post" enctype="multipart/form-data" target="_blank">
                 <div class="flex-container">
                 <section class="grid">
-                   <!-- Sentiment Analysis
+                   <!-- Sentiment Analysis-->
                     <div class="square checkbox-option background-red" data-checkbox="sentimentData">
                         <i class="fas fa-chart-line text-size-60 text-white"></i>
-                        <h3 class="text-strong text-uppercase" data-lang-en="Include Sentiment Analysis" data-lang-cy="Cynnwys Dadansoddi Sentiment">Include Sentiment Analysis</h3>
-                    </div>-->
+                        <h3 class="text-strong text-uppercase" data-lang-en="Include Keyword Analysis" data-lang-cy="Cynnwys Allweddair Sentiment">Include Sentiment Analysis</h3>
+                    </div>
                     <!-- Sentiment Pie Plot -->
                     <div class="square checkbox-option background-blue" data-checkbox="sentimentPlotPie">
                         <i class="fas fa-comments text-size-60 text-white"></i>
@@ -997,12 +1010,12 @@ data-lang-cy="Mae hofran uwchben y dotiau ar y plot yn dangos ystadegau amlder g
                         <h3 class="text-strong text-uppercase" data-lang-en="Include Word Tree Data" data-lang-cy="Cynnwys Data'r Goeden Eiriau">Include Word Tree Data</h3>
                     </div>
                     <!-- Summary -->
-                    <div class="square checkbox-option background-orange" data-checkbox="summary">
+                    <div class="square checkbox-option background-orange" data-checkbox="summarys">
                         <i class="fas fa-link text-size-60 text-white"></i>
                         <h3 class="text-strong text-uppercase" data-lang-en="Include Summary" data-lang-cy="Cynnwys Crynodeb">Include Summary</h3>
                     </div>
                     <!-- Wordcloud -->
-                    <div class="square checkbox-option background-aqua" data-checkbox="wordCloud">
+                    <div class="square checkbox-option background-aqua" data-checkbox="wordClouds">
                         <i class="fas fa-tree text-size-60 text-white"></i>
                         <h3 class="text-strong text-uppercase" data-lang-en="Include Word Cloud" data-lang-cy="Cynnwys Cwmwl Geiriau">Include Word Cloud</h3>
                     </div>
@@ -1016,12 +1029,12 @@ data-lang-cy="Mae hofran uwchben y dotiau ar y plot yn dangos ystadegau amlder g
                 </div>
                 </div>
                 <!-- Hidden checkboxes -->
-               <!-- <input type="checkbox" name="sections" value="sentimentData" id="sentimentData" class="hidden-checkbox">-->
+                <input type="checkbox" name="sections" value="sentimentData" id="sentimentData" class="hidden-checkbox">
                 <input type="checkbox" name="sections" value="sentimentPlotPie" id="sentimentPlotPie" class="hidden-checkbox">
                 <input type="checkbox" name="sections" value="sentimentPlotBar" id="sentimentPlotBar" class="hidden-checkbox">
                 <input type="checkbox" name="sections" value="wordTreeData" id="wordTreeData" class="hidden-checkbox">
-                <input type="checkbox" name="sections" value="summary" id="summary" class="hidden-checkbox">
-                <input type="checkbox" name="sections" value="wordCloud" id="wordCloud" class="hidden-checkbox">
+                <input type="checkbox" name="sections" value="summary" id="summarys" class="hidden-checkbox">
+                <input type="checkbox" name="sections" value="wordCloud" id="wordClouds" class="hidden-checkbox">
         
                 
             
@@ -1029,7 +1042,7 @@ data-lang-cy="Mae hofran uwchben y dotiau ar y plot yn dangos ystadegau amlder g
     <input type="hidden" name="sentimentViewContent" id="sentimentField">
    
     <input  type="hidden" name="wordtree" id="wordtree">
-    <input  type="hidden" id="wordCloudImageSrcField" name="wordCloudImageSrc">
+    <input type="hidden"   id="wordCloudImageSrcField" name="wordCloudImageSrc">
     <input type="hidden" id="summaryField" name="summaryField">
    <input type="hidden" name="sentiment_explanation" id="sentiment_explanation"> 
        <input type="hidden" name="Cloud_type" id="Cloud_type">

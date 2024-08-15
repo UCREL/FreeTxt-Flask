@@ -9,6 +9,9 @@ from werkzeug.utils import secure_filename
 from collections import Counter
 from flask import current_app
 import chardet
+import shutil
+import tempfile
+from html2image import Html2Image
 import re
 import os
 import time
@@ -23,10 +26,13 @@ from checklanguage import LanguageChecker
 import pandas as pd
 import plotly.express as px
 import threading
-
+from os.path import splitext, basename
 import string
+import shutil
 from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize
+from .models import Feedback
+from . import db
 en_stopwords = list(stopwords.words('english'))
 cy_stopwords = open('/home/khallafn/Freetxt-flask/website/data/welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
 STOPWORDS = set(en_stopwords + cy_stopwords+ ["a", "an", "the", "and", "or", "in", "of", "to", "is", "it", "that", "on", "was", "for", "as", "with", "by"])
@@ -74,22 +80,48 @@ def sanitize_column_name(name):
     # This function will keep only alphanumeric characters and spaces, then replace spaces with underscores.
     sanitized = re.sub(r'[^a-zA-Z0-9 ]', '', name)
     return sanitized.replace(' ', '_')
+date_formats = [
+    '%Y-%m-%d',    # Year-Month-Day with dashes
+    '%d/%m/%Y',    # Day/Month/Year with slashes
+    '%m/%d/%Y',    # Month/Day/Year with slashes
+    '%d-%m-%Y',    # Day-Month-Year with dashes
+    '%d.%m.%Y',    # Day.Month.Year with dots
+    '%d/%m/%y',    # Day/Month/Year with slashes and two-digit year
+    '%m-%d-%Y',    # Month-Day-Year with dashes
+    '%m.%d.%Y',    # Month.Day.Year with dots
+    '%m/%d/%y',    # Month/Day/Year with slashes and two-digit year
+    '%Y.%m.%d',    # Year.Month.Day with dots
+    '%Y/%m/%d',    # Year/Month/Day with slashes
+    '%y-%m-%d',    # Two-digit Year-Month-Day with dashes
+    '%d %B %Y',    # Day full-month-name Year
+    '%d %b %Y',    # Day abbreviated-month-name Year
+    '%Y-%m-%d %H:%M:%S',  # Date and time with seconds
+    '%Y-%m-%dT%H:%M:%SZ', # ISO 8601 format
+    '%d-%b-%Y',    # Day abbreviated-month-name Year with dashes
+    '%Y%m%d'       # Continuous digits for YearMonthDay
+]
 
-def convert_date_columns(df):
+def convert_date_columns(df, date_formats):
     for col in df.columns:
-        # Try to convert the column to datetime format
-        try:
-            # Infer datetime format for better detection
-            df[col] = pd.to_datetime(df[col], infer_datetime_format=True, errors='raise')
-            # Convert it to a uniform format
-            df[col] = df[col].dt.strftime('%d/%m/%Y')
-        except Exception:
-            continue
+        for fmt in date_formats:
+            try:
+                df[col] = pd.to_datetime(df[col], format=fmt, errors='raise')
+                df[col] = df[col].dt.strftime('%d/%m/%Y')
+                break
+            except Exception:
+                continue
     return df
 
 def read_file(file_path):
     if file_path.endswith('.csv'):
-        data = pd.read_csv(file_path)
+            try:
+                data = pd.read_csv(file_path)
+            except UnicodeDecodeError:
+                try:
+                    data = pd.read_csv(file_path, encoding='ISO-8859-1')
+                except:
+                    data = pd.read_csv(file_path, encoding='utf-8', errors='replace')
+
     elif file_path.endswith('.tsv'):
         try:
             data = pd.read_csv(file_path, delimiter='\t')
@@ -113,7 +145,7 @@ def read_file(file_path):
         data = pd.DataFrame()
     
     data.columns = [sanitize_column_name(col) for col in data.columns]
-    data = convert_date_columns(data)
+    data = convert_date_columns(data,date_formats)
     return data
   # remove the filepath from the session
 
@@ -129,10 +161,11 @@ def cleanup_expired_sessions():
         return  # exit the function as the file exists in the specified directory
 
     # Check if the session is expired
-    # This is a simple example; your session management might be different.
+    
     elif 'expiration_time' in session and session['expiration_time'] <= time.time():
         os.remove(filepath)
         session.pop('uploaded_file_path', None)
+    session.clear()
 @FileAnalysis.route('/fileanalysis', methods=['GET', 'POST'])
 def fileanalysis():
     sentences = []
@@ -185,7 +218,7 @@ def fileanalysis():
         
         
             session['uploaded_file_path'] = file_path  # save the file path to session
-            
+            session['uploaded_file_name'] = example_file
             session['data'] = data.to_json()  # Convert the DataFrame to JSON and store in session
             return jsonify({"columns": list(data.columns)})
             
@@ -215,6 +248,7 @@ def fileanalysis():
                 #print(filepath)
                 file.save(filepath)
                 session['uploaded_file_path'] = filepath  # save the new file path to session
+                session['uploaded_file_name'] = filename 
                 data = read_file(filepath)
                 session['data'] = data.to_json()  # Convert the DataFrame to JSON and store in new session
                 return jsonify({"columns": list(data.columns)})
@@ -238,7 +272,7 @@ def fileanalysis():
                     # Step 3: Convert the column to the desired date format
                   #   data[col] = pd.to_datetime(data[col], format='%d-%m-%Y', errors='coerce')
 
-            data=convert_date_columns(data)
+            data=convert_date_columns(data, date_formats)
             extracted_data = data[selected_columns].dropna().drop_duplicates().to_dict(orient='records')
             session['extracted_data'] = pd.DataFrame(extracted_data).to_json()
             return jsonify({"message": "Data extracted", "data": extracted_data})
@@ -310,6 +344,13 @@ def sentiment_analysis(sentences,language, sentiment_classes=3):
     "Cadarnhaol": "#c5e17a" ,     
     "Cadarnhaol Iawn": "#6ebd45" 
 }
+        ## # Determine which text to use based on the selected language
+        visualisation_text_en = "Visualisation by"
+        visualisation_text_cy = "Gweledigaeth gan"
+        if language == 'en':
+            visualisation_text = visualisation_text_en
+        elif language == 'cy':
+             visualisation_text = visualisation_text_cy
         # Generating the pie chart
         if language == 'en':
         
@@ -327,9 +368,9 @@ def sentiment_analysis(sentences,language, sentiment_classes=3):
             content = f.read()
 
         # Add the "Visualisation by" text and logo image at the bottom
-        addition = """
+        addition = f"""
     <div style="text-align:center; margin-top:30px;">
-        Visualisation by <img src="https://ucrel-freetxt-2.lancs.ac.uk/static/images/logo.png" alt="Logo" style="height:40px;">
+        {visualisation_text} <img src="https://ucrel-freetxt-2.lancs.ac.uk/static/images/logo.png" alt="Logo" style="height:40px;">
     </div>
     """
 
@@ -360,9 +401,9 @@ def sentiment_analysis(sentences,language, sentiment_classes=3):
             content = f.read()
 
         # Add the "Visualisation by" text and logo image at the bottom
-        addition = """
+        addition = f"""
     <div style="text-align:center; margin-top:30px;">
-        Visualisation by <img src="https://ucrel-freetxt-2.lancs.ac.uk/static/images/logo.png" alt="Logo" style="height:40px;">
+        {visualisation_text} <img src="https://ucrel-freetxt-2.lancs.ac.uk/static/images/logo.png" alt="Logo" style="height:40px;">
     </div>
     """
 
@@ -432,6 +473,7 @@ def handle_selected_rows():
     merged_rows = data.get('mergedData', [])
     print(merged_rows)
     language = data.get('language', 'en')
+    session['language']=language
     # Get word frequencies
     words = []
     for sentence in merged_rows:
@@ -470,9 +512,13 @@ def handle_selected_rows():
     sentences = [[s] for s in merged_rows]
     wordTreeData = sentences
     random_word = random.choice(list(sorted_word_frequencies.keys()))
-    search_word = random_word
+  
+    cleaned_word = random_word.translate(str.maketrans('', '', string.punctuation))
+
+    search_word = cleaned_word
+    df = pd.DataFrame(merged_rows, columns=['text'])
+    analyser = KWICAnalyser(df,language)
         # Initialize the KWICAnalyser with the merged rows
-    analyser = KWICAnalyser(' '.join(merged_rows))
     
     # Get the sorted unique list of semantic tags
     sorted_unique_tags = analyser.get_sorted_unique_tags()
@@ -521,7 +567,8 @@ def generate_wordcloud():
 #print(cloud_shape_path)
         if cloud_shape_path== '':
                 cloud_type = 'all_words'
-                cloud_shape_path = 'https://ucrel-freetxt-2.lancs.ac.uk/static/images/img/cloud.png'
+                #cloud_shape_path = 'https://ucrel-freetxt-2.lancs.ac.uk/static/images/img/cloud.png'
+                cloud_shape_path = '/home/khallafn/Freetxt-flask/website/static/images/img/cloud.png'
                 cloud_outline_color= 'white'
                 cloud_measure='KENESS'
        
@@ -541,6 +588,7 @@ def generate_wordcloud():
             language = 'en'  # default to English if detection fails
         
         cloud_generator = WordCloudGenerator(input_data)
+
         wc_path,word_list = cloud_generator.generate_wordcloud( cloud_shape_path, cloud_outline_color, cloud_type, language,cloud_measure,wordlist={})
         session['word_cloud_src'] = wc_path
        
@@ -559,10 +607,10 @@ def analyse():
     selected_tag = request.form.get('tag_selection')
     selected_semantic = request.form.get('sem_selection')
     kwic_option = request.form.get('kwic_option')
-    
+    language = session.get('language')
     data_json = session.get('mergedData')
     input_data = pd.DataFrame(data_json)
-    analyzer = KWICAnalyser(input_data)
+    analyzer = KWICAnalyser(input_data,language)
 
     if kwic_option == "word" and selected_word:
         kwic_results = analyzer.get_kwic(selected_word, window_size)
@@ -615,11 +663,13 @@ def generate_pdf():
     if request.method == 'POST':
         selected_sections = request.form.getlist('sections') if 'sections' in request.form else []
         #print(selected_sections)
-        if 'sentiment_data' in session:
-            sentimentData = session.get('sentiment_data')
-            
-            
-        sentiment_content = sentimentData
+        if 'keyword_results' in session:
+            keyword_results = session.get('keyword_results')
+            keyword_content = [{'Left Context': item[0], 'Keyword': item[1], 'Right Context': item[2]} for item in keyword_results]
+        else:
+            keyword_content=[{'Left Context':'please select a keyword first','Keyword':'','Right Context':''}] 
+        file_name = session.get('uploaded_file_name', 'No file uploaded')
+        
         sentiment_explanation = request.form['sentiment_explanation'] if 'sentiment_explanation' in request.form else ""
         ##request.form['sentimentViewContent'] if 'sentimentViewContent' in request.form else ""
         #SentimentPlot = request.form['SentimentPlot'] if 'SentimentPlot' in request.form else ""
@@ -633,10 +683,10 @@ def generate_pdf():
         word_cloud_image_src = request.form['wordCloudImageSrc'] if 'wordCloudImageSrc' in request.form else ""
         rendered_html = render_template('report.html', 
                                         # Assuming you want to use it in the template
-                                       sentiment_content=sentiment_content, SentimentPlot=SentimentPlot,
+                                       keyword_content=keyword_content, SentimentPlot=SentimentPlot,
                                        SentimentPlotbar=SentimentPlotbar,wordtree=wordtree, sentiment_explanation=sentiment_explanation,
                                        word_cloud_image_src=word_cloud_image_src, summary = summary, selected_sections=selected_sections,
-                                      cloudmeasure= cloudmeasure, 
+                                      cloudmeasure= cloudmeasure, file_name=file_name,
                                        cloudtype=cloudtype, datetime=datetime)
         # Convert HTML to PDF using WeasyPrint
         pdf = HTML(string=rendered_html).write_pdf()
@@ -751,14 +801,75 @@ def get_html_bar():
 def get_html_scatter():
     if 'scatter_html' in session:
         scatter_html = session.get('scatter_html')
-        filename = os.path.basename(scatter_html)      
-    return send_from_directory(directory='static/wordcloud/', path=filename, as_attachment=True)
+        
+        # Extracting the base filename and its extension
+        base, ext = splitext(basename(scatter_html))
+        
+        # Appending '_logo' before the file extension
+        filename_with_logo = f"{base}_logo{ext}"
 
+        # Sending the file from the directory
+        return send_from_directory(directory='static/wordcloud', path=filename_with_logo, as_attachment=True)
+    else:
+        # Handle the case where 'scatter_html' is not in session
+        return "Scatter HTML not found in session", 404
+
+
+
+@FileAnalysis.route('/get_image_scatter')
+def get_image_scatter():
+    if 'scatter_html' in session:
+        scatter_html = session.get('scatter_html')
+        absolute_html_path = os.path.join(FileAnalysis.root_path, scatter_html.strip('/'))
+
+        if os.path.exists(absolute_html_path):
+            # Read and modify the HTML content
+            with open(absolute_html_path, 'r', encoding="utf-8") as file:
+                html_content = file.read()
+
+            modified_html_content = '<style>body { background: white; }</style>' + html_content
+
+            # Define the path for the modified HTML file
+            modified_html_filename = 'modified_scatter.html'
+            modified_html_path = os.path.join('/home/khallafn/Freetxt-flask/website/static/wordcloud', modified_html_filename)
+
+            # Write the modified HTML content to the file
+            with open(modified_html_path, 'w', encoding="utf-8") as file:
+                file.write(modified_html_content)
+
+            # Convert the modified HTML to an image
+            hti = Html2Image()
+            output_filename = 'scatter_image.png'
+            path = str(FileAnalysis.root_path) + str('/static/wordcloud/')
+            output_image_path = os.path.join(path, output_filename)
+
+            hti.output_path = '/home/khallafn/Freetxt-flask/website/static/wordcloud/'
+            try:
+    # Attempt to generate and save the image
+               hti.screenshot(html_file=modified_html_path, save_as=output_filename)
+               print("Image generated successfully")
+               print("Image file exists:", output_image_path)
+            except Exception as e:
+    # If an error occurs, print the error message
+               print("Error in generating the image:", e)
+
+            # Return the image file as a downloadable response
+            return send_file(output_image_path, output_filename, as_attachment=True)
+
+        else:
+            return "Scatter HTML file not found", 404
 
 def add_logo_and_text_to_image(image_path):
     # Open the word cloud image
     wc_image = Image.open(image_path)
-
+    visualisation_text_en = "Visualisation by"
+    visualisation_text_cy = "Gweledigaeth gan"
+    language = session.get('language')
+    print(language)
+    if language == 'en':
+            visualisation_text = visualisation_text_en
+    elif language == 'cy':
+             visualisation_text = visualisation_text_cy
     # Open the logo image (update the path to your logo's path)
     logo_image = Image.open("home/khallafn/Freetxt-flask/website/static/images/logo.png")
     logo_image = logo_image.resize((100, 40))  # Resize logo
@@ -769,7 +880,7 @@ def add_logo_and_text_to_image(image_path):
     # Optionally add text
     draw = ImageDraw.Draw(wc_image)
     font = ImageFont.load_default()  # Or specify a custom font
-    draw.text((120, wc_image.height - 45), "Visualisation by", (0, 0, 0), font=font)
+    draw.text((120, wc_image.height - 45),  visualisation_text, (0, 0, 0), font=font)
 
     # Save the modified image back to the same path
     wc_image.save(image_path)
@@ -871,7 +982,8 @@ def regenerate_wordcloud():
         cloud_measure = request_data['cloud_measure']
         if cloud_shape_path == '':
             cloud_type = 'all_words'
-            cloud_shape_path = 'https://ucrel-freetxt-2.lancs.ac.uk/website/static/images/img/cloud.png'
+            #cloud_shape_path = 'https://ucrel-freetxt-2.lancs.ac.uk/website/static/images/img/cloud.png'
+            cloud_shape_path = '/home/khallafn/Freetxt-flask/website/static/images/img/cloud.png'
             cloud_outline_color= 'white'
             cloud_measure='KENESS'
         # Extract the data and filter based on provided words
@@ -890,10 +1002,8 @@ def regenerate_wordcloud():
             language = 'en'  # default to English if detection fails
         
         cloud_generator = WordCloudGenerator(input_data)
-        wc_path, word_list = cloud_generator.generate_wordcloud( cloud_shape_path, cloud_outline_color, cloud_type, language ,cloud_measure, provided_words)
-       
+        wc_path,word_list = cloud_generator.generate_wordcloud( cloud_shape_path, cloud_outline_color, cloud_type, language,cloud_measure,wordlist=provided_words)
         session['word_cloud_src'] = wc_path
-
         return jsonify({
             "status": "success",
             "wordcloud_image_path": wc_path,

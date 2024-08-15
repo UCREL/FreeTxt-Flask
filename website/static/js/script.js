@@ -1,3 +1,587 @@
+const translations = {
+    'en': {
+      '#meaning-analysis-btn': "What can I do in 'Meaning Analysis'?",
+      '#meaning-analysis-panel': `
+        <p>
+          Another way of thinking of <strong>Meaning Analysis</strong> is <strong>Sentiment Analysis</strong>. This allows us to 'analyse' free-text according to what it tells us about how the respondents 'feel' about whatever we have asked them to give comments on. 'Sentiment' is another way of saying 'feeling' but could include respondents' opinions or reactions too.
+        </p>
+        <p>
+          In <strong>Meaning Analysis</strong>, you will find the tools to carry out your own <strong>sentiment analysis</strong>. It might be useful to get a broad idea of how <em>positive</em> or <em>negative</em> the feedback you have received is. Once you have selected the data you want to use and put it into the program, your first option is between <strong>3 class sentiments</strong> or <strong>5 class sentiments</strong>.
+        </p>
+        <h3><strong>3 class sentiments</strong></h3>
+        <p>Will let you <strong>analyse</strong> your data according to what percentage of it indicates (1) positive (2) neutral (3) negative feelings (<strong>sentiment</strong>).</p>
+        <h3><strong>5 class sentiments</strong></h3>
+        <p>Will let you <strong>analyse</strong> your data according to what percentage of it indicates (1) very positive (2) positive (3) neutral (4) negative (5) very negative feelings (<strong>sentiment</strong>).</p>
+        <p>
+          This information can be presented as (i) a <em>pie chart</em> (ii) a <em>bar chart</em> and/or (iii) a <em>sentiment table</em>. You will also see an <strong>overall sentiment</strong> score giving a general indication of whether the overall sentiment of your data is negative, neutral or positive.
+        </p>
+       
+      `,
+      '#carry-out-button': "How can I carry out a 'Meaning Analysis'?",
+      '#carry-out-panel': `
+          <p>From the FreeTxt <strong>Home</strong> page, click on <strong>Analysis</strong>.</p>
+          <ol>
+              <li><strong>Paste a text</strong> [copy and paste text into the box - this is useful if your data is not a .txt, .tsv or .xlsx file e.g. data you may have in a WORD document]</li>
+              <li><strong>Use example data</strong> [you will need to select from the options below - this is useful if you just want to try out this tool initially]</li>
+              <li><strong>Upload data file</strong> [this allows you to upload data directly by clicking on choose file and selecting the appropriate file. This option only works for .txt, .tsv or .xlsx files - see (i) above]</li>
+          </ol>
+      `,
+      '#meaning-start-button': "How to start?",
+      '#meaning-start-panel': `
+          <p>Click on <strong>View Data</strong>. Your data is displayed (if you have gone for option (i) above, you will able to select <strong>split sentences</strong> or <strong>whole text</strong> for your data display).</p>
+          <p>The <strong>Start Analysis</strong> bar at the bottom of the screen will flash and clicking on it will open up seven colour-coded options. Click on the black one <strong>Meaning Analysis.</strong></p>
+          <hr>
+                <img  src="./static/images/img/analysis/Pic1.png" class="special-image">
+          <hr>
+          <p>You then have the option of categorizing the sentiments in your data as 3 class sentiments or 5 class sentiments depending on which is most relevant to the level of information you need for your analysis.</p>
+          <hr>
+                <img  src="./static/images/img/analysis/Pic2.png" class="special-image">
+          <hr>
+          <p>The analysis will then be presented as a 3 class sentiment or a 5 class sentiment (i) <strong>pie chart</strong> and (ii) <strong>bar chart</strong>. By clicking on the <strong>download interactive...</strong> tab under each one, you can save a copy of the required chart(s) as a discrete file. An example of the bar chart is shown below. On the y-axis you can see the ‘<strong>count</strong>’, which indicates the number of times sentences in the text were classified according to each type of <strong>sentiment</strong> shown on the x-axis (i.e. negative, neutral, and positive here). If you scroll over each bar in the bar chart (or piece of the pie chart), the <strong>count</strong> will also be shown.</p>
+          <hr>
+                <img  src="./static/images/img/analysis/Pic3.png" class="special-image">
+          <hr>
+          <p>At the top of the <strong>pie chart</strong> and <strong>bar chart</strong> you will see a little camera icon. By clicking this, you can take a screenshot of your chart, for future use.</p>
+          <hr>
+                <img  src="./static/images/img/analysis/Pic4.png" class="special-image">
+             <hr>
+          <p>In addition, there is a <strong>sentiment table</strong>. In the example below, an overall sentiment score is given which in the case of the data analyzed below, suggests an overall positive sentiment. The number of entries viewed can be changed from 10 to up to 100 entries at a time. The <strong>sentiment label</strong> column will list either one of the 3 class sentiments appropriate to the selected sentence in the table or one of the 5 class sentiments depending on what you chose earlier. The <strong>confidence score</strong> tells you how confident FreeTxt is with the accuracy of the score given here. A confidence score of 0.99 (out of 1) tells you that the tool is very confident that the sentiment label is correct. By clicking on <strong>sentiment label</strong> or <strong>confidence score</strong> you can order your data according to sentiment or confidence accordingly.</p>
+          <hr>
+              <img  src="./static/images/img/analysis/Pic5.png" class="special-image">
+          <hr>
+          <p>The <strong>download sentiment table</strong> allows you to keep your own discrete copy of the <strong>sentiment table</strong> for the data you are analyzing.</p>
+      `,
+      '#sentiment-button': "What can I do in 'Sentiment Chart'?",
+      '#sentiment-panel': `
+          <p>The <strong>Sentiment Chart</strong> allows you to create a <strong>scatter plot</strong> of your data. You will find an overview of what a <strong>scatter plot</strong> is and how it might be useful to you in the analysis of your data under the <strong>sentiment chart</strong> tab.</p>
+          <hr>
+                <img src="./static/images/img/analysis/Pic7.png" class="special-image">
+                <hr>        
+          <p>Below is a <strong>scatter plot</strong> based on the data in example data in FreeTxt (see 'use example data' in the 'How can I...' section). </p>
+          <hr>
+                <img src="./static/images/img/analysis/Pic8.png" class="special-image">
+                <hr>
+          <p>The top positive and top negative/neutral words are listed in columns to the right of the plot. Hovering over a word in these lists highlights where it is in the <strong>scatter plot</strong>, which is useful if you have large amounts of data to analyse. By hovering over a specific word in the <strong>scatter plot</strong>, you see information about how often it is used in the dataset, along with its’ score (ranging from -1 to 1).</p>
+         
+          <p>If you click on an individual word within the <strong>scatter plot</strong>, you can view examples of how it is used in sentences with either a positive and/or negative sentiment in your text. For example, clicking the word 'budget' in the sample data, you will see all of the occasions 'budget' is used in a sentence that has been analysed as being positive.</p>
+          <hr>
+                <img src="./static/images/img/analysis/Pic9.png" class="special-image">
+                <hr> 
+          `,
+      '#sentiment-chart-button': "How can I create a 'Sentiment Chart'?",
+      '#sentiment-chart-panel': `
+          <p>From the FreeTxt <strong>Home</strong> page, click on <strong>Analysis</strong>.</p>
+          <ol>
+              <li><strong>Paste a text</strong> [copy and paste text into the box - this is useful if your data is not a .txt, .tsv or .xlsx file e.g. data you may have in a WORD document]</li>
+              <li><strong>Use example data</strong> [you will need to select from the options below - this is useful if you just want to try out this tool initially]</li>
+              <li><strong>Upload data file</strong> [this allows you to upload data directly by clicking on choose file and selecting the appropriate file. This option only works for .txt, .tsv or .xlsx files - see (i) above]</li>
+          </ol>
+      `,
+      '#sentiment-start-button': "How to start",
+      '#sentiment-start-panel': `
+          <p>Click on <strong>View Data</strong>. Your data is displayed (if you have gone for option (i) above, you will able to select <strong>split sentences</strong> or <strong>whole text</strong> for your data display).</p>
+          <p>The <strong>Start Analysis</strong> bar at the bottom of the screen will flash and clicking on it will open up seven colour-coded options. Click on the blue one <strong>Sentiment Chart.</strong></p>
+          <hr>
+                <img src="./static/images/img/analysis/Pic10.png" class="special-image">
+                <hr> 
+          <p>A <strong>scatter plot</strong> (similar to the one above) based on the data you have inputted will then be produced.</p>
+          <p>A <strong>search the chart</strong> box allows you to look for a particular word which might be of interest to your analysis on the chart. <strong>Download interactive scatter text</strong> at the bottom of the page enables you to download a discrete copy of your own <strong>scatter plot</strong>.</p>
+      `,
+  
+      '#summarisation-button': "What can I do in 'Summarisation'?",
+      '#summarisation-panel': `
+          <p>The <strong>summarisation</strong> tab is self-explanatory. It allows you to create a basic <strong>summary</strong> of the text you are using. It is based on the <em>ACC (Welsh Automatic Text Summarisation)</em> project and you can find more information about that in the <em>Analyse</em> section of the <strong>Welsh Digital Grid</strong> site > <a href="http://digigrid.cymru/analyse/" style="text-decoration: none; color: blue;">http://digigrid.cymru/analyse/</a>.</p>
+          <p>The summariser can be useful in giving you an initial overview of your data - the main thrust of what it is telling you - and may help you to formulate the next stage of your analysis.</p>
+      `,
+  
+      '#summarisation-carry-button': "How can I carry out a 'Summarisation' of my text/data?",
+      '#summarisation-carry-panel': `
+          <p>From the FreeTxt <strong>Home</strong> page, click on <strong>Analysis</strong>.</p>
+          <ol>
+              <li><strong>Paste a text</strong> [copy and paste text into the box - this is useful if your data is not a .txt, .tsv, or .xlsx file e.g., data you may have in a WORD document]</li>
+              <li><strong>Use example data</strong> [you will need to select from the options below - this is useful if you just want to try out this tool initially]</li>
+              <li><strong>Upload data file</strong> [this allows you to upload data directly by clicking on choose file and selecting the appropriate file. This option only works for .txt, .tsv, or .xlsx files - see (i) above]</li>
+          </ol>
+          <p>Click on <strong>View Data</strong>. Your data is displayed (if you have gone for option (i) above, you will able to select <strong>split sentences</strong> or <strong>whole text</strong> for your data display).</p>
+          <p>The <strong>Start Analysis</strong> bar at the bottom of the screen will flash and clicking on it will open up seven colour-coded options. Click on the yellow one <strong>Summarisation.</strong></p>
+          <hr>
+                <img src="./static/images/img/analysis/Pic10.png" class="special-image">
+                <hr> 
+          
+          <p>This will produce a summary which equates to 40% of the text which you have uploaded. This can be adjusted to suit the needs of your particular analysis by clicking along the line above the summary.</p>
+          <hr>
+                <img src="./static/images/img/analysis/Pic11.png" class="special-image">
+                <hr> 
+          <p>Clicking on <strong>Download Summary</strong> allows you to save a copy of your summary to your own device.</p>
+      `,
+      
+      '#word-cloud-button': "What can I do in 'Word Cloud'?",
+      '#word-cloud-panel': `
+          <p>When we have a large amount of text, it can be useful sometimes to visualize everything in such a way that all the key words - that is the words which are used most often in the text - are clearly larger and more prominent than others which occur less often.</p>
+          <p>A <strong>Word Cloud</strong> is one way which enables us to do this. We call it a <strong>word cloud</strong> because this information is often (but not always) shown in the shape of a cloud. Below is an example of a <strong>word cloud</strong> (not in the shape of a cloud!) created using text relating to the TV show Dr Who:</p>
+          <hr>
+                <img src="./static/images/img/analysis/Pic12.png" class="special-image">
+                <hr> 
+          
+          <p>Clearly, the most commonly used word here is <em>Doctor</em> as we might expect (its larger size, compared to the other words, tells us this). Other commonly used words include: <em>BBC</em>, <em>series</em>, <em>time</em>, <em>episode/s</em>, <em>television</em>, and <em>first</em>.</p>
+          <p>A <strong>word cloud</strong> is a handy tool for giving us a visual representation of what the important and stand-out words in a piece of text are. This can be useful, for example, in presenting the main emphasis within a text in a simple, visual way to an audience who might be interested in the topic. An example of this is how some news outlets' online sites (e.g., Sky News) occasionally use a <strong>word cloud</strong> to illustrate what the most frequent words in an important political speech were i.e., where the main emphasis was concentrated and what that tells us about the message being conveyed. Using a <strong>word cloud</strong> to do this may be a more effective way of illustrating this to the reader than just through a news article.</p>
+      `,
+      '#word-cloud-def-button': "Is a Word Cloud only based on how often words occur in a specific text?",
+      '#word-cloud-def-panel': `
+          <p>The size of the words in some <strong>word clouds</strong> is directly related to how often they occur in the text you are looking at - these are <strong>word clouds</strong> based on the <strong>frequency</strong> of words in your text. <strong>Word clouds</strong> can also tell us about the nature of the <strong>key words</strong> in them - for example, as the word <em>the</em> is the most common word in the English language, this is the word that we expect to be used most often in a text. Showing <em>the</em> in a word cloud wouldn’t be particularly interesting as it doesn’t show us anything we wouldn’t expect. <em>The</em> is not ‘key’ to a particular text, as it is common to all texts. If a word like <em>castle</em> occurs a lot of time in your text (perhaps if you are looking at reviews of a castle!), it would be defined as ‘key’ because it isn’t expected to be common in everyday language. <strong>Key words</strong> tell us what the most significant words in a given text are (by comparing their frequency to a 100 million word dataset of written and spoken language called the British National Corpus). <strong>Key words</strong> are calculated using a measure called the <strong>keyness value</strong> and we would call a <strong>word cloud</strong> which is directly related to <strong>keyness value</strong> rather than solely frequency a <strong>key word cloud</strong>. You can choose which option you would prefer for your own analysis within the <strong>word cloud</strong> tool (see below) – the <strong>key word cloud</strong> option is the default option for FreeTxt.</p>
+      `,
+      '#word-cloud-create-button': "How can I create a 'Word Cloud' from my data?",
+      '#word-cloud-create-panel': `
+          <p>From the FreeTxt <strong>Home</strong> page, click on <strong>Analysis</strong>. You can either:</p>
+          <ol>
+              <li><strong>Paste a text:</strong> [copy and paste text into the box - this is useful if your data is not a .txt, .tsv, or .xlsx file e.g., data you may have in a WORD document]</li>
+              <li><strong>Use example data:</strong> [you will need to select from the options below - this is useful if you just want to try out this tool initially]</li>
+              <li><strong>Upload data file:</strong> [this allows you to upload data directly by clicking on <strong>choose file</strong> and selecting the appropriate file. This option only works for .txt, .tsv, or .xlsx files - see (i) above]</li>
+          </ol>
+          <p>Click on <strong>View Data</strong>. Your data is displayed (if you have gone for option (i) above, you will able to select <strong>split sentences</strong> or <strong>whole text</strong> for your data display).</p>
+          <p>The <strong>Start Analysis</strong> bar at the bottom of the screen will flash and clicking on it will open up seven colour-coded options. Click on the purple one <strong>Word Cloud.</strong></p>
+          <hr>
+                <img src="./static/images/img/analysis/Pic13.png" class="special-image">
+                <hr> 
+          <p>The next screenshot illustrates the options you will be offered to create your own bespoke word cloud based on the text / data you wish to analyse:</p>
+          <hr>
+                <img src="./static/images/img/analysis/Pic14.png" class="special-image">
+                <hr> 
+          <p>The four options are:</p>
+          <ol>
+              <li>Select cloud type: The default here is for All words. However, this can be changed to restrict the word cloud to certain parts of speech e.g., nouns, verbs. In addition, semantic tags can be selected to visualise the semantic areas. There is also the possibility to select 2 / 3 / 4 - word clusters.</li>
+              <hr>
+                <img src="./static/images/img/analysis/Pic15.png" class="special-image">
+                <hr> 
+              <li>Select cloud shape: The default option here is cloud. However, as the screenshot illustrates, the word cloud can be changed to any of the following shapes: Comment / Light bulb / Volume up / Microphone / Welsh flag / Sherlock Holmes / National Trust / Cadw / Rectangle / Circle / Cadw2</li>
+              <li>Select cloud outline colour: The default is white but further options include grey, yellow, black, green, blue, or red.</li>
+              <li>Select cloud measurement: This refers back to the section about keyness and frequency. The default option is keyness.</li>
+          </ol>
+          <hr>
+                <img src="./static/images/img/analysis/Pic16.png" class="special-image">
+                <hr> 
+          <p>The Download Word Cloud Image tab allows you to download and save any word cloud/s you may have created based on your own data. Below this you will find Word List where you can select / deselect specific words from your word cloud.</p>
+      `,
+      '#relation-button': "What can I do in 'Word Use & Relationships'?",
+      '#relation-panel': `
+          <p>Here you are able to analyse <em>how</em> the words in your data are used (in particular in connection with each other) and <em>what</em> their relationships can tell you about the wider meaning of your text. It is useful to consider more closely how different words can have a different meaning or tell a different story when they occur together. Their relationship with each other and the coming together of two words in this way can be referred to as <strong>collocations</strong>.</p>
+      `,
+      '#collocation-button': "What is a 'Collocation'?",
+      '#collocation-panel': `
+          <p>It might be helpful to think of this term <strong>collocation</strong> as two parts - the second one <strong>location</strong> tells us where something is and the first part <strong>co­­-</strong> is often used to make us think of something together (e.g. <strong>cooperate</strong> - working together). So, <strong>collocation</strong> will tell us about words which are often <strong>located together</strong> and because they are located together, they combine to give a particular meaning.</p>
+          <p>Let's look at a word like <em>pay</em> for example. On its own, it can be a verb <em>to pay someone</em> or a noun <em>I received my pay today</em>. However, it is possible to <strong>locate</strong> other words <strong>together</strong> with <em>pay</em> to create combinations with specific meanings. Some examples might be:</p>
+          <ul>
+              <li><em>Equal pay</em></li>
+              <li><em>Pay packet</em></li>
+              <li><em>Pay scale</em></li>
+              <li><em>Half pay</em></li>
+              <li><em>Gladly pay</em></li>
+              <li><em>Pay up</em></li>
+          </ul>
+          <p>These combinations all add to the meaning of the verb or noun <em>pay</em> and occur naturally in language. In the first four examples, <em>pay</em> = money or earnings but the combinations we have noted with <em>equal / packet / scale / half</em> would not work with <em>money</em> as well.</p>
+          <p><em>Equal money</em> is a possible <strong>collocation</strong> of <em>money</em> but <em>money packet</em>, <em>money scale</em> and <em>half money</em> are not.</p>
+      `,
+      '#collocation-why-button': "Why might I want to look for collocations / word relationships in FreeTxt?",
+      '#collocation-why-panel': `
+        <p>Being able to search for <strong>collocations</strong> in your text will help you get a greater understanding of meanings which only become apparent when we see two words <strong>located together</strong>. If we consider, for example, text which includes feedback on accommodation. It is probable that the word <em>room</em> will be a high frequency word, that is one which occurs very often in the text.</p>
+        <p>However, in order for the accommodation owner to understand and analyse that information in more detail, being able to identify <strong>collocations</strong> with <em>room</em> would be a very useful tool:</p>
+        <ul>
+            <li>Which adjectives <strong>collocate</strong> with <em>room</em> and what do they tell us about it e.g. <em>warm</em> or <em>hot / cold</em>; <em>noisy</em> or <em>quiet</em>; <em>double</em> or <em>single</em>.</li>
+            <li>Does the text refer to specific rooms e.g. <em>dining / bed / reception</em>?</li>
+            <li>Are there any other specific <strong>collocations</strong> which help the accommodation owner understand more about what is targeted in the feedback e.g. <em>room key / room rates / adjoining room</em>?</li>
+        </ul>
+      `,
+      '#relationship-use-button': "How can I investigate 'Word Use and Relationships' from my data?",
+      '#relationship-use-panel': `
+        <p>From the FreeTxt <strong>Home</strong> page, click on <strong>Analysis</strong>.</p>
+        <p>You can either:</p>
+        <ul>
+            <li>(i) <strong>Paste a text</strong> [copy and paste text into the box - this is useful if your data is not a .txt, .tsv or .xlsx file e.g. data you may have in a WORD document]</li>
+            <li>(ii) <strong>Use example data</strong> [you will need to select from the options below - this is useful if you just want to try out this tool initially]</li>
+            <li>(iii) <strong>Upload data file</strong> [this allows you to upload data directly by clicking on <strong>choose file</strong> and selecting the appropriate file. This option only works for .txt, .tsv or .xlsx files - see (i) above]</li>
+        </ul>
+        <p>Click on <strong>View Data</strong>.</p>
+        <p>Your data is displayed (if you have gone for option (i) above, you will able to select <strong>split sentences</strong> or <strong>whole text</strong> for your data display).</p>
+        <p>The <strong>Start Analysis</strong> bar at the bottom of the screen will flash and clicking on it will open up seven colour-coded options. Click on the brown one <strong>Word Use &amp; Relationships.</strong></p>
+        <hr>
+                <img src="./static/images/img/analysis/Pic22.png" class="special-image">
+                <hr> 
+        <p>You will be asked to <strong>select a word for analysis</strong> (see screenshot below). You will need to tell FreeTxt whether you wish to use the <strong>word category</strong> (the default setting) or choose the <strong>POS tag</strong> (<em>Part Of Speech</em>) or the <strong>Semantic tag</strong>. The word for analysis in our example is <em>hotel</em> and this is based on the example data in FreeTxt. In addition, when considering the visualization of your data, you are able to adjust the window size by clicking along the line below it.</p>
+        <hr>
+                <img src="./static/images/img/analysis/Pic23.png" class="special-image">
+                <hr> 
+        <p>The <strong>select a word for analysis</strong> options you have selected will illustrate your keyword as in the next screenshot. 10 entries are shown here but this can be adjusted by clicking on the <em>Show entries</em> box. In <strong>window size</strong>, 5 is selected so the five words to the left of the <strong>keyword</strong> are shown under <strong>Left Context</strong> as are the five to the right in <strong>Right Context</strong>. Clicking on either of these headings will arrange the data in accordance with the appropriate <strong>context</strong> selected.</p>
+        <hr>
+                <img src="./static/images/img/analysis/Pic24.png" class="special-image">
+                <hr> 
+        <p>You can also search for specific words that are used in the right and left context of your search term (this visualization is called a <strong>concordance</strong> output). To do this, simply type your word into the search box seen at the top right of the image above.</p>
+       
+        <p><strong>Download keyword results</strong> allows you to save the results from your analysis away from the FreeTxt site.</p>
+        <p>Referring to the discussions on <strong>collocations</strong> (above), a list of <strong>collocations</strong> for <em>hotel</em> in the data is presented below the <strong>concordance</strong> output. Again, this can be downloaded as a discrete file by clicking on <strong>Download Collocation Results</strong>. The example used here has limited data and so the <strong>frequency</strong> is not so great (i.e. the amount of times each word in your text occurs) - however, the greater the amount of data used, the higher the frequency number will be. The other columns relate to <strong>MI - Mutual Information</strong> and <strong>LL - Log Likelihood</strong> (the <strong>MI</strong> score is a statistical measure that shows the strength of association between words; <strong>LL</strong> is a probability statistic that compares the frequency of co-occurrence of two words). Clicking on any of the column headings will arrange the data in order of the specific column selected. Once again, this analysis can be downloaded for use outside of FreeTxt. If you selected a particular <strong>POS Tag</strong> or <strong>Semantic Tag</strong> at the start of your analysis, the words shown in this table are those which most frequently occur within that given category.</p>
+        <hr>
+                <img src="./static/images/img/analysis/Pic25.png" class="special-image">
+                <hr> 
+        <p>Finally, you are also able to visualise this data as an <strong>interactive network graph</strong> (see below). Not only does this allow you to see the connections - the relationships - between the word you have chosen, but it also allows you to move the click on items and move them around, to make them easier to see and/or to allow you to present the words in whatever way you prefer. The graph can be downloaded by clicking on the <strong>download interactive network graph</strong> tab underneath.</p>
+      
+        <hr>
+                <img src="./static/images/img/analysis/Pic26.png" class="special-image">
+                <hr> 
+        `,
+      '#word-tree-buttton': "What can I do in 'Word Tree'?",
+      '#word-tree-panel': `
+        <p>It is useful to read the user guide for <strong>Word Use and Relationships</strong> in combination with this guide as it gives information on combinations of words often referred to as <strong>collocations</strong>.</p>
+        <p>The <strong>Word Tree</strong> tab will require you to input a <strong>search word</strong>. In the case below, <em>hotel</em> (based on the FreeTxt example data) is the <strong>search word</strong>. You will be presented with information which explains what a <strong>word tree</strong> is and how to interpret the information contained within it.</p>
+        <hr>
+                <img src="./static/images/img/analysis/Pic17.png" class="special-image">
+                <hr> 
+        `,
+        '#word-tree-investigate-buttton': "How can I investigate 'Word Tree' information from my data?",
+      '#word-tree-investigate-panel': `
+        <p>From the FreeTxt <strong>Home</strong> page, click on <strong>Analysis</strong>. You can either:</p>
+        <ol>
+            <li><strong>Paste a text</strong> [copy and paste text into the box - this is useful if your data is not a .txt, .tsv or .xlsx file e.g., data you may have in a WORD document]</li>
+            <li><strong>Use example data</strong> [you will need to select from the options below - this is useful if you just want to try out this tool initially]</li>
+            <li><strong>Upload data file</strong> [this allows you to upload data directly by clicking on <strong>choose file</strong> and selecting the appropriate file. This option only works for .txt, .tsv or .xlsx files - see (i) above]</li>
+        </ol>
+  
+        <p>
+            <span data-contrast="auto">Click on </span><b><span data-contrast="auto">View Data</span></b><span data-contrast="auto">.</span>
+        </p>
+  
+        <p>
+            <span data-contrast="auto">Your data is displayed (if you have gone for option (i) above, you will able to select </span><b><span data-contrast="auto">split sentences</span></b><span data-contrast="auto"> or </span><b><span data-contrast="auto">whole text</span></b><span data-contrast="auto"> for your data display).</span>
+        </p>
+  
+        <p>
+            <span data-contrast="auto">The </span><b><span data-contrast="auto">Start Analysis</span></b><span data-contrast="auto"> bar at the bottom of the screen will flash and clicking on it will open up seven colour-coded options. Click on the green one </span><b><span data-contrast="auto">Word Tree.</span></b>
+        </p>
+        <hr>
+            <img src="./static/images/img/analysis/Pic18.png" class="special-image">
+            <hr>
+        <p>
+            <span data-contrast="auto">As mentioned above, you will be asked to </span><b><span data-contrast="auto">select a word for analysis</span></b><span data-contrast="auto"> and </span><b><span data-contrast="auto">Word Tree </span></b><span data-contrast="auto">will create a visualisation (= the </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto">) based on your selection. The screenshot below shows the </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto"> based on the </span><b><span data-contrast="auto">search word</span></b> <em><span data-contrast="auto">hotel</span></em><span data-contrast="auto"> in the FreeTxt example data. (See above for guidance on how to interpret the </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto">).</span>
+        </p>
+        <hr>
+        <img src="./static/images/img/analysis/Pic19.png" class="special-image">
+        <hr>
+        <p>
+            <span data-contrast="auto">The </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto"> is fully interactive, so you are able to click any word in the tree to see what words commonly occur before and after it. If you click on the word </span><em><span data-contrast="auto">Great</span></em><span data-contrast="auto"> in the above image, you will see the new </span><b><span data-contrast="auto">word tree </span></b><span data-contrast="auto">below. This interactive functionality means you can really delve deep into your data to see what patterns exist.</span>
+        </p>
+        <hr>
+        <img src="./static/images/img/analysis/Pic20.png" class="special-image">
+        <hr>
+        <p>
+            <span data-contrast="auto">If you scroll over any word in the </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto"> you will see information about the </span><b><span data-contrast="auto">weight</span></b><span data-contrast="auto"> of the word. This is the frequency of the word. The </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto"> below shows that the word </span><em><span data-contrast="auto">price</span></em><span data-contrast="auto"> is used once in the example text.</span>
+        </p>
+        <hr>
+            <img src="./static/images/img/analysis/Pic21.png" class="special-image">
+            <hr>
+        <p>
+            <span data-contrast="auto">Clicking on </span><b><span data-contrast="auto">Download Interactive Word Tree</span></b><span data-contrast="auto"> allows you to save a copy of the </span><b><span data-contrast="auto">word tree</span></b><span data-contrast="auto"> you have created for further use in your own analysis.</span>
+        </p>
+      `,
+  
+  
+    },
+    'cy': {
+      '#meaning-analysis-btn': "Beth alla i wneud yn 'Dadansoddi Ystyr'?",
+      '#meaning-analysis-panel': `
+        <p>
+          Ffordd arall o feddwl am <strong>Ddadansoddi Ystyr</strong> yw <strong>Dadansoddi Sentiment</strong>. Mae hyn yn caniatáu i ni 'ddadansoddi' testun rhydd yn ôl yr hyn mae'n ei ddweud wrthym am sut mae'r ymatebwyr yn 'teimlo' am beth bynnag rydym wedi gofyn iddynt roi sylwadau arno. Mae 'Sentiment' yn ffordd arall o ddweud 'teimlad' ond gallai gynnwys barn neu adweithiau'r ymatebwyr hefyd.
+        </p>
+        <p>
+          Yn <strong>Ddadansoddi Ystyr</strong>, fe welwch yr offer i gynnal eich <strong>dadansoddiad sentiment</strong> eich hun. Gallai fod yn ddefnyddiol i gael syniad bras o ba mor <em>positif</em> neu <em>negatif</em> yw'r adborth rydych chi wedi'i dderbyn. Ar ôl i chi ddewis y data rydych chi eisiau ei ddefnyddio a'i roi yn y rhaglen, eich dewis cyntaf yw rhwng <strong>sentimentau dosbarth 3</strong> neu <strong>sentimentau dosbarth 5</strong>.
+        </p>
+        <h3><strong>Sentimentau dosbarth 3</strong></h3>
+        <p>Bydd yn caniatáu i chi <strong>ddadansoddi</strong> eich data yn ôl pa ganran ohono sy'n dangos (1) teimladau positif (2) niwtral (3) negatif (<strong>sentiment</strong>).</p>
+      
+        <h3><strong>Sentimentau dosbarth 5</strong></h3>
+        <p>Bydd yn caniatáu i chi <strong>ddadansoddi</strong> eich data yn ôl pa ganran ohono sy'n dangos (1) teimladau positif iawn (2) positif (3) niwtral (4) negatif (5) negatif iawn (<strong>sentiment</strong>).</p>
+        <p>
+          Gellir cyflwyno'r wybodaeth hon fel (i) <em>siart cylch</em> (ii) <em>siart bar</em> ac/neu (iii) <em>tabl sentiment</em>. Byddwch hefyd yn gweld <strong>sgôr sentiment cyffredinol</strong> sy'n rhoi arwydd cyffredinol a yw'r cyfanswm sentiment o'ch data yn negatif, niwtral neu positif.
+        </p>
+       
+      `,
+      '#carry-out-button': "Sut galla i gynnal 'Dadansoddiad Ystyr'?",
+      '#carry-out-panel': `
+          <p>O dudalen Hafan FreeTxt, cliciwch ar <strong>Dadansoddi</strong>.</p>
+          <ol>
+              <li><strong>Gludo testun</strong> [copïo a gludo testun i'r blwch - mae hyn yn ddefnyddiol os nad yw eich data yn ffeil .txt, .tsv neu .xlsx e.e. data sydd gennych mewn dogfen WORD]</li>
+              <li><strong>Defnyddio data enghreifftiol</strong> [bydd angen i chi ddewis o'r opsiynau sy'n cael eu cynnig - mae hyn yn ddefnyddiol os ydych chi ond eisiau arbrofi gyda'r offeryn yma yn y lle cyntaf]</li>
+              <li><strong>Llwytho ffeil ddata i fyny</strong> [mae hyn yn gadael i chi lwytho data i fyny'n uniongyrchol trwy glicio ar dewiswch ffeil a dewis y ffeil briodol. Mae'r opsiwn yma'n gweithio ar gyfer ffeiliau .txt, .tsv neu .xlsx yn unig - gweler (i) uchod]</li>
+          </ol>
+      `,
+      '#meaning-start-button': "Sut i ddechrau?",
+      '#meaning-start-panel': `
+          <p>Cliciwch ar <strong>Gweld Data</strong>. Caiff eich data ei arddangos (os ydych wedi mynd am opsiwn (i) uchod, byddwch yn gallu dewis rhannu brawddegau neu destun cyfan i arddangos eich data).</p>
+          <p>Bydd y bar <strong>Dechrau Dadansoddi</strong> ar waelod y sgrin yn dechrau fflachio ac o glicio arno, bydd saith opsiwn lliwiau gwahanol ar gael i chi. Cliciwch ar yr un du <strong>Dadansoddi Ystyr</strong>.</p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture1.png" class="special-image">
+                <hr> 
+          <p>Wedyn bydd gennych yr opsiwn o gategoreiddio'r sentimentau yn eich data yn sentimentau 3 dosbarth neu sentimentau 5 dosbarth gan ddibynnu ar ba un sydd fwyaf perthnasol i'r lefel o wybodaeth sydd ei hangen arnoch ar gyfer eich dadansoddiad.</p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture2.png" class="special-image">
+                <hr> 
+          <p>Yna caiff y dadansoddiad ei gyflwyno fel (i) <strong>siart cylch</strong> a (ii) <strong>siart bar</strong> sentimentau 3 dosbarth neu 5 dosbarth. Trwy glicio ar y tab <strong>lawrlwytho rhyngweithiol</strong> o dan bob un, gallwch gadw copi o'r siart(iau) angenrheidiol fel ffeil arwahanol. Dangosir enghraifft o'r siart bar isod. Ar echelin Y, gallwch weld y ‘<strong>cyfrif</strong>’, sy'n dangos faint o weithiau cafodd brawddegau yn y testun eu dosbarthu yn ôl pob math o <strong>sentiment</strong> a ddangosir ar echelin X (h.y. negyddol, niwtral, a chadarnhaol yma). Os ydych yn sgrolio dros bob bar yn y siart bar (neu ddarn o'r siart cylch), dangosir y <strong>cyfrif</strong> hefyd.</p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture3.png" class="special-image">
+                <hr> 
+          <p>Ar ben y <strong>siart cylch</strong> a'r <strong>siart bar</strong> fe welwch eicon camera bach. Trwy glicio arno, gallwch dynnu sgrinlun o'ch siart i'w ddefnyddio yn y dyfodol.</p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture4.png" class="special-image">
+                <hr> 
+          <p>Yn ogystal, mae <strong>tabl sentiment</strong>. Yn yr enghraifft isod, rhoddir sgôr sentiment cyffredinol sydd yn awgrymu, yn achos y data a ddadansoddwyd isod, bod cyffredinoldeb y sentiment yn gadarnhaol. Gellir newid nifer y cofnodion a welir o 10 i fyny i 100 o gofnodion ar y tro. Bydd y golofn <strong>label sentiment</strong> yn rhestru naill ai un o'r sentimentau 3 dosbarth sy'n addas ar gyfer y frawddeg a ddewiswyd yn y tabl neu un o'r sentimentau 5 dosbarth yn dibynnu ar yr hyn a ddewisoch chi'n gynt. Mae'r <strong>sgôr hyder</strong> yn rhoi gwybod i chi pa mor hyderus yw FreeTxt ynghylch cywirdeb y sgôr a roddir yma. Mae sgôr hyder o 0.99 (allan o 1) yn dangos bod yr offeryn yn hyderus iawn bod y label sentiment yn gywir. Trwy glicio ar <strong>label sentiment</strong> neu <strong>sgôr hyder</strong> gallwch drefnu eich data yn ôl sentiment neu hyder yn unol â hynny.</p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture5.png" class="special-image">
+                <hr> 
+          <p>Mae'r botwm <strong>lawrlwytho tabl sentiment</strong> yn caniatáu i chi gadw copi arwahanol eich hun o'r <strong>tabl sentiment</strong> ar gyfer y data rydych yn ei ddadansoddi.</p>
+      `,
+      '#sentiment-button': "Beth alla i wneud yn 'Siart Sentiment'?",
+      '#sentiment-panel': `
+          <p>Mae'r Siart Sentiment yn gadael i chi greu plot gwasgariad o'ch data. Fe gewch drosolwg o beth yw plot gwasgariad a sut y gallai fod o ddefnydd i chi wrth ddadansoddi eich data o dan y tab siart sentiment.</p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture6.png" class="special-image">
+                <hr> 
+          <p>Isod mae plot gwasgariad wedi'i seilio ar ddata a gasglwyd o fwletinau newyddion. Mae'r geiriau cadarnhaol uchaf a'r geiriau negyddol/niwtral uchaf yn cael eu rhestru mewn colofnau i'r dde. Mae hofran uwchben gair yn y rhestri hyn yn amlygu ble y mae yn y plot gwasgariad sy'n ddefnyddiol os oes gennych lawer iawn o ddata i'w ddadansoddi. Trwy hofran dros air penodol yn y plot gwasgariad, fe welwch wybodaeth am ba mor aml mae'n cael ei ddefnyddio yn y set ddata, ynghyd â'i sgôr.</p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture7.png" class="special-image">
+                <hr> 
+          
+          <p>Os cliciwch chi ar air unigol o fewn y plot gwasgariad gallwch weld enghreifftiau o sut mae'n cael ei ddefnyddio mewn brawddegau gyda sentiment cadarnhaol a/neu negyddol yn eich testun. Er enghraifft, o glicio ar y gair 'galw' yn nata'r newyddion, fe welwch bob tro mae'r gair 'galw' yn cael ei ddefnyddio mewn brawddeg a ddadansoddwyd yn un gadarnhaol.</p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture8.png" class="special-image">
+                <hr>     
+          `,
+      '#sentiment-chart-button': "Sut galla i greu 'Siart Sentiment'?",
+      '#sentiment-chart-panel': `
+          <p>O dudalen Hafan TestunRhydd, cliciwch ar <strong>Dadansoddi</strong>.</p>
+          <ol>
+              <li><strong>Gludo testun</strong> [copïo a gludo testun i'r blwch - mae hyn yn ddefnyddiol os nad yw eich data yn ffeil .txt, .tsv neu .xlsx e.e. data sydd gennych mewn dogfen WORD]</li>
+              <li><strong>Defnyddio data enghreifftiol</strong> [bydd angen i chi ddewis o'r opsiynau sy'n cael eu cynnig - mae hyn yn ddefnyddiol os ydych chi ond eisiau arbrofi gyda'r offeryn yma yn y lle cyntaf]</li>
+              <li><strong>Llwytho ffeil ddata i fyny</strong> [mae hyn yn gadael i chi lwytho data i fyny'n uniongyrchol trwy glicio ar dewiswch ffeil a dewis y ffeil briodol. Mae'r opsiwn yma'n gweithio ar gyfer ffeiliau .txt, .tsv neu .xlsx yn unig - gweler (i) uchod]</li>
+          </ol>
+      `,
+      '#sentiment-start-button': "Sut i ddechrau",
+      '#sentiment-start-panel': `
+          <p>Cliciwch ar <strong>Gweld Data</strong>. Caiff eich data ei arddangos (os ydych wedi mynd am opsiwn (i) uchod, byddwch yn gallu dewis rhannu brawddegau neu destun cyfan i arddangos eich data).</p>
+          <p>Bydd y bar <strong>Dechrau Dadansoddi</strong> ar waelod y sgrin yn dechrau fflachio ac o glicio arno, bydd saith opsiwn lliwiau gwahanol ar gael i chi. Cliciwch ar yr un glas <strong>Siart Sentiment</strong>.</p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture9.png" class="special-image">
+                <hr> 
+          <p>Wedyn, cynhyrchir <strong>plot gwasgariad</strong> (tebyg i'r un uchod) wedi'i seilio ar y data rydych chi wedi'i fewnbynnu.</p>
+          <p>Mae blwch <strong>chwilio'r siart</strong> yn gadael i chi chwilio am air penodol ar y siart a allai fod o ddiddordeb yn eich dadansoddiad. Mae <strong>Lawrlwytho testun gwasgariad rhyngweithiol</strong> ar waelod y dudalen yn fodd i chi lawrlwytho copi arwahanol o'ch <strong>plot gwasgariad</strong> eich hunan.</p>
+      `,
+      '#summarisation-button': "Beth alla i wneud yn 'Crynodebu'?",
+      '#summarisation-panel': `
+          <p>Mae'r tab <strong>crynodebu</strong> yn hunan-esboniadol. Mae'n gadael i chi greu <strong>crynodeb</strong> sylfaenol o'r testun rydych chi'n ei ddefnyddio. Mae wedi'i seilio ar brosiect <em>ACC (Adnodd Creu Crynodebau)</em> a gallwch ddod o hyd i fwy o wybodaeth amdano yn adran <em>Nodi a Dadansoddi</em> safle <strong>Grid Digidol Cymru</strong> > <a href="https://digigrid.cymru/cy/analyse/" style="text-decoration: none; color: blue;">https://digigrid.cymru/cy/analyse/</a>.</p>
+          <p>Gall <strong>crynodebu</strong> fod yn ddefnyddiol wrth roi trosolwg gychwynnol o'ch data i chi - prif fyrdwn yr hyn mae'n ei ddweud wrthoch chi - ac fe all eich helpu i lunio cam nesaf eich dadansoddiad.</p>
+      `,
+      '#summarisation-carry-button': "Sut galla i 'Grynodebu' fy nhestun/data?",
+      '#summarisation-carry-panel': `
+          <p>O dudalen Hafan TestunRhydd, cliciwch ar <strong>Dadansoddi</strong>.</p>
+          <ol>
+              <li><strong>Gludo testun</strong> [copïo a gludo testun i'r blwch - mae hyn yn ddefnyddiol os nad yw eich data yn ffeil .txt, .tsv neu .xlsx e.e., data sydd gennych mewn dogfen WORD]</li>
+              <li><strong>Defnyddio data enghreifftiol</strong> [bydd angen i chi ddewis o'r opsiynau sy'n cael eu cynnig - mae hyn yn ddefnyddiol os ydych chi ond eisiau arbrofi gyda'r offeryn yma yn y lle cyntaf]</li>
+              <li><strong>Llwytho ffeil ddata i fyny</strong> [mae hyn yn gadael i chi lwytho data i fyny'n uniongyrchol trwy glicio ar dewiswch ffeil a dewis y ffeil briodol. Mae'r opsiwn yma'n gweithio ar gyfer ffeiliau .txt, .tsv neu .xlsx yn unig - gweler (i) uchod]</li>
+          </ol>
+          <p>Cliciwch ar <strong>Gweld Data</strong>. Caiff eich data ei arddangos (os ydych wedi mynd am opsiwn (i) uchod, byddwch yn gallu dewis rhannu brawddegau neu testun cyfan i arddangos eich data).</p>
+          <p>Bydd y bar <strong>Dechrau Dadansoddi</strong> ar waelod y sgrin yn dechrau fflachio ac o glicio arno, bydd saith opsiwn lliwiau gwahanol ar gael i chi. Cliciwch ar yr un melyn <strong>Crynodebu</strong>.</p>
+          <p>Bydd hyn yn cynhyrchu crynodeb sy'n gyfwerth â 40% o'r testun rydych chi wedi'i lwytho i fyny. Gellir newid hyn i gydweddu ag anghenion eich dadansoddiad penodol trwy glicio ar hyd y llinell uwchben y crynodeb.</p>
+          <p>Mae clicio ar <strong>Lawrlwytho Crynodeb</strong> yn gadael i chi gadw copi o'ch crynodeb i'ch dyfais eich hunan.</p>
+      `,
+      '#summarisation-carry-button': "Sut galla i 'Grynodebu' fy nhestun/data?",
+      '#summarisation-carry-panel': `
+          <p>O dudalen Hafan TestunRhydd, cliciwch ar <strong>Dadansoddi</strong>.</p>
+          <ol>
+              <li><strong>Gludo testun</strong> [copïo a gludo testun i'r blwch - mae hyn yn ddefnyddiol os nad yw eich data yn ffeil .txt, .tsv neu .xlsx e.e., data sydd gennych mewn dogfen WORD]</li>
+              <li><strong>Defnyddio data enghreifftiol</strong> [bydd angen i chi ddewis o'r opsiynau sy'n cael eu cynnig - mae hyn yn ddefnyddiol os ydych chi ond eisiau arbrofi gyda'r offeryn yma yn y lle cyntaf]</li>
+              <li><strong>Llwytho ffeil ddata i fyny</strong> [mae hyn yn gadael i chi lwytho data i fyny'n uniongyrchol trwy glicio ar dewiswch ffeil a dewis y ffeil briodol. Mae'r opsiwn yma'n gweithio ar gyfer ffeiliau .txt, .tsv neu .xlsx yn unig - gweler (i) uchod]</li>
+          </ol>
+          <p>Cliciwch ar <strong>Gweld Data</strong>. Caiff eich data ei arddangos (os ydych wedi mynd am opsiwn (i) uchod, byddwch yn gallu dewis rhannu brawddegau neu testun cyfan i arddangos eich data).</p>
+          <p>Bydd y bar <strong>Dechrau Dadansoddi</strong> ar waelod y sgrin yn dechrau fflachio ac o glicio arno, bydd saith opsiwn lliwiau gwahanol ar gael i chi. Cliciwch ar yr un melyn <strong>Crynodebu</strong>.</p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture10.png" class="special-image">
+                <hr> 
+          <p>Bydd hyn yn cynhyrchu crynodeb sy'n gyfwerth â 40% o'r testun rydych chi wedi'i lwytho i fyny. Gellir newid hyn i gydweddu ag anghenion eich dadansoddiad penodol trwy glicio ar hyd y llinell uwchben y crynodeb.</p>
+          
+          <hr>
+                <img src="./static/images/img/analysis/Picture11.png" class="special-image">
+                <hr> 
+          <p>Mae clicio ar <strong>Lawrlwytho Crynodeb</strong> yn gadael i chi gadw copi o'ch crynodeb i'ch dyfais eich hunan.</p>
+      `,
+      '#word-cloud-button': "Beth alla i wneud yn 'Cwmwl Geiriau'?",
+      '#word-cloud-panel': `
+          <p>Pan fydd llawer iawn o destun gennym, gall fod yn ddefnyddiol weithiau i ddelweddu popeth yn y fath fodd fel bod y geiriau allweddol - hynny yw y geiriau sy'n cael eu defnyddio fwyaf aml yn y testun - yn fwy ac yn fwy amlwg nag eraill sy'n digwydd yn llai aml.</p>
+          <p>Un ffordd sy'n ein galluogi ni i wneud hynny yw Cwmwl Geiriau. Rydym yn galw cwmwl geiriau arno achos bod yr wybodaeth yn cael ei dangos yn aml (ond nid bob amser) ar siâp cwmwl. Isod mae enghraifft o gwmwl geiriau (nid ar siâp cwmwl!) a gafodd ei greu gan ddefnyddio testun Saesneg yn ymwneud â'r sioe deledu Dr Who:</p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture12.png" class="special-image">
+                <hr>
+          <p>Yn amlwg, y gair mwyaf cyffredin ei ddefnydd yma yw Doctor fel y gallem ddisgwyl (mae ei faint mwy o'i gymharu â geiriau eraill yn dweud hyn wrthon ni). Mae geiriau eraill sy'n cael eu defnyddio yn gyffredin yn cynnwys: BBC, series, time, episode/s, television a first.</p>
+          <p>Mae cwmwl geiriau yn offeryn defnyddiol i roi cynrychioliad gweledol o'r geiriau pwysig sy'n sefyll allan mewn darn o destun. Gall hyn fod yn ddefnyddiol, er enghraifft, i gyflwyno'r prif bwyslais mewn testun mewn ffordd seml, weledol i gynulleidfa a all fod â diddordeb yn y pwnc. Enghraifft o hyn yw sut mae safleoedd ar-lein rhai gwasanaethau newyddion (e.e. Sky News) yn defnyddio cwmwl geiriau weithiau i ddangos y geiriau mwyaf aml eu defnydd mewn araith wleidyddol bwysig h.y. ble roedd y prif bwyslais a'r hyn mae hynny'n ei ddweud wrthon ni am y neges sy'n cael ei rhoi. Gall defnyddio cwmwl geiriau i wneud hyn fod yn ffordd fwy effeithiol o'i ddangos i'r darllenydd na thrwy erthygl newyddion yn unig.</p>
+      `,
+      '#word-cloud-def-button': "Ydy Cwmwl Geiriau dim ond wedi'i seilio ar ba mor aml mae geiriau yn digwydd mewn testun penodol?",
+      '#word-cloud-def-panel': `
+          <p>Mae maint y geiriau mewn rhai cymylau geiriau yn ymwneud yn uniongyrchol â pha mor aml maen nhw'n digwydd yn y testun rydych chi'n edrych arno - cymylau geiriau wedi'u seilio ar amlder geiriau yn eich testun yw'r rhain. Gall cymylau geiriau ddweud rhywbeth wrthon ni hefyd am natur yr allweddeiriau ynddynt - er enghraifft gan mai'r fannod y yw un o'r geiriau mwyaf cyffredin yn y Gymraeg, dyma'r gair rydym yn disgwyl iddo gael ei ddefnyddio fwyaf aml mewn testun. Fyddai dangos y mewn cwmwl geiriau ddim yn arbennig o ddiddorol gan nad yw'n dangos unrhyw beth i ni na fyddem yn ei ddisgwyl. Nid yw'r fannod y yn 'allweddol' i destun penodol gan ei bod yn gyffredin i bob testun. Pe bai gair fel castell yn digwydd lawer o weithiau yn eich testun (efallai os byddwch yn edrych ar adolygiadau o gastell!), câi ei ddiffinio yn 'allweddol' achos nid oes disgwyl iddo fod yn gyffredin mewn iaith pob dydd. Mae allweddeiriau yn dweud wrthon ni pa rai yw'r geiriau mwyaf arwyddocaol mewn testun penodol (trwy gymharu eu hamlder â set ddata 11 miliwn o eiriau o iaith ysgrifenedig, electronig a llafar yn CorCenCC). Cyfrifir allweddeiriau gan ddefnyddio mesur o'r enw gwerth allweddeirwydd a byddem yn galw cwmwl geiriau sy'n ymwneud yn uniongyrchol â gwerth allweddeirwydd yn hytrach nag amlder yn unig yn gwmwl allweddeiriau. Gallwch ddewis pa opsiwn sydd orau gennych ar gyfer eich dadansoddiad eich hunan o fewn yr offeryn cwmwl geiriau (gweler isod) – yr opsiwn cwmwl allweddeiriau yw'r un rhagosodedig yn TestunRhydd.</p>
+      `,
+      '#word-cloud-create-button': "Sut galla i greu 'Cwmwl Geiriau' o'm data?",
+      '#word-cloud-create-panel': `
+          <p>O dudalen Hafan TestunRhydd, cliciwch ar Dadansoddi.</p>
+          <ol>
+              <li><strong>Gludo testun:</strong> [copïo a gludo testun i'r blwch - mae hyn yn ddefnyddiol os nad yw eich data yn ffeil .txt, .tsv neu .xlsx e.e. data sydd gennych mewn dogfen WORD]</li>
+              <li><strong>Defnyddio data enghreifftiol:</strong> [bydd angen i chi ddewis o'r opsiynau sy'n cael eu cynnig - mae hyn yn ddefnyddiol os ydych chi ond eisiau arbrofi gyda'r offeryn yma yn y lle cyntaf]</li>
+              <li><strong>Llwytho ffeil ddata i fyny:</strong> [mae hyn yn gadael i chi lwytho data i fyny'n uniongyrchol trwy glicio ar <strong>dewiswch ffeil</strong> a dewis y ffeil briodol. Mae'r opsiwn yma'n gweithio ar gyfer ffeiliau .txt, .tsv neu .xlsx yn unig - gweler (i) uchod]</li>
+          </ol>
+          <p>Cliciwch ar <strong>Gweld Data</strong>. Caiff eich data ei arddangos (os ydych wedi mynd am opsiwn (i) uchod, byddwch yn gallu dewis <strong>rhannu brawddegau</strong> neu <strong>testun cyfan</strong> i arddangos eich data).</p>
+          <p>Bydd y bar <strong>Dechrau Dadansoddi</strong> ar waelod y sgrin yn dechrau fflachio ac o glicio arno, bydd saith opsiwn lliwiau gwahanol ar gael i chi. Cliciwch ar yr un porffor <strong>Cwmwl Geiriau.</strong></p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture13.png" class="special-image">
+                <hr>
+          <p>Mae'r sgrinlun nesaf yn dangos yr opsiynau sy'n cael eu cynnig i chi greu eich cwmwl geiriau penodol eich hunan wedi'i seilio ar y testun / data rydych chi eisiau ei ddadansoddi:</p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture14.png" class="special-image">
+                <hr>
+          <p>Dyma'r pedwar dewis:</p>
+          <ol>
+              <li>Dewiswch y math o gwmwl: Y dewis rhagosodedig yma yw Pob gair. Fodd bynnag, gellir newid hyn i gyfyngu'r cwmwl geiriau i rai rhannau ymadrodd yn unig e.e. enwau, berfau. Hefyd mae modd dewis clystyrau 2 / 3 / 4 gair.</li>
+              <hr>
+                <img src="./static/images/img/analysis/Picture15.png" class="special-image">
+                <hr>
+              <li>Dewiswch siâp y cwmwl: Yr opsiwn rhagosodedig yma yw cwmwl. Fodd bynnag, fel mae'r sgrinlun yn ei ddangos, gellir newid y cwmwl geiriau i unrhyw un o'r siapiau canlynol: Sylw / Bwlb golau / Lefel sain i fyny / Meicroffôn / Baner Cymru / Sherlock Holmes / Yr Ymddiriedolaeth Genedlaethol / Cadw / Petryal / Cylch / Cadw2</li>
+              <li>Dewiswch liw amlinell y cwmwl: Yr opsiwn rhagosodedig yw gwyn ond mae opsiynau eraill yn cynnwys llwyd, melyn, du, gwyrdd, glas, neu coch.</li>
+              <li>Dewiswch fesuriad y cwmwl: Mae hyn yn cyfeirio yn ôl i'r adran uchod am allweddeirwydd ac amlder. Yr opsiwn rhagosodedig yw allweddeirwydd.</li>
+          </ol>
+          <p>Unwaith eto, mae'r sgrinlun isod wedi'i seilio ar ddata'r bwletinau newyddion gan ddefnyddio (1) Pob gair (2) Sherlock Holmes (3) Glas a (4) Amlder:</p>
+          <hr>
+                <img src="./static/images/img/analysis/Picture16.png" class="special-image">
+                <hr>
+          <p>Mae'r tab Lawrlwytho Delwedd Cwmwl Geiriau yn gadael i chi lawrlwytho a chadw unrhyw gymylau geiriau rydych wedi'u creu. O dan hwn fe ddewch o hyd i Rhestr Geiriau lle gallwch ddewis / dad-ddewis geiriau penodol o'ch cwmwl geiriau.</p>
+      `,
+      '#relation-button': "Beth alla i wneud yn 'Defnydd a Pherthnasoedd Geiriau'?",
+      '#relation-panel': `
+          <p>Yma, gallwch chi ddadansoddi sut mae'r geiriau yn eich data yn cael eu defnyddio (yn enwedig mewn perthynas â'i gilydd) a beth all eu perthnasoedd ei ddweud wrthoch am ystyr ehangach eich testun. Mae'n ddefnyddiol ystyried yn fwy agos sut gall geiriau gwahanol fod ag ystyr wahanol neu ddweud stori wahanol pan fyddant yn digwydd gyda'i gilydd. Gellir cyfeirio at eu perthynas â'i gilydd a dau air yn dod at ei gilydd yn y ffordd yma fel cydleoliadau.</p>
+      `,
+      '#collocation-button': "Beth yw 'Cydleoliad'?",
+      '#collocation-panel': `
+          <p>Gall fod o gymorth meddwl am y term hwn cydleoliad fel dwy ran - mae'r ail ran lleoliad yn dweud ble mae rhywbeth a'r rhan gyntaf cyd- yn cael ei defnyddio'n aml i wneud i ni feddwl am rywbeth gyda'i gilydd (e.e. cydweithio - gweithio gyda'n gilydd).  Felly, bydd cydleoliad yn nodi geiriau sydd yn aml yn cael eu lleoli gyda'i gilydd ac achos eu bod nhw wedi'u lleoli gyda'i gilydd, maen nhw'n cyfuno i roi ystyr benodol. </p>
+          <p>Edrychwn ar air fel tynnu er enghraifft.  Ar ei ben ei hun, mae'n ferfenw sy'n golygu llusgo rhywbeth neu rywun, y gwrthwyneb i gwthio. Fodd bynnag, mae modd lleoli geiriau eraill gyda'i gilydd i greu cyfuniadau gydag ystyron penodol. Dyma ambell enghraifft:</p>
+          <ul>
+              <li>Tynnu llun</li>
+              <li>Tynnu raffl</li>
+              <li>Tynnu coes</li>
+              <li>Deg tynnu saith yw tri</li>
+              <li>Tynnu sylw</li>
+              <li>Tynnu i mewn</li>
+          </ul>
+          <p>Mae'r cyfuniadau hyn i gyd yn ychwanegu at ystyr y berfenw tynnu ac maen nhw'n digwydd yn naturiol yn yr iaith. Yn yr enghraifft tynnu coes, mae'r cyfuniad yn magu'r ystyr o gellwair, cael hwyl am ben rhywun. Eto i gyd, nid yw'n gwneud synnwyr cyfuno tynnu â rhannau eraill o'r corff e.e. tynnu troed, tynnu clust (er bod tynnu wyneb a tynnu gwallt yn bosibl ond gydag ystyron gwahanol iawn).</p>
+      `,
+      '#collocation-why-button': "Pam fyddwn i eisiau edrych am gydleoliadau / perthnasoedd geiriau yn TestunRhydd?",
+      '#collocation-why-panel': `
+        <p>Bydd gallu chwilio am gydleoliadau yn eich testun yn eich helpu i gael gwell dealltwriaeth o ystyron sydd ond yn dod yn amlwg pan fyddwn ni'n gweld dau air wedi'u lleoli gyda'i gilydd. Os ystyriwn, er enghraifft, destun sy'n cynnwys adborth ar lety. Mae'n debygol y bydd y gair stafell yn air amlder uchel, hynny yw un sy'n digwydd yn aml iawn yn y testun.</p>
+        <p>Fodd bynnag, er mwyn i berchennog y llety ddeall a dadansoddi'r wybodaeth yna yn fwy manwl, byddai gallu nodi cydleoliadau gyda stafell yn offeryn defnyddiol dros ben:</p>
+        <ul>
+            <li>Pa ansoddeiriau sy'n cydleoli â stafell a beth maen nhw'n ei ddweud amdani e.e. cynnes neu twym / oer; swnllyd neu tawel; dwbl neu sengl.</li>
+            <li>Ydy'r testun yn cyfeirio at stafelloedd penodol e.e. bwyta / gwely / derbynfa?</li>
+            <li>Oes yna unrhyw gydleoliadau penodol eraill sy'n helpu perchennog y llety i ddeall mwy am beth sy'n cael ei dargedu yn yr adborth e.e. allwedd stafell / pris stafell / stafell drws nesa?</li>
+        </ul>
+      `,
+      '#relationship-use-button': "Sut galla i archwilio 'Defnydd a Pherthnasoedd Geiriau' o'm data?",
+      '#relationship-use-panel': `
+        <p>O dudalen Hafan TestunRhydd, cliciwch ar Dadansoddi.</p>
+        <p>Gallwch ddewis:</p>
+        <ul>
+            <li>(i) Gludo testun [copïo a gludo testun i'r blwch - mae hyn yn ddefnyddiol os nad yw eich data yn ffeil .txt, .tsv neu .xlsx e.e. data sydd gennych mewn dogfen WORD]</li>
+            <li>(ii) Defnyddio data enghreifftiol [bydd angen i chi ddewis o'r opsiynau sy'n cael eu cynnig - mae hyn yn ddefnyddiol os ydych chi ond eisiau arbrofi gyda'r offeryn yma yn y lle cyntaf]</li>
+            <li>(iii) Llwytho ffeil ddata i fyny [mae hyn yn gadael i chi lwytho data i fyny'n uniongyrchol trwy glicio ar dewiswch ffeil a dewis y ffeil briodol. Mae'r opsiwn yma'n gweithio ar gyfer ffeiliau .txt, .tsv neu .xlsx yn unig - gweler (i) uchod]</li>
+        </ul>
+        <p>Cliciwch ar Gweld Data.</p>
+        <p>Caiff eich data ei arddangos (os ydych wedi mynd am opsiwn (i) uchod, byddwch yn gallu dewis rhannu brawddegau neu testun cyfan i arddangos eich data).</p>
+        <p>Bydd y bar Dechrau Dadansoddi ar waelod y sgrin yn dechrau fflachio ac o glicio arno, bydd saith opsiwn lliwiau gwahanol ar gael i chi. Cliciwch ar yr un brown Defnydd a Pherthnasoedd Geiriau.</p>
+        <hr>
+                <img src="./static/images/img/analysis/Picture17.png" class="special-image">
+                <hr>
+        
+        <p>Gofynnir i chi ddewis gair i'w ddadansoddi (gw. y sgrinlun isod).  Bydd angen i chi ddweud wrth TestunRhydd a ydych chi eisiau defnyddio'r categori gair (y dewis rhagosodedig) neu ddewis y tag POS (Rhannau Ymadrodd) neu'r tag semantig.  Y gair i'w ddadansoddi yn ein henghraifft ni yw Cymru ac mae hyn wedi'i seilio ar y data o'r bwletinau newyddion.  Ar ben hynny, wrth ystyried delweddu eich data, gallwch newid maint y ffenestr trwy glicio ar hyd y llinell sydd o dani.</p>
+        <hr>
+                <img src="./static/images/img/analysis/Picture18.png" class="special-image">
+                <hr>
+        
+        <p>Bydd yr opsiynau dewiswch air i'w ddadansoddi rydych chi wedi'u dewis yn dangos eich allweddair fel yn y sgrinlun nesaf. Dangosir 10 cofnod yma ond mae modd newid hynny trwy glicio ar y blwch Dangos cofnod.  Ym maint y ffenestr, dewiswyd 5 fel bod y pum gair i'r chwith o'r allweddair yn cael eu dangos o dan Cyd-destun Chwith ynghyd â phump i'r dde yn Cyd-destun De. Bydd clicio ar un o'r ddau bennawd yn trefnu'r data yn unol â'r cyd-destun priodol a ddewiswyd.</p>
+        <hr>
+                <img src="./static/images/img/analysis/Picture19.png" class="special-image">
+                <hr>
+        
+        <p>Hefyd gallwch chwilio am eiriau penodol sy'n cael eu defnyddio yng nghyd-destun chwith a de eich chwilair (yr enw am ddelweddu o'r fath yw allbwn concordans). I wneud hyn, teipiwch eich gair i'r blwch chwilio a welir ar ochr dde uchaf y llun uchod. </p>
+        <p>Mae Lawrlwytho canlyniadau allweddair yn gadael i chi gadw canlyniadau eich dadansoddiad i ffwrdd o safle TestunRhydd.</p>
+        <p>Gan gyfeirio at y trafodaethau ar gydleoliadau (uchod), cyflwynir rhestr o gydleoliadau ar gyfer Cymru o dan yr allbwn concordans. Unwaith eto, mae modd lawrlwytho hon fel ffeil arwahanol trwy glicio ar Lawrlwytho Tabl Cydleoliadau. Mae gan yr enghraifft a ddefnyddir yma ddata cyfyngedig ac felly nid yw'r amlder mor fawr (h.y. faint o weithiau mae pob gair yn eich testun yn digwydd) - fodd bynnag, mwyaf maint y data a ddefnyddir, uchaf fydd rhif yr amlder. Mae'r colofnau eraill yn ymwneud â MI - Gwybodaeth Gyffredin a LL - Tebygolrwydd Log. Unwaith eto, mae modd lawrlwytho'r dadansoddiad hwn i'w ddefnyddio y tu allan i TestunRhydd. Os ydych wedi dewis Tag POS neu Tag Semantig penodol ar ddechrau eich dadansoddiad, y geiriau sy'n cael eu dangos yn y tabl hwn yw'r rhai hynny sy'n digwydd fwyaf aml o fewn y categori penodol hwnnw.</p>
+        <hr>
+                <img src="./static/images/img/analysis/Picture20.png" class="special-image">
+                <hr>
+        <p>Yn olaf, mae modd i chi ddelweddu'r data yma fel graff rhwydwaith rhyngweithiol hefyd (gweler isod). Mae hyn yn gadael i chi weld y cysylltiadau - y perthnasoedd - rhwng y gair rydych chi wedi'i ddewis yn ogystal â gadael i chi symud y clic ar eitemau a'u symud o gwmpas, sy'n eu gwneud yn haws eu gweld a/neu yn gadael i chi gyflwyno ym mha ffordd bynnag sy orau gennych. Gellir lawrlwytho'r graff trwy glicio ar y tab lawrlwytho graff rhwydwaith rhyngweithiol oddi tanodd.</p>
+        <hr>
+                <img src="./static/images/img/analysis/Picture21.png" class="special-image">
+                <hr>
+        `,
+      '#word-tree-buttton': "Beth alla i wneud yn 'Coeden Eiriau'?",
+      '#word-tree-panel': `
+        <p>Mae'n ddefnyddiol darllen y ganllaw i ddefnyddwyr ar gyfer Defnydd a Pherthnasoedd Geiriau ochr yn ochr â'r ganllaw hon gan ei bod yn rhoi gwybodaeth ar gyfuniadau o eiriau y cyfeirir atyn nhw'n aml fel cydleoliadau.</p>
+        <p>Bydd y tab Coeden Eiriau yn gofyn i chi roi gair chwilio i mewn. Yn yr achos isod, y gair chwilio yw Cymru (wedi'i seilio ar ddata'r bwletinau newyddion). Fe gewch chi wybodaeth sy'n esbonio beth yw coeden eiriau a sut i ddehongli'r wybodaeth a gynhwysir ynddi.</p>
+        <hr>
+                <img src="./static/images/img/analysis/Picture22.png" class="special-image">
+                <hr>
+        `,
+       '#word-tree-investigate-buttton':"Sut galla i archwilio gwybodaeth 'Coeden Eiriau' o'm data?"
+       ,
+      '#word-tree-investigate-panel': `
+      
+        <p>O dudalen Hafan TestunRhydd, cliciwch ar Dadansoddi.</p>
+  
+        <p>Gallwch ddewis:</p>
+        <ol>
+            <li>Gludo testun [copïo a gludo testun i'r blwch - mae hyn yn ddefnyddiol os nad yw eich data yn ffeil .txt, .tsv neu .xlsx e.e. data sydd gennych mewn dogfen WORD]</li>
+            <li>Defnyddio data enghreifftiol [bydd angen i chi ddewis o'r opsiynau sy'n cael eu cynnig - mae hyn yn ddefnyddiol os ydych chi ond eisiau arbrofi gyda'r offeryn yma yn y lle cyntaf]</li>
+            <li>Llwytho ffeil ddata i fyny [mae hyn yn gadael i chi lwytho data i fyny'n uniongyrchol trwy glicio ar dewiswch ffeil a dewis y ffeil briodol. Mae'r opsiwn yma'n gweithio ar gyfer ffeiliau .txt, .tsv neu .xlsx yn unig - gweler (i) uchod]</li>
+        </ol>
+  
+        <p>
+            <span data-contrast="auto">Cliciwch ar </span><b><span data-contrast="auto">Gweld Data</span></b><span data-contrast="auto">.</span>
+        </p>
+  
+        <p>
+            <span data-contrast="auto">Bydd eich data ei arddangos (os ydych wedi mynd am opsiwn (i) uchod, byddwch yn gallu dewis rhannu brawddegau neu testun cyfan i arddangos eich data).</span>
+        </p>
+  
+        <p>
+            <span data-contrast="auto">Bydd y bar Dechrau Dadansoddi ar waelod y sgrin yn dechrau fflachio ac o glicio arno, bydd saith opsiwn lliwiau gwahanol ar gael i chi. Cliciwch ar yr un gwyrdd Coeden Eiriau.</span>
+        </p>
+        <hr>
+            <img src="./static/images/img/analysis/Picture22.png" class="special-image">
+            <hr>
+        <p>
+            <span data-contrast="auto">Fel soniwyd uchod, gofynnir i chi ddewis gair i'w ddadansoddi a bydd coeden eiriau yn creu delwedd (= y goeden eiriau) wedi'i seilio ar eich dewis. Mae'r sgrinlun isod yn dangos y goeden eiriau wedi'i seilio ar y gair chwilio Cymru yn y data bwletinau newyddion. (Gweler uchod am arweiniad ar sut i ddehongli'r goeden eiriau).</span>
+        </p>
+        <hr>
+        <img src="./static/images/img/analysis/Picture23.png" class="special-image">
+        <hr>
+        <p>
+            <span data-contrast="auto">Mae'r goeden eiriau yn gwbl ryngweithiol fel mae modd i chi glicio unrhyw air yn y goeden i weld pa eiriau sy'n digwydd yn aml o'i flaen ac ar ei ôl. Os cliciwch ar y gair </span><em><span data-contrast="auto">Llywodraeth</span></em><span data-contrast="auto"> yn y ddelwedd uchod, fe welwch y goeden eiriau isod. Mae'r swyddogaethedd rhyngweithiol hwn yn golygu bod modd i chi dwrio'n ddwfn yn eich data i weld pa batrymau sy'n bodoli.</span>
+        </p>
+        <hr>
+        <img src="./static/images/img/analysis/Picture24.png" class="special-image">
+        <hr>
+        <p>
+            <span data-contrast="auto">Os byddwch yn sgrolio dros unrhyw air yn y </span><b><span data-contrast="auto">goeden eiriau</span></b><span data-contrast="auto"> fe welwch wybodaeth am bwysau'r gair (‘weight’). Amlder y gair yw hwn. Mae'r goeden eiriau isod yn dangos bod y gair </span><em><span data-contrast="auto">ariannu</span></em><span data-contrast="auto"> yn cael ei ddefnyddio unwaith yn y testun enghreifftiol.</span>
+        </p>
+        <hr>
+            <img src="./static/images/img/analysis/Picture25.png" class="special-image">
+            <hr>
+        <p>
+            <span data-contrast="auto">Clicio ar </span><b><span data-contrast="auto">Lawrlwytho Coeden Eiriau Ryngweithiol</span></b><span data-contrast="auto"> yn gadael i chi gadw copi o'r </span><b><span data-contrast="auto">goeden eiriau</span></b><span data-contrast="auto"> rydych chi wedi'i chreu i'w ddefnyddio maes o law yn eich dadansoddiad eich hun.</span>
+        </p>
+      `,
+    }
+  };
+
+
 function resetToDefault() {
     // Hide all dynamic divs
     $(" #download-buttons, #Dataview, .tab-buttons, #tabs, #loading, #submit-sentences-btn, #submit-rows-btn").addClass('hidden');
@@ -1026,7 +1610,7 @@ if (allNumeric) {
         return data;
     });
         // Check if at least two rows are selected
-    if (selectedNodes.length < 2) {
+    if (selectedNodes.length < 1) {
             
             if (getCurrentLanguage() === 'cy') {
                 alert("Dewiswch o leiaf ddwy res i ddechrau dadansoddi.");
@@ -1079,7 +1663,16 @@ if (allNumericRows) {
       body: JSON.stringify({ mergedData: mergedData, language: currentLang })
       
   })
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok: ' + response.statusText);
+    }
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes('application/json')) {
+        throw new TypeError("Oops, we haven't got JSON!");
+    }
+    return response.json();
+  })
   .then(data => {
      
 
@@ -1191,15 +1784,20 @@ function reloadIframe() {
 }
 let selectedCloudType='';
 let selectedcloudmeasure='';
+let selectedCloudtext='';
+let cloudmeasuretxt='';
 function sendWordCloudRequest() {
     const cloudTypeDropdown = document.querySelector('select[name="cloud_type"]');
     selectedCloudType = cloudTypeDropdown.value;
+    selectedCloudtext = cloudTypeDropdown.options[cloudTypeDropdown.selectedIndex].text;
+    
     const cloudshapeDropdown = document.querySelector('select[name="cloud_shape"]');
     const selectedCloudshape = cloudshapeDropdown.value;
     const cloudcolorDropdown = document.querySelector('select[name="cloud_outline_color"]');
     const selectedCloudcolor = cloudcolorDropdown.value;
     const cloud_measureDropdown = document.querySelector('select[name="cloud_measure"]');
     selectedcloudmeasure = cloud_measureDropdown.value;
+    cloudmeasuretxt = cloud_measureDropdown.options[cloud_measureDropdown.selectedIndex].text;
     const wordCloudImageElement = document.getElementById('wordCloudImage');
     fetch("/generate_wordcloud", {
         method: "POST",
@@ -1750,8 +2348,8 @@ function startAnalysisexample_uploaded(event) {
 
         const summary = document.getElementById('summary').innerHTML;
         document.getElementById('summaryField').value = summary;
-        document.getElementById('Cloud_type').value = selectedCloudType;
-        document.getElementById('Cloud_measure').value = selectedcloudmeasure;
+        document.getElementById('Cloud_type').value = selectedCloudtext;
+        document.getElementById('Cloud_measure').value =cloudmeasuretxt;
        
          
             $('#pdfForm').submit();
@@ -2197,7 +2795,13 @@ $(document).ready(function() {
                 $(this).text($(this).attr('data-lang-cy'));
             }
         });
-
+          $('img[data-img-en], img[data-img-cy]').each(function() {
+            var imgSrc = (language === 'en') ? $(this).attr('data-img-en') : $(this).attr('data-img-cy');
+            $(this).attr('src', imgSrc);
+        });
+        for (const id in translations[language]) {
+            $(id).html(translations[language][id]);
+        }
         // Update the placeholder for the textarea
         var placeholderText = (language === 'en') ? 'Paste the text to analyse here' : "Gludo'r testun i'w ddadansoddi yma";
         $('#text-to-analyze').attr('placeholder', placeholderText);
@@ -2585,7 +3189,7 @@ function updateOptionsLanguage() {
 }
 function fetchAndParseCSV() {
     
-    return fetch("http://ucrel-freetxt-2.lancs.ac.uk/static/keness/Cy_tags.csv")
+    return fetch("https://ucrel-freetxt-2.lancs.ac.uk/static/keness/Cy_tags.csv")
         .then(response => response.text())
         .then(csv => {
             const results = Papa.parse(csv, { header: true });
@@ -2675,6 +3279,7 @@ function downloadSummary() {
     a.download = 'summary.txt';
     a.click();
 }
+
 document.addEventListener('DOMContentLoaded', function() {
     const feedbackTab = document.getElementById('feedback-tab');
     const feedbackButton = document.getElementById('feedback-button');
@@ -2695,7 +3300,51 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         event.stopPropagation();
     });
+
+    // Add event listener for form submission
+    feedbackForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const formData = new FormData(this); // Collect form data
+        console.log('Submitting Feedback');
+
+        // Log each form field to the console
+        for (let pair of formData.entries()) {
+            console.log(pair[0]+ ': ' + pair[1]);
+        }
+
+        // Use fetch API to send the data to the server
+        fetch('/submitfeedback', {
+            method: 'POST',
+            body: formData,
+            credentials: 'include', // If your setup requires credentials
+            headers: {
+                'Accept': 'application/json',
+            }
+        })
+        .then(response => {
+            if (response.headers.get("Content-Type").includes("application/json")) {
+                return response.json();
+            } else {
+                throw new Error('Non-JSON response from server');
+            }
+        })
+        .then(data => {
+            console.log('Success:', data);
+            // Optionally, provide feedback to the user or close the feedback tab
+            feedbackTab.style.right = '-800px'; // Close the tab
+            // Reset the form or show a success message
+            feedbackForm.reset();
+            document.getElementById("feedback-form").style.display = 'none';
+            alert(data.message); // Displaying an alert with the response message
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    });
 });
+
 
 function downloadImage() {
     const iframe = document.getElementById('scattertextIframe');
@@ -2741,48 +3390,6 @@ function downloadImage() {
 }
 
 
-
-
-
-
-
-
-window.onload = function() {
-    document.getElementById("feedback-form").addEventListener("submit", function(e) {
-        e.preventDefault();  // Prevent default form submission
-
-        var formData = new FormData(this);
-        
-
-        // Log each form field to the console
-        for (var pair of formData.entries()) {
-            console.log(pair[0]+ ': ' + pair[1]);
-        }
-        fetch('/submit-feedback', {
-            method: 'POST',
-            body: formData,  credentials: 'include',  // if your setup requires credentials
-            headers: {
-                'Accept': 'application/json',}
-        })
-        .then(response => {
-            if (response.headers.get("Content-Type").includes("application/json")) {
-                return response.json();
-            } else {
-                throw new Error('Non-JSON response from server');
-            }
-        })
-        .then(data => {
-            console.log(data); // Handle the JSON response here
-            alert(data.message);  // Displaying an alert with the response message
-            document.getElementById("feedback-form").reset();
-            document.getElementById("feedback-form").style.display = 'none';
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
-        });
-    });
-};
 
 
 

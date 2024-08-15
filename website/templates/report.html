@@ -214,29 +214,33 @@ hr {
     </div></header>
 
     <main>
-
-           {% if 'sentimentData' in selected_sections %}
+   {% if file_name %}
+        <h2>Analysis Report for: {{ file_name }}</h2>
+    {% endif %}
+{% if 'sentimentData' in selected_sections %}
         <div class="sentiment-table-container">
             <table class="sentiment-table">
                 <thead>
                     <tr>
-                        <th>Review</th>
-                        <th>Sentiment Label</th>
-                        <th>Sentiment Score</th>
+                        <th>Left Context</th>
+                        <th>Keyword</th>
+                        <th>Right Context</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in sentiment_content %}
+                    {% for item in keyword_content %}
                     <tr>
-                        <td>{{ item['Review'] }}</td>
-                        <td>{{ item['Sentiment Label'] }}</td>
-                        <td>{{ item['Sentiment Score'] }}</td>
+                        <td>{{ item['Left Context'] }}</td>
+                        <td>{{ item['Keyword'] }}</td>
+                        <td>{{ item['Right Context'] }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            <hr>
         </div>
         {% endif %}
+
 {% if 'sentimentPlotPie' in selected_sections %}
     <img src="{{ SentimentPlot }}" alt="Sentiment Pie Plot">
     <div id="sentimentExplanation">
@@ -265,12 +269,14 @@ hr {
 {% endif %}
 
 {% if 'wordTreeData' in selected_sections %}
+<h3>Word Tree</h3>
 <div>{{ wordtree |safe }}
 <hr>
 </div>
 
 {% endif %}
 {% if 'summary' in selected_sections %}
+<h3>Summary</h3>
 <div>{{ summary |safe }}
 <hr>
 </div>

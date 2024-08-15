@@ -1,0 +1,167 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "gray", "font": {"face": "Arial", "size": 40}, "id": "good", "label": "good", "shape": "dot", "size": 80.0, "title": "good"}, {"color": "green", "font": {"face": "Arial", "size": 26}, "id": "very", "label": "very", "shape": "dot", "size": 53.333333333333336, "title": "very"}, {"color": "blue", "font": {"face": "Arial", "size": 26}, "id": "so", "label": "so", "shape": "dot", "size": 53.333333333333336, "title": "so"}, {"color": "blue", "font": {"face": "Arial", "size": 26}, "id": "egg", "label": "egg", "shape": "dot", "size": 53.333333333333336, "title": "egg"}, {"color": "blue", "font": {"face": "Arial", "size": 26}, "id": "i", "label": "i", "shape": "dot", "size": 53.333333333333336, "title": "i"}, {"color": "blue", "font": {"face": "Arial", "size": 26}, "id": "too", "label": "too", "shape": "dot", "size": 53.333333333333336, "title": "too"}, {"color": "blue", "font": {"face": "Arial", "size": 26}, "id": "amount", "label": "amount", "shape": "dot", "size": 53.333333333333336, "title": "amount"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "pretty", "label": "pretty", "shape": "dot", "size": 26.666666666666668, "title": "pretty"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "tattoo", "label": "tattoo", "shape": "dot", "size": 26.666666666666668, "title": "tattoo"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "informative", "label": "informative", "shape": "dot", "size": 26.666666666666668, "title": "informative"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "customer", "label": "customer", "shape": "dot", "size": 26.666666666666668, "title": "customer"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "stuff", "label": "stuff", "shape": "dot", "size": 26.666666666666668, "title": "stuff"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "we", "label": "we", "shape": "dot", "size": 26.666666666666668, "title": "we"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "were", "label": "were", "shape": "dot", "size": 26.666666666666668, "title": "were"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "reliably", "label": "reliably", "shape": "dot", "size": 26.666666666666668, "title": "reliably"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "great", "label": "great", "shape": "dot", "size": 26.666666666666668, "title": "great"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "reviews", "label": "reviews", "shape": "dot", "size": 26.666666666666668, "title": "reviews"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "price", "label": "price", "shape": "dot", "size": 26.666666666666668, "title": "price"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "carry", "label": "carry", "shape": "dot", "size": 26.666666666666668, "title": "carry"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "quality", "label": "quality", "shape": "dot", "size": 26.666666666666668, "title": "quality"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "really", "label": "really", "shape": "dot", "size": 26.666666666666668, "title": "really"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "provided", "label": "provided", "shape": "dot", "size": 26.666666666666668, "title": "provided"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "conversation", "label": "conversation", "shape": "dot", "size": 26.666666666666668, "title": "conversation"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "sandwich", "label": "sandwich", "shape": "dot", "size": 26.666666666666668, "title": "sandwich"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "reasonably", "label": "reasonably", "shape": "dot", "size": 26.666666666666668, "title": "reasonably"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "they", "label": "they", "shape": "dot", "size": 26.666666666666668, "title": "they"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "nice", "label": "nice", "shape": "dot", "size": 26.666666666666668, "title": "nice"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "always", "label": "always", "shape": "dot", "size": 26.666666666666668, "title": "always"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "here", "label": "here", "shape": "dot", "size": 26.666666666666668, "title": "here"}, {"color": "blue", "font": {"face": "Arial", "size": 13}, "id": "some", "label": "some", "shape": "dot", "size": 26.666666666666668, "title": "some"}]);
+                  edges = new vis.DataSet([{"from": "good", "to": "very", "value": 3}, {"from": "good", "to": "so", "value": 2}, {"from": "good", "to": "egg", "value": 2}, {"from": "good", "to": "i", "value": 2}, {"from": "good", "to": "too", "value": 2}, {"from": "good", "to": "amount", "value": 2}, {"from": "good", "to": "pretty", "value": 2}, {"from": "good", "to": "tattoo", "value": 1}, {"from": "good", "to": "informative", "value": 1}, {"from": "good", "to": "customer", "value": 1}, {"from": "good", "to": "stuff", "value": 1}, {"from": "good", "to": "we", "value": 1}, {"from": "good", "to": "were", "value": 1}, {"from": "good", "to": "reliably", "value": 1}, {"from": "good", "to": "great", "value": 1}, {"from": "good", "to": "reviews", "value": 1}, {"from": "good", "to": "price", "value": 1}, {"from": "good", "to": "carry", "value": 1}, {"from": "good", "to": "quality", "value": 1}, {"from": "good", "to": "really", "value": 1}, {"from": "good", "to": "provided", "value": 1}, {"from": "good", "to": "conversation", "value": 1}, {"from": "good", "to": "sandwich", "value": 1}, {"from": "good", "to": "reasonably", "value": 1}, {"from": "good", "to": "they", "value": 1}, {"from": "good", "to": "nice", "value": 1}, {"from": "good", "to": "always", "value": 1}, {"from": "good", "to": "here", "value": 1}, {"from": "good", "to": "some", "value": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -473.6842105263158,
+            "springConstant": 0.001,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
+    <div style="text-align:center; margin-top:30px;">
+        Visualisation by <img src="https://ucrel-freetxt-2.lancs.ac.uk/static/images/logo.png" alt="Logo" style="height:40px;">
+    </div>
+    

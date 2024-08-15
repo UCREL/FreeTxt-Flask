@@ -5,6 +5,7 @@ import time
 import requests
 from langdetect import detect 
 import os 
+import nltk
 from collections import Counter
 import spacy
 from flask import Flask, render_template, request, jsonify
@@ -17,7 +18,7 @@ PUNCS = string.punctuation
 nlp = spacy.load('/home/khallafn/Freetxt-flask/en_core_web_sm-3.2.0')
 
 
-
+PUNCS += '''!→()-[]{};:"\,<>./?@#$%&*_~.'''
 import time
 import os
 
@@ -36,18 +37,19 @@ def cleanup_old_graphs(directory, age_in_seconds=20):
 
 class KWICAnalyser:
 
-    def __init__(self, text_or_dataframe):
+    def __init__(self, text_or_dataframe,language):
         # If the input is a DataFrame, extract text from its single column
         if isinstance(text_or_dataframe, pd.DataFrame):
-            # Join all rows in the single column to form a single text string
-            text = ' '.join(text_or_dataframe.iloc[:, 0])
+            
+            self.text_rows = [self._preprocess_text(row) for row in text_or_dataframe.iloc[:, 0]]
         else:
-            text = text_or_dataframe
+            # If the input is a single string
+            self.text_rows = [self._preprocess_text(text_or_dataframe)]
         self.pymusaslist = pd.read_csv('home/khallafn/Freetxt-flask/website/data/Pymusas-list.txt', names=['USAS Tags', 'Equivalent Tag'])
-        self.raw_text = text  # Store the original text
-        self.text = self._preprocess_text(text)  # Store the preprocessed text
-        #self.tokens_with_tags = self._tag_text(self.text)  # Use the preprocessed text for tagging
+        self.text = self.text_rows
         
+        #self.tokens_with_tags = self._tag_text(self.text)  # Use the preprocessed text for tagging
+        self.lang_detected= language
         self.welsh_pos_mapping = {
                 "E": "NOUN",
                 "E": "PROPN",
@@ -123,18 +125,45 @@ class KWICAnalyser:
                 keyword_indexes = [i for i, token in enumerate(tokens) if token.lower() == keyword]
             else:
                 keyword_indexes = [i for i, token in enumerate(tokens) if token.lower() == keyword.lower()]
-
-        kwic_insts = []
-        for index in keyword_indexes[:max_instances]:
-            if 0 <= index < len(tokens):
-                left_context = ' '.join(tokens[max(index - window_size, 0):index])
-                target_word = tokens[index]
-                right_context = ' '.join(tokens[index + 1:min(index + 1 + window_size, len(tokens))])
-                kwic_insts.append((left_context, target_word, right_context))
-            else:
-                print(f"Index {index} is out of range for tokens list.")
+        if not keyword_indexes:
             
+            return []
+            
+        #print("Tokens:", tokens) 
+        # Identify sentence boundaries
+        sentence_boundaries = []
+        start = None
+        for i, (token, pos, sem_tag) in enumerate(self.tokens_with_semantic_tags):
+            if token == 'stt' and start is None:
+                start = i
+            elif token == 'edd' and start is not None:
+                sentence_boundaries.append((start, i))
+                start = None
+
+        # Process each sentence to find keyword and its context
+        kwic_insts = []
+        for start, end in sentence_boundaries:
+            sentence_tokens = tokens[start:end + 1]
+            for i, (token, pos, sem_tag) in enumerate(self.tokens_with_semantic_tags[start:end + 1]):
+                match = False
+                if by_tag:
+                    match = pos == keyword
+                elif by_sem:
+                    match = sem_tag == keyword
+                else:
+                    match = (token.lower() if lower_case else token) == keyword.lower()
+
+                if match:
+                    left_context_index = max(i - window_size, 0)
+                    right_context_index = min(i + window_size + 1, len(sentence_tokens))
+                    left_context = ' '.join(t for t, _, _ in self.tokens_with_semantic_tags[start+left_context_index:start+i] if t not in ['stt', 'edd'])
+                    right_context = ' '.join(t for t, _, _ in self.tokens_with_semantic_tags[start+i+1:start+right_context_index] if t not in ['stt', 'edd'])
+                    kwic_insts.append((left_context, token, right_context))
+                    if len(kwic_insts) >= max_instances:
+                        return kwic_insts
+
         return kwic_insts
+
     
     def get_top_n_words(self, remove_stops=False, topn=30):
         text_tokens = [word for word in self.text.split() if word not in STOPWORDS] if remove_stops else self.text.split()
@@ -156,7 +185,12 @@ class KWICAnalyser:
     def plot_coll_14(self, keyword, collocs, output_file='network.html'):
         words, counts = zip(*collocs)
         top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
-        print(top_collocs_df)
+        visualisation_text_en = "Visualisation by"
+        visualisation_text_cy = "Gweledigaeth gan"
+        if self.lang_detected == 'en':
+            visualisation_text = visualisation_text_en
+        elif self.lang_detected == 'cy':
+             visualisation_text = visualisation_text_cy
         top_collocs_df.insert(1, 'source', keyword)
         top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword]  # remove row where keyword == word
         G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
@@ -197,9 +231,9 @@ class KWICAnalyser:
              html = file.read()
 
     # Add the "Visualisation by" text and logo
-        addition = """
+        addition = f"""
     <div style="text-align:center; margin-top:30px;">
-        Visualisation by <img src="https://ucrel-freetxt-2.lancs.ac.uk/static/images/logo.png" alt="Logo" style="height:40px;">
+        {visualisation_text} <img src="https://ucrel-freetxt-2.lancs.ac.uk/static/images/logo.png" alt="Logo" style="height:40px;">
     </div>
     """
         html += addition
@@ -299,10 +333,16 @@ class KWICAnalyser:
         Function to tag the input text with semantic tags using the Pymsas API.
         
         """
-        
+         # Concatenate all texts with unique start and end tags
+        concatenated_text =  " [stt.] " + " [edd.] [stt.] ".join(self.text_rows) + " [edd.] "
+        text= concatenated_text
         # Detect the language of the text
-        lang_detected = detect(text)
-        tags_to_remove = ['Unmatched', 'Grammatical bin', 'Pronouns', 'Period', 'Being','Discourse Bin','Negative','PUNCT']        
+          # Detect the language of the concatenated text
+        try:
+            lang_detected = detect(concatenated_text)
+        except:
+            lang_detected = 'en'
+        tags_to_remove = [ 'Grammatical bin', 'Pronouns', 'Period', 'Being','Discourse Bin','Negative','PUNCT']        
 
         if lang_detected == 'cy':
             text = text.strip().replace('‘', "'").replace('’', "'")
@@ -313,7 +353,7 @@ class KWICAnalyser:
                 'lang': (None, 'cy'),
                 'text': text,
             }
-            response = requests.post('http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl', files=files)
+            response = requests.post('http://ucrel-api-02.lancaster.ac.uk/cgi-bin/pymusas.pl', files=files)
             
             # Read the response into a DataFrame
             cy_tagged = pd.read_csv(io.StringIO(response.text), sep='\t')
@@ -327,7 +367,7 @@ class KWICAnalyser:
             
             merged_df.loc[merged_df['Equivalent_Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent_Tag'] 
             #merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
-            merged_df = merged_df[~merged_df['USAS Tags'].isin(tags_to_remove)]
+           # merged_df = merged_df[~merged_df['USAS Tags'].isin(tags_to_remove)]
             merged_df = merged_df[merged_df['USAS Tags'].notnull()]
             merged_df['POS'] = merged_df['POS'].map(self.welsh_pos_mapping).fillna('unknown')
 
@@ -337,6 +377,7 @@ class KWICAnalyser:
             
 
         elif lang_detected == 'en':
+            text = text.translate(str.maketrans('', '', PUNCS))
             files = {
         'type': (None, 'rest'),
         'email': (None, 'hello'),
@@ -345,7 +386,7 @@ class KWICAnalyser:
         'text': (None, text),
         }
 
-            response = requests.post('http://ucrel-api-01.lancaster.ac.uk/cgi-bin/usas.pl', files=files)
+            response = requests.post('http://ucrel-api-02.lancaster.ac.uk/cgi-bin/usas.pl', files=files)
 
             # Column names
             columns = ['Text', 'POS', 'Lemma', 'USAS Tags']
@@ -361,10 +402,13 @@ class KWICAnalyser:
             # Split the tags and keep only the first tag
             en_tagged['USAS Tags'] = en_tagged['USAS Tags'].str.split().str[0]
 
-            # Remove '+' and '-'
-            en_tagged['USAS Tags'] = en_tagged['USAS Tags'].str.split().str[0]  # Keep only the first tag
-            en_tagged['USAS Tags'] = en_tagged['USAS Tags'].str.replace('[+-]', '', regex=True)  # Remove '+' and '-'
-            en_tagged['USAS Tags'] = en_tagged['USAS Tags'].str.replace('([A-Za-z]+\d+).*', r'\1', regex=True)  # Remove characters following the pattern 'letter + number' 
+        
+            
+
+            en_tagged['USAS Tags'] = en_tagged['USAS Tags'].str.replace(r'\[.*', '', regex=True)  # Remove everything after [
+            en_tagged['USAS Tags'] = en_tagged['USAS Tags'].str.replace(r'\/.*', '', regex=True)  # Remove everything after /
+            en_tagged['USAS Tags'] = en_tagged['USAS Tags'].str.replace(r'(\d)[A-Za-z]+', r'\1', regex=True)
+            en_tagged['USAS Tags'] = en_tagged['USAS Tags'].str.replace(r'(\+|-)[A-Za-z+-]*', r'\1', regex=True)
 
             merged_df = pd.merge(en_tagged, self.pymusaslist, on='USAS Tags', how='left')
             
@@ -372,7 +416,7 @@ class KWICAnalyser:
             
             merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag']
             merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
-            merged_df = merged_df[~merged_df['USAS Tags'].isin(tags_to_remove)]
+            #merged_df = merged_df[~merged_df['USAS Tags'].isin(tags_to_remove)]
             merged_df = merged_df[merged_df['USAS Tags'].notnull()]
             pos_tag_mapping = {}
             for broader_category, pos_tags in self.claws_c7_mapping.items():
@@ -460,13 +504,25 @@ class KWICAnalyser:
     
         return sorted_unique_tags
 
-    def get_word_frequencies(self):
+    def filter_words(self, word_tag_pairs):
+        """Return a list with stopwords, punctuation, and specific tags removed."""
         
-        word_frequencies = {}
-        for token, pos, tag in self.tokens_with_semantic_tags:
-            if token in word_frequencies:
-                word_frequencies[token] += 1
-            else:
-                word_frequencies[token] = 1
-                
+        specific_tokens_to_remove = {'stt', 'edd'}  # Add any specific tokens to remove here
+        tags_to_remove = {'Grammatical bin', 'Pronouns', 'Period', 'Being', 'Discourse Bin', 'Negative', 'PUNCT', 'Unmatched'}  # Add any specific tags to remove here
+
+        return [word for word, tag in word_tag_pairs if str(word) not in STOPWORDS and str(word) not in PUNCS and str(word) not in specific_tokens_to_remove and tag not in tags_to_remove]
+
+    def get_word_frequencies(self):
+        # Extract tokens and their tags from the tuples
+        token_tag_pairs = [(token, tag) for token, pos, tag in self.tokens_with_semantic_tags]
+
+        # Apply the filter to remove stopwords, punctuation, and specific tags
+        filtered_tokens = self.filter_words(token_tag_pairs)
+
+        # Calculate word frequencies using nltk.FreqDist
+        fdist = nltk.FreqDist(filtered_tokens)
+
+        # Convert the frequency distribution to a dictionary
+        word_frequencies = dict(fdist)
+
         return word_frequencies

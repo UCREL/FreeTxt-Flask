@@ -138,7 +138,13 @@ class SentimentAnalyser:
             ).build()
         
         term_scorer = st.RankDifference()
-       
+         ## # Determine which text to use based on the selected language
+        visualisation_text_en = "Visualisation by"
+        visualisation_text_cy = "Gweledigaeth gan"
+        if language == 'en':
+            visualisation_text = visualisation_text_en
+        elif language == 'cy':
+             visualisation_text = visualisation_text_cy       
         if language == 'en':
             html = st.produce_scattertext_explorer(
             corpus,
@@ -148,7 +154,7 @@ class SentimentAnalyser:
             not_categories=df["Sentiment Label"].unique().tolist(),
             minimum_term_frequency=5,
             pmi_threshold_coefficient=5,
-            width_in_pixels=1000,
+            width_in_pixels=900,
             metadata=df["Sentiment Label"],
             term_scorer=term_scorer
         ) 
@@ -161,7 +167,7 @@ class SentimentAnalyser:
             not_categories=df["Sentiment Label"].unique().tolist(),
             minimum_term_frequency=5,
             pmi_threshold_coefficient=5,
-            width_in_pixels=1000,
+            width_in_pixels=900,
             metadata=df["Sentiment Label"],
             term_scorer=term_scorer
         ) 
@@ -178,24 +184,33 @@ class SentimentAnalyser:
             html = html.replace('Search the chart', 'Chwilio’r siart')
             html = html.replace('per', 'fesul')
             html = html.replace('words', 'gair')
-            html = html.replace('score', 'sgôr')        
-
+            html = html.replace('score', 'sgôr')
+            html = html.replace('frequency','amlder')        
+            html = html.replace('terms','termau')
+            html = html.replace('docs','dogfennau')
+            html = html.replace('documents','dogfennau')
+            html = html.replace('Not found in any','Heb ei g/eu canfod o gwbl')
+            html = html.replace('Some of the','Rhai o’r')
+            html = html.replace('mentions','crybwylliadau')
 
         timestamp = int(time.time())
 
         # Constructing the file path
         filename = os.path.join("/home/khallafn/Freetxt-flask/website/static/wordcloud", f"scattertext_visualization_{timestamp}.html")
-        addition = """
-    <div style="text-align:center; margin-top:30px;">
-        Visualisation by <img src="https://ucrel-freetxt-2.lancs.ac.uk/static/images/logo.png" alt="Logo" style="height:40px;">
-    </div>
-    """
-        html += addition
-        
-    # Saving the updated HTML content to the file with UTF-8 encoding
         with open(filename, "w", encoding='utf-8') as f:
             f.write(html)
             f.close()
+        addition = f"""
+    <div style="text-align:center; margin-top:30px;">
+        {visualisation_text} <img src="https://ucrel-freetxt-2.lancs.ac.uk/static/images/logo.png" alt="Logo" style="height:40px;">
+    </div>
+    """
+        html += addition
+        filename_logo = os.path.join("/home/khallafn/Freetxt-flask/website/static/wordcloud", f"scattertext_visualization_{timestamp}_logo.html")
+    # Saving the updated HTML content to the file with UTF-8 encoding
+        with open(filename_logo, "w", encoding='utf-8') as f_logo:
+            f_logo.write(html)
+            f_logo.close()
         
 
         

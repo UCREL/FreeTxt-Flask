@@ -1,0 +1,132 @@
+{% extends "template.html" %}
+{% block data %}
+<style>
+body {
+    margin: 0;
+    padding: 0;
+}
+.input-container {
+        max-width: 1100px !important; /* Adjust the width as needed */
+        margin: 0 auto; /* Center the form horizontally */
+        align-items: center;
+    }
+.input-container {
+        width: 80%; /* Adjust the width as needed */
+        margin: 0 auto; /* Center the input container */
+    }
+.content-container {
+		
+		
+    margin: 20px; /* Margin around the edges */
+    padding: 20px; /* Padding inside the div */
+    max-width: 90%; /* Maximum width of the div */
+    margin-left: auto; /* Centering the div */
+    margin-right: auto; /* Centering the div */
+}
+h2 {
+            color: #333;
+        }
+        .color-boxes {
+            justify-content: center;
+            align-content: center;
+            display: flex;
+            gap: 20px; 
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .color-box {
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            width: 150px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .blue {
+            background: linear-gradient(to right, #003366, #0066cc, #0099cc, #00ccff); 
+        }
+        .red {
+            background: linear-gradient(to  right, #660000, #990000, #cc0000, #ff6666); 
+        }
+        .yellow {
+            background: linear-gradient(to  right, #ffcc00, #ffdd33f5, #ffee66, #ffff99);
+            color: black; 
+        }
+        .orange {
+            background: linear-gradient(to  right, #cc6600, #ff9933, #ffad33, #ffcc66); 
+        }
+        .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Adjust this value based on your needs */
+    }
+</style>
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
+<!-- jQuery library -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+<h1 data-lang-en="Summary" data-lang-cy="crynodeb">Summariser</h1>
+
+<form id="text-analysis-form" method="POST" action="/summary">
+    <div id="text-input" class="input-container">
+        <h5 data-lang-en="This tool, adapted from the Welsh Summarisation project, produces a basic extractive summary of the review text from the selected columns." 
+           data-lang-cy="Mae'r offeryn hwn a gafodd ei addasu o Brosiect Crynhoi Testunau Cymraeg yn creu crynodeb echdynnol sylfaenol o destun yr adolygiad o'r colofnau a ddewiswyd.">This tool, adapted from the Welsh Summarisation project, produces a basic extractive summary of the review text from the selected columns.</h5>
+        <div class="options-container">
+            <label for="chosen_ratio">Select summary ratio:</label>
+            <input type="range" id="chosen_ratio" name="chosen_ratio" min="10" max="50" step="10" value="40" oninput="SliderChange()">
+            <span id="ratio-value">40%</span>
+        </div>
+        <textarea name="text-to-analyze" id="text-to-analyze" placeholder="Paste the text to analyse here">{{ input_text }}</textarea>
+        <button type="submit" class="analyze-btn" data-lang-en="Generate Summary" data-lang-cy="crynodeb">Generate Summary</button>
+    </div>
+</form>
+
+<div id="summary-container">
+    <h2>Summary</h2>
+    <div id="summary">{{ summary }}</div>
+</div>
+
+<script>
+    function SliderChange() {
+        let ratio = document.getElementById('chosen_ratio').value;
+        document.getElementById('ratio-value').textContent = ratio + '%';
+        
+        generateSummary(); // Call the function to generate the summary
+        updateChosenRatio(); // Update the chosen ratio value
+    }
+
+    function generateSummary() {
+        const chosen_ratio = document.getElementById('chosen_ratio').value / 100.0;
+
+        fetch('/summary', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                chosen_ratio: chosen_ratio,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('summary').innerText = data.summary;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function updateChosenRatio() {
+        let ratio = document.getElementById('chosen_ratio').value;
+        document.getElementById('chosen_ratio').setAttribute('value', ratio);
+    }
+</script>
+
+
+{% endblock %}

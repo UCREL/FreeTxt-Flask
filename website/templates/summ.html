@@ -1,0 +1,175 @@
+{% extends "template.html" %}
+{% block data %}
+<style>
+body {
+    margin: 0;
+    padding: 0;
+}
+.content-container {
+		
+		
+    margin: 20px; /* Margin around the edges */
+    padding: 20px; /* Padding inside the div */
+    max-width: 90%; /* Maximum width of the div */
+    margin-left: auto; /* Centering the div */
+    margin-right: auto; /* Centering the div */
+}
+h2 {
+            color: #333;
+        }
+        .color-boxes {
+            justify-content: center;
+            align-content: center;
+            display: flex;
+            gap: 20px; 
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .color-box {
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            width: 150px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .blue {
+            background: linear-gradient(to right, #003366, #0066cc, #0099cc, #00ccff); 
+        }
+        .red {
+            background: linear-gradient(to  right, #660000, #990000, #cc0000, #ff6666); 
+        }
+        .yellow {
+            background: linear-gradient(to  right, #ffcc00, #ffdd33f5, #ffee66, #ffff99);
+            color: black; 
+        }
+        .orange {
+            background: linear-gradient(to  right, #cc6600, #ff9933, #ffad33, #ffcc66); 
+        }
+        .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Adjust this value based on your needs */
+    }
+</style>
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
+<!-- jQuery library -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+<h1>Summariser</h1>
+<form id="text-analysis-form" method="POST" action="/summary">
+    <div id="text-input" class="input-container">
+        <textarea name="text-to-analyze" id="text-to-analyze" placeholder="Paste the text to analyze here">{{ input_text }}</textarea>
+        <div class="options-container">
+            <label for="chosen_ratio">Select summary ratio:</label>
+            <input type="range" id="chosen_ratio" name="chosen_ratio" min="10" max="50" step="10" value="10">
+            <span id="ratio-value">10%</span>
+        </div>
+        <button type="submit" class="analyze-btn">View Summary</button>
+    </div>
+</form>
+<div id="summary-container">
+    <h2>Summary</h2>
+    <div id="summary">{{ summary }}</div>
+</div>
+<h1>Summariser</h1>
+<form id="text-analysis-form" method="POST" action="/summary" enctype="multipart/form-data">
+    <!-- Radio buttons -->
+<label><input type="radio" name="input-method" value="text" onclick="toggleInputOption('text')" checked> Paste a text</label>
+<label><input type="radio" name="input-method" value="example" onclick="toggleInputOption('example')"> Use example data</label>
+<label><input type="radio" name="input-method" value="upload" onclick="toggleInputOption('upload')"> Upload data file</label>
+<div id="example-options" class="hidden">
+    <select id="example-data" onchange="selectExampleData()">
+        <option>Select example data file(s)</option>
+        <!-- List example data files here -->
+    </select>
+    <button type="submit" class="analyze-btn" onclick="startAnalysisfile_uploaded(event)">View Data</button>
+</div>
+
+<div id="file-to-analyze" class="hidden">
+    <input id = 'file' type="file" name="file" accept=".txt,.csv,.xls,.xlsx" />
+    <button type="submit" class="analyze-btn" onclick="startAnalysisfile_uploaded(event)">View Data</button>
+    <button class="analyze-btn" onclick="checkLanguage()">Check Language</button>
+    <div id="column-selection" class="hidden">
+        <h4>Select Columns</h4>
+        <div id="columns-container">
+        <select id="columns-dropdown" multiple="multiple" width = 100% onchange="viewSelectedColumns(event)"></select>
+      
+        <div id="data-table-container"></div>
+        </div>
+        
+    </div>
+    
+</div>
+
+
+<div id="text-input" class="input-container">
+    <textarea name="text-to-analyze" id="text-to-analyze" value="{{text or 'text'}}"  placeholder="Paste the text to analyse here"></textarea>
+    <div class="options-container">
+        <label>
+            <input type="radio" name="input-method" value="Split sentences" onclick="toggleInputOption('Split Sentences')" > Split sentences
+        </label>
+        <label>
+            <input type="radio" name="input-method" value="Whole Text" onclick="toggleInputOption('Whole Text')"> Whole Text
+        </label>
+    </div>
+    
+    <button type="submit" class="analyze-btn" onclick="startAnalysisfile(event)">View Data</button>
+</div>
+
+</form>
+<div>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flashes">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
+</div>
+<div id="Dataview" class="tab-buttons hidden"></div>  
+<div>
+<button class="analyze-btn hidden" id="submit-sentences-btn" onclick="sendSelectedSentences()" style="margin-bottom: 20px;">Start Analysis</button>
+</div>
+<div>
+<button type="button" class="analyze-btn hidden" id="submit-rows-btn" onclick="sendSelectedRows()" style="margin-bottom: 20px;">Start Analysis</button>
+
+</div>
+<div id="loading" style="display: none;" >
+    <img src="static/images/logo.png">
+    <img src="static/images/loading4.gif" alt="Loading..."> 
+</div>
+
+ <div class="tab-container">
+    <div class="tab-buttons hidden" id="tab-buttons">
+           <button class="tab-btn" onclick="showTab(2)"><i class="fas fa-file-alt text-size-14 text-white"></i> Summarisation</button>
+
+    </div>
+<div id="tabs" class="hidden">
+       
+       
+        
+        <div id="tab2" class="tab-content">
+            <form id="summarize-form">
+                <h5>This tool, adapted from the Welsh Summarisation project, produces a basic extractive summary of the review text from the selected columns.</h5>
+                <input type="range" id="chosen_ratio" name="chosen_ratio" min="10" max="50" step="10" value="10">
+                <span id="ratio-value">10%</span>
+            </form>
+           <div id ='summary' ></div>
+
+        </div>
+        
+        
+
+
+{% endblock %}
