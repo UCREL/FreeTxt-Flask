@@ -34,7 +34,7 @@ from nltk.tokenize import sent_tokenize
 from .models import Feedback
 from . import db
 en_stopwords = list(stopwords.words('english'))
-cy_stopwords = open('/home/khallafn/Freetxt-flask/website/data/welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
+cy_stopwords = open('/freetxt/website/data/welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
 STOPWORDS = set(en_stopwords + cy_stopwords+ ["a", "an", "the", "and", "or", "in", "of", "to", "is", "it", "that", "on", "was", "for", "as", "with", "by"])
 
 PUNCS = string.punctuation
@@ -48,11 +48,11 @@ FileAnalysis = Blueprint('fileanalysis', __name__)
 #### utilities
 ALLOWED_EXTENSIONS = {'txt', 'csv', 'xls', 'xlsx','tsv'}
 import os
-os.environ["TRANSFORMERS_CACHE"] = "/home/khallafn/Freetxt-flask/huggingface_cache"
+os.environ["TRANSFORMERS_CACHE"] = "/freetxt/huggingface_cache"
 
 
 from PIL import Image
-logo_path = "/home/khallafn/Freetxt-flask/website/static/images/logo.png"
+logo_path = "/freetxt/website/static/images/logo.png"
 def append_logo_to_image(image_path, logo_path, output_path):
     # Open the main image and the logo
     main = Image.open(image_path)
@@ -152,7 +152,7 @@ def read_file(file_path):
 def cleanup_expired_sessions():
     filepath = session.get('uploaded_file_path')
     # Path where you want to check for file existence
-    specific_path = "/home/khallafn/Freetxt-flask/website/static/example-data-hub/"
+    specific_path = "/freetxt/website/static/example-data-hub/"
     
     # Check if the file exists in the specific directory
     file_in_specific_path = os.path.join(specific_path, os.path.basename(filepath))
@@ -185,7 +185,7 @@ def fileanalysis():
             # Handle the error - maybe raise an exception or return an error response.
                 raise ValueError("The example_file is not provided or is None")
 
-            file_path = os.path.join('/home/khallafn/Freetxt-flask/website/static/example-data-hub', example_file)
+            file_path = os.path.join('/freetxt/website/static/example-data-hub', example_file)
             file_extension = os.path.splitext(file_path)[1].lower()  # Extract the file extension
 
             # Differentiate the behavior based on the file extension
@@ -362,9 +362,9 @@ def sentiment_analysis(sentences,language, sentiment_classes=3):
                  title='Dosbarthiad Sentiment', color=sentiment_counts.keys(),
                  color_discrete_map=color_map)
         plot_html_pie = fig.to_html(full_html=False)
-        fig.write_image("/home/khallafn/Freetxt-flask/website/static/Sentiment_plots/sentiment_pie.png") 
-        fig.write_html("/home/khallafn/Freetxt-flask/website/static/Sentiment_plots/sentiment_pie.html")
-        with open("/home/khallafn/Freetxt-flask/website/static/Sentiment_plots/sentiment_pie.html", "r", encoding="utf-8") as f:
+        fig.write_image("/freetxt/website/static/Sentiment_plots/sentiment_pie.png") 
+        fig.write_html("/freetxt/website/static/Sentiment_plots/sentiment_pie.html")
+        with open("/freetxt/website/static/Sentiment_plots/sentiment_pie.html", "r", encoding="utf-8") as f:
             content = f.read()
 
         # Add the "Visualisation by" text and logo image at the bottom
@@ -378,7 +378,7 @@ def sentiment_analysis(sentences,language, sentiment_classes=3):
         content = content.replace("</body>", addition + "\n</body>")
 
         # Write the updated content back to the file
-        with open("/home/khallafn/Freetxt-flask/website/static/Sentiment_plots/sentiment_pie.html", "w", encoding="utf-8") as f:
+        with open("/freetxt/website/static/Sentiment_plots/sentiment_pie.html", "w", encoding="utf-8") as f:
             f.write(content)
 
         # Generating the bar chart
@@ -392,12 +392,12 @@ def sentiment_analysis(sentences,language, sentiment_classes=3):
                  title='Dosbarthiad Sentiment', labels={'x':'Sentiment', 'y':'Cyfrif'},
                  color=list(sentiment_counts.keys()), color_discrete_map=color_map)
         fig_bar.update_traces(marker_line_color='black', marker_line_width=0.5)
-        fig_bar.write_image("/home/khallafn/Freetxt-flask/website/static/Sentiment_plots/sentiment_bar.png")
-        fig_bar_path = "/home/khallafn/Freetxt-flask/website/static/Sentiment_plots/sentiment_bar.png"
+        fig_bar.write_image("/freetxt/website/static/Sentiment_plots/sentiment_bar.png")
+        fig_bar_path = "/freetxt/website/static/Sentiment_plots/sentiment_bar.png"
        # append_logo_to_image(fig_bar_path, logo_path, fig_bar_path)
-        fig_bar.write_html("/home/khallafn/Freetxt-flask/website/static/Sentiment_plots/sentiment_bar.html")
+        fig_bar.write_html("/freetxt/website/static/Sentiment_plots/sentiment_bar.html")
         # Read the existing HTML content
-        with open("/home/khallafn/Freetxt-flask/website/static/Sentiment_plots/sentiment_bar.html", "r", encoding="utf-8") as f:
+        with open("/freetxt/website/static/Sentiment_plots/sentiment_bar.html", "r", encoding="utf-8") as f:
             content = f.read()
 
         # Add the "Visualisation by" text and logo image at the bottom
@@ -411,7 +411,7 @@ def sentiment_analysis(sentences,language, sentiment_classes=3):
         content = content.replace("</body>", addition + "\n</body>")
 
         # Write the updated content back to the file
-        with open("/home/khallafn/Freetxt-flask/website/static/Sentiment_plots/sentiment_bar.html", "w", encoding="utf-8") as f:
+        with open("/freetxt/website/static/Sentiment_plots/sentiment_bar.html", "w", encoding="utf-8") as f:
             f.write(content)
         plot_html_bar = fig_bar.to_html(full_html=False)
         return data, sentiment_counts, plot_html_pie, plot_html_bar
@@ -541,7 +541,7 @@ def handle_selected_rows():
     })
 @FileAnalysis.route('/get_exampledata_files')
 def get_files():
-    directory = '/home/khallafn/Freetxt-flask/website/static/example-data-hub'
+    directory = '/freetxt/website/static/example-data-hub'
     files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
     return jsonify(files)
 
@@ -568,7 +568,7 @@ def generate_wordcloud():
         if cloud_shape_path== '':
                 cloud_type = 'all_words'
                 #cloud_shape_path = 'https://ucrel-freetxt-2.lancs.ac.uk/static/images/img/cloud.png'
-                cloud_shape_path = '/home/khallafn/Freetxt-flask/website/static/images/img/cloud.png'
+                cloud_shape_path = '/freetxt/website/static/images/img/cloud.png'
                 cloud_outline_color= 'white'
                 cloud_measure='KENESS'
        
@@ -654,7 +654,7 @@ def analyse():
 
 @FileAnalysis.route('/get_file_list')
 def get_file_list():
-    folder_path = '/home/khallafn/Freetxt-flask/website/static/example-data-hub'  
+    folder_path = '/freetxt/website/static/example-data-hub'  
     files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
     return jsonify(files)
 
@@ -745,8 +745,8 @@ def check_language():
             english_filename = f'{original_file_name}_english.csv'
             welsh_filename = f'{original_file_name}_welsh.csv'
             # Save these dataframes to temporary CSV files and keep track of the paths
-            english_path = os.path.abspath(os.path.join('/home/khallafn/Freetxt-flask/website/static/temp', english_filename))
-            welsh_path = os.path.abspath(os.path.join('/home/khallafn/Freetxt-flask/website/static/temp', welsh_filename))
+            english_path = os.path.abspath(os.path.join('/freetxt/website/static/temp', english_filename))
+            welsh_path = os.path.abspath(os.path.join('/freetxt/website/static/temp', welsh_filename))
 
             pd.concat(english_data_dict.values()).to_csv(english_path, index=False)
             pd.concat(welsh_data_dict.values()).to_csv(welsh_path, index=False)
@@ -831,7 +831,7 @@ def get_image_scatter():
 
             # Define the path for the modified HTML file
             modified_html_filename = 'modified_scatter.html'
-            modified_html_path = os.path.join('/home/khallafn/Freetxt-flask/website/static/wordcloud', modified_html_filename)
+            modified_html_path = os.path.join('/freetxt/website/static/wordcloud', modified_html_filename)
 
             # Write the modified HTML content to the file
             with open(modified_html_path, 'w', encoding="utf-8") as file:
@@ -843,7 +843,7 @@ def get_image_scatter():
             path = str(FileAnalysis.root_path) + str('/static/wordcloud/')
             output_image_path = os.path.join(path, output_filename)
 
-            hti.output_path = '/home/khallafn/Freetxt-flask/website/static/wordcloud/'
+            hti.output_path = '/freetxt/website/static/wordcloud/'
             try:
     # Attempt to generate and save the image
                hti.screenshot(html_file=modified_html_path, save_as=output_filename)
@@ -891,7 +891,7 @@ def get_word_cloudsrc():
     if 'word_cloud_src' in session:
         word_cloud_src = session.get('word_cloud_src')
         filename = os.path.basename(word_cloud_src)
-        add_logo_and_text_to_image(os.path.join('/home/khallafn/Freetxt-flask/website/static/wordcloud/', filename))       
+        add_logo_and_text_to_image(os.path.join('/freetxt/website/static/wordcloud/', filename))       
     return send_from_directory(directory='static/wordcloud/', path=filename, as_attachment=True)
 
 
@@ -983,7 +983,7 @@ def regenerate_wordcloud():
         if cloud_shape_path == '':
             cloud_type = 'all_words'
             #cloud_shape_path = 'https://ucrel-freetxt-2.lancs.ac.uk/website/static/images/img/cloud.png'
-            cloud_shape_path = '/home/khallafn/Freetxt-flask/website/static/images/img/cloud.png'
+            cloud_shape_path = '/freetxt/website/static/images/img/cloud.png'
             cloud_outline_color= 'white'
             cloud_measure='KENESS'
         # Extract the data and filter based on provided words

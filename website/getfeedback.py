@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 import csv
 
 # Define your database connection string
-DATABASE_URI = 'sqlite:////home/khallafn/Freetxt-flask/website/feedback.db' 
+DATABASE_URI = 'sqlite:////var/freetxt/feedback.db' 
 
 # Define the Feedback model structure
 from sqlalchemy.ext.declarative import declarative_base
@@ -33,7 +33,7 @@ session = Session()
 feedbacks = session.query(Feedback).all()
 
 # Define CSV file location
-csv_file_path = '/home/khallafn/Freetxt-flask/website/feedback_data.csv'
+csv_file_path = '/freetxt/website/feedback_data.csv'
 
 # Write data to CSV
 with open(csv_file_path, 'w', newline='', encoding='utf-8') as csvfile:

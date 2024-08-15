@@ -6,7 +6,7 @@ import os
 import time
 import scattertext as st
 import spacy
-nlp = spacy.load('/home/khallafn/Freetxt-flask/en_core_web_sm-3.2.0')  # Load the spaCy model
+nlp = spacy.load('/freetxt/en_core_web_sm-3.2.0')  # Load the spaCy model
 nlp.max_length = 9000000
 from nltk.corpus import stopwords
 import nltk
@@ -15,7 +15,7 @@ import nltk
 ### stopwords_files
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
-cy_stopwords = open('/home/khallafn/Freetxt-flask/website/data/welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
+cy_stopwords = open('/freetxt/website/data/welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
 STOPWORDS = set(en_stopwords + cy_stopwords)
 PUNCS = '''!→()-[]{};:'"\,<>./?@#$%^&*_~'''
 
@@ -196,7 +196,7 @@ class SentimentAnalyser:
         timestamp = int(time.time())
 
         # Constructing the file path
-        filename = os.path.join("/home/khallafn/Freetxt-flask/website/static/wordcloud", f"scattertext_visualization_{timestamp}.html")
+        filename = os.path.join("/freetxt/website/static/wordcloud", f"scattertext_visualization_{timestamp}.html")
         with open(filename, "w", encoding='utf-8') as f:
             f.write(html)
             f.close()
@@ -206,7 +206,7 @@ class SentimentAnalyser:
     </div>
     """
         html += addition
-        filename_logo = os.path.join("/home/khallafn/Freetxt-flask/website/static/wordcloud", f"scattertext_visualization_{timestamp}_logo.html")
+        filename_logo = os.path.join("/freetxt/website/static/wordcloud", f"scattertext_visualization_{timestamp}_logo.html")
     # Saving the updated HTML content to the file with UTF-8 encoding
         with open(filename_logo, "w", encoding='utf-8') as f_logo:
             f_logo.write(html)

@@ -3,8 +3,8 @@ import shutil
 
 def clear_directories():
     directories_to_clear = [
-        '/home/khallafn/Freetxt-flask/website/Uploaded',
-        '/home/khallafn/Freetxt-flask/website/static/wordcloud'
+        '/freetxt/website/Uploaded',
+        '/freetxt/website/static/wordcloud'
     ]
     for directory in directories_to_clear:
         if os.path.exists(directory):

@@ -16,25 +16,25 @@ from langdetect import detect
 import spacy
 import math
 import imageio
-nlp = spacy.load('/home/khallafn/Freetxt-flask/en_core_web_sm-3.2.0')  # Load the spaCy model
+nlp = spacy.load('/freetxt/en_core_web_sm-3.2.0')  # Load the spaCy model
 nlp.max_length = 9000000
 from nltk.corpus import stopwords
 nltk.download('punkt')
 nltk.download('stopwords')
 from pathlib import Path
 import sys
-sys.path.insert(0, '/home/khallafn/Freetxt-flask/venv/lib/python3.10/site-packages/')
+sys.path.insert(0, '/freetxt/venv/lib/python3.10/site-packages/')
 
 from spacy.language import Language
 import pymusas
 print(dir(pymusas))
 #Language.factory("pymusas_rule_based_tagger", func=pymusas.rule_based_tagger)
 
-path_to_model = Path('/home/khallafn/Freetxt-flask/venv/lib/python3.10/site-packages/en_dual_none_contextual/en_dual_none_contextual-0.3.1')
+path_to_model = Path('/freetxt/venv/lib/python3.10/site-packages/en_dual_none_contextual/en_dual_none_contextual-0.3.1')
 ### stopwords_files
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
-cy_stopwords = open('/home/khallafn/Freetxt-flask/website/data/welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
+cy_stopwords = open('/freetxt/website/data/welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
 STOPWORDS = set(en_stopwords + cy_stopwords)
 PUNCS = string.punctuation
 PUNCS += '''!→()-[]{};:'"\,<>./?@#$%^&*_~.'''
@@ -62,7 +62,7 @@ class WordCloudGenerator:
     def __init__(self,input_data):
         self.STOPWORDS = set(STOPWORDS)
         self.PUNCS = [".", "!", ":", ";", "-", "_", "?", "&", "*", "(", ")", "$", "@", "#", "%", "+", "=", "<", ">", "/", "|", "]", "[", "{", "}", "\\", "\""]
-        self.pymusaslist = pd.read_csv('/home/khallafn/Freetxt-flask/website/data/Pymusas-list.txt', names= ['USAS Tags', 'Equivalent Tag'])
+        self.pymusaslist = pd.read_csv('/freetxt/website/data/Pymusas-list.txt', names= ['USAS Tags', 'Equivalent Tag'])
         self.text=''
         for _, row in input_data.iterrows():
             self.text += ' '.join(row) + '\n'
@@ -320,10 +320,10 @@ class WordCloudGenerator:
         background_color='rgba(255, 255, 255, 0)', # transparent background
           # Ensure the mode is set to RGBA # Ensure the mode is set to RGBA
         ).generate_from_frequencies(scaled_frequencies)
-        cleanup_old_graphs("/home/khallafn/Freetxt-flask/website/static/wordcloud")
+        cleanup_old_graphs("/freetxt/website/static/wordcloud")
         # Generate a unique image name using the current timestamp
         timestamp = int(time.time())
-        wc_image_path = os.path.join("/home/khallafn/Freetxt-flask/website/static/wordcloud", f"wordcloud_{timestamp}.png")
+        wc_image_path = os.path.join("/freetxt/website/static/wordcloud", f"wordcloud_{timestamp}.png")
     
         wordcloud.to_file(wc_image_path)
 
@@ -345,7 +345,7 @@ class WordCloudGenerator:
             # Sort the DataFrame by frequency in descending order
         word_freq = word_freq.sort_values(by='freq', ascending=False)
         if language == 'en':
-            Bnc_corpus = pd.read_csv('/home/khallafn/Freetxt-flask/website/static/keness/Bnc.csv')
+            Bnc_corpus = pd.read_csv('/freetxt/website/static/keness/Bnc.csv')
             # Merge with BNC corpus
             word_freq = word_freq.merge(Bnc_corpus[Bnc_corpus['word'].isin(word_freq['word'])], how='left', on='word')
             df = word_freq[['word', 'freq', 'f_Reference']]
@@ -353,7 +353,7 @@ class WordCloudGenerator:
         else:
             try:
                 column_names = ['word', 'f_Reference']
-                corcencc_corpus = pd.read_csv('/home/khallafn/Freetxt-flask/website/static/keness/file.raw.pos.sem.wrd.fql', sep='\t', names=column_names)
+                corcencc_corpus = pd.read_csv('/freetxt/website/static/keness/file.raw.pos.sem.wrd.fql', sep='\t', names=column_names)
            
                 # Merge with CorCenCC corpus
                 word_freq = word_freq.merge(corcencc_corpus[corcencc_corpus['word'].isin(word_freq['word'])], how='right', on='word')
@@ -438,14 +438,14 @@ class WordCloudGenerator:
             # Handle semantic tags based on language
             if language == 'en':
                 tags_freq.columns = ['USAS Tags', 'freq']
-                Bnc_sementic_tags = pd.read_csv('/home/khallafn/Freetxt-flask/website/static/keness/BNC_semantictags.csv')
+                Bnc_sementic_tags = pd.read_csv('/freetxt/website/static/keness/BNC_semantictags.csv')
                 merged_df = pd.merge(tags_freq, Bnc_sementic_tags, on='USAS Tags', how='inner')
                 merged_df = merged_df.rename(columns={'USAS Tags': 'word', 'f_reference': 'f_Reference'})
                 Tags_f_reference = self.calculate_measures(merged_df[['word', 'freq', 'f_Reference']], cloud_measure, language)
 
             else:
                 tags_freq.columns = ['Equivalent Tag', 'freq']
-                corcencc_sementic_tags = pd.read_csv('/home/khallafn/Freetxt-flask/website/static/keness/Cy_tags.csv')
+                corcencc_sementic_tags = pd.read_csv('/freetxt/website/static/keness/Cy_tags.csv')
                 merged_df = pd.merge(tags_freq, corcencc_sementic_tags, on='Equivalent Tag', how='inner')
                 merged_df = merged_df.rename(columns={'Equivalent_Tag': 'word', 'f_reference': 'f_Reference'})
                 Tags_f_reference = self.calculate_measures(merged_df[['word', 'freq', 'f_Reference']], cloud_measure, language)

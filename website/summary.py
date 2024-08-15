@@ -38,7 +38,7 @@ from . import db
 from nltk import sent_tokenize
 from summa.summarizer import summarize as summa_summarizer
 en_stopwords = list(stopwords.words('english'))
-cy_stopwords = open('/home/khallafn/Freetxt-flask/website/data/welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
+cy_stopwords = open('/freetxt/website/data/welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
 STOPWORDS = set(en_stopwords + cy_stopwords+ ["a", "an", "the", "and", "or", "in", "of", "to", "is", "it", "that", "on", "was", "for", "as", "with", "by"])
 
 PUNCS = string.punctuation
@@ -54,11 +54,11 @@ fileanalysis_summary.register_blueprint(FileAnalysis)
 #### utilities
 ALLOWED_EXTENSIONS = {'txt', 'csv', 'xls', 'xlsx','tsv'}
 import os
-os.environ["TRANSFORMERS_CACHE"] = "/home/khallafn/Freetxt-flask/huggingface_cache"
+os.environ["TRANSFORMERS_CACHE"] = "/freetxt/huggingface_cache"
 
 
 from PIL import Image
-logo_path = "/home/khallafn/Freetxt-flask/website/static/images/logo.png"
+logo_path = "/freetxt/website/static/images/logo.png"
 def append_logo_to_image(image_path, logo_path, output_path):
     # Open the main image and the logo
     main = Image.open(image_path)
@@ -158,7 +158,7 @@ def read_file(file_path):
 def cleanup_expired_sessions():
     filepath = session.get('uploaded_file_path')
     # Path where you want to check for file existence
-    specific_path = "/home/khallafn/Freetxt-flask/website/static/example-data-hub/"
+    specific_path = "/freetxt/website/static/example-data-hub/"
     
     # Check if the file exists in the specific directory
     file_in_specific_path = os.path.join(specific_path, os.path.basename(filepath))
