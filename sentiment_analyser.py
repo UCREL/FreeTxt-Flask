@@ -8,6 +8,8 @@ import os
 import time
 import scattertext as st
 import spacy
+from pyabsa import AspectPolarityClassification as APC, available_checkpoints
+
 nlp = spacy.load('en_core_web_sm-3.2.0')  # Load the spaCy model
 nlp.max_length = 9000000
 
@@ -141,8 +143,85 @@ class SentimentAnalyser:
                 sentiments.append(
                     (original_review, sentiment_label, sentiment_score))
                 sentiment_counts[sentiment_label] += 1
-        # print(sentiment_counts)
         return sentiments, sentiment_counts
+
+    def find_aspects(self, rows, aspects, includeGlobalSentiments=False):
+        """
+        Searches text and finds aspects, ready for analysis.
+
+        Parameters:
+        rows (list[str]): The text to be searched for aspects.
+        aspects (list[str]): The aspects to find in the provided rows.
+        includeGlobalSentiments (boolean): If True, rows with Global Sentiments will be included (rows that do not contain any of the entered aspects).
+
+        Returns:
+        list[str]: The updated rows with the targeted aspects, surrounded by [B-ASP] example [E-ASP].
+        """
+
+        # Removes any trailing or leading whitespace, converts to lower case
+        aspects = [aspect.lower().strip() for aspect in aspects]
+
+        # Sort aspects by length in descending order to prioritize longer matches
+        aspects.sort(key=len, reverse=True)
+
+        # Pattern to match aspect as a whole word
+        pattern = r'\b{}\b'
+
+        if includeGlobalSentiments:
+            rows = [row.strip() for row in rows]
+        else:
+            # Filters out any rows that do not have any of the entered aspects
+            rows = [row.strip() for row in rows if any(
+                re.search(pattern.format(re.escape(aspect)), row.lower()) for aspect in aspects)]
+
+        modified_rows = []
+
+        for row in rows:
+            for aspect in aspects:
+                # Check if the aspect is not already within [B-ASP]...[E-ASP]
+                escaped_aspect = re.escape(aspect)
+                if not re.search(rf'\[B-ASP\].*?{escaped_aspect}.*?\[E-ASP\]', row, re.IGNORECASE):
+                    # Mark the aspect in the row
+                    row = re.sub(pattern.format(escaped_aspect),
+                                 r'[B-ASP]\g<0>[E-ASP]', row, flags=re.IGNORECASE)
+
+            modified_rows.append(row)
+
+        return modified_rows
+
+    # Aspect-Based Sentiment Analysis
+    def analyse_aspects_sentiment(self, rows, aspects, includeGlobalSentiments=False):
+        ckpts = available_checkpoints()
+        sentiment_classifier = APC.SentimentClassifier(
+            checkpoint="english"
+        )
+
+        if includeGlobalSentiments:
+            rows = self.find_aspects(
+                rows, aspects, True) if rows else []
+        else:
+            rows = self.find_aspects(
+                rows, aspects) if rows else []
+
+        if len(rows) < 1:
+            return Exception("Error, no data to analyse")
+
+        results = []
+
+        for row in rows:
+            sentiment_result = sentiment_classifier.predict(
+                text=row,
+                ignore_error=True,
+                eval_batch_size=32,
+            )
+
+            # Converts numpy arrays to python lists, for json
+            sentiment_result["probs"] = [np_arr.tolist()
+                                         for np_arr in sentiment_result["probs"]]
+
+            results.append(sentiment_result)
+
+        return results
 
     def generate_scattertext_visualization(self, dfanalysis, language):
         # Get the DataFrame with sentiment analysis results

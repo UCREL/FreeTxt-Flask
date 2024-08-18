@@ -27,10 +27,10 @@ import plotly.express as px
 import threading
 import json
 import humanize
-
 import string
 from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize
+
 en_stopwords = list(stopwords.words('english'))
 cy_stopwords = open('website/data/welsh_stopwords.txt', 'r',
                     # replaced 'utf8' with 'iso-8859-1'
@@ -168,13 +168,6 @@ def fileanalysis():
         elif input_method == 'example':
             example_file = request.form.get('example-data')
 
-            print()
-            print()
-            print("example file")
-            print(example_file)
-            print()
-            print()
-
             if not example_file:
                 # Handle the error - maybe raise an exception or return an error response.
                 current_app.logger.error(
@@ -185,12 +178,6 @@ def fileanalysis():
                 'website/static/example-data-hub', example_file)
             file_extension = os.path.splitext(
                 file_path)[1].lower()  # Extract the file extension
-
-            print()
-            print()
-            print("file path and ext")
-            print(file_path)
-            print(file_extension)
 
             # Differentiate the behavior based on the file extension
             if file_extension == '.txt':
@@ -441,6 +428,8 @@ def sentiment_analysis(sentences, language, sentiment_classes=3):
         return data, sentiment_counts, plot_html_pie, plot_html_bar
     return None, None, None
 
+#! Update for ABSA
+
 
 @FileAnalysis.route('/update_sentiment', methods=['POST'])
 def handle_sentiment_update():
@@ -546,11 +535,13 @@ def handle_selected_rows():
     random_word = random.choice(list(sorted_word_frequencies.keys()))
     search_word = random_word
     # Initialize the KWICAnalyser with the merged rows
+
+    # ucrel api used
     analyser = KWICAnalyser(' '.join(merged_rows), language='en')
     # Adding to session for word cloud to use
     session["tokens_with_semantic_tags"] = analyser.tokens_with_semantic_tags
 
-    # Get the sorted unique list of semantic tags
+    # ucrel api used
     sorted_unique_tags = analyser.get_sorted_unique_tags()
     word_frequencies = analyser.get_word_frequencies()
 
@@ -558,13 +549,11 @@ def handle_selected_rows():
         isUnfiltered=True)
     session['unfiltered_word_frequencies'] = unfiltered_word_frequencies
     session['word_frequencies'] = word_frequencies
+
     session['mergedData'] = merged_rows
     session['sentiment_data'] = sentiment_data
 
     summary = summarize_text(merged_rows)
-
-    current_app.logger.info("/process_rows completed")
-
     return jsonify({
         "status": "success",
         "wordFrequencies": word_frequencies,
@@ -1139,17 +1128,6 @@ def regenerate_wordcloud():
             tag_words_associations = {tag: list({word for (word, pos, tag_entry) in words_tags if tag == tag_entry}) for (
                 word, pos, tag) in words_tags if tag in word_list}
 
-            print()
-            print()
-            print("tag and word associations")
-            print(tag_words_associations)
-
-            print("word lists")
-            print(word_list)
-            print(sec_word_list)
-            print()
-            print()
-
             session['sec_word_cloud_src'] = sec_wc_path
 
             json_data = {
@@ -1207,3 +1185,132 @@ def get_collos_data():
     except Exception as e:
 
         return "Server encountered an error", 500
+
+
+@FileAnalysis.route('/aspect-based-analysis', methods=['POST'])
+def aspect_based_sentiment_analysis():
+    data = request.get_json()
+    rows_data = data.get("rows", [])
+    aspects_data = data.get("aspects", [])
+    global_sentiments_data = data.get("includeGlobalSentiments", False)
+    language = data.get("language", "en")
+
+    analyser = SentimentAnalyser()
+
+    # Analyses aspect sentiment for each row in rows_data
+    try:
+        if not rows_data:
+            return jsonify({"status": "error", "message": "No rows data provided. Please provide text data to analyze."}), 400
+
+        if not aspects_data:
+            return jsonify({"status": "error", "message": "No aspects provided. Please provide aspects to analyse in the text."}), 400
+
+        if len(aspects_data) > 10:
+            return jsonify({"status": "error", "message": f"Too many aspects provided. You can include a maximum of 10 aspects. Current count: {len(aspects_data)}."}), 400
+
+        char_count = 0
+        for aspect in aspects_data:
+            char_count += len(aspect)
+
+        if char_count > 500:
+            return jsonify({"status": "error", "message": f"Too many characters provided. Your total aspect input must be less than 500 characters. Current count: {char_count}."}), 400
+
+        results = analyser.analyse_aspects_sentiment(
+            rows=rows_data, aspects=aspects_data, includeGlobalSentiments=global_sentiments_data)
+
+        if isinstance(results, Exception):
+            return jsonify({"status": "error", "message": f"No data to analyse for entered aspect(s).\n\nAspects: {*aspects_data,}"}), 400
+
+    except Exception as e:
+        current_app.logger.exception(f"Error: {e}")
+        return jsonify({"status": "error", "message": f"Error: {e}. Please try again."}), 500
+
+    sentiment_data = [{"Review": result["text"], "Aspect": aspect, "Sentiment Label": result["sentiment"][idx],
+                      "Confidence Score": round(result["confidence"][idx], 2)} for result in results for idx, aspect in enumerate(result["aspect"])]
+
+    # Count sentiment results for pie chart
+    aspect_sentiment_counter = {aspect: {
+        "Positive": 0, "Neutral": 0, "Negative": 0} for aspect in aspects_data}
+
+    for entry in results:
+        for idx, asp in enumerate(entry["aspect"]):
+            # Ignores case
+            asp = asp.lower()
+
+            if asp in aspect_sentiment_counter:
+                aspect_sentiment_counter[asp][entry["sentiment"][idx]] += 1
+
+    # Remove previous absa plots
+    remove_previous_plots(
+        "website/static/Sentiment_plots", "sentiment_pie_absa_")
+
+    color_map = {
+        "Very negative": "#ff3333",
+        "Negative": "#ff8a3d",
+        "Neutral": "#b0b0b0",
+        "Positive": "#c5e17a",
+        "Very positive": "#6ebd45",
+        "Negyddol Iawn": "#ff3333",
+        "Negyddol": "#ff8a3d",
+        "Niwtral": "#b0b0b0",
+        "Cadarnhaol": "#c5e17a",
+        "Cadarnhaol Iawn": "#6ebd45"
+    }
+
+    # Sort results by highest occuring sentiment
+    aspect_sentiment_counter = dict(sorted(aspect_sentiment_counter.items(
+    ), key=lambda item: item[1]["Positive"] + item[1]["Neutral"] + item[1]["Negative"], reverse=True))
+
+    html_plots = []
+    plot_title = "Sentiment Distribution for: " if language == "en" else "Dosbarthiad Sentiment ar gyfer: "
+
+    for aspect, dict_val in aspect_sentiment_counter.items():
+        # If aspect is not in dataset, do not generate pie chart
+        if all(val == 0 for val in dict_val.values()):
+            continue
+
+        fig = px.pie(values=dict_val.values(), names=dict_val.keys(),
+                     title=f"{plot_title}{aspect}", color=dict_val.keys(),
+                     color_discrete_map=color_map)
+
+        plot_html_pie = fig.to_html(full_html=False)
+
+        fig.write_image(
+            f"website/static/Sentiment_plots/sentiment_pie_absa_{aspect}.png")
+        fig.write_html(
+            f"website/static/Sentiment_plots/sentiment_pie_absa_{aspect}.html")
+        with open(f"website/static/Sentiment_plots/sentiment_pie_absa_{aspect}.html", "r", encoding="utf-8") as f:
+            content = f.read()
+
+            # Add the "Visualisation by" text and logo image at the bottom
+            addition = """
+        <div style="text-align:center; margin-top:30px;">
+            Visualisation by <img src="https://ucrel-freetxt-2.lancs.ac.uk/static/images/logo.png" alt="Logo" style="height:40px;">
+        </div>
+        """
+
+            # Append the new content just before the closing body tag
+            content = content.replace("</body>", addition + "\n</body>")
+
+            with open(f"website/static/Sentiment_plots/sentiment_pie_absa_{aspect}.html", "w", encoding="utf-8") as f:
+                f.write(content)
+
+            # Tuple containing the plot, and number of total occurrences
+            html_plots.append((plot_html_pie, sum(dict_val.values())))
+
+    return jsonify({
+        "status": "success",
+        "plots": html_plots,
+        "sentimentData": sentiment_data
+    })
+
+
+def remove_previous_plots(directory, substring):
+    for filename in os.listdir(directory):
+        if substring in filename:
+            file_path = os.path.join(directory, filename)
+            try:
+                os.remove(file_path)
+                # print("Removed file:", file_path)
+            except Exception as e:
+                current_app.logger.exception("Error removing old plots", e)

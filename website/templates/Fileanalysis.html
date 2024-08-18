@@ -225,7 +225,7 @@
   }
   .input-container {
     width: 100%;
-    height: 500px;
+    height: auto;
     margin: auto;
   }
 
@@ -627,7 +627,7 @@
       >Upload data file</span
     >
   </label>
-  <div id="text-input" class="input-container">
+  <div id="text-input" class="input-container mb-4">
     <textarea
       class="data-input"
       name="text-to-analyze"
@@ -972,45 +972,134 @@
           Negative)</label
         >
       </div>
-
-      <div id="SentimentPlotViewPie"></div>
-      <p
-        data-lang-en="The figure displays the sentiment analysis of the data, you can press on any part of the graph to display the data"
-        data-lang-cy="Mae'r ffigur yn dangos dadansoddiad sentiment y data, gallwch wasgu ar unrhyw ran o'r graff i arddangos y data"
+      <div class="sentiment-option">
+        <input
+          type="radio"
+          id="threeClassABSA"
+          name="sentimentOption"
+          value="3-absa"
+          onchange="handleSentimentOptionChange()"
+        />
+        <label
+          for="threeClassABSA"
+          data-lang-en="3 Class Aspect-Based Sentiment Analysis (Positive,
+          Neutral, Negative)"
+          data-lang-cy="Dadansoddiad Sentiment wedi’i Seilio ar Agweddau 3 Dosbarth (Cadarnhaol, Niwtral, Negyddol)"
+          >3 Class Aspect-Based Sentiment Analysis (Positive, Neutral,
+          Negative)</label
+        >
+      </div>
+      <div id="ABSAInputContainer" class="mt-4" style="display: none">
+        <h3
+          data-lang-en="Enter aspects to analyse:"
+          data-lang-cy="Needs welsh translation"
+        >
+          Enter aspects to analyse:
+        </h3>
+        <textarea
+          class="data-input m-0"
+          name="absa-aspects-to-analyze"
+          placeholder="Enter words separated by commas or whitespace, e.g., example, words, here"
+          id="absa-aspects-to-analyze"
+          oninput="handleAspectInputChanges()"
+          maxlength="500"
+        ></textarea>
+        <div id="enteredAspects" class="my-2">
+          <span
+            id="aspects-bold-text"
+            class="font-weight-bold"
+            style="opacity: 0%"
+            data-lang-en="Aspects:"
+            data-lang-cy="Needs welsh translation"
+            >Aspects:</span
+          >
+          <span
+            id="aspects-input-list"
+            class="text-primary font-weight-bold d-inline text-wrap"
+            style="white-space: pre; word-wrap: break-word"
+          ></span>
+        </div>
+        <div class="container-fluid m-0 p-0 d-flex">
+          <button
+            type="button"
+            class="btn btn-dark mr-3"
+            data-lang-en="Fetch Results"
+            data-lang-cy="Needs welsh translation"
+            onclick="startABSA()"
+          >
+            Fetch Results
+          </button>
+          <div
+            class="form-check ml-0 mt-3 ml-sm-3 mt-sm-0 d-flex justify-content-start justify-content-sm-center align-items-center"
+          >
+            <div
+              class="container-fluid d-flex m-0 p-0"
+              title="Includes global sentiments in results (Analyses rows that do not contain any of the entered aspects)."
+            >
+              <input
+                id="includeGlobalsABSA"
+                class="form-check-input"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="includeGlobalsABSA"
+                data-lang-en="Include Global Sentiments"
+                data-lang-cy="Needs welsh translation"
+                >Include Global Sentiments</label
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="ABSAResultsContainer"
+        class="container-fluid p-0 my-1"
+        style="display: none"
       >
-        The figure displays the sentiment analysis of the data, you can press on
-        any part of the graph to display the data
-      </p>
-      <a href="/get-html-pie" download>
-        <button
-          class="analyze-btn"
-          data-lang-en="Download Interactive Pie Chart"
-          data-lang-cy="Lawrlwytho Siart Cylch Rhyngweithiol"
+        <div id="AspectPieCharts" class="container"></div>
+        <div id="AspectSentimentTable" class="container mt-5"></div>
+      </div>
+      <div id="SentimentAnalysisContainer" class="container-fluid p-0 m-0">
+        <div id="SentimentPlotViewPie"></div>
+        <p
+          data-lang-en="The figure displays the sentiment analysis of the data, you can press on any part of the graph to display the data"
+          data-lang-cy="Mae'r ffigur yn dangos dadansoddiad sentiment y data, gallwch wasgu ar unrhyw ran o'r graff i arddangos y data"
         >
-          Download Interactive Pie Chart
-        </button>
-      </a>
-      <div id="SentimentPlotViewBar"></div>
-      <a href="/get-html-bar" download>
-        <button
-          class="analyze-btn"
-          data-lang-en="Download Interactive Bar Chart"
-          data-lang-cy="Lawrlwytho Siart Bar Rhyngweithiol"
-        >
-          Download Interactive Bar Chart
-        </button>
-      </a>
-      <div id="SentimentView"></div>
-      <div id="SentimentTable"></div>
-      <a href="/get-Sentimentdata" download>
-        <button
-          class="analyze-btn"
-          data-lang-en="Download Sentiment Table"
-          data-lang-cy="Lawrlwytho Tabl Sentiment"
-        >
-          Download Sentiment Table
-        </button>
-      </a>
+          The figure displays the sentiment analysis of the data, you can press
+          on any part of the graph to display the data
+        </p>
+        <a href="/get-html-pie" download>
+          <button
+            class="analyze-btn"
+            data-lang-en="Download Interactive Pie Chart"
+            data-lang-cy="Lawrlwytho Siart Cylch Rhyngweithiol"
+          >
+            Download Interactive Pie Chart
+          </button>
+        </a>
+        <div id="SentimentPlotViewBar"></div>
+        <a href="/get-html-bar" download>
+          <button
+            class="analyze-btn"
+            data-lang-en="Download Interactive Bar Chart"
+            data-lang-cy="Lawrlwytho Siart Bar Rhyngweithiol"
+          >
+            Download Interactive Bar Chart
+          </button>
+        </a>
+        <div id="SentimentView"></div>
+        <div id="SentimentTable"></div>
+        <a href="/get-Sentimentdata" download>
+          <button
+            class="analyze-btn"
+            data-lang-en="Download Sentiment Table"
+            data-lang-cy="Lawrlwytho Tabl Sentiment"
+          >
+            Download Sentiment Table
+          </button>
+        </a>
+      </div>
     </div>
     <div id="tab1" class="tab-content">
       <h2
@@ -1464,8 +1553,8 @@
                   <label
                     class="form-check-label"
                     for="show-semantic-tags"
-                    data-lang-en="Show Tags"
-                    data-lang-cy="Needs translation"
+                    data-lang-en="Show semantic tags"
+                    data-lang-cy="Dangos tagiau semantig"
                   >
                     Show Tags
                   </label>
@@ -1480,8 +1569,8 @@
                   <label
                     class="form-check-label"
                     for="show-words"
-                    data-lang-en="Show Words With Tags"
-                    data-lang-cy="Needs translation"
+                    data-lang-en="Show words with semantic tags"
+                    data-lang-cy="Dangos geiriau gyda thagiau semantig"
                   >
                     Show Words With Tags
                   </label>
@@ -1547,8 +1636,8 @@
         >
           <h2
             class="mr-2"
-            data-lang-en="Word &amp; Tag Associations"
-            data-lang-cy="Needs welsh translation"
+            data-lang-en="Word and Tag Associations"
+            data-lang-cy="Cysylltiadau gair a thag"
           >
             Word &amp; Tag Associations
           </h2>
@@ -1588,8 +1677,8 @@
       >
         <button
           class="analyze-btn mt-2"
-          data-lang-en="Download Word Cloud image (Semantic Tags)"
-          data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau (Needs welsh translation)"
+          data-lang-en="Download Word Cloud image (2)"
+          data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau (2)"
         >
           Download Word Cloud image (Semantic Tags)
         </button>
@@ -1664,7 +1753,7 @@
           >
 
           <div
-            class="container-fluid d-flex justify-content-start flex-column flex-sm-row p-0 mb-5"
+            class="container-fluid d-flex justify-content-start flex-column flex-sm-row p-0"
           >
             <div class="dropdown">
               <button
@@ -1680,7 +1769,7 @@
                 -- Select --
               </button>
               <div class="dropdown-menu pb-0" aria-labelledby="dropdown-button">
-                <div class="form-group mx-3" style="min-width: 200px">
+                <div class="form-group mx-3" style="min-width: 250px">
                   <input
                     id="word-use-dd-search"
                     type="search"
@@ -1714,7 +1803,7 @@
                   class="form-check-label"
                   for="word-freq-include-all-check"
                   data-lang-en="Include all data (stopwords, misfiltered words, etc.)"
-                  data-lang-cy="Needs welsh translation"
+                  data-lang-cy="Cynnwys yr holl ddata (ataleiriau, geiriau wedi'u hidlo'n anghywir, ac ati)"
                   >Include all data (stopwords, misfiltered words, etc.)</label
                 >
               </div>
@@ -1724,9 +1813,9 @@
           <a href="/get-filtered-word-frequencies-data" download>
             <button
               type="button"
-              class="analyze-btn hidden"
+              class="analyze-btn hidden mt-5"
               data-lang-en="Download Filtered Word Frequency Results"
-              data-lang-cy="Needs Welsh translation"
+              data-lang-cy="Llwytho i lawr Ganlyniadau Amledd Geiriau wedi'u Hidlo"
             >
               Download Filtered Word Frequency Results
             </button>
@@ -1736,7 +1825,7 @@
               type="button"
               class="analyze-btn hidden mt-2"
               data-lang-en="Download Unfiltered Word Frequency Results"
-              data-lang-cy="Needs Welsh translation"
+              data-lang-cy="Llwytho i lawr Ganlyniadau Amledd Geiriau heb eu Hidlo"
             >
               Download Unfiltered Word Frequency Results
             </button>
@@ -1925,8 +2014,7 @@
             <div class="mx-4">
               <input class="form-check-input" type="checkbox" checked="" />
               <p
-                class="ml-1"
-                style="font-weight: bold"
+                class="ml-1 font-weight-bold"
                 data-lang-en="Included"
                 data-lang-cy="Wedi&rsquo;i gynnwys"
               >
@@ -1936,8 +2024,7 @@
             <div class="mx-4">
               <input class="form-check-input" type="checkbox" />
               <p
-                class="ml-1"
-                style="font-weight: bold"
+                class="ml-1 font-weight-bold"
                 data-lang-en="Excluded"
                 data-lang-cy="Wedi&rsquo;i hepgor"
               >
