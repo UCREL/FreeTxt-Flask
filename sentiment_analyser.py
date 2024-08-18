@@ -161,38 +161,47 @@ class SentimentAnalyser:
         # Removes any trailing or leading whitespace, converts to lower case
         aspects = [aspect.lower().strip() for aspect in aspects]
 
+        # Sort aspects by length in descending order to prioritize longer matches
+        aspects.sort(key=len, reverse=True)
+
+        # Pattern to match aspect as a whole word
+        pattern = r'\b{}\b'
+
         if includeGlobalSentiments:
-            modified_rows = [row.strip() for row in rows]
+            rows = [row.strip() for row in rows]
         else:
             # Filters out any rows that do not have any of the entered aspects
-            modified_rows = [row.strip() for row in rows if any(
-                aspect in row.lower() for aspect in aspects)]
+            rows = [row.strip() for row in rows if any(
+                re.search(pattern.format(re.escape(aspect)), row.lower()) for aspect in aspects)]
 
-        for idx, row in enumerate(modified_rows):
-            replacements = []
+        modified_rows = []
+
+        for row in rows:
             for aspect in aspects:
-                # Ignores case
-                for m in re.finditer(re.escape(aspect), row.lower()):
-                    replacements.append((m.start(), m.end()))
+                # Check if the aspect is not already within [B-ASP]...[E-ASP]
+                escaped_aspect = re.escape(aspect)
+                if not re.search(rf'\[B-ASP\].*?{escaped_aspect}.*?\[E-ASP\]', row, re.IGNORECASE):
+                    # Mark the aspect in the row
+                    row = re.sub(pattern.format(escaped_aspect),
+                                 r'[B-ASP]\g<0>[E-ASP]', row, flags=re.IGNORECASE)
 
-            replacements.sort(reverse=True)
-
-            for start, end in replacements:
-                row = f"{row[:start]}[B-ASP]{row[start:end]}[E-ASP]{row[end:]}"
-
-            modified_rows[idx] = row
+            modified_rows.append(row)
 
         return modified_rows
 
     # Aspect-Based Sentiment Analysis
-    def analyse_aspects_sentiment(self, rows, aspects):
+    def analyse_aspects_sentiment(self, rows, aspects, includeGlobalSentiments=False):
         ckpts = available_checkpoints()
         sentiment_classifier = APC.SentimentClassifier(
             checkpoint="english"
         )
 
-        rows = self.find_aspects(
-            rows, aspects) if rows else []
+        if includeGlobalSentiments:
+            rows = self.find_aspects(
+                rows, aspects, True) if rows else []
+        else:
+            rows = self.find_aspects(
+                rows, aspects) if rows else []
 
         if len(rows) < 1:
             return Exception("Error, no data to analyse")

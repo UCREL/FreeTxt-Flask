@@ -990,36 +990,67 @@
         >
       </div>
       <div id="ABSAInputContainer" class="mt-4" style="display: none">
-        <h3>Enter aspects to analyse:</h3>
+        <h3
+          data-lang-en="Enter aspects to analyse:"
+          data-lang-cy="Needs welsh translation"
+        >
+          Enter aspects to analyse:
+        </h3>
         <textarea
           class="data-input m-0"
           name="absa-aspects-to-analyze"
           placeholder="Enter words separated by commas or whitespace, e.g., example, words, here"
           id="absa-aspects-to-analyze"
           oninput="handleAspectInputChanges()"
+          maxlength="500"
         ></textarea>
         <div id="enteredAspects" class="my-2">
           <span
             id="aspects-bold-text"
             class="font-weight-bold"
             style="opacity: 0%"
+            data-lang-en="Aspects:"
+            data-lang-cy="Needs welsh translation"
             >Aspects:</span
           >
           <span
             id="aspects-input-list"
             class="text-primary font-weight-bold d-inline text-wrap"
-            style="white-space: pre"
+            style="white-space: pre; word-wrap: break-word"
           ></span>
         </div>
-        <button
-          type="button"
-          class="btn btn-dark"
-          data-lang-en="Fetch Results"
-          data-lang-cy="Needs welsh translation"
-          onclick="startABSA()"
-        >
-          Fetch Results
-        </button>
+        <div class="container-fluid m-0 p-0 d-flex">
+          <button
+            type="button"
+            class="btn btn-dark mr-3"
+            data-lang-en="Fetch Results"
+            data-lang-cy="Needs welsh translation"
+            onclick="startABSA()"
+          >
+            Fetch Results
+          </button>
+          <div
+            class="form-check ml-0 mt-3 ml-sm-3 mt-sm-0 d-flex justify-content-start justify-content-sm-center align-items-center"
+          >
+            <div
+              class="container-fluid d-flex m-0 p-0"
+              title="Includes global sentiments in results (Analyses rows that do not contain any of the entered aspects)."
+            >
+              <input
+                id="includeGlobalsABSA"
+                class="form-check-input"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="includeGlobalsABSA"
+                data-lang-en="Include Global Sentiments"
+                data-lang-cy="Needs welsh translation"
+                >Include Global Sentiments</label
+              >
+            </div>
+          </div>
+        </div>
       </div>
       <div
         id="ABSAResultsContainer"
@@ -1722,7 +1753,7 @@
           >
 
           <div
-            class="container-fluid d-flex justify-content-start flex-column flex-sm-row p-0 mb-5"
+            class="container-fluid d-flex justify-content-start flex-column flex-sm-row p-0"
           >
             <div class="dropdown">
               <button
@@ -1738,7 +1769,7 @@
                 -- Select --
               </button>
               <div class="dropdown-menu pb-0" aria-labelledby="dropdown-button">
-                <div class="form-group mx-3" style="min-width: 200px">
+                <div class="form-group mx-3" style="min-width: 250px">
                   <input
                     id="word-use-dd-search"
                     type="search"
@@ -1782,7 +1813,7 @@
           <a href="/get-filtered-word-frequencies-data" download>
             <button
               type="button"
-              class="analyze-btn hidden"
+              class="analyze-btn hidden mt-5"
               data-lang-en="Download Filtered Word Frequency Results"
               data-lang-cy="Llwytho i lawr Ganlyniadau Amledd Geiriau wedi'u Hidlo"
             >

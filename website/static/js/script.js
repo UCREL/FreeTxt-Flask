@@ -1228,8 +1228,8 @@ function displayABSAPlots(htmlPlotArray) {
 
   if (pieChartsContainer) {
     Array.from(htmlPlotArray).forEach(([htmlPlot, total], i) => {
-      console.log("totals");
-      console.log(total);
+      // console.log("totals");
+      // console.log(total);
       const container = document.createElement("div");
       container.classList.add("container", "p-0", "mt-5");
 
@@ -1992,7 +1992,7 @@ function sendSelectedRows() {
           : "Could not generate summary.";
 
         const iframeElem = document.getElementById("scattertextIframe");
-        // sendWordCloudRequest();
+        sendWordCloudRequest();
         iframeElem.style.opacity = 0.99;
         requestAnimationFrame(() => {
           iframeElem.src = data.scatterTextHtml + "?t=" + new Date().getTime();
@@ -3143,10 +3143,14 @@ function handleAspectInputChanges() {
   }
 }
 
-//! Make more readable for future devs
 function startABSA() {
   // Get data from text field
   const aspectsText = $("#absa-aspects-to-analyze").val();
+
+  const includeGlobalSentiments = $("#includeGlobalsABSA").is(":checked")
+    ? true
+    : false;
+
   // Filter text
   const aspects = aspectsText
     .split(/\s*,\s*|\s+/)
@@ -3176,6 +3180,7 @@ function startABSA() {
       language: getCurrentLanguage(),
       rows: currentData,
       aspects: aspects,
+      includeGlobalSentiments: includeGlobalSentiments,
     }),
   })
     .then((response) => response.json())
