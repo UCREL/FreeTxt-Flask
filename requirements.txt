@@ -10,7 +10,6 @@ nltk
 numpy>=1.6.1
 openpyxl
 pandas
-pandasgui
 plotly.express
 python-dateutil
 python-dotenv
@@ -32,8 +31,11 @@ empath
 tabulate
 pymupdf
 html2image
-canvas
 apscheduler
+Werkzeug==2.3.7
 flask_sqlalchemy
-[pymusas-model download link](https://github.com/UCREL/pymusas-models/releases/download/en_dual_none_contextual-0.3.1/en_dual_none_contextual-0.3.1-py3-none-any.whl)
-[pymusas-model download link](https://github.com/UCREL/pymusas-models/releases/download/cy_dual_basiccorcencc2usas_contextual-0.3.0/cy_dual_basiccorcencc2usas_contextual-0.3.0-py3-none-any.whl)
+flask_cors
+weasyprint
+cy-dual-basiccorcencc2usas-contextual @ https://github.com/UCREL/pymusas-models/releases/download/cy_dual_basiccorcencc2usas_contextual-0.3.0/cy_dual_basiccorcencc2usas_contextual-0.3.0-py3-none-any.whl
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.2.0/en_core_web_sm-3.2.0-py3-none-any.whl
+en-dual-none-contextual @ https://github.com/UCREL/pymusas-models/releases/download/en_dual_none_contextual-0.3.3/en_dual_none_contextual-0.3.3-py3-none-any.whl
