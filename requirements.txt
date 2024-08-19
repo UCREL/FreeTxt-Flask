@@ -1,4 +1,5 @@
 flask==2.2.2
+Flask-Cors
 Flask-Session
 flask_restful
 gensim
@@ -19,12 +20,14 @@ regex
 reportlab
 requests
 scattertext>=0.0.2.92
+scipy==1.12.0
 seaborn
 spacy>=3.2.4
 summa
 torch
 transformers
 wordcloud
+weasyprint
 graphviz
 kaleido
 empath
@@ -34,8 +37,10 @@ html2image
 apscheduler
 Werkzeug==2.3.7
 flask_sqlalchemy
+humanize
 flask_cors
 weasyprint
+pyabsa
 cy-dual-basiccorcencc2usas-contextual @ https://github.com/UCREL/pymusas-models/releases/download/cy_dual_basiccorcencc2usas_contextual-0.3.0/cy_dual_basiccorcencc2usas_contextual-0.3.0-py3-none-any.whl
 en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.2.0/en_core_web_sm-3.2.0-py3-none-any.whl
 en-dual-none-contextual @ https://github.com/UCREL/pymusas-models/releases/download/en_dual_none_contextual-0.3.3/en_dual_none_contextual-0.3.3-py3-none-any.whl
