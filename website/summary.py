@@ -20,7 +20,6 @@ import time
 from PIL import Image, ImageDraw, ImageFont
 import random
 from sentiment_analyser import SentimentAnalyser
-from word_tree_generator import WordTreeGenerator
 from Summariser import run_summarizer
 from word_cloud_generator import WordCloudGenerator
 from Keyword_collocation import KWICAnalyser

@@ -3317,11 +3317,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('/submitfeedback', {
             method: 'POST',
             body: formData,
-<<<<<<< HEAD
             credentials: 'include', // If your setup requires credentials
-=======
-            credentials: 'include',
->>>>>>> 30f725a6749e63f4d30c7337981497898b660549
             headers: {
                 'Accept': 'application/json',
             }
