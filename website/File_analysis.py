@@ -1192,7 +1192,6 @@ def aspect_based_sentiment_analysis():
     data = request.get_json()
     rows_data = data.get("rows", [])
     aspects_data = data.get("aspects", [])
-    global_sentiments_data = data.get("includeGlobalSentiments", False)
     language = data.get("language", "en")
 
     analyser = SentimentAnalyser()
@@ -1216,10 +1215,10 @@ def aspect_based_sentiment_analysis():
             return jsonify({"status": "error", "message": f"Too many characters provided. Your total aspect input must be less than 500 characters. Current count: {char_count}."}), 400
 
         results = analyser.analyse_aspects_sentiment(
-            rows=rows_data, aspects=aspects_data, includeGlobalSentiments=global_sentiments_data)
+            rows=rows_data, aspects=aspects_data)
 
         if isinstance(results, Exception):
-            return jsonify({"status": "error", "message": f"No data to analyse for entered aspect(s).\n\nAspects: {*aspects_data,}"}), 400
+            return jsonify({"status": "error", "message": f"No data to analyse for entered aspect(s).\n\nAspects: {*aspects_data, }"}), 400
 
     except Exception as e:
         current_app.logger.exception(f"Error: {e}")

@@ -1251,7 +1251,10 @@ function displayABSAPlots(htmlPlotArray) {
 
       descContainer.innerText = descText;
 
-      const totalText = `Total occurrences: ${total}`;
+      const totalText =
+        lang === "en"
+          ? `Total occurrences: ${total}`
+          : `Cyfanswm digwyddiadau: ${total}`;
       totalContainer.innerText = totalText;
 
       const range = document.createRange();
@@ -3122,15 +3125,19 @@ function handleAspectInputChanges() {
 
   const aspectsText = $("#absa-aspects-to-analyze").val();
   const aspects = aspectsText
-    .split(/\s*,\s*|\s+/)
+    .split(",")
     .map((aspect) => aspect.trim().toLowerCase())
     .filter((aspect) => aspect.length > 0);
 
   let aspectsString = "";
 
   if (aspectsText !== "") {
-    aspects.forEach((aspect) => {
-      aspect !== "" ? (aspectsString += `  ${aspect}`) : "";
+    aspects.forEach((aspect, i) => {
+      aspect !== ""
+        ? (aspectsString += `  ${aspect}${
+            i !== aspects.length - 1 ? ", " : ""
+          }`)
+        : "";
     });
 
     if (aspectsString !== "") {
@@ -3147,13 +3154,9 @@ function startABSA() {
   // Get data from text field
   const aspectsText = $("#absa-aspects-to-analyze").val();
 
-  const includeGlobalSentiments = $("#includeGlobalsABSA").is(":checked")
-    ? true
-    : false;
-
   // Filter text
   const aspects = aspectsText
-    .split(/\s*,\s*|\s+/)
+    .split(",")
     .map((aspect) => aspect.trim().toLowerCase())
     .filter((aspect) => aspect.length > 0);
 
@@ -3180,7 +3183,6 @@ function startABSA() {
       language: getCurrentLanguage(),
       rows: currentData,
       aspects: aspects,
-      includeGlobalSentiments: includeGlobalSentiments,
     }),
   })
     .then((response) => response.json())
@@ -3598,6 +3600,14 @@ $(document).ready(function () {
         ? selectOptBtn.text("-- Select --")
         : selectOptBtn.text("-- Dewis --");
     }
+
+    // Update placeholder text for aspect input
+    const aspectPlaceholderText =
+      language === "en"
+        ? "Enter aspects separated by commas, e.g., example, aspect, here"
+        : "Rhowch agweddau sydd wedi'u gwahanu gan atalnodau, e.e., enghraifft, agwedd, yma";
+
+    $("#absa-aspects-to-analyze").attr("placeholder", aspectPlaceholderText);
 
     localStorage.setItem("chosenLanguage", language);
   }
