@@ -1,405 +1,643 @@
-{% extends "template.html" %}
-{% block data %}
+{% extends "template.html" %} {% block data %}
 <style>
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  .content-container {
+    margin: 20px; /* Margin around the edges */
+    padding: 20px; /* Padding inside the div */
+    max-width: 90%; /* Maximum width of the div */
+    margin-left: auto; /* Centering the div */
+    margin-right: auto; /* Centering the div */
+  }
+  .input-container {
+    background-color: lightgrey;
+    padding: 1em;
+    border-radius: 5px;
+    color: black;
+    font-size: 1rem; /* Use relative font-size for scalability */
+    max-width: 100%; /* Ensures the div won't exceed its container */
+    word-wrap: break-word; /* Breaks words to the next line if they are too long */
+  }
+  .square {
+    display: flex; /* Using Flexbox */
+    flex-direction: column; /* Children should stack vertically */
+    justify-content: center; /* Center children vertically */
+    align-items: center; /* Center children horizontally */
+    text-align: center; /* Ensures text within the square is centered */
+    position: relative; /* To make sure hover content can be positioned relative to the square */
+  }
 
-    body {
-        margin: 0;
-        padding: 0;
-    }
-    .content-container {
-            
-            
-        margin: 20px; /* Margin around the edges */
-        padding: 20px; /* Padding inside the div */
-        max-width: 90%; /* Maximum width of the div */
-        margin-left: auto; /* Centering the div */
-        margin-right: auto; /* Centering the div */
-    
-    }
-        .input-container {
-            background-color: lightgrey;
-            padding: 1em;
-            border-radius: 5px;
-            color: black;
-            font-size: 1rem; /* Use relative font-size for scalability */
-            max-width: 100%; /* Ensures the div won't exceed its container */
-            word-wrap: break-word; /* Breaks words to the next line if they are too long */
-        }
-        .square {
-        display: flex;        /* Using Flexbox */
-        flex-direction: column; /* Children should stack vertically */
-        justify-content: center; /* Center children vertically */
-        align-items: center;    /* Center children horizontally */
-        text-align: center;     /* Ensures text within the square is centered */
-        position: relative;     /* To make sure hover content can be positioned relative to the square */
-        }
-       
-        .big-icon {
-            font-size: 1000px;  
-        }
-    
-       
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            font-size: 18px;
-            text-align: left;
-        }
-        th, td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-        a {
-            color: #3498db;
-            text-decoration: none;
-        }
-        table {
+  .big-icon {
+    font-size: 1000px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+  }
+  th,
+  td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  tr:hover {
+    background-color: #f5f5f5;
+  }
+  a {
+    color: #3498db;
+    text-decoration: none;
+  }
+  table {
     border-collapse: collapse;
     width: 100%;
-}
+  }
 
-th, td {
+  th,
+  td {
     border: 1px solid #dddddd;
     padding: 8px;
     text-align: left;
-}
+  }
 
-tr:nth-child(even) {
+  tr:nth-child(even) {
     background-color: #f2f2f2;
-}
+  }
 
-/* Dark mode styles */
-body.dark-mode {
+  /* Dark mode styles */
+  body.dark-mode {
     background-color: #222;
     color: #fff;
-}
+  }
 
-body.dark-mode table {
+  body.dark-mode table {
     border-color: #555;
-}
+  }
 
-body.dark-mode th, body.dark-mode td {
+  body.dark-mode th,
+  body.dark-mode td {
     border-color: #555;
-}
+  }
 
-body.dark-mode tr:nth-child(even) {
+  body.dark-mode tr:nth-child(even) {
     background-color: #333;
-}
-        @media (max-width: 480px) {
-            .input-container {
-                font-size: 0.8rem; /* Smaller font size for mobile devices */
-                padding: 0.5em; /* Smaller padding for mobile devices */
-            }
-    
-            
-        }
-        /* Media query for smaller screens (e.g., up to 768px width) */
-    @media (max-width: 768px) {
-        .square {
-            min-width: calc(50% - 20px); /* Two items per row on smaller screens */
-        }
-        .text-size-60 {
-            font-size: 40px; /* Reduce the font size */
-        }
-        .hover-content img {
-            max-width: 70%; /* Reduce the image size */
-        }
-        h3 {
-            font-size: 1rem; /* Adjust heading size */
-        }
+  }
+  @media (max-width: 480px) {
+    .input-container {
+      font-size: 0.8rem; /* Smaller font size for mobile devices */
+      padding: 0.5em; /* Smaller padding for mobile devices */
     }
-    
-    /* Media query for very small screens (e.g., up to 480px width) */
-    @media (max-width: 480px) {
-        .square {
-            min-width: 100%; /* One item per row on very small screens */
-        }
+  }
+  /* Media query for smaller screens (e.g., up to 768px width) */
+  @media (max-width: 768px) {
+    .square {
+      min-width: calc(50% - 20px); /* Two items per row on smaller screens */
     }
-    </style>
-<h2 data-lang-en="Used Models and Tools" data-lang-cy="Modelau ac Offer a Ddefnyddiwyd">Used Models and Tools</h2>
+    .text-size-60 {
+      font-size: 40px; /* Reduce the font size */
+    }
+    .hover-content img {
+      max-width: 70%; /* Reduce the image size */
+    }
+    h3 {
+      font-size: 1rem; /* Adjust heading size */
+    }
+  }
+
+  /* Media query for very small screens (e.g., up to 480px width) */
+  @media (max-width: 480px) {
+    .square {
+      min-width: 100%; /* One item per row on very small screens */
+    }
+  }
+</style>
+<h2
+  data-lang-en="Used Models and Tools"
+  data-lang-cy="Modelau ac Offer a Ddefnyddiwyd"
+>
+  Used Models and Tools
+</h2>
 <table>
-    <thead>
-        <tr>
-            <th data-lang-en= "No." data-lang-cy="Rhif">No.</th>
-            <th data-lang-en="Library/Module" data-lang-cy="Llyfrgell/Modiwl">Library/Module</th>
-            <th data-lang-en="Website" data-lang-cy="Gwefan">Website</th>
-            <th data-lang-en="Licence" data-lang-cy="Trwydded">Licence</th>
-            <th data-lang-en="Description" data-lang-cy="Disgrifiad">Description</th>
-        </tr>
-    </thead>
-    <tbody>
+  <thead>
+    <tr>
+      <th data-lang-en="No." data-lang-cy="Rhif">No.</th>
+      <th data-lang-en="Library/Module" data-lang-cy="Llyfrgell/Modiwl">
+        Library/Module
+      </th>
+      <th data-lang-en="Website" data-lang-cy="Gwefan">Website</th>
+      <th data-lang-en="Licence" data-lang-cy="Trwydded">Licence</th>
+      <th data-lang-en="Description" data-lang-cy="Disgrifiad">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Pandas -->
+    <tr>
+      <td>1</td>
+      <td data-lang-en="Pandas" data-lang-cy="Pandas">Pandas</td>
+      <td><a href="https://pandas.pydata.org/" target="_blank">Pandas</a></td>
+      <td>BSD 3-Clause</td>
+      <td
+        data-lang-en="A powerful and flexible open-source data analysis and manipulation tool built on top of the Python programming language."
+        data-lang-cy="Offeryn grymus a hyblyg i ddadansoddi a thrin data fynhonnell agored a adeiladwyd ar ben iaith raglennu Python."
+      >
+        A powerful and flexible open-source data analysis and manipulation tool
+        built on top of the Python programming language.
+      </td>
+    </tr>
 
-<!-- Pandas -->
-<tr>
-    <td>1</td>
-    <td data-lang-en="Pandas" data-lang-cy="Pandas">Pandas</td>
-    <td><a href="https://pandas.pydata.org/" target="_blank">Pandas</a></td>
-    <td>BSD 3-Clause</td>
-    <td data-lang-en="A powerful and flexible open-source data analysis and manipulation tool built on top of the Python programming language." data-lang-cy="Offeryn grymus a hyblyg i ddadansoddi a thrin data fynhonnell agored a adeiladwyd ar ben iaith raglennu Python.">A powerful and flexible open-source data analysis and manipulation tool built on top of the Python programming language.</td>
-</tr>
+    <!-- Numpy -->
+    <tr>
+      <td>2</td>
+      <td data-lang-en="Numpy" data-lang-cy="Numpy">Numpy</td>
+      <td><a href="https://numpy.org/" target="_blank">Numpy</a></td>
+      <td>BSD 3-Clause</td>
+      <td
+        data-lang-en="A library for the Python programming language, adding support for large, multi-dimensional arrays and matrices, and a large collection of high-level mathematical functions to operate on these arrays."
+        data-lang-cy="Llyfrgell ar gyfer iaith raglennu Python, gan ychwanegu cefnogaeth ar gyfer arrayau a matricsau aml-ddimensiynol mawr, a chasgliad mawr o swyddogaethau mathemategol lefel uchel i weithredu ar y rhain."
+      >
+        A library for the Python programming language, adding support for large,
+        multi-dimensional arrays and matrices, and a large collection of
+        high-level mathematical functions to operate on these arrays.
+      </td>
+    </tr>
 
-<!-- Numpy -->
-<tr>
-    <td>2</td>
-    <td data-lang-en="Numpy" data-lang-cy="Numpy">Numpy</td>
-    <td><a href="https://numpy.org/" target="_blank">Numpy</a></td>
-    <td>BSD 3-Clause</td>
-    <td data-lang-en="A library for the Python programming language, adding support for large, multi-dimensional arrays and matrices, and a large collection of high-level mathematical functions to operate on these arrays." data-lang-cy="Llyfrgell ar gyfer iaith raglennu Python, gan ychwanegu cefnogaeth ar gyfer arrayau a matricsau aml-ddimensiynol mawr, a chasgliad mawr o swyddogaethau mathemategol lefel uchel i weithredu ar y rhain.">A library for the Python programming language, adding support for large, multi-dimensional arrays and matrices, and a large collection of high-level mathematical functions to operate on these arrays.</td>
-</tr>
+    <!-- spaCy -->
+    <tr>
+      <td>3</td>
+      <td data-lang-en="spaCy" data-lang-cy="spaCy">spaCy</td>
+      <td>
+        <a href="https://spacy.io/" target="_blank">spaCy</a> |
+        <a href="https://github.com/explosion/spaCy/" target="_blank">GitHub</a>
+      </td>
+      <td>MIT Licence</td>
+      <td
+        data-lang-en="An open-source software library for advanced natural language processing, written in Python and Cython."
+        data-lang-cy="Llyfrgell meddalwedd fynhonnell agored ar gyfer prosesu iaith naturiol uwch, wedi'i hysgrifennu mewn Python a Cython."
+      >
+        An open-source software library for advanced natural language
+        processing, written in Python and Cython.
+      </td>
+    </tr>
+    <!-- NLTK -->
+    <tr>
+      <td>4</td>
+      <td data-lang-en="NLTK" data-lang-cy="NLTK">NLTK</td>
+      <td><a href="https://www.nltk.org/" target="_blank">NLTK</a></td>
+      <td>Apache Licence 2.0</td>
+      <td
+        data-lang-en="A platform for building Python programs to work with human language data, offering easy-to-use interfaces to over 50 corpora and lexical resources."
+        data-lang-cy="Llwyfan ar gyfer adeiladu rhaglenni Python i weithio gyda data iaith ddynol sy'n cynnig rhyngwynebau hawdd eu defnyddio i dros 50 o gorpora ac adnoddau geiriol."
+      >
+        A platform for building Python programs to work with human language
+        data, offering easy-to-use interfaces to over 50 corpora and lexical
+        resources.
+      </td>
+    </tr>
 
-<!-- spaCy -->
-<tr>
-    <td>3</td>
-    <td data-lang-en="spaCy" data-lang-cy="spaCy">spaCy</td>
-    <td><a href="https://spacy.io/" target="_blank">spaCy</a> | <a href="https://github.com/explosion/spaCy/" target="_blank">GitHub</a></td>
-    <td>MIT Licence</td>
-    <td data-lang-en="An open-source software library for advanced natural language processing, written in Python and Cython." data-lang-cy="Llyfrgell meddalwedd fynhonnell agored ar gyfer prosesu iaith naturiol uwch, wedi'i hysgrifennu mewn Python a Cython.">An open-source software library for advanced natural language processing, written in Python and Cython.</td>
-</tr>
-<!-- NLTK -->
-<tr>
-    <td>4</td>
-    <td data-lang-en="NLTK" data-lang-cy="NLTK">NLTK</td>
-    <td><a href="https://www.nltk.org/" target="_blank">NLTK</a></td>
-    <td>Apache Licence 2.0</td>
-    <td data-lang-en="A platform for building Python programs to work with human language data, offering easy-to-use interfaces to over 50 corpora and lexical resources." data-lang-cy="Llwyfan ar gyfer adeiladu rhaglenni Python i weithio gyda data iaith ddynol sy'n cynnig rhyngwynebau hawdd eu defnyddio i dros 50 o gorpora ac adnoddau geiriol.">A platform for building Python programs to work with human language data, offering easy-to-use interfaces to over 50 corpora and lexical resources.</td>
-</tr>
+    <!-- Matplotlib -->
+    <tr>
+      <td>5</td>
+      <td data-lang-en="Matplotlib" data-lang-cy="Matplotlib">Matplotlib</td>
+      <td><a href="https://matplotlib.org/" target="_blank">Matplotlib</a></td>
+      <td>Matplotlib Licence</td>
+      <td
+        data-lang-en="A plotting library for the Python programming language and its numerical mathematics extension, NumPy."
+        data-lang-cy="Llyfrgell blotio ar gyfer iaith raglennu Python a'i hestyniad mathemateg rhifiadol, NumPy."
+      >
+        A plotting library for the Python programming language and its numerical
+        mathematics extension, NumPy.
+      </td>
+    </tr>
 
-<!-- Matplotlib -->
-<tr>
-    <td>5</td>
-    <td data-lang-en="Matplotlib" data-lang-cy="Matplotlib">Matplotlib</td>
-    <td><a href="https://matplotlib.org/" target="_blank">Matplotlib</a></td>
-    <td>Matplotlib Licence</td>
-    <td data-lang-en="A plotting library for the Python programming language and its numerical mathematics extension, NumPy." data-lang-cy="Llyfrgell blotio ar gyfer iaith raglennu Python a'i hestyniad mathemateg rhifiadol, NumPy.">A plotting library for the Python programming language and its numerical mathematics extension, NumPy.</td>
-</tr>
+    <!-- Seaborn -->
+    <tr>
+      <td>6</td>
+      <td data-lang-en="Seaborn" data-lang-cy="Seaborn">Seaborn</td>
+      <td><a href="https://seaborn.pydata.org/" target="_blank">Seaborn</a></td>
+      <td>BSD 3-Clause Licence</td>
+      <td
+        data-lang-en="A data visualization library based on Matplotlib, providing a high-level interface for drawing attractive and informative statistical graphics."
+        data-lang-cy="Llyfrgell ddelweddu data wedi'i seilio ar Matplotlib, gan roi rhyngwyneb lefel uchel ar gyfer lluniadu graffigwaith ystadegol atyniadol a llawn gwybodaeth."
+      >
+        A data visualization library based on Matplotlib, providing a high-level
+        interface for drawing attractive and informative statistical graphics.
+      </td>
+    </tr>
 
-<!-- Seaborn -->
-<tr>
-    <td>6</td>
-    <td data-lang-en="Seaborn" data-lang-cy="Seaborn">Seaborn</td>
-    <td><a href="https://seaborn.pydata.org/" target="_blank">Seaborn</a></td>
-    <td>BSD 3-Clause Licence</td>
-    <td data-lang-en="A data visualization library based on Matplotlib, providing a high-level interface for drawing attractive and informative statistical graphics." data-lang-cy="Llyfrgell ddelweddu data wedi'i seilio ar Matplotlib, gan roi rhyngwyneb lefel uchel ar gyfer lluniadu graffigwaith ystadegol atyniadol a llawn gwybodaeth.">A data visualization library based on Matplotlib, providing a high-level interface for drawing attractive and informative statistical graphics.</td>
-</tr>
+    <!-- Pillow (PIL) -->
+    <tr>
+      <td>7</td>
+      <td data-lang-en="Pillow (PIL)" data-lang-cy="Pillow (PIL)">
+        Pillow (PIL)
+      </td>
+      <td>
+        <a href="https://python-pillow.org/" target="_blank">Pillow (PIL)</a>
+      </td>
+      <td>HPND</td>
+      <td
+        data-lang-en="A fork of the Python Imaging Library, which adds some user-friendly features."
+        data-lang-cy="Fforch o Lyfrgell Ddelweddu Python sy'n ychwanegu ambell nodwedd ddefnyddiwr-gyfeillgar."
+      ></td>
 
- <!-- Pillow (PIL) -->
-<tr>
-        <td>7</td>
-        <td data-lang-en="Pillow (PIL)" data-lang-cy="Pillow (PIL)">Pillow (PIL)</td>
-        <td><a href="https://python-pillow.org/" target="_blank">Pillow (PIL)</a></td>
-        <td>HPND</td>
-        <td data-lang-en="A fork of the Python Imaging Library, which adds some user-friendly features." data-lang-cy="Fforch o Lyfrgell Ddelweddu Python sy'n ychwanegu ambell nodwedd ddefnyddiwr-gyfeillgar."></td>
+      <!-- WordCloud -->
+    </tr>
 
-<!-- WordCloud -->
-<tr>
-    <td>8</td>
-    <td data-lang-en="WordCloud" data-lang-cy="WordCloud">WordCloud</td>
-    <td><a href="https://github.com/amueller/word_cloud" target="_blank">GitHub</a></td>
-    <td>MIT Licence</td>
-    <td data-lang-en="A Python library for generating word clouds." 
-    data-lang-cy="Llyfrgell Python ar gyfer creu cymylau geiriau.">A Python library for generating word clouds.</td>
-</tr>
+    <tr>
+      <td>8</td>
+      <td data-lang-en="WordCloud" data-lang-cy="WordCloud">WordCloud</td>
+      <td>
+        <a href="https://github.com/amueller/word_cloud" target="_blank"
+          >GitHub</a
+        >
+      </td>
+      <td>MIT Licence</td>
+      <td
+        data-lang-en="A Python library for generating word clouds."
+        data-lang-cy="Llyfrgell Python ar gyfer creu cymylau geiriau."
+      >
+        A Python library for generating word clouds.
+      </td>
+    </tr>
 
-<!-- Summa -->
-<tr>
-    <td>9</td>
-    <td data-lang-en="Summa" data-lang-cy="Summa">Summa</td>
-    <td><a href="https://github.com/summanlp/textrank" target="_blank">GitHub</a></td>
-    <td>MIT Licence</td>
-    <td data-lang-en="A Python module for extractive summarization, leveraging the TextRank algorithm." 
-    data-lang-cy="Modiwl Python ar gyfer crynodebu echdynnol, gan ysgogi algorithm TextRank.">A Python module for extractive summarization, leveraging the TextRank algorithm.</td>
-</tr>
+    <!-- Summa -->
+    <tr>
+      <td>9</td>
+      <td data-lang-en="Summa" data-lang-cy="Summa">Summa</td>
+      <td>
+        <a href="https://github.com/summanlp/textrank" target="_blank"
+          >GitHub</a
+        >
+      </td>
+      <td>MIT Licence</td>
+      <td
+        data-lang-en="A Python module for extractive summarization, leveraging the TextRank algorithm."
+        data-lang-cy="Modiwl Python ar gyfer crynodebu echdynnol, gan ysgogi algorithm TextRank."
+      >
+        A Python module for extractive summarization, leveraging the TextRank
+        algorithm.
+      </td>
+    </tr>
 
-<!-- langdetect -->
-<tr>
-    <td>10</td>
-    <td data-lang-en="langdetect" data-lang-cy="langdetect">langdetect</td>
-    <td><a href="https://github.com/Mimino666/langdetect" target="_blank">GitHub</a></td>
-    <td>Apache Licence 2.0</td>
-    <td data-lang-en="A language detection library ported from Google's language-detection." 
-    data-lang-cy="Llyfrgell canfod iaith wedi'i phorthi o ganfod iaith Google.">A language detection library ported from Google's language-detection.</td>
-</tr>
+    <!-- langdetect -->
+    <tr>
+      <td>10</td>
+      <td data-lang-en="langdetect" data-lang-cy="langdetect">langdetect</td>
+      <td>
+        <a href="https://github.com/Mimino666/langdetect" target="_blank"
+          >GitHub</a
+        >
+      </td>
+      <td>Apache Licence 2.0</td>
+      <td
+        data-lang-en="A language detection library ported from Google's language-detection."
+        data-lang-cy="Llyfrgell canfod iaith wedi'i phorthi o ganfod iaith Google."
+      >
+        A language detection library ported from Google's language-detection.
+      </td>
+    </tr>
 
-<!-- NetworkX -->
-<tr>
-    <td>11</td>
-    <td data-lang-en="NetworkX" data-lang-cy="NetworkX">NetworkX</td>
-    <td><a href="https://networkx.org/" target="_blank">NetworkX</a></td>
-    <td>BSD 3-Clause</td>
-    <td data-lang-en="A Python library for studying graphs and networks, providing tools to create, manipulate, and study complex networks." 
-    data-lang-cy="Llyfrgell Python ar gyfer astudio graffiau a rhwydweithiau sy'n darparu offer i greu, trin, ac astudio rhwydweithiau cymhleth.">A Python library for studying graphs and networks, providing tools to create, manipulate, and study complex networks.</td>
-</tr>
+    <!-- NetworkX -->
+    <tr>
+      <td>11</td>
+      <td data-lang-en="NetworkX" data-lang-cy="NetworkX">NetworkX</td>
+      <td><a href="https://networkx.org/" target="_blank">NetworkX</a></td>
+      <td>BSD 3-Clause</td>
+      <td
+        data-lang-en="A Python library for studying graphs and networks, providing tools to create, manipulate, and study complex networks."
+        data-lang-cy="Llyfrgell Python ar gyfer astudio graffiau a rhwydweithiau sy'n darparu offer i greu, trin, ac astudio rhwydweithiau cymhleth."
+      >
+        A Python library for studying graphs and networks, providing tools to
+        create, manipulate, and study complex networks.
+      </td>
+    </tr>
 
-<!-- Plotly -->
-<tr>
-    <td>12</td>
-    <td data-lang-en="Plotly" data-lang-cy="Plotly">Plotly</td>
-    <td><a href="https://plotly.com/python/" target="_blank">Plotly</a> | <a href="https://pypi.org/project/plotly/" target="_blank">PyPI</a></td>
-    <td>MIT Licence</td>
-    <td data-lang-en="An interactive, open-source plotting library that supports over 40 unique chart types." 
-    data-lang-cy="Llyfrgell blotio ryngweithiol, ffynhonnell agored sy'n cefnogi dros 40 o fathau siart unigryw..">An interactive, open-source plotting library that supports over 40 unique chart types.</td>
-</tr>
+    <!-- Plotly -->
+    <tr>
+      <td>12</td>
+      <td data-lang-en="Plotly" data-lang-cy="Plotly">Plotly</td>
+      <td>
+        <a href="https://plotly.com/python/" target="_blank">Plotly</a> |
+        <a href="https://pypi.org/project/plotly/" target="_blank">PyPI</a>
+      </td>
+      <td>MIT Licence</td>
+      <td
+        data-lang-en="An interactive, open-source plotting library that supports over 40 unique chart types."
+        data-lang-cy="Llyfrgell blotio ryngweithiol, ffynhonnell agored sy'n cefnogi dros 40 o fathau siart unigryw.."
+      >
+        An interactive, open-source plotting library that supports over 40
+        unique chart types.
+      </td>
+    </tr>
 
-<!-- PyVis -->
-<tr>
-    <td>13</td>
-    <td data-lang-en="PyVis" data-lang-cy="PyVis">PyVis</td>
-    <td><a href="https://github.com/WestHealth/pyvis" target="_blank">GitHub</a></td>
-    <td>MIT Licence</td>
-    <td data-lang-en="A Python library for visualizing networks." 
-    data-lang-cy="Llyfrgell Python ar gyfer delweddu rhwydweithiau.">A Python library for visualizing networks.</td>
-</tr>
+    <!-- PyVis -->
+    <tr>
+      <td>13</td>
+      <td data-lang-en="PyVis" data-lang-cy="PyVis">PyVis</td>
+      <td>
+        <a href="https://github.com/WestHealth/pyvis" target="_blank">GitHub</a>
+      </td>
+      <td>MIT Licence</td>
+      <td
+        data-lang-en="A Python library for visualizing networks."
+        data-lang-cy="Llyfrgell Python ar gyfer delweddu rhwydweithiau."
+      >
+        A Python library for visualizing networks.
+      </td>
+    </tr>
 
-<!-- Scattertext -->
-<tr>
-    <td>14</td>
-    <td data-lang-en="Scattertext" data-lang-cy="Scattertext">Scattertext</td>
-    <td><a href="https://github.com/JasonKessler/scattertext" target="_blank">GitHub</a></td>
-    <td>Apache Licence 2.0</td>
-    <td data-lang-en="A Python library for producing scattertext visualizations of text data." 
-    data-lang-cy="Llyfrgell Python ar gyfer creu delweddau testun gwasgariad o ddata testun.">A Python library for producing scattertext visualizations of text data.</td>
-</tr>
+    <!-- Scattertext -->
+    <tr>
+      <td>14</td>
+      <td data-lang-en="Scattertext" data-lang-cy="Scattertext">Scattertext</td>
+      <td>
+        <a href="https://github.com/JasonKessler/scattertext" target="_blank"
+          >GitHub</a
+        >
+      </td>
+      <td>Apache Licence 2.0</td>
+      <td
+        data-lang-en="A Python library for producing scattertext visualizations of text data."
+        data-lang-cy="Llyfrgell Python ar gyfer creu delweddau testun gwasgariad o ddata testun."
+      >
+        A Python library for producing scattertext visualizations of text data.
+      </td>
+    </tr>
 
-<!-- Transformers by Hugging Face -->
-<tr>
-    <td>15</td>
-    <td data-lang-en="Transformers (by Hugging Face)" data-lang-cy="Trawsnewidyddion (gan Hugging Face)">Transformers (by Hugging Face)</td>
-    <td><a href="https://huggingface.co/transformers/" target="_blank">Hugging Face</a></td>
-    <td>Apache Licence 2.0</td>
-    <td data-lang-en="Provides state-of-the-art general-purpose architectures (like BERT, GPT-2, etc.) for Natural Language Understanding (NLU) and Natural Language Generation (NLG)."
-    data-lang-cy="Yn darparu sarniaethau o'r radd flaenaf at ddibenion cyffredinol (fel BERT, GPT-2, ac ati) ar gyfer Deall Iaith Naturiol a Chynhyrchu Iaith Naturiol.">Provides state-of-the-art general-purpose architectures (like BERT, GPT-2, etc.) for Natural Language Understanding (NLU) and Natural Language Generation (NLG).</td>
-</tr>
+    <!-- Transformers by Hugging Face -->
+    <tr>
+      <td>15</td>
+      <td
+        data-lang-en="Transformers (by Hugging Face)"
+        data-lang-cy="Trawsnewidyddion (gan Hugging Face)"
+      >
+        Transformers (by Hugging Face)
+      </td>
+      <td>
+        <a href="https://huggingface.co/transformers/" target="_blank"
+          >Hugging Face</a
+        >
+      </td>
+      <td>Apache Licence 2.0</td>
+      <td
+        data-lang-en="Provides state-of-the-art general-purpose architectures (like BERT, GPT-2, etc.) for Natural Language Understanding (NLU) and Natural Language Generation (NLG)."
+        data-lang-cy="Yn darparu sarniaethau o'r radd flaenaf at ddibenion cyffredinol (fel BERT, GPT-2, ac ati) ar gyfer Deall Iaith Naturiol a Chynhyrchu Iaith Naturiol."
+      >
+        Provides state-of-the-art general-purpose architectures (like BERT,
+        GPT-2, etc.) for Natural Language Understanding (NLU) and Natural
+        Language Generation (NLG).
+      </td>
+    </tr>
 
-<!-- Torch (PyTorch) -->
-<tr>
-    <td>16</td>
-    <td data-lang-en="Torch (PyTorch)" data-lang-cy="Torch (PyTorch)">Torch (PyTorch)</td>
-    <td><a href="https://pytorch.org/" target="_blank">PyTorch</a></td>
-    <td>BSD 3-Clause</td>
-    <td data-lang-en="Open source machine learning library, primarily developed by Facebook's artificial-intelligence research group." 
-        data-lang-cy="Llyfrgell ddysgu peirianyddol ffynhonnell agored a ddatblygwyd yn bennaf gan grŵp ymchwil deallusrwydd artiffisial Facebook.">Open source machine learning library, primarily developed by Facebook's artificial-intelligence research group.</td>
-</tr>
+    <!-- Torch (PyTorch) -->
+    <tr>
+      <td>16</td>
+      <td data-lang-en="Torch (PyTorch)" data-lang-cy="Torch (PyTorch)">
+        Torch (PyTorch)
+      </td>
+      <td><a href="https://pytorch.org/" target="_blank">PyTorch</a></td>
+      <td>BSD 3-Clause</td>
+      <td
+        data-lang-en="Open source machine learning library, primarily developed by Facebook's artificial-intelligence research group."
+        data-lang-cy="Llyfrgell ddysgu peirianyddol ffynhonnell agored a ddatblygwyd yn bennaf gan grŵp ymchwil deallusrwydd artiffisial Facebook."
+      >
+        Open source machine learning library, primarily developed by Facebook's
+        artificial-intelligence research group.
+      </td>
+    </tr>
 
-<!-- nlptown/bert-base-multilingual-uncased-sentiment -->
-<tr>
-    <td>17</td>
-    <td data-lang-en="nlptown/bert-base-multilingual-uncased-sentiment" data-lang-cy="nlptown/bert-base-multilingual-uncased-sentiment">nlptown/bert-base-multilingual-uncased-sentiment</td>
-    <td><a href="https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment" target="_blank">Hugging Face Model Hub</a></td>
-    <td>Apache 2.0</td>
-    <td data-lang-en="Fine-tuned version of the BERT base model that can predict sentiments in multiple languages." 
-        data-lang-cy="Fersiwn â mân newidiadau o fodel sail BERT a all ragfynegi sentimentau mewn nifer o ieithoedd.">Fine-tuned version of the BERT base model that can predict sentiments in multiple languages.</td>
-</tr>
+    <!-- nlptown/bert-base-multilingual-uncased-sentiment -->
+    <tr>
+      <td>17</td>
+      <td
+        data-lang-en="nlptown/bert-base-multilingual-uncased-sentiment"
+        data-lang-cy="nlptown/bert-base-multilingual-uncased-sentiment"
+      >
+        nlptown/bert-base-multilingual-uncased-sentiment
+      </td>
+      <td>
+        <a
+          href="https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment"
+          target="_blank"
+          >Hugging Face Model Hub</a
+        >
+      </td>
+      <td>Apache 2.0</td>
+      <td
+        data-lang-en="Fine-tuned version of the BERT base model that can predict sentiments in multiple languages."
+        data-lang-cy="Fersiwn â mân newidiadau o fodel sail BERT a all ragfynegi sentimentau mewn nifer o ieithoedd."
+      >
+        Fine-tuned version of the BERT base model that can predict sentiments in
+        multiple languages.
+      </td>
+    </tr>
 
-<!-- ReportLab -->
-<tr>
-    <td>18</td>
-    <td data-lang-en="ReportLab" data-lang-cy="ReportLab">ReportLab</td>
-    <td><a href="https://www.reportlab.com/" target="_blank">ReportLab</a></td>
-    <td>BSD 3-Clause Licence</td>
-    <td data-lang-en="A library for creating complex, data-driven PDF documents and custom vector graphics." 
-        data-lang-cy="Llyfrgell ar gyfer creu dogfennau PDF cymhleth, ar sail data a graffigwaith fector addasu.">A library for creating complex, data-driven PDF documents and custom vector graphics.</td>
-</tr>
+    <!-- ReportLab -->
+    <tr>
+      <td>18</td>
+      <td data-lang-en="ReportLab" data-lang-cy="ReportLab">ReportLab</td>
+      <td>
+        <a href="https://www.reportlab.com/" target="_blank">ReportLab</a>
+      </td>
+      <td>BSD 3-Clause Licence</td>
+      <td
+        data-lang-en="A library for creating complex, data-driven PDF documents and custom vector graphics."
+        data-lang-cy="Llyfrgell ar gyfer creu dogfennau PDF cymhleth, ar sail data a graffigwaith fector addasu."
+      >
+        A library for creating complex, data-driven PDF documents and custom
+        vector graphics.
+      </td>
+    </tr>
 
-<!-- Pymusas- English -->
-<tr>
-    <td>19</td>
-    <td data-lang-en="Pymusas- English" data-lang-cy="Pymusas- Saesneg">Pymusas- English</td>
-    <td><a href="https://ucrel.github.io/pymusas/usage/how_to/tag_text#english" target="_blank">pymusas</a></td>
-    <td>Apache Licence 2.0</td>
-    <td data-lang-en="pymusas (Python Multilingual Ucrel Semantic Analysis System) is a semantic field tagging tool." 
-        data-lang-cy="mae pymusas (System Dadansoddi Sentiment Aml-iaith Python) yn offeryn dadansoddi sentiment.">pymusas (Python Multi-language Sentiment Analysis System) is a sentiment analysis tool.</td>
-</tr>
+    <!-- Pymusas- English -->
+    <tr>
+      <td>19</td>
+      <td data-lang-en="Pymusas- English" data-lang-cy="Pymusas- Saesneg">
+        Pymusas- English
+      </td>
+      <td>
+        <a
+          href="https://ucrel.github.io/pymusas/usage/how_to/tag_text#english"
+          target="_blank"
+          >pymusas</a
+        >
+      </td>
+      <td>Apache Licence 2.0</td>
+      <td
+        data-lang-en="pymusas (Python Multilingual Ucrel Semantic Analysis System) is a semantic field tagging tool."
+        data-lang-cy="mae pymusas (System Dadansoddi Sentiment Aml-iaith Python) yn offeryn dadansoddi sentiment."
+      >
+        pymusas (Python Multi-language Sentiment Analysis System) is a sentiment
+        analysis tool.
+      </td>
+    </tr>
 
-<!-- Pymusas- Welsh -->
-<tr>
-    <td>20</td>
-    <td data-lang-en="Pymusas- Welsh" data-lang-cy="Pymusas- Cymraeg">Pymusas- Welsh</td>
-    <td><a href="https://ucrel.github.io/pymusas/usage/how_to/tag_text#welsh" target="_blank">pymusas</a></td>
-    <td>Apache Licence 2.0</td>
-    <td data-lang-en="pymusas (Python Multilingual Ucrel Semantic Analysis System) is a semantic field tagging tool for Welsh." 
-        data-lang-cy="mae pymusas (System Dadansoddi Sentiment Aml-iaith Python) yn offeryn dadansoddi sentiment ar gyfer y Gymraeg.">pymusas (Python Multi-language Sentiment Analysis System) is a sentiment analysis tool for Welsh.</td>
-</tr>
+    <!-- Pymusas- Welsh -->
+    <tr>
+      <td>20</td>
+      <td data-lang-en="Pymusas- Welsh" data-lang-cy="Pymusas- Cymraeg">
+        Pymusas- Welsh
+      </td>
+      <td>
+        <a
+          href="https://ucrel.github.io/pymusas/usage/how_to/tag_text#welsh"
+          target="_blank"
+          >pymusas</a
+        >
+      </td>
+      <td>Apache Licence 2.0</td>
+      <td
+        data-lang-en="pymusas (Python Multilingual Ucrel Semantic Analysis System) is a semantic field tagging tool for Welsh."
+        data-lang-cy="mae pymusas (System Dadansoddi Sentiment Aml-iaith Python) yn offeryn dadansoddi sentiment ar gyfer y Gymraeg."
+      >
+        pymusas (Python Multi-language Sentiment Analysis System) is a sentiment
+        analysis tool for Welsh.
+      </td>
+    </tr>
 
-<!-- CyTag – welsh -->
-<tr>
-    <td>21</td>
-    <td data-lang-en="CyTag – welsh" data-lang-cy="CyTag – welsh">CyTag – welsh</td>
-    <td><a href="https://github.com/CorCenCC/CyTag" target="_blank">GitHub</a></td>
-    <td>GNU General Public Licence (v3)</td>
-    <td data-lang-en="A tool related to the Welsh language processing." 
-    data-lang-cy="Offeryn cysylltiedig â phrosesu'r iaith Gymraeg.">A tool related to the Welsh language processing.</td>
-</tr>
+    <!-- CyTag – welsh -->
+    <tr>
+      <td>21</td>
+      <td data-lang-en="CyTag – welsh" data-lang-cy="CyTag – welsh">
+        CyTag – welsh
+      </td>
+      <td>
+        <a href="https://github.com/CorCenCC/CyTag" target="_blank">GitHub</a>
+      </td>
+      <td>GNU General Public Licence (v3)</td>
+      <td
+        data-lang-en="A tool related to the Welsh language processing."
+        data-lang-cy="Offeryn cysylltiedig â phrosesu'r iaith Gymraeg."
+      >
+        A tool related to the Welsh language processing.
+      </td>
+    </tr>
 
-  
-
-
-<!-- Welsh-summariser -->
-<tr>
-    <td>22</td>
-    <td data-lang-en="Welsh-summariser" data-lang-cy="Welsh-summariser">Welsh-summariser</td>
-    <td><a href="https://github.com/UCREL/welsh_summarizer/tree/main" target="_blank">GitHub</a></td>
-    <td>CC0 1.0 Universal</td>
-    <td data-lang-en="Tool for summarizing Welsh texts."  data-lang-cy="Tool for summarizing Welsh texts.">Tool for summarizing Welsh texts.</td>
-</tr>
-
-</tbody>
-
+    <!-- Welsh-summariser -->
+    <tr>
+      <td>22</td>
+      <td data-lang-en="Welsh-summariser" data-lang-cy="Welsh-summariser">
+        Welsh-summariser
+      </td>
+      <td>
+        <a
+          href="https://github.com/UCREL/welsh_summarizer/tree/main"
+          target="_blank"
+          >GitHub</a
+        >
+      </td>
+      <td>CC0 1.0 Universal</td>
+      <td
+        data-lang-en="Tool for summarizing Welsh texts."
+        data-lang-cy="Tool for summarizing Welsh texts."
+      >
+        Tool for summarizing Welsh texts.
+      </td>
+    </tr>
+  </tbody>
 </table>
-<div  class="input-container">
-    <p>
-        <strong data-lang-en="User Data Safety:" data-lang-cy="Diogelwch Data'r Defnyddiwr:">Diogelwch Data'r Defnyddiwr:</strong> 
-        <em data-lang-en="FreeTxt is committed to safeguarding user information."
-        data-lang-cy="FreeTxt yn ymrwymedig i ddiogelu gwybodaeth y defnyddiwr:">FreeTxt yn ymrwymedig i ddiogelu gwybodaeth y defnyddiwr:</em>
-        <br>
-        <strong data-lang-en="Temporary Storage:" data-lang-cy="Storio Dros Dro:">Storio Dros Dro:</strong> 
-        <span 
-        data-lang-en="Data uploaded for analysis isn't stored indefinitely. Once your session ends, your data doesn't linger on the platform."
-        data-lang-cy="Nid yw'r data a lwythir i fyny ar gyfer dadansoddi yn cael ei storio am byth. Pan fydd eich sesiwn yn dod i ben, nid yw eich data'n aros ar y llwyfan."
-        >Nid yw'r data a lwythir i fyny ar gyfer dadansoddi yn cael ei storio am byth. Pan fydd eich sesiwn yn dod i ben, nid yw eich data'n aros ar y llwyfan.</span>
-        <br>
-        <strong data-lang-en="No Redistribution:" data-lang-cy="Dim Ailddosbarthu:">Dim Ailddosbarthu:</strong> 
-        <span 
-        data-lang-en="Your data is your own. We respect user ownership, ensuring that uploaded data isn't redistributed or used beyond its intended purpose."
-        data-lang-cy="Eich data chi yw eich eiddo. Rydym yn parchu hawliau'r defnyddiwr, gan sicrhau nad yw'r data a lwythir i fyny'n cael ei ailddosbarthu neu ei ddefnyddio y tu hwnt i'w bwrpas bwriadedig."
-        >Eich data chi yw eich eiddo. Rydym yn parchu hawliau'r defnyddiwr, gan sicrhau nad yw'r data a lwythir i fyny'n cael ei ailddosbarthu neu ei ddefnyddio y tu hwnt i'w bwrpas bwriadedig.</span>
-        <br>
-        <strong data-lang-en="Encrypted Transfers:" data-lang-cy="Trosglwyddiadau Amgryptio:">Trosglwyddiadau Amgryptio:</strong> 
-        <span 
-        data-lang-en="Data transferred to and from the platform is encrypted, guarding against external threats and ensuring interceptors can't decipher the contents."
-        data-lang-cy="Mae'r data a trosglwyddir i mewn ac allan o'r llwyfan yn cael ei amgryptio, i warchod rhag bygythiadau allanol ac i sicrhau na all tanysgrifwyr ddeall y cynnwys."
-        >Mae'r data a trosglwyddir i mewn ac allan o'r llwyfan yn cael ei amgryptio, i warchod rhag bygythiadau allanol ac i sicrhau na all tanysgrifwyr ddeall y cynnwys.</span>
-        <br>
-        <strong data-lang-en="Session-based Clearing:" data-lang-cy="Clerio ar Sail Sesiwn:">Clerio ar Sail Sesiwn:</strong> 
-        <span 
-        data-lang-en="After your analysis session concludes, your data is promptly cleared, be it from closing your browser or session timeout. This process reduces unauthorized access risk."
-        data-lang-cy="Ar ôl i'ch sesiwn dadansoddi ddod i ben, caiff eich data ei glirio'n brydlon, boed drwy gau eich porwr neu drwy orffen y sesiwn. Mae'r broses hon yn lleihau'r risg o fynediad anawdurdodedig.">
-        Ar ôl i'ch sesiwn dadansoddi ddod i ben, caiff eich data ei glirio'n brydlon, boed drwy gau eich porwr neu drwy orffen y sesiwn. Mae'r broses hon yn lleihau'r risg o fynediad anawdurdodedig.</span>
-        <br>
-        <strong data-lang-en="Regular Audits and Updates:" data-lang-cy="Archwiliadau a Diweddariadau Rheolaidd:">Archwiliadau a Diweddariadau Rheolaidd:</strong> 
-        <span 
-        data-lang-en="The platform undergoes regular security audits, with timely patches and updates to stay ahead of threats and vulnerabilities."
-        data-lang-cy="Mae'r llwyfan yn cael ei archwilio'n rheolaidd am ddiogelwch, gyda patchiau a diweddariadau'n cael eu gweithredu pryd bynnag y bo angen.">Mae'r llwyfan yn cael ei archwilio'n rheolaidd am ddiogelwch, gyda patchiau a diweddariadau'n cael eu gweithredu pryd bynnag y bo angen.</span>
-    </p>
-    
-    </div>
- <div class="input-container">
-    <p data-lang-en="FreeTxt is licensed under Apache 2.0 and thus is freely available for use by professional communities and individuals with an interest in language analysis. When reporting information analyses derived using FreeTxt, FreeTxt should be appropriately acknowledged:" 
-       data-lang-cy="Trwyddedir TestunRhydd/FreeTxt o dan Apache 2.0 ac felly mae ar gael yn rhad ac am ddim i’w ddefnyddio gan gymunedau proffesiynol ac unigolion â diddordeb mewn dadansoddi iaith. Wrth adrodd am ddadansoddiadau gwybodaeth sy’n deillio o TestunRhydd, dylid cydnabod TestunRhydd yn briodol:">
-       FreeTxt is licensed under Apache 2.0 and thus is freely available for use by professional communities and individuals with an interest in language analysis. When reporting information analyses derived using FreeTxt, FreeTxt should be appropriately acknowledged:
-    </p>
-    
-  
-    
-    <p data-lang-en="Khallaf, N., Ezeani, I., Knight, D., Rayson, P., El-Haj, M. and Morris, S. (2023). FreeTxt – a bilingual free-text analysis and visualisation toolkit [Software]. Cardiff University and Lancaster University. Available at: www.freetxt.app" 
-       data-lang-cy="Khallaf, N., Ezeani, I., Knight, D., Rayson, P., El-Haj, M. a Morris, S. (2023). TestunRhydd – pecyn cymorth dwyieithog i ddadansoddi a delweddu testun rhydd [Meddalwedd]. Prifysgol Caerdydd a Phrifysgol Caerhirfryn. www.freetxt.app">
-       Khallaf, N., Ezeani, I., Knight, D., Rayson, P., El-Haj, M. and Morris, S. (2023). FreeTxt – a bilingual free-text analysis and visualisation toolkit [Software]. Cardiff University and Lancaster University. Available at: <a href="http://www.freetxt.app" target="_blank">www.freetxt.app</a></p>   
-    </div>
+<div class="input-container">
+  <p>
+    <strong
+      data-lang-en="User Data Safety:"
+      data-lang-cy="Diogelwch Data'r Defnyddiwr:"
+      >Diogelwch Data'r Defnyddiwr:</strong
+    >
+    <em
+      data-lang-en="FreeTxt is committed to safeguarding user information."
+      data-lang-cy="FreeTxt yn ymrwymedig i ddiogelu gwybodaeth y defnyddiwr:"
+      >FreeTxt yn ymrwymedig i ddiogelu gwybodaeth y defnyddiwr:</em
+    >
+    <br />
+    <strong data-lang-en="Temporary Storage:" data-lang-cy="Storio Dros Dro:"
+      >Storio Dros Dro:</strong
+    >
+    <span
+      data-lang-en="Data uploaded for analysis isn't stored indefinitely. Once your session ends, your data doesn't linger on the platform."
+      data-lang-cy="Nid yw'r data a lwythir i fyny ar gyfer dadansoddi yn cael ei storio am byth. Pan fydd eich sesiwn yn dod i ben, nid yw eich data'n aros ar y llwyfan."
+      >Nid yw'r data a lwythir i fyny ar gyfer dadansoddi yn cael ei storio am
+      byth. Pan fydd eich sesiwn yn dod i ben, nid yw eich data'n aros ar y
+      llwyfan.</span
+    >
+    <br />
+    <strong data-lang-en="No Redistribution:" data-lang-cy="Dim Ailddosbarthu:"
+      >Dim Ailddosbarthu:</strong
+    >
+    <span
+      data-lang-en="Your data is your own. We respect user ownership, ensuring that uploaded data isn't redistributed or used beyond its intended purpose."
+      data-lang-cy="Eich data chi yw eich eiddo. Rydym yn parchu hawliau'r defnyddiwr, gan sicrhau nad yw'r data a lwythir i fyny'n cael ei ailddosbarthu neu ei ddefnyddio y tu hwnt i'w bwrpas bwriadedig."
+      >Eich data chi yw eich eiddo. Rydym yn parchu hawliau'r defnyddiwr, gan
+      sicrhau nad yw'r data a lwythir i fyny'n cael ei ailddosbarthu neu ei
+      ddefnyddio y tu hwnt i'w bwrpas bwriadedig.</span
+    >
+    <br />
+    <strong
+      data-lang-en="Encrypted Transfers:"
+      data-lang-cy="Trosglwyddiadau Amgryptio:"
+      >Trosglwyddiadau Amgryptio:</strong
+    >
+    <span
+      data-lang-en="Data transferred to and from the platform is encrypted, guarding against external threats and ensuring interceptors can't decipher the contents."
+      data-lang-cy="Mae'r data a trosglwyddir i mewn ac allan o'r llwyfan yn cael ei amgryptio, i warchod rhag bygythiadau allanol ac i sicrhau na all tanysgrifwyr ddeall y cynnwys."
+      >Mae'r data a trosglwyddir i mewn ac allan o'r llwyfan yn cael ei
+      amgryptio, i warchod rhag bygythiadau allanol ac i sicrhau na all
+      tanysgrifwyr ddeall y cynnwys.</span
+    >
+    <br />
+    <strong
+      data-lang-en="Session-based Clearing:"
+      data-lang-cy="Clerio ar Sail Sesiwn:"
+      >Clerio ar Sail Sesiwn:</strong
+    >
+    <span
+      data-lang-en="After your analysis session concludes, your data is promptly cleared, be it from closing your browser or session timeout. This process reduces unauthorized access risk."
+      data-lang-cy="Ar ôl i'ch sesiwn dadansoddi ddod i ben, caiff eich data ei glirio'n brydlon, boed drwy gau eich porwr neu drwy orffen y sesiwn. Mae'r broses hon yn lleihau'r risg o fynediad anawdurdodedig."
+    >
+      Ar ôl i'ch sesiwn dadansoddi ddod i ben, caiff eich data ei glirio'n
+      brydlon, boed drwy gau eich porwr neu drwy orffen y sesiwn. Mae'r broses
+      hon yn lleihau'r risg o fynediad anawdurdodedig.</span
+    >
+    <br />
+    <strong
+      data-lang-en="Regular Audits and Updates:"
+      data-lang-cy="Archwiliadau a Diweddariadau Rheolaidd:"
+      >Archwiliadau a Diweddariadau Rheolaidd:</strong
+    >
+    <span
+      data-lang-en="The platform undergoes regular security audits, with timely patches and updates to stay ahead of threats and vulnerabilities."
+      data-lang-cy="Mae'r llwyfan yn cael ei archwilio'n rheolaidd am ddiogelwch, gyda patchiau a diweddariadau'n cael eu gweithredu pryd bynnag y bo angen."
+      >Mae'r llwyfan yn cael ei archwilio'n rheolaidd am ddiogelwch, gyda
+      patchiau a diweddariadau'n cael eu gweithredu pryd bynnag y bo
+      angen.</span
+    >
+  </p>
+</div>
+<div class="input-container">
+  <p
+    data-lang-en="FreeTxt is licensed under Apache 2.0 and thus is freely available for use by professional communities and individuals with an interest in language analysis. When reporting information analyses derived using FreeTxt, FreeTxt should be appropriately acknowledged:"
+    data-lang-cy="Trwyddedir TestunRhydd/FreeTxt o dan Apache 2.0 ac felly mae ar gael yn rhad ac am ddim i’w ddefnyddio gan gymunedau proffesiynol ac unigolion â diddordeb mewn dadansoddi iaith. Wrth adrodd am ddadansoddiadau gwybodaeth sy’n deillio o TestunRhydd, dylid cydnabod TestunRhydd yn briodol:"
+  >
+    FreeTxt is licensed under Apache 2.0 and thus is freely available for use by
+    professional communities and individuals with an interest in language
+    analysis. When reporting information analyses derived using FreeTxt, FreeTxt
+    should be appropriately acknowledged:
+  </p>
+
+  <p
+    data-lang-en="Khallaf, N., Ezeani, I., Knight, D., Rayson, P., El-Haj, M. and Morris, S. (2023). FreeTxt – a bilingual free-text analysis and visualisation toolkit [Software]. Cardiff University and Lancaster University. Available at: www.freetxt.app"
+    data-lang-cy="Khallaf, N., Ezeani, I., Knight, D., Rayson, P., El-Haj, M. a Morris, S. (2023). TestunRhydd – pecyn cymorth dwyieithog i ddadansoddi a delweddu testun rhydd [Meddalwedd]. Prifysgol Caerdydd a Phrifysgol Caerhirfryn. www.freetxt.app"
+  >
+    Khallaf, N., Ezeani, I., Knight, D., Rayson, P., El-Haj, M. and Morris, S.
+    (2023). FreeTxt – a bilingual free-text analysis and visualisation toolkit
+    [Software]. Cardiff University and Lancaster University. Available at:
+    <a href="http://www.freetxt.app" target="_blank">www.freetxt.app</a>
+  </p>
+</div>
 
 {% endblock %}
