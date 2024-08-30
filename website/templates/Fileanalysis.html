@@ -992,14 +992,14 @@
       <div id="ABSAInputContainer" class="mt-4" style="display: none">
         <h3
           data-lang-en="Enter aspects to analyse:"
-          data-lang-cy="Needs welsh translation"
+          data-lang-cy="Rhowch agweddau i'w dadansoddi:"
         >
           Enter aspects to analyse:
         </h3>
         <textarea
           class="data-input m-0"
           name="absa-aspects-to-analyze"
-          placeholder="Enter words separated by commas or whitespace, e.g., example, words, here"
+          placeholder="Enter words separated by commas, e.g., example, words, here"
           id="absa-aspects-to-analyze"
           oninput="handleAspectInputChanges()"
           maxlength="500"
@@ -1010,7 +1010,7 @@
             class="font-weight-bold"
             style="opacity: 0%"
             data-lang-en="Aspects:"
-            data-lang-cy="Needs welsh translation"
+            data-lang-cy="Agweddau:"
             >Aspects:</span
           >
           <span
@@ -1024,32 +1024,11 @@
             type="button"
             class="btn btn-dark mr-3"
             data-lang-en="Fetch Results"
-            data-lang-cy="Needs welsh translation"
+            data-lang-cy="Canlyniadau Ffetch"
             onclick="startABSA()"
           >
             Fetch Results
           </button>
-          <div
-            class="form-check ml-0 mt-3 ml-sm-3 mt-sm-0 d-flex justify-content-start justify-content-sm-center align-items-center"
-          >
-            <div
-              class="container-fluid d-flex m-0 p-0"
-              title="Includes global sentiments in results (Analyses rows that do not contain any of the entered aspects)."
-            >
-              <input
-                id="includeGlobalsABSA"
-                class="form-check-input"
-                type="checkbox"
-              />
-              <label
-                class="form-check-label"
-                for="includeGlobalsABSA"
-                data-lang-en="Include Global Sentiments"
-                data-lang-cy="Needs welsh translation"
-                >Include Global Sentiments</label
-              >
-            </div>
-          </div>
         </div>
       </div>
       <div
@@ -1599,7 +1578,8 @@
         </div>
         <div
           id="wordCloudImageContainer"
-          class="container-fluid d-flex flex-column justify-content-center align-items-center w-100 position-relative p-1 m-0"
+          class="container-fluid d-flex flex-column justify-content-center align-items-center mw-100 position-relative p-0 m-0"
+          style="max-height: 100vh"
         >
           <div
             id="word-cloud-enlarge-reduce-icon"
@@ -1617,12 +1597,7 @@
               ></i
             ></label>
           </div>
-          <img
-            id="wordCloudImage"
-            class="w-100"
-            src=""
-            alt="Word Cloud Image"
-          />
+          <img id="wordCloudImage" src="" alt="Word Cloud Image" />
         </div>
       </div>
 

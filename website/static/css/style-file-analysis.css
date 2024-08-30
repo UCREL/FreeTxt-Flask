@@ -607,3 +607,13 @@ input[type="checkbox"] {
 #wordCloudImageContainer:hover #word-cloud-enlarge-reduce-icon {
   opacity: 1;
 }
+
+#wordCloudImage {
+  max-width: 100%;
+  max-height: 100vh;
+}
+
+#secWordCloudImage {
+  max-width: 100%;
+  max-height: 100vh;
+}
