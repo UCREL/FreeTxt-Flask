@@ -8,10 +8,51 @@ Here is the [link to FreeTxt app](https://www.freetxt.app/) which is currently u
 
 - For further information on the FreeTxt project please contact the project team: CorCenCC@Cardiff.ac.uk
 
+# Building with Docker/Podman (as a User)
 
-# FreeTxt-Flask Setup Instructions
+[![Create and publish a Docker image](https://github.com/UCREL/FreeTxt-Flask/actions/workflows/publish.yml/badge.svg)](https://github.com/UCREL/FreeTxt-Flask/actions/workflows/publish.yml)
 
-Follow these steps to set up the project on your local machine.
+This is the recommended way to build FreeTxt2 for normal usage. If you need to develop with FreeTxt please see the following section(s) after this one.
+
+## Step 1: Install Docker Desktop or Podman Desktop
+Pick **one** of the following products (either will work!) and follow their setup instructions as detailed on one of these links:
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Podman Desktop](https://podman-desktop.io/)
+
+## Step 2: Run the `ghcr.io/ucrel/freetxt-flask:main` image
+
+Open a console or terminal, and run:
+
+`docker run -p 8000:8000 --rm ghcr.io/ucrel/freetxt-flask:main`
+
+for Docker Desktop or:
+
+`podman run -p 8000:8000 --rm ghcr.io/ucrel/freetxt-flask:main`
+
+for Podman Desktop.
+
+After the image has downloaded and the container started up, you should be able to visit [http://localhost:8000/](http://localhost:8000/) to access FreeTxt2.
+
+The cache folder and working directory are available on the `/cache` and `/var/freetxt` paths respectively, and can be mounted to your host if required through bind mounts or volume mounts.
+
+If you plan to run FreeTxt2 for very long periods of time, you may want to mount `/cache` as this will include any uploaded text for processing, so can become quite large over time. Bind mounting this will let you periodically clear the folder without restarting the container.
+
+## Building a local docker image (as a Developer)
+
+To build a local image (for development) simply clone this repository, then from the root directory of the clone run:
+
+`docker build -t freetxt-local .`
+
+or:
+
+`podman build -t freetxt-local .`
+
+(Note the `.` at the end is important!)
+
+# FreeTxt-Flask Setup Instructions (as a Developer)
+
+Follow these steps to set up the project on your local machine _without_ a container runtime.
 
 ## Prerequisites
 

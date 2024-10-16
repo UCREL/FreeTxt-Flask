@@ -1,63 +1,60 @@
-{% extends "template.html" %}
-{% block data %}
+{% extends "template.html" %} {% block data %}
 <style>
-body {
+  body {
     margin: 0;
     padding: 0;
-}
+  }
 
-.content-container {
-		
-		
+  .content-container {
     margin: 20px; /* Margin around the edges */
     padding: 20px; /* Padding inside the div */
     max-width: 90%; /* Maximum width of the div */
     margin-left: auto; /* Centering the div */
     margin-right: auto; /* Centering the div */
-}
-h2 {
-            color: #333;
-        }
-        .color-boxes {
-            justify-content: center;
-            align-content: center;
-            display: flex;
-            gap: 20px; 
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        .color-box {
-            padding: 20px;
-            border-radius: 10px;
-            color: white;
-            width: 150px;
-            text-align: center;
-            font-weight: bold;
-        }
-        .blue {
-            background: linear-gradient(to right, #003366, #0066cc, #0099cc, #00ccff); 
-        }
-        .red {
-            background: linear-gradient(to  right, #660000, #990000, #cc0000, #ff6666); 
-        }
-        .yellow {
-            background: linear-gradient(to  right, #ffcc00, #ffdd33f5, #ffee66, #ffff99);
-            color: black; 
-        }
-        .orange {
-            background: linear-gradient(to  right, #cc6600, #ff9933, #ffad33, #ffcc66); 
-        }
-        .image-container {
+  }
+  h2 {
+    color: #333;
+  }
+  .color-boxes {
+    justify-content: center;
+    align-content: center;
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .color-box {
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    width: 150px;
+    text-align: center;
+    font-weight: bold;
+  }
+  .blue {
+    background: linear-gradient(to right, #003366, #0066cc, #0099cc, #00ccff);
+  }
+  .red {
+    background: linear-gradient(to right, #660000, #990000, #cc0000, #ff6666);
+  }
+  .yellow {
+    background: linear-gradient(to right, #ffcc00, #ffdd33f5, #ffee66, #ffff99);
+    color: black;
+  }
+  .orange {
+    background: linear-gradient(to right, #cc6600, #ff9933, #ffad33, #ffcc66);
+  }
+  .image-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%; /* Adjust this value based on your needs */
-    }
-    .hidden-checkbox {
+  }
+  .hidden-checkbox {
     display: none;
-}
+  }
 
-.checkbox-option {
+  .checkbox-option {
     cursor: pointer;
     flex: 0 0 calc(50% - 30px);
     box-sizing: border-box;
@@ -68,48 +65,46 @@ h2 {
     text-align: center;
     vertical-align: middle;
     float: left;
-}
+  }
 
-.checkbox-option.selected {
-    border: 3px solid #FFD700; /* Gold border to indicate selected state */
-}
-.tab-content {
+  .checkbox-option.selected {
+    border: 3px solid #ffd700; /* Gold border to indicate selected state */
+  }
+  .tab-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between; /* Adjusts spacing between the grid and the button */
-}
-/* Sample grid layout */
-.grid {
+  }
+  /* Sample grid layout */
+  .grid {
     display: flex;
     flex-wrap: wrap;
     gap: 20px; /* Space between squares */
     flex-wrap: wrap; /* Allow the blocks to wrap to the next line if there's not enough space */
     flex: 1; /* Allows the grid to take the available space */
     margin-right: 20px;
+  }
 
-}
-
-.grid .square {
+  .grid .square {
     transition: transform 0.3s, box-shadow 0.3s;
-     /* Increased width */
-    box-sizing: border-box;   /* To ensure padding doesn't affect width */
+    /* Increased width */
+    box-sizing: border-box; /* To ensure padding doesn't affect width */
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;  /* This will center the content vertically */
+    justify-content: center; /* This will center the content vertically */
     text-decoration: none;
     color: white;
     position: relative;
-}
+  }
 
-.flex-container {
+  .flex-container {
     display: flex;
-    align-items: center;  /* This will vertically center the grid and the button */
-    
-}
+    align-items: center; /* This will vertically center the grid and the button */
+  }
 
-#generatePdfBtn {
+  #generatePdfBtn {
     background-color: #2e2e2f; /* Blue color */
     color: white;
     border: none;
@@ -122,13 +117,13 @@ h2 {
     gap: 10px; /* Space between the icon and the text */
     transition: background-color 0.3s;
     height: 550px;
-}
+  }
 
-#generatePdfBtn:hover {
+  #generatePdfBtn:hover {
     background-color: #0c0c0c; /* Darker blue color on hover */
-}
-/* Styling the file input */
-#file-to-analyze input[type="file"] {
+  }
+  /* Styling the file input */
+  #file-to-analyze input[type="file"] {
     padding: 10px;
     border: 1px solid #d4d4d4;
     margin-right: 10px;
@@ -136,52 +131,48 @@ h2 {
     appearance: none; /* Remove the default browser styling */
     border-radius: 4px;
     outline: none;
-}
+  }
 
-#file-to-analyze:hover input[type="file"] {
+  #file-to-analyze:hover input[type="file"] {
     border-color: #050505;
-}
+  }
 
-.hover-content {
-    
+  .hover-content {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     display: flex;
-    align-items: center!important;
+    align-items: center !important;
     justify-content: center !important;
     background-color: rgba(0, 0, 0, 0.8); /* semi-transparent black */
     color: white; /* text color */
     opacity: 0; /* hidden initially */
     transition: opacity 0.3s;
     pointer-events: none; /* to make sure the hover-content doesn't interfere with the clickability of the square */
-}
-.grid .square:hover {
+  }
+  .grid .square:hover {
     transform: translateY(-10px);
-    box-shadow: 0px 10px 20px rgba(0,0,0,0.2);
-}
-.grid .square:hover .hover-content {
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  .grid .square:hover .hover-content {
     opacity: 1; /* show on hover */
+  }
 
-}
-
-
-.generate-button-container {
+  .generate-button-container {
     flex-basis: auto; /* Adjusts the width of the button container */
     align-self: center; /* Vertically centers the button in case the grid is taller */
-}
+  }
 
-
-.btn-list {
+  .btn-list {
     list-style-type: none; /* Remove bullet points */
     padding: 0;
     display: flex;
     justify-content: space-around;
-}
+  }
 
-.analyze-btnn {
+  .analyze-btnn {
     display: inline-block;
     font-weight: bold;
     color: white;
@@ -190,27 +181,31 @@ h2 {
     border-radius: 25px; /* Gives a rounded corner */
     text-decoration: none; /* Remove underlines */
     transition: transform 0.2s, box-shadow 0.2s; /* Transition for smooth hover effect */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* A subtle shadow for depth */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* A subtle shadow for depth */
     cursor: pointer; /* Indicate it's clickable */
-}
+  }
 
-.btn-gradient {
-    background: linear-gradient(45deg, #ff6b81, #7754d7); /* Gradient background */
-}
+  .btn-gradient {
+    background: linear-gradient(
+      45deg,
+      #ff6b81,
+      #7754d7
+    ); /* Gradient background */
+  }
 
-.analyze-btnn:hover {
+  .analyze-btnn:hover {
     transform: translateY(-2px); /* Moves the button up slightly */
-    box-shadow: 0 6px 8px rgba(0,0,0,0.1); /* Increase shadow on hover */
-}
-.column-label {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1); /* Increase shadow on hover */
+  }
+  .column-label {
     display: inline-block;
     border: 1px solid #ccc;
     margin-right: 10px;
     padding: 5px;
     border-radius: 5px;
-}
+  }
 
-.column-label button {
+  .column-label button {
     background-color: red;
     color: white;
     border: none;
@@ -221,56 +216,54 @@ h2 {
     text-align: center;
     margin-left: 10px;
     cursor: pointer;
-}
-#text-to-analyze {
+  }
+  #text-to-analyze {
     width: 100%;
-    height :300px;
+    height: 300px;
     min-width: 200px;
     resize: vertical; /* This allows the user to resize the textarea vertically */
-}
-.input-container{
-width:100%
-height:500px;
-margin:auto;
-}
+  }
+  .input-container {
+    width: 100%;
+    height: auto;
+    margin: auto;
+  }
 
-
-#example-options {
+  #example-options {
     background-color: #f7f7f7; /* Light grey background */
     padding: 20px; /* Padding around container */
     border-radius: 10px; /* Rounded corners */
     width: 100%; /* Fixed width */
     margin: 20px auto; /* Centered on the page with a top and bottom margin of 20px */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* A subtle shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* A subtle shadow */
     display: none; /* Initially hidden as per your class "hidden" */
-}
+  }
 
-/* Select box styles */
-#example-data {
+  /* Select box styles */
+  #example-data {
     width: 100%; /* Takes full width of container */
     padding: 10px; /* Padding inside the select box */
     border-radius: 5px; /* Rounded corners */
     border: 1px solid #ccc; /* Border color */
     margin-bottom: 10px; /* Space between select box and button */
-}
-/* Styling for the custom file label */
-.custom-file-label {
+  }
+  /* Styling for the custom file label */
+  .custom-file-label {
     display: inline-block;
     padding: 10px;
     border: 1px solid #d4d4d4;
     cursor: pointer;
-    appearance: none; 
+    appearance: none;
     border-radius: 4px;
     outline: none;
     background-color: #fff;
     transition: background-color 0.2s ease;
-}
+  }
 
-.custom-file-label:hover {
+  .custom-file-label:hover {
     background-color: #f5f5f5;
-}
-#file-to-analyze {
-    
+  }
+  #file-to-analyze {
     flex-direction: column;
     gap: 20px; /* adjusts the space between the file input and button */
     align-items: flex-start;
@@ -279,31 +272,31 @@ margin:auto;
     border-radius: 5px;
     background-color: #f9f9f9; /* assuming there's a light background on your example data section */
     width: 100%;
-    margin: 0 auto;   
-}
+    margin: 0 auto;
+  }
 
-.file-upload {
+  .file-upload {
     display: flex;
     align-items: center;
     gap: 15px; /* adjusts the space between the label and file name */
     width: 100%;
     position: relative;
-}
+  }
 
-.custom-file-upload {
+  .custom-file-upload {
     background-color: #1b1b1c; /* using a blue color as an example, adjust if needed */
     color: #fff;
     padding: 8px 15px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-}
+  }
 
-.custom-file-upload:hover {
+  .custom-file-upload:hover {
     background-color: #4f5051; /* hover effect, a darker shade of blue */
-}
+  }
 
-.file-name {
+  .file-name {
     flex-grow: 1; /* allows the filename span to take available space */
     padding: 8px 10px;
     border: 1px solid #d4d4d4;
@@ -312,9 +305,9 @@ margin:auto;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-}
+  }
 
-.input-hidden {
+  .input-hidden {
     position: absolute;
     opacity: 0;
     top: 0;
@@ -322,33 +315,34 @@ margin:auto;
     width: 100%;
     height: 100%;
     cursor: pointer;
-}
+    background-color: black;
+  }
 
-/* Container Style */
-.column-selection-container {
+  /* Container Style */
+  .column-selection-container {
     width: 100%; /* Set to the full width of its parent container */
     padding: 10px 20px;
     background-color: #f7f7f7;
     border-bottom: 1px solid #e0e0e0;
-}
+  }
 
-/* Heading style */
-.column-selection-container h4 {
+  /* Heading style */
+  .column-selection-container h4 {
     font-size: 1.2em;
     color: #333;
     margin-bottom: 15px;
     border-bottom: 2px solid #ff4000;
     padding-bottom: 10px;
-}
+  }
 
-/* Dropdown container style */
-.columns-dropdown-container {
+  /* Dropdown container style */
+  .columns-dropdown-container {
     width: 100%;
     position: relative; /* This will help if you want to add any absolute positioned elements inside */
-}
+  }
 
-/* Style for the dropdown */
-.styled-dropdown {
+  /* Style for the dropdown */
+  .styled-dropdown {
     width: 100%;
     min-height: 150px;
     border: 1px solid #e0e0e0;
@@ -360,55 +354,55 @@ margin:auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     outline: none;
     transition: border 0.2s;
-}
+  }
 
-.styled-dropdown:focus {
+  .styled-dropdown:focus {
     border-color: #007bff; /* Accent color when focused */
-}
+  }
 
-.styled-dropdown option {
+  .styled-dropdown option {
     padding: 5px 10px;
     margin: 3px 0;
     cursor: pointer;
     transition: background-color 0.2s;
-}
+  }
 
-.styled-dropdown option:hover {
+  .styled-dropdown option:hover {
     background-color: #e6f7ff; /* A light blue hover effect for options */
-}
+  }
 
-/* Optional custom scrollbar */
-.styled-dropdown::-webkit-scrollbar {
+  /* Optional custom scrollbar */
+  .styled-dropdown::-webkit-scrollbar {
     width: 10px;
-}
+  }
 
-.styled-dropdown::-webkit-scrollbar-track {
+  .styled-dropdown::-webkit-scrollbar-track {
     background: #f1f1f1;
-}
+  }
 
-.styled-dropdown::-webkit-scrollbar-thumb {
+  .styled-dropdown::-webkit-scrollbar-thumb {
     background: #b0b0b0;
-}
+  }
 
-.styled-dropdown::-webkit-scrollbar-thumb:hover {
+  .styled-dropdown::-webkit-scrollbar-thumb:hover {
     background: #808080;
-}
+  }
 
-/* General Slider Styles */
-input[type=range] {
-    -webkit-appearance: none; 
+  /* General Slider Styles */
+  input[type="range"] {
+    -webkit-appearance: none;
     appearance: none;
     width: 100%;
     height: 5px;
     border-radius: 5px;
-    background: #dcdcdc; 
+    background: #dcdcdc;
     outline: none;
-    transition: opacity .2s;
+    transition: opacity 0.2s;
     margin: 20px 0;
-}
+  }
 
-/* Style for Webkit (Chrome, Safari, etc.) */
-input[type=range]::-webkit-slider-thumb {
+  /* Style for Webkit (Chrome, Safari, etc.) */
+  input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
@@ -416,32 +410,32 @@ input[type=range]::-webkit-slider-thumb {
     border-radius: 50%;
     background: #007aff;
     cursor: pointer;
-    transition: background .15s ease-in-out;
-}
+    transition: background 0.15s ease-in-out;
+  }
 
-/* Style for Firefox */
-input[type=range]::-moz-range-thumb {
+  /* Style for Firefox */
+  input[type="range"]::-moz-range-thumb {
     width: 20px;
     height: 20px;
     border: none;
     border-radius: 50%;
     background: #007aff;
     cursor: pointer;
-    transition: background .15s ease-in-out;
-}
+    transition: background 0.15s ease-in-out;
+  }
 
-/* Style for Firefox (range track) */
-input[type=range]::-moz-range-track {
+  /* Style for Firefox (range track) */
+  input[type="range"]::-moz-range-track {
     width: 100%;
     height: 5px;
     cursor: pointer;
-    animate: 0.2s;
+    transition: all 0.2s;
     border-radius: 5px;
     background: #dcdcdc;
-}
+  }
 
-/* Tooltip styles for displaying the value */
-input[type=range]::after {
+  /* Tooltip styles for displaying the value */
+  input[type="range"]::after {
     content: attr(value);
     position: absolute;
     top: -30px;
@@ -453,198 +447,361 @@ input[type=range]::after {
     border-radius: 8px;
     font-size: 14px;
     white-space: nowrap;
-}
-.file-instruction {
+  }
+  .file-instruction {
     font-size: 0.8em;
     color: #888;
     display: block;
     margin-top: 5px;
-}
-/* Style the container with class sentiment-option */
-.sentiment-option {
+  }
+
+  #select-option-btn {
+    font-weight: bold;
     margin-bottom: 15px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
-}
+  }
 
-/* Style for radio buttons within the sentiment-option class */
+  #select-option-btn:hover {
+    color: #666;
+  }
 
-.sentiment-option input[type="radio"],
-.sentiment-option label {
+  /* Style the container with class sentiment-option */
+  .sentiment-option {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  /* Style for radio buttons within the sentiment-option class */
+
+  .sentiment-option input[type="radio"],
+  .sentiment-option label {
     display: inline-block;
     vertical-align: middle; /* Align them vertically to the middle */
-}
-/* Style for labels within the sentiment-option class */
-.sentiment-option label {
+  }
+  /* Style for labels within the sentiment-option class */
+  .sentiment-option label {
     font-weight: bold;
     color: #333;
     cursor: pointer;
-}
-.sentiment-option input[type="radio"] {
+  }
+  .sentiment-option input[type="radio"] {
     margin-right: 5px; /* Space between radio button and label */
-    padding: 0; 
-}
+    padding: 0;
+  }
 
-.sentiment-option label {
+  .sentiment-option label {
     margin: 0;
-    padding: 0; 
-}
+    padding: 0;
+  }
 
-/* Adding hover effect */
-.sentiment-option label:hover {
+  /* Adding hover effect */
+  .sentiment-option label:hover {
     color: #666;
-}
+  }
 
+  /* Word cloud word list initial letter menu */
+  .word-list-letter {
+    font-size: 3rem;
+  }
 
-
-/* Responsive adjustments */
-@media screen and (max-width: 600px) {
+  /* Responsive adjustments */
+  @media screen and (max-width: 600px) {
     .sentiment-option label {
-        font-size: 14px;
+      font-size: 14px;
     }
-}
-/* Styles for smaller screens */
-@media only screen and (max-width: 768px) {
+  }
+  /* Styles for smaller screens */
+  @media only screen and (max-width: 768px) {
     #text-to-analyze {
-        width: 95%;
+      width: 95%;
     }
-}
-@media (max-width: 480px) {
-        .input-container {
-            font-size: 0.8rem; /* Smaller font size for mobile devices */
-            padding: 0.5em; /* Smaller padding for mobile devices */
-        }
+  }
+  @media (max-width: 480px) {
+    .input-container {
+      font-size: 0.8rem; /* Smaller font size for mobile devices */
+      padding: 0.5em; /* Smaller padding for mobile devices */
     }
-@media (max-width: 768px) {
+  }
+  @media (max-width: 768px) {
     .square {
-        min-width: calc(50% - 20px); /* Two items per row on smaller screens */
+      min-width: calc(50% - 20px); /* Two items per row on smaller screens */
     }
     .text-size-60 {
-        font-size: 40px; /* Reduce the font size */
+      font-size: 40px; /* Reduce the font size */
     }
     .hover-content img {
-        max-width: 70%; /* Reduce the image size */
+      max-width: 70%; /* Reduce the image size */
     }
     h3 {
-        font-size: 1rem; /* Adjust heading size */
+      font-size: 1rem; /* Adjust heading size */
     }
-}
+  }
 
-/* Media query for very small screens (e.g., up to 480px width) */
-@media (max-width: 480px) {
+  /* Media query for very small screens (e.g., up to 480px width) */
+  @media (max-width: 480px) {
     .square {
-        min-width: 100%; /* One item per row on very small screens */
+      min-width: 100%; /* One item per row on very small screens */
     }
-}
+  }
 </style>
 <!-- DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css"
+/>
 
 <!-- noUiSlider CSS -->
-<link href="https://cdn.jsdelivr.net/npm/nouislider@14.7.0/distribute/nouislider.min.css" rel="stylesheet">
+<link
+  href="https://cdn.jsdelivr.net/npm/nouislider@14.7.0/distribute/nouislider.min.css"
+  rel="stylesheet"
+/>
 
 <!-- Date Range Picker CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<h1 data-lang-en="How would you like to start your analysis?" data-lang-cy="Sut hoffech chi ddechrau eich dadansoddiad?">How would you like to start your analysis?</h1>
-<form id="text-analysis-form" method="POST" action="/fileanalysis" enctype="multipart/form-data">
-    <!-- Radio buttons -->
-<label>
-        <input type="radio" name="input-method" value="text" onclick="toggleInputOption('text')" checked data-lang-en="Past a text" data-lang-cy="Gludo testun">
-        <span data-lang-en="Paste a text" data-lang-cy="Gludo testun">Paste a text</span>
-    </label>
-    
-    <label>
-        <input type="radio" name="input-method" value="example" onclick="toggleInputOption('example')" data-lang-en="Use example data" data-lang-cy="Defnyddio data enghreifftiol">
-        <span data-lang-en="Use example data" data-lang-cy="Defnyddio data enghreifftiol">Use example data</span>
-    </label>
-      <label>
-            <input type="radio" name="input-method" value="upload" onclick="toggleInputOption('upload')" data-lang-en="Upload data file" data-lang-cy="Llwytho ffeil ddata i fyny">
-            <span data-lang-en="Upload data file" data-lang-cy="Llwytho ffeil ddata i fyny">Upload data file</span>
-        </label>
-<div id="text-input" class="input-container">
-    <textarea name="text-to-analyze" 
-          id="text-to-analyze" 
-          value="{{text or 'text'}}" 
-          >
-</textarea>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+/>
+
+<h1
+  data-lang-en="How would you like to start your analysis?"
+  data-lang-cy="Sut hoffech chi ddechrau eich dadansoddiad?"
+>
+  How would you like to start your analysis?
+</h1>
+
+<form
+  id="text-analysis-form"
+  method="POST"
+  action="/fileanalysis"
+  enctype="multipart/form-data"
+>
+  <!-- Radio buttons -->
+  <label>
+    <input
+      type="radio"
+      name="input-method"
+      value="text"
+      onclick="toggleInputOption('text')"
+      checked
+      data-lang-en="Past a text"
+      data-lang-cy="Gludo testun"
+    />
+    <span data-lang-en="Paste a text" data-lang-cy="Gludo testun"
+      >Paste a text</span
+    >
+  </label>
+
+  <label>
+    <input
+      type="radio"
+      name="input-method"
+      value="example"
+      onclick="toggleInputOption('example')"
+      data-lang-en="Use example data"
+      data-lang-cy="Defnyddio data enghreifftiol"
+    />
+    <span
+      data-lang-en="Use example data"
+      data-lang-cy="Defnyddio data enghreifftiol"
+      >Use example data</span
+    >
+  </label>
+  <label>
+    <input
+      type="radio"
+      name="input-method"
+      value="upload"
+      onclick="toggleInputOption('upload')"
+      data-lang-en="Upload data file"
+      data-lang-cy="Llwytho ffeil ddata i fyny"
+    />
+    <span
+      data-lang-en="Upload data file"
+      data-lang-cy="Llwytho ffeil ddata i fyny"
+      >Upload data file</span
+    >
+  </label>
+  <div id="text-input" class="input-container mb-4">
+    <textarea
+      class="data-input"
+      name="text-to-analyze"
+      id="text-to-analyze"
+      value="{{text or 'text'}}"
+    ></textarea>
     <div class="options-container">
-        <label>
-            <input type="radio" name="text-input-method" value="Split sentences" data-lang-en="Split sentences" data-lang-cy="Rhannu brawddegau" checked>
-            <span data-lang-en="Split sentences" data-lang-cy="Rhannu brawddegau">Split sentences</span>
-        </label>
-        <label>
-            <input type="radio" name="text-input-method" value="Whole Text" data-lang-en="Whole text" data-lang-cy="Testun cyfan" >
-            <span data-lang-en="Whole text" data-lang-cy="Testun cyfan">Whole text</span>
-        </label>
+      <label>
+        <input
+          type="radio"
+          name="text-input-method"
+          value="Split sentences"
+          data-lang-en="Split sentences"
+          data-lang-cy="Rhannu brawddegau"
+          checked
+        />
+        <span data-lang-en="Split sentences" data-lang-cy="Rhannu brawddegau"
+          >Split sentences</span
+        >
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="text-input-method"
+          value="Whole Text"
+          data-lang-en="Whole text"
+          data-lang-cy="Testun cyfan"
+        />
+        <span data-lang-en="Whole text" data-lang-cy="Testun cyfan"
+          >Whole text</span
+        >
+      </label>
     </div>
-    
-    <button type="submit" class="analyze-btn" onclick="startAnalysisfile(event)" data-lang-en="View Data" data-lang-cy="Gweld Data"> View Data </button>
-</div>
 
-<div id="example-options" class="hidden">
-    
-        <select id="example-data" name="example-data">
-           <option value=""  data-lang-en="Select example data file(s)" 
-            data-lang-cy="Dewis ffeil ddata (ffeiliau data) enghreifftiol">Select example data file(s)</option>
-           
-              <!-- List example data files here -->
-        </select>
-        <button type="submit" class="analyze-btn" data-lang-en="View Data" data-lang-cy="Gweld Data"  onclick="startAnalysisexample_uploaded(event)">View Data</button>
-    
-   
-</div>
+    <button
+      type="submit"
+      class="analyze-btn"
+      onclick="startAnalysisfile(event)"
+      data-lang-en="View Data"
+      data-lang-cy="Gweld Data"
+    >
+      View Data
+    </button>
+  </div>
 
-<div id="file-to-analyze" class="hidden" >
-     <div class="file-upload">
-        <label for="file" class="custom-file-upload" data-lang-en="Choose File" data-lang-cy="Dewiswch Ffeil">Choose File</label>
-        <span class="file-name" data-lang-en="No file chosen (Allowed: .txt, .tsv, .xlsx)" data-lang-cy="Dim ffeil wedi'i ddewis (Caniateir: .txt, .tsv, .xlsx)">No file chosen (Allowed: .txt, .tsv, .xlsx)</span>
+  <div id="example-options" class="hidden">
+    <select id="example-data" name="example-data" class="data-input">
+      <option
+        value=""
+        data-lang-en="Select example data file(s)"
+        data-lang-cy="Dewis ffeil ddata (ffeiliau data) enghreifftiol"
+      >
+        Select example data file(s)
+      </option>
 
-        <input id='file' class="input-hidden" type="file" name="file" accept=".txt,.csv,.xls,.xlsx" onchange="handleFileChange()"/>
-       
+      <!-- List example data files here -->
+    </select>
+    <button
+      type="submit"
+      class="analyze-btn"
+      data-lang-en="View Data"
+      data-lang-cy="Gweld Data"
+      onclick="startAnalysisexample_uploaded(event)"
+    >
+      View Data
+    </button>
+  </div>
+
+  <div id="file-to-analyze" class="hidden">
+    <div class="file-upload">
+      <label
+        for="file"
+        class="custom-file-upload"
+        data-lang-en="Choose File"
+        data-lang-cy="Dewiswch Ffeil"
+        >Choose File</label
+      >
+      <span
+        class="file-name"
+        data-lang-en="No file chosen (Allowed: .txt, .tsv, .xlsx)"
+        data-lang-cy="Dim ffeil wedi'i ddewis (Caniateir: .txt, .tsv, .xlsx)"
+        >No file chosen (Allowed: .txt, .tsv, .xlsx)</span
+      >
+
+      <input
+        id="file"
+        class="input-hidden"
+        type="file"
+        name="file"
+        accept=".txt,.csv,.xls,.xlsx"
+        onchange="handleFileChange()"
+      />
     </div>
-    <button type="submit" class="analyze-btn" data-lang-en="View Data" data-lang-cy="Gweld Data"  onclick="startAnalysisfile_uploaded(event)">View Data</button>
-</div>
-<div id="column-selection" class="column-selection-container hidden">
-    <h4 data-lang-en="Select columns" data-lang-cy="Dewis colofnau">Select columns</h4>
+    <button
+      type="submit"
+      class="analyze-btn"
+      data-lang-en="View Data"
+      data-lang-cy="Gweld Data"
+      onclick="startAnalysisfile_uploaded(event)"
+    >
+      View Data
+    </button>
+  </div>
+  <div id="column-selection" class="column-selection-container hidden">
+    <h4 data-lang-en="Select columns" data-lang-cy="Dewis colofnau">
+      Select columns
+    </h4>
     <div id="columns-container" class="columns-dropdown-container">
-        <select id="columns-dropdown" multiple="multiple" class="styled-dropdown" onchange="viewSelectedColumns(event)"></select>
-   
-       <div id="dateSlider"></div>
-        <span id="dateRange"></span>
- </div>
+      <select
+        id="columns-dropdown"
+        multiple="multiple"
+        class="styled-dropdown"
+        onchange="viewSelectedColumns(event)"
+      ></select>
 
-    <button class="analyze-btn" onclick="checkLanguage(event)" data-lang-en="Check Language" data-lang-cy="Gwirio iaith">Check Language</button>
+      <div id="dateSlider"></div>
+      <span id="dateRange"></span>
+    </div>
+
+    <button
+      class="analyze-btn"
+      onclick="checkLanguage(event)"
+      data-lang-en="Check Language"
+      data-lang-cy="Gwirio iaith"
+    >
+      Check Language
+    </button>
     <div id="download-buttons" class="hidden">
-        <ul class="btn-list">
-            <li><a href="/download/english" class="analyze-btnn btn-gradient" id="download-english" data-lang-en="Download English Data" data-lang-cy="Lawrlwytho Data Saesneg">Download English Data</a></li>
-            <li><a href="/download/welsh" class="analyze-btnn btn-gradient" id="download-welsh" data-lang-en="Download Welsh Data" data-lang-cy="Lawrlwytho Data Cymraeg">Download Welsh Data</a></li>
-        </ul>
+      <ul class="btn-list">
+        <li>
+          <a
+            href="/download/english"
+            class="analyze-btnn btn-gradient"
+            id="download-english"
+            data-lang-en="Download English Data"
+            data-lang-cy="Lawrlwytho Data Saesneg"
+            >Download English Data</a
+          >
+        </li>
+        <li>
+          <a
+            href="/download/welsh"
+            class="analyze-btnn btn-gradient"
+            id="download-welsh"
+            data-lang-en="Download Welsh Data"
+            data-lang-cy="Lawrlwytho Data Cymraeg"
+            >Download Welsh Data</a
+          >
+        </li>
+      </ul>
     </div>
     <div id="data-table-container"></div>
-</div>
+  </div>
 
-<div id="myGrid" style="height: 800px;width:100%;" class="ag-theme-alpine hidden"></div>
+  <div
+    id="myGrid"
+    style="height: 800px; width: 100%"
+    class="ag-theme-alpine hidden"
+  ></div>
 
-<div id="columnLabelsContainer">
-        
+  <div id="columnLabelsContainer">
     <!-- Column labels will be dynamically added here -->
-</div>
+  </div>
 </form>
 <div>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class="flashes">
+  {% with messages = get_flashed_messages() %} {% if messages %}
+  <ul class="flashes">
     {% for message in messages %}
-      <li>{{ message }}</li>
+    <li>{{ message }}</li>
     {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-
-
+  </ul>
+  {% endif %} {% endwith %}
 </div>
-<div id="Dataview" class="tab-buttons hidden"></div>  
+<div id="Dataview" class="tab-buttons hidden"></div>
 <!--<div>
     <button class="analyze-btn hidden  " id="submit-sentences-btn" onclick="sendSelectedSentences()" style="margin-bottom: 20px; font-size: 24px;margin: 0 auto 20px;padding: 10px 20px;">
         <i class="fas fa-file-alt"></i>
@@ -657,421 +814,1437 @@ input[type=range]::after {
     </button>
 </div>-->
 <div>
-    <button class="analyze-btn hidden " id="submit-rows-btn" onclick="sendSelectedRows()" style="margin-bottom: 20px; font-size: 24px;margin: 0 auto 20px;padding: 10px 20px;">
-        <i class="fas fa-file-alt"></i>
-        <i class="fas fa-tree"></i>
-        <i class="fas fa-link"></i>
-        <i class="fas fa-chart-line"></i>
-        <i class="fas fa-comments"></i>
-        <i class="fas fa-cloud"></i>
-        <span data-lang-en=" Start Analysis" data-lang-cy="Dechrau Dadansoddi"> Start Analysis</span>
+  <button
+    class="analyze-btn hidden"
+    id="submit-rows-btn"
+    onclick="sendSelectedRows()"
+    style="
+      margin-bottom: 20px;
+      font-size: 24px;
+      margin: 0 auto 20px;
+      padding: 10px 20px;
+    "
+  >
+    <i class="fas fa-file-alt"></i>
+    <i class="fas fa-tree"></i>
+    <i class="fas fa-link"></i>
+    <i class="fas fa-chart-line"></i>
+    <i class="fas fa-comments"></i>
+    <i class="fas fa-cloud"></i>
+    <span data-lang-en=" Start Analysis" data-lang-cy="Dechrau Dadansoddi">
+      Start Analysis</span
+    >
+  </button>
+</div>
+<div id="loading" style="display: none">
+  <img src="static/images/logo.png" />
+  <img src="static/images/loading4.gif" alt="Loading..." />
+</div>
+
+<div class="tab-container">
+  <div class="tab-buttons hidden" id="tab-buttons">
+    <button
+      class="tab-btn background-red"
+      onclick="showTab(0) ; reloadIframe()"
+    >
+      <i class="fas fa-chart-line text-size-14 text-white"></i>
+      <span data-lang-en="Meaning Analysis" data-lang-cy="Dadansoddi Ystyr">
+        Meaning Analysis</span
+      >
     </button>
-</div>
-<div id="loading" style="display: none;" >
-    <img src="static/images/logo.png">
-    <img src="static/images/loading4.gif" alt="Loading..."> 
-</div>
+    <button
+      class="tab-btn background-blue"
+      onclick="showTab(1) ; reloadIframe()"
+    >
+      <i class="fas fa-comments text-size-14 text-white"></i>
 
- <div class="tab-container">
-      <div class="tab-buttons hidden" id="tab-buttons">
-        <button class="tab-btn background-red" onclick="showTab(0) ; reloadIframe()" >
-            
-            <i class="fas fa-chart-line text-size-14 text-white"></i> 
-            <span data-lang-en="Meaning analysis" data-lang-cy="Dadansoddi ystyr"> Meaning analysis</span>
-        </button> 
-          <button class="tab-btn background-blue" onclick="showTab(1) ; reloadIframe()"  >
-            <i class="fas fa-comments text-size-14 text-white"></i>
-             
-             <span class="button-text" data-lang-en="Sentiment Chart" data-lang-cy="Siart Sentiment"> Sentiment Chart</span>
-            </button>
-        <button class="tab-btn background-green" onclick="showTab(2)"  ><i class="fas fa-file-alt text-size-14 text-white"></i> 
-            <span class="button-text" data-lang-en="Summarisation" data-lang-cy="Crynodebu"> Summarisation</span></button>
-        <button class="tab-btn background-purple" onclick="showTab(3)" > <i class="fas fa-cloud text-size-14 text-white"></i> 
-            <span class="button-text"  data-lang-en="Word Cloud" data-lang-cy="Cwmwl Geiriau"> Word Cloud</span>
-           </button>
-        <button class="tab-btn background-orange" onclick="showTab(4)" ><i class="fas fa-link text-size-14 text-white"></i>
-            <span class="button-text" data-lang-en= "Word Use & Relationships" data-lang-cy="Defnydd a Pherthnasoedd Geiriau" > Word Use & Relationships</span>
-            </button>
-        <button class="tab-btn background-aqua" onclick="showTab(5)"  ><i class="fas fa-tree text-size-14 text-white"></i> 
-            <span class="button-text" data-lang-en="Word Tree" data-lang-cy="Coeden Eiriau"> Word Tree</span>
-            </button>
-        <button class="tab-btn background-pink" onclick="showTab(6)"><i class="fas fa-file-pdf"></i> 
-            <span class="button-text"  data-lang-en="Pdf" data-lang-cy="Pdf" > Pdf</span>
-            </button>
+      <span
+        class="button-text"
+        data-lang-en="Sentiment Chart"
+        data-lang-cy="Siart Sentiment"
+      >
+        Sentiment Chart</span
+      >
+    </button>
+    <button class="tab-btn background-green" onclick="showTab(2)">
+      <i class="fas fa-file-alt text-size-14 text-white"></i>
+      <span
+        class="button-text"
+        data-lang-en="Summarisation"
+        data-lang-cy="Crynodebu"
+      >
+        Summarisation</span
+      >
+    </button>
+    <button class="tab-btn background-purple" onclick="showTab(3)">
+      <i class="fas fa-cloud text-size-14 text-white"></i>
+      <span
+        class="button-text"
+        data-lang-en="Word Cloud"
+        data-lang-cy="Cwmwl Geiriau"
+      >
+        Word Cloud</span
+      >
+    </button>
+    <button class="tab-btn background-orange" onclick="showTab(4)">
+      <i class="fas fa-link text-size-14 text-white"></i>
+      <span
+        class="button-text"
+        data-lang-en="Word Use & Relationships"
+        data-lang-cy="Defnydd a Pherthnasoedd Geiriau"
+      >
+        Word Use & Relationships</span
+      >
+    </button>
+    <button class="tab-btn background-aqua" onclick="showTab(5)">
+      <i class="fas fa-tree text-size-14 text-white"></i>
+      <span
+        class="button-text"
+        data-lang-en="Word Tree"
+        data-lang-cy="Coeden Eiriau"
+      >
+        Word Tree</span
+      >
+    </button>
+    <button class="tab-btn background-pink" onclick="showTab(6)">
+      <i class="fas fa-file-pdf"></i>
+      <span class="button-text" data-lang-en="PDF" data-lang-cy="PDF">
+        PDF</span
+      >
+    </button>
+  </div>
+  <div id="tabs" class="hidden">
+    <div id="tab0" class="tab-content">
+      <p
+        data-lang-en='The sentiment analysis is performed using the "nlptown/bert-base-multilingual-uncased-sentiment" model from Hugging Face. This model is trained on product reviews in multiple languages and utilizes the BERT architecture.'
+        data-lang-cy="Gwneir y dadansoddiad sentiment gan ddefnyddio model 'nlptown/bert-base-multilingual-uncased-sentiment' o Hugging Face. Hyfforddir y model gydag adolygiadau cynnyrch mewn nifer o ieithoedd ac mae'n defnyddio saernïaeth BERT."
+      >
+        The sentiment analysis is performed using the
+        "nlptown/bert-base-multilingual-uncased-sentiment" model from Hugging
+        Face. This model is trained on product reviews in multiple languages and
+        utilizes the BERT architecture.
+      </p>
+
+      <p
+        data-lang-en="As per the information on the Hugging Face model page, the accuracy of this model for sentiment analysis on English text is approximately 95%. According to our previous experiments on manually annotated Welsh reviews, the accuracy for Welsh is approximately 73%."
+        data-lang-cy="Yn unol â'r wybodaeth ar dudalen model Hugging Face, tua 95% yw manwl gywirdeb y model hwn ar gyfer dadansoddi sentiment ar destun Saesneg. Yn ôl ein harbrofion blaenorol ar adolygiadau Cymraeg a anodwyd â llaw, tua 73% yw'r manwl gywirdeb ar gyfer y Gymraeg."
+      >
+        As per the information on the Hugging Face model page, the accuracy of
+        this model for sentiment analysis on English text is approximately 95%.
+        According to our previous experiments on manually annotated Welsh
+        reviews, the accuracy for Welsh is approximately 73%.
+      </p>
+      <h3
+        data-lang-en="How do you want to categorise the sentiments?"
+        data-lang-cy="Sut ydych chi eisiau categoreiddio'r sentimentau?"
+      >
+        How do you want to categorise the sentiments?
+      </h3>
+      <div class="sentiment-option">
+        <input
+          type="radio"
+          id="threeClass"
+          name="sentimentOption"
+          value="3"
+          checked
+          onchange="handleSentimentOptionChange()"
+        />
+        <label
+          for="threeClass"
+          data-lang-en="3 Class Sentiments (Positive, Neutral, Negative)"
+          data-lang-cy="Sentimentau 3 Dosbarth (Cadarnhaol, Niwtral, Negyddol)"
+          >3 Class Sentiments (Positive, Neutral, Negative)</label
+        >
+      </div>
+      <div class="sentiment-option">
+        <input
+          type="radio"
+          id="fiveClass"
+          name="sentimentOption"
+          value="5"
+          onchange="handleSentimentOptionChange()"
+        />
+        <label
+          for="fiveClass"
+          data-lang-en="5 Class Sentiments (Very Positive, Positive, Neutral, Negative, Very Negative)"
+          data-lang-cy="Sentimentau 5 Dosbarth (Cadarnhaol Iawn, Cadarnhaol, Niwtral, Negyddol, Negyddol Iawn)"
+          >5 Class Sentiments (Very Positive, Positive, Neutral, Negative, Very
+          Negative)</label
+        >
+      </div>
+      <div class="sentiment-option">
+        <input
+          type="radio"
+          id="threeClassABSA"
+          name="sentimentOption"
+          value="3-absa"
+          onchange="handleSentimentOptionChange()"
+        />
+        <label
+          for="threeClassABSA"
+          data-lang-en="3 Class Aspect-Based Sentiment Analysis (Positive,
+          Neutral, Negative)"
+          data-lang-cy="Dadansoddiad Sentiment wedi’i Seilio ar Agweddau 3 Dosbarth (Cadarnhaol, Niwtral, Negyddol)"
+          >3 Class Aspect-Based Sentiment Analysis (Positive, Neutral,
+          Negative)</label
+        >
+      </div>
+      <div id="ABSAInputContainer" class="mt-4" style="display: none">
+        <h3
+          data-lang-en="Enter aspects to analyse:"
+          data-lang-cy="Rhowch agweddau i'w dadansoddi:"
+        >
+          Enter aspects to analyse:
+        </h3>
+        <textarea
+          class="data-input m-0"
+          name="absa-aspects-to-analyze"
+          placeholder="Enter words separated by commas, e.g., example, words, here"
+          id="absa-aspects-to-analyze"
+          oninput="handleAspectInputChanges()"
+          maxlength="500"
+        ></textarea>
+        <div id="enteredAspects" class="my-2">
+          <span
+            id="aspects-bold-text"
+            class="font-weight-bold"
+            style="opacity: 0%"
+            data-lang-en="Aspects:"
+            data-lang-cy="Agweddau:"
+            >Aspects:</span
+          >
+          <span
+            id="aspects-input-list"
+            class="text-primary font-weight-bold d-inline text-wrap"
+            style="white-space: pre; word-wrap: break-word"
+          ></span>
+        </div>
+        <div class="container-fluid m-0 p-0 d-flex">
+          <button
+            type="button"
+            class="btn btn-dark mr-3"
+            data-lang-en="Fetch Results"
+            data-lang-cy="Canlyniadau Ffetch"
+            onclick="startABSA()"
+          >
+            Fetch Results
+          </button>
+        </div>
+      </div>
+      <div
+        id="ABSAResultsContainer"
+        class="container-fluid p-0 my-1"
+        style="display: none"
+      >
+        <div id="AspectPieCharts" class="container"></div>
+        <div id="AspectSentimentTable" class="container mt-5"></div>
+      </div>
+      <div id="SentimentAnalysisContainer" class="container-fluid p-0 m-0">
+        <div id="SentimentPlotViewPie"></div>
+        <p
+          data-lang-en="The figure displays the sentiment analysis of the data, you can press on any part of the graph to display the data"
+          data-lang-cy="Mae'r ffigur yn dangos dadansoddiad sentiment y data, gallwch wasgu ar unrhyw ran o'r graff i arddangos y data"
+        >
+          The figure displays the sentiment analysis of the data, you can press
+          on any part of the graph to display the data
+        </p>
+        <a href="/get-html-pie" download>
+          <button
+            class="analyze-btn"
+            data-lang-en="Download Interactive Pie Chart"
+            data-lang-cy="Lawrlwytho Siart Cylch Rhyngweithiol"
+          >
+            Download Interactive Pie Chart
+          </button>
+        </a>
+        <div id="SentimentPlotViewBar"></div>
+        <a href="/get-html-bar" download>
+          <button
+            class="analyze-btn"
+            data-lang-en="Download Interactive Bar Chart"
+            data-lang-cy="Lawrlwytho Siart Bar Rhyngweithiol"
+          >
+            Download Interactive Bar Chart
+          </button>
+        </a>
+        <div id="SentimentView"></div>
+        <div id="SentimentTable"></div>
+        <a href="/get-Sentimentdata" download>
+          <button
+            class="analyze-btn"
+            data-lang-en="Download Sentiment Table"
+            data-lang-cy="Lawrlwytho Tabl Sentiment"
+          >
+            Download Sentiment Table
+          </button>
+        </a>
+      </div>
     </div>
-<div id="tabs" class="hidden">
-       
-         <div id="tab0" class="tab-content">
-            <p 
-            data-lang-en='The sentiment analysis is performed using the "nlptown/bert-base-multilingual-uncased-sentiment" model from Hugging Face. This model is trained on product reviews in multiple languages and utilizes the BERT architecture.'
-            
-            data-lang-cy="Gwneir y dadansoddiad sentiment gan ddefnyddio model 'nlptown/bert-base-multilingual-uncased-sentiment' o Hugging Face. Hyfforddir y model gydag adolygiadau cynnyrch mewn nifer o ieithoedd ac mae'n defnyddio saernïaeth BERT.">
-            The sentiment analysis is performed using the "nlptown/bert-base-multilingual-uncased-sentiment" model from Hugging Face. This model is trained on product reviews in multiple languages and utilizes the BERT architecture.</p>
+    <div id="tab1" class="tab-content">
+      <h2
+        data-lang-en="Scatter Plot Overview"
+        data-lang-cy="Trosolwg Plot Gwasgariad"
+      >
+        Scatter Plot Overview
+      </h2>
+      <p
+        data-lang-en="In a scatter plot, the single words  with the highest sentiment association are displayed. The x- and y-axes show their usage in positive vs. negative and neutral sentiments, respectively."
+        data-lang-cy="Mewn plot gwasgariad, caiff y geiriau sengl gyda'r cysylltiad sentiment uchaf eu dangos. Mae'r echelinau x- ac y- yn dangos eu defnydd mewn sentimentau cadarnhaol yn erbyn sentimentau negyddol a niwtral."
+      >
+        In a scatter plot, the single words with the highest sentiment
+        association are displayed. The x- and y-axes show their usage in
+        positive vs. negative and neutral sentiments, respectively.
+      </p>
 
-            <p 
-            data-lang-en=
-"As per the information on the Hugging Face model page, the accuracy of this model for sentiment analysis on English text is approximately 95%. According to our previous experiments on manually annotated Welsh reviews, the accuracy for Welsh is approximately 73%." 
-           
- data-lang-cy="Yn unol â'r wybodaeth ar dudalen model Hugging Face, tua 95% yw manwl gywirdeb y model hwn ar gyfer dadansoddi sentiment ar destun Saesneg. Yn ôl ein harbrofion blaenorol ar adolygiadau Cymraeg a anodwyd â llaw, tua 73% yw'r manwl gywirdeb ar gyfer y Gymraeg.">
-            As per the information on the Hugging Face model page, the accuracy of this model for sentiment analysis on English text is approximately 95%. According to our previous experiments on manually annotated Welsh reviews, the accuracy for Welsh is approximately 73%.</p>
-               <h3  
-               data-lang-en="How do you want to categorise the sentiments?" 
-               data-lang-cy="Sut ydych chi eisiau categoreiddio'r sentimentau?">
-               How do you want to categorise the sentiments?</h3>
-               <div class="sentiment-option">
-                <input type="radio" id="threeClass" name="sentimentOption" value="3" checked onchange="handleSentimentOptionChange()">
-                <label for="threeClass" data-lang-en="3 Class Sentiments (Positive, Neutral, Negative)" data-lang-cy="Sentimentau 3 Dosbarth (Cadarnhaol, Niwtral, Negyddol)">3 Class Sentiments (Positive, Neutral, Negative)</label>
+      <h3 data-lang-en="Colour Coding:" data-lang-cy="Codio Lliw:">
+        Colour Coding:
+      </h3>
+      <div class="color-boxes">
+        <div
+          class="color-box blue"
+          data-lang-en="Blue: Positive Words"
+          data-lang-cy="Glas: Geiriau Cadarnhaol"
+        >
+          Blue: Positive Words
+        </div>
+        <div
+          class="color-box red"
+          data-lang-en="Red: Negative Words"
+          data-lang-cy="Coch: Geiriau Negyddol"
+        >
+          Red: Negative Words
+        </div>
+        <div
+          class="color-box yellow"
+          data-lang-en="Yellow:  (Positive and Negative)"
+          data-lang-cy="Melyn: (Cadarnhaol a Negyddol)"
+        >
+          Yellow: (Positive and Negative)
+        </div>
+        <div
+          class="color-box orange"
+          data-lang-en="Orange:  (Positive and Negative)"
+          data-lang-cy="Oren: (Cadarnhaol a Negyddol)"
+        >
+          Orange: (Positive and Negative)
+        </div>
+      </div>
+      <p
+        data-lang-en="Towards the top-right, the most frequently shared terms between the two sentiments are found, while the bottom-left has the least frequent shared terms."
+        data-lang-cy="Tua'r dde uchaf, gellir dod o hyd i'r termau sy'n cael eu rhannu fwyaf aml rhwng y ddau sentiment, ac ar y chwith isaf ceir y termau sy'n cael eu rhannu leiaf aml."
+      >
+        Towards the top-right, the most frequently shared terms between the two
+        sentiments are found, while the bottom-left has the least frequent
+        shared terms.
+      </p>
+
+      <h3 data-lang-en="Score Range:" data-lang-cy="Ystod Sgôr:">
+        Score Range:
+      </h3>
+      <p
+        data-lang-en="The range is between -1 and 1, with scores near 0 representing words with similar frequencies in both classes (yellow and orange dots). Scores near 1 are for words more frequent in positive contexts (blue), and scores near -1 for negative contexts (red). Darker shades of blue or red indicate scores closer to their respective extremes."
+        data-lang-cy="Mae'r ystod rhwng -1 ac 1, gyda sgorau yn agos at 0 yn cynrychioli geiriau gydag amlderau tebyg yn y ddau ddosbarth (dotiau melyn ac oren). Mae sgorau sy'n agos i 1 ar gyfer geiriau sy'n fwy aml mewn cyd-destunau cadarnhaol (glas), a sgorau sy'n agos i -1 ar gyfer cyd-detunau negyddol (coch). Mae arlliwiau mwy tywyll o las neu goch yn nodi sgorau sy'n fwy agos at eu heithafion priodol."
+      >
+        The range is between -1 and 1, with scores near 0 representing words
+        with similar frequencies in both classes (yellow and orange dots).
+        Scores near 1 are for words more frequent in positive contexts (blue),
+        and scores near -1 for negative contexts (red). Darker shades of blue or
+        red indicate scores closer to their respective extremes.
+      </p>
+
+      <h3
+        data-lang-en="Interactive Features:"
+        data-lang-cy="Nodweddion Rhyngweithiol:"
+      >
+        Interactive Features:
+      </h3>
+      <p
+        data-lang-en="Hovering over the dots on the plot reveals word frequency statistics per 25,000 words for both classes and a Scaled F-Score. This frequency determines each point's plot position. For instance, a given metric might be 195:71 per 25k words. Using the query box or clicking on a dot provides more details, like the frequency per 1,000 Reddit posts ('doc')."
+        data-lang-cy="Mae hofran uwchben y dotiau ar y plot yn dangos ystadegau amlder geiriau fesul 25,000 gair ar gyfer dosbarthiadau a Sgôr-F Graddfa. Mae'r amlder yma yn pennu safle pob pwynt ar y plot. Er enghraifft, gellid bwrw metrig 195:71 fesul 25 mil o eiriau. Bydd defnyddio'r blwch ymholiadau neu glicio ar ddot yn rhoi mwy o fanylion, fel yr amlder fesul 1,000 post Reddir ('doc')."
+      >
+        Hovering over the dots on the plot reveals word frequency statistics per
+        25,000 words for both classes and a Scaled F-Score. This frequency
+        determines each point's plot position. For instance, a given metric
+        might be 195:71 per 25k words. Using the query box or clicking on a dot
+        provides more details, like the frequency per 1,000 Reddit posts
+        ('doc').
+      </p>
+
+      <iframe
+        id="scattertextIframe"
+        src=""
+        width="100%"
+        height="1000"
+        frameborder="0"
+        style="overflow: visible"
+      ></iframe>
+      <a href="/get-html-scatter" download>
+        <button
+          class="analyze-btn"
+          data-lang-en="Download Interactive Scatter Text"
+          data-lang-cy="Lawrlwytho Testun Gwasgariad Rhyngweithiol"
+        >
+          Download Interactive Scatter Text
+        </button>
+      </a>
+    </div>
+    <div id="tab2" class="tab-content">
+      <form id="summarize-form">
+        <h5
+          data-lang-en="This tool, adapted from the Welsh Summarisation project, produces a basic extractive summary of the review text from the selected columns."
+          data-lang-cy="Mae'r offeryn hwn a gafodd ei addasu o Brosiect Crynhoi Testunau Cymraeg yn creu crynodeb echdynnol sylfaenol o destun yr adolygiad o'r colofnau a ddewiswyd."
+        >
+          This tool, adapted from the Welsh Summarisation project, produces a
+          basic extractive summary of the review text from the selected columns.
+        </h5>
+
+        <input
+          type="range"
+          id="chosen_ratio"
+          name="chosen_ratio"
+          min="10"
+          max="50"
+          step="10"
+          value="40"
+          oninput="onSliderChange()"
+        />
+        <span id="ratio-value">40%</span><br />
+        <div id="summary"></div>
+        <button
+          class="analyze-btn"
+          type="button"
+          onclick="downloadSummary()"
+          data-lang-en="Download Summary"
+          data-lang-cy="lawrlwytho crynodeb"
+        >
+          Download Summary
+        </button>
+      </form>
+    </div>
+    <div id="tab3" class="tab-content">
+      <div class="container mt-5">
+        <h2
+          data-lang-en="Word Cloud Generator"
+          data-lang-cy="Creu Cwmwl Geiriau"
+        >
+          Word Cloud generator
+        </h2>
+        <form id="wordCloudForm" method="post">
+          <div class="form-row">
+            <!-- Use form-row to place elements side by side -->
+            <div class="form-group col-md-4">
+              <label
+                class="form-label"
+                data-lang-en="Select cloud type:"
+                data-lang-cy="Dewiswch y math o gwmwl:"
+                >Select cloud type:</label
+              >
+              <select name="cloud_type" class="form-control">
+                <option
+                  value="all_words"
+                  data-lang-en="All words"
+                  data-lang-cy="Pob gair"
+                >
+                  All words
+                </option>
+                <option value="nouns" data-lang-en="Nouns" data-lang-cy="Enwau">
+                  Nouns
+                </option>
+                <option
+                  value="proper_nouns"
+                  data-lang-en="Proper nouns"
+                  data-lang-cy="Enwau priod"
+                >
+                  Proper nouns
+                </option>
+                <option
+                  value="verbs"
+                  data-lang-en="Verbs"
+                  data-lang-cy="Berfau"
+                >
+                  Verbs
+                </option>
+                <option
+                  value="adjectives"
+                  data-lang-en="Adjectives"
+                  data-lang-cy="Ansoddeiriau"
+                >
+                  Adjectives
+                </option>
+                <option
+                  value="adverbs"
+                  data-lang-en="Adverbs"
+                  data-lang-cy="Adferfau"
+                >
+                  Adverbs
+                </option>
+                <option
+                  value="numbers"
+                  data-lang-en="Numbers"
+                  data-lang-cy="Rhifau"
+                >
+                  Numbers
+                </option>
+                <option
+                  value="2_word_clusters"
+                  data-lang-en="2-word clusters"
+                  data-lang-cy="Clystyrau 2-gair"
+                >
+                  2-word clusters
+                </option>
+                <option
+                  value="3_word_clusters"
+                  data-lang-en="3-word clusters"
+                  data-lang-cy="Clystyrau 3-gair"
+                >
+                  3-word clusters
+                </option>
+                <option
+                  value="4_word_clusters"
+                  data-lang-en="4-word clusters"
+                  data-lang-cy="Clystyrau 4-gair"
+                >
+                  4-word clusters
+                </option>
+                <option
+                  value="semantic_tags"
+                  data-lang-en="Semantic Tags"
+                  data-lang-cy="Tagiau Semantig"
+                >
+                  Semantic Tags
+                </option>
+              </select>
             </div>
-            <div class="sentiment-option">
-                <input type="radio" id="fiveClass" name="sentimentOption" value="5" onchange="handleSentimentOptionChange()">
-                <label for="fiveClass" data-lang-en="5 Class Sentiments (Very Positive, Positive, Neutral, Negative, Very Negative)" data-lang-cy="Sentimentau 5 Dosbarth (Cadarnhaol Iawn, Cadarnhaol, Niwtral, Negyddol, Negyddol Iawn)">5 Class Sentiments (Very Positive, Positive, Neutral, Negative, Very Negative)</label>
+            <div class="form-group col-md-4">
+              <label
+                class="form-label"
+                data-lang-en="Select cloud shape:"
+                data-lang-cy="Dewiswch siâp y cwmwl:"
+                >Select cloud shape:</label
+              >
+              <select name="cloud_shape" class="form-control">
+                <option
+                  value="website/static/images/img/cloud.png"
+                  data-lang-en="Cloud"
+                  data-lang-cy="Cwmwl"
+                >
+                  Cloud
+                </option>
+
+                <option
+                  value="website/static/images/img/comments2.png"
+                  data-lang-en="Comment"
+                  data-lang-cy="Sylw"
+                >
+                  Comment
+                </option>
+                <option
+                  value="website/static/images/img/lightbulb.png"
+                  data-lang-en="Light bulb"
+                  data-lang-cy="Bwlb golau"
+                >
+                  Light Bulb
+                </option>
+                <option
+                  value="website/static/images/img/volumeup.png"
+                  data-lang-en="Volume up"
+                  data-lang-cy="Lefel sain i fyny"
+                >
+                  Volume up
+                </option>
+                <option
+                  value="website/static/images/img/Mic.png"
+                  data-lang-en="Microphone"
+                  data-lang-cy="Meicroffon"
+                >
+                  Microphone
+                </option>
+                <option
+                  value="website/static/images/img/welsh_flag.png"
+                  data-lang-en="Welsh Flag"
+                  data-lang-cy="Baner Cymru"
+                >
+                  Welsh Flag
+                </option>
+                <option
+                  value="website/static/images/img/holmes_silhouette.png"
+                  data-lang-en="Sherlock Holmes"
+                  data-lang-cy="Sherlock Holmes"
+                >
+                  Sherlock Holmes
+                </option>
+                <option
+                  value="website/static/images/img/national-trust-logo-black-on-white-silhouette.jpg"
+                  data-lang-en="National Trust"
+                  data-lang-cy="Ymddiriedolaeth Genedlaethol"
+                >
+                  National Trust
+                </option>
+                <option
+                  value="website/static/images/img/cadw-clip.jpeg"
+                  data-lang-en="Cadw"
+                  data-lang-cy="Cadw"
+                >
+                  Cadw
+                </option>
+                <option
+                  value="website/static/images/img/blue_rectangle.jpg"
+                  data-lang-en="Rectangle"
+                  data-lang-cy="Petryal"
+                >
+                  Rectangle
+                </option>
+                <option
+                  value="website/static/images/img/circle.png"
+                  data-lang-en="Circle"
+                  data-lang-cy="Cylch"
+                >
+                  Circle
+                </option>
+                <option
+                  value="website/static/images/img/CadwLogo.png"
+                  data-lang-en="Cadw2"
+                  data-lang-cy="Cadw2"
+                >
+                  Cadw2
+                </option>
+              </select>
             </div>
-            
-            <div id="SentimentPlotViewPie"></div>
-            <p data-lang-en="The figure displays the sentiment analysis of the data, you can press on any part of the graph to display the data" 
-            data-lang-cy="Mae'r ffigur yn dangos dadansoddiad sentiment y data, gallwch wasgu ar unrhyw ran o'r graff i arddangos y data"
-            >The figure displays the sentiment analysis of the data, you can press on any part of the graph to display the data</p>
-            <a href="/get-html-pie" download>
-                <button class="analyze-btn" data-lang-en="Download Interactive Pie Chart" data-lang-cy="Lawrlwytho Siart Cylch Rhyngweithiol">Download Interactive Pie Chart</button>
-            </a>
-            <div id="SentimentPlotViewBar"></div>
-            <a href="/get-html-bar" download>
-                <button class="analyze-btn" data-lang-en="Download Interactive Bar Chart" data-lang-cy="Lawrlwytho Siart Bar Rhyngweithiol">Download Interactive Bar Chart</button>
-            </a>
-            <div id="SentimentView"></div>  
-            <div id="SentimentTable"></div> 
-            <a href="/get-Sentimentdata" download>
-                <button class="analyze-btn" data-lang-en="Download Sentiment Table" data-lang-cy="Lawrlwytho Tabl Sentiment">Download Sentiment Table</button>
-            </a>  
-        </div>
-        <div id="tab1" class="tab-content">
-         <h2 data-lang-en="Scatter Plot Overview" data-lang-cy="Trosolwg Plot Gwasgariad">Scatter Plot Overview</h2>
-<p data-lang-en="In a scatter plot, the single words  with the highest sentiment association are displayed. The x- and y-axes show their usage in positive vs. negative and neutral sentiments, respectively." 
-data-lang-cy="Mewn plot gwasgariad, caiff y geiriau sengl gyda'r cysylltiad sentiment uchaf eu dangos. Mae'r echelinau x- ac y- yn dangos eu defnydd mewn sentimentau cadarnhaol yn erbyn sentimentau negyddol a niwtral.">In a scatter plot, the single words with the highest sentiment association are displayed. The x- and y-axes show their usage in positive vs. negative and neutral sentiments, respectively.</p>
 
-<h3 data-lang-en="Colour Coding:" data-lang-cy="Codio Lliw:">Colour Coding:</h3>
-<div class="color-boxes">
-    <div class="color-box blue" data-lang-en="Blue: Positive Words" data-lang-cy="Glas: Geiriau Cadarnhaol">Blue: Positive Words</div>
-    <div class="color-box red" data-lang-en="Red: Negative Words" data-lang-cy="Coch: Geiriau Negyddol">Red: Negative Words</div>
-    <div class="color-box yellow" data-lang-en="Yellow:  (Positive and Negative)" data-lang-cy="Melyn: (Cadarnhaol a Negyddol)">Yellow:  (Positive and Negative)</div>
-    <div class="color-box orange"data-lang-en="Orange:  (Positive and Negative)" data-lang-cy="Oren: (Cadarnhaol a Negyddol)">Orange:  (Positive and Negative)</div>
-</div>
-<p data-lang-en="Towards the top-right, the most frequently shared terms between the two sentiments are found, while the bottom-left has the least frequent shared terms." 
-data-lang-cy="Tua'r dde uchaf, gellir dod o hyd i'r termau sy'n cael eu rhannu fwyaf aml rhwng y ddau sentiment, ac ar y chwith isaf ceir y termau sy'n cael eu rhannu leiaf aml.">Towards the top-right, the most frequently shared terms between the two sentiments are found, while the bottom-left has the least frequent shared terms.</p>
+            <div class="form-group col-md-4">
+              <label
+                class="form-label"
+                data-lang-en="Select cloud outline colour:"
+                data-lang-cy="Dewiswch liw amlinell y cwmwl:"
+                >Select cloud outline colour:</label
+              >
+              <select
+                name="cloud_outline_color"
+                class="form-control"
+                title="Changing this will regenerate the word cloud"
+              >
+                <option value="white" data-lang-en="White" data-lang-cy="Gwyn">
+                  White
+                </option>
+                <option value="grey" data-lang-en="Grey" data-lang-cy="Llwyd">
+                  Grey
+                </option>
+                <option
+                  value="yellow"
+                  data-lang-en="Yellow"
+                  data-lang-cy="Melyn"
+                >
+                  Yellow
+                </option>
 
-<h3 data-lang-en="Score Range:" 
-data-lang-cy="Ystod Sgôr:">Score Range:</h3>
-<p data-lang-en="The range is between -1 and 1, with scores near 0 representing words with similar frequencies in both classes (yellow and orange dots). Scores near 1 are for words more frequent in positive contexts (blue), and scores near -1 for negative contexts (red). Darker shades of blue or red indicate scores closer to their respective extremes." 
-data-lang-cy="Mae'r ystod rhwng -1 ac 1, gyda sgorau yn agos at 0 yn cynrychioli geiriau gydag amlderau tebyg yn y ddau ddosbarth (dotiau melyn ac oren). Mae sgorau sy'n agos i 1 ar gyfer geiriau sy'n fwy aml mewn cyd-destunau cadarnhaol (glas), a sgorau sy'n agos i -1 ar gyfer cyd-detunau negyddol (coch). Mae arlliwiau mwy tywyll o las neu goch yn nodi sgorau sy'n fwy agos at eu heithafion priodol."
->The range is between -1 and 1, with scores near 0 representing words with similar frequencies in both classes (yellow and orange dots). Scores near 1 are for words more frequent in positive contexts (blue), and scores near -1 for negative contexts (red). Darker shades of blue or red indicate scores closer to their respective extremes.</p>
-
-<h3 data-lang-en="Interactive Features:" data-lang-cy="Nodweddion Rhyngweithiol:">Interactive Features:</h3>
-<p data-lang-en="Hovering over the dots on the plot reveals word frequency statistics per 25,000 words for both classes and a Scaled F-Score. This frequency determines each point's plot position. For instance, a given metric might be 195:71 per 25k words. Using the query box or clicking on a dot provides more details, like the frequency per 1,000 Reddit posts ('doc')." 
-data-lang-cy="Mae hofran uwchben y dotiau ar y plot yn dangos ystadegau amlder geiriau fesul 25,000 gair ar gyfer dosbarthiadau a Sgôr-F Graddfa. Mae'r amlder yma yn pennu safle pob pwynt ar y plot. Er enghraifft, gellid bwrw metrig 195:71 fesul 25 mil o eiriau. Bydd defnyddio'r blwch ymholiadau neu glicio ar ddot yn rhoi mwy o fanylion, fel yr amlder fesul 1,000 post Reddir ('doc')."
->Hovering over the dots on the plot reveals word frequency statistics per 25,000 words for both classes and a Scaled F-Score. This frequency determines each point's plot position. For instance, a given metric might be 195:71 per 25k words. Using the query box or clicking on a dot provides more details, like the frequency per 1,000 Reddit posts ('doc').</p>
-
-            <iframe id="scattertextIframe" src="" width="100%" height="1000" frameborder="0" ></iframe>
-            <a href="/get-html-scatter" download>
-                <button class="analyze-btn" data-lang-en="Download Interactive Scatter Text" data-lang-cy="Lawrlwytho Testun Gwasgariad Rhyngweithiol">Download Interactive Scatter Text</button>
-            </a>
-
-
-        </div>
-        <div id="tab2" class="tab-content">
-            <form id="summarize-form">
-             <h5 data-lang-en="This tool, adapted from the Welsh Summarisation project, produces a basic extractive summary of the review text from the selected columns." 
-                data-lang-cy="Mae'r offeryn hwn a gafodd ei addasu o Brosiect Crynhoi Testunau Cymraeg yn creu crynodeb echdynnol sylfaenol o destun yr adolygiad o'r colofnau a ddewiswyd.">This tool, adapted from the Welsh Summarisation project, produces a basic extractive summary of the review text from the selected columns.</h5>
-        
-                <input type="range" id="chosen_ratio" name="chosen_ratio" min="10" max="50" step="10" value="40" oninput="onSliderChange()">
-                <span id="ratio-value">40%</span><br>
-                <div id='summary'></div>
-                <button class="analyze-btn" type="button" onclick="downloadSummary()" data-lang-en="Download Summary" data-lang-cy="lawrlwytho crynodeb">Download Summary</button>
-           </form>
-            
-        </div>
-        <div id="tab3" class="tab-content">
-            <div class="container mt-5">
-                <h2 data-lang-en="Word Cloud Generator" data-lang-cy="Creu Cwmwl Geiriau" >Word Cloud generator</h2>
-                <form id="wordCloudForm" method="post">
-                    <div class="form-row"> <!-- Use form-row to place elements side by side -->
-                        <div class="form-group col-md-4">
-                            <label class="form-label" data-lang-en="Select cloud type:" data-lang-cy="Dewiswch y math o gwmwl:" >Select cloud type:</label>
-                            <select name="cloud_type" class="form-control">
-                              <option value="all_words" data-lang-en="All words" data-lang-cy="Pob gair" >All words</option>
-                                <option value="nouns" data-lang-en="Nouns" data-lang-cy="Enwau">Nouns</option>
-                                <option value="proper_nouns" data-lang-en="Proper nouns" data-lang-cy="Enwau priod">Proper nouns</option>
-                                <option value="verbs" data-lang-en="Verbs" data-lang-cy="Berfau">Verbs</option>
-                                <option value="adjectives" data-lang-en="Adjectives" data-lang-cy="Ansoddeiriau">Adjectives</option>
-                                <option value="adverbs" data-lang-en="Adverbs" data-lang-cy="Adferfau">Adverbs</option>
-                                <option value="numbers" data-lang-en="Numbers" data-lang-cy="Rhifau">Numbers</option>
-                                <option value="2_word_clusters" data-lang-en="2-word clusters" data-lang-cy="Clystyrau 2-gair">2-word clusters</option>
-                                <option value="3_word_clusters" data-lang-en="3-word clusters" data-lang-cy="Clystyrau 3-gair">3-word clusters</option>
-                                <option value="4_word_clusters" data-lang-en="4-word clusters" data-lang-cy="Clystyrau 4-gair">4-word clusters</option>
-                                <option value="semantic_tags" data-lang-en="Semantic Tags" data-lang-cy="Tagiau Semantig">Semantic Tags</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label class="form-label" data-lang-en="Select cloud shape:" data-lang-cy="Dewiswch siâp y cwmwl:" >Select cloud shape:</label>
-                            <select name="cloud_shape" class="form-control">
-                               
-<option value="website/static/images/img/cloud.png"  data-lang-en="Cloud" data-lang-cy="Cwmwl">Cloud</option>
-                              
- <option value="website/static/images/img/comments2.png" data-lang-en="Comment" data-lang-cy="Sylw">Comment</option>
-                                <option value="website/static/images/img/lightbulb.png" data-lang-en="Light bulb" data-lang-cy="Bwlb golau">Light Bulb</option>
-                                <option value="website/static/images/img/volumeup.png" data-lang-en="Volume up" data-lang-cy="Lefel sain i fyny">Volume up</option>
-                                <option value="website/static/images/img/Mic.png" data-lang-en="Microphone" data-lang-cy="Meicroffon">Microphone</option>
-                                 <option value="website/static/images/img/welsh_flag.png" data-lang-en="Welsh Flag" data-lang-cy="Baner Cymru">Welsh Flag</option>
-                                <option value="website/static/images/img/holmes_silhouette.png" data-lang-en="Sherlock Holmes" data-lang-cy="Sherlock Holmes">Sherlock Holmes</option>
-                                <option value="website/static/images/img/national-trust-logo-black-on-white-silhouette.jpg" data-lang-en="National Trust" data-lang-cy="Ymddiriedolaeth Genedlaethol">National Trust</option>
-                                <option value="website/static/images/img/cadw-clip.jpeg" data-lang-en="Cadw" data-lang-cy="Cadw">Cadw</option>
-                                <option value="website/static/images/img/blue_rectangle.jpg" data-lang-en="Rectangle" data-lang-cy="Petryal">Rectangle</option> 
-                                <option value="website/static/images/img/circle.png" data-lang-en="Circle" data-lang-cy="Cylch">Circle</option>
-                                <option value="website/static/images/img/CadwLogo.png" data-lang-en="Cadw2" data-lang-cy="Cadw2">Cadw2</option>
-                            </select>
-                        </div>
-        
-                        <div class="form-group col-md-4">
-                             <label class="form-label" data-lang-en="Select cloud outline colour:" data-lang-cy="Dewiswch liw amlinell y cwmwl:">Select cloud outline colour:</label>
-                            <select name="cloud_outline_color" class="form-control" title="Changing this will regenerate the word cloud">
-                                <option value="white" data-lang-en="White" data-lang-cy="Gwyn">White</option>
-                                <option value="grey" data-lang-en="Grey" data-lang-cy="Llwyd">Grey</option>
-                                <option value="yellow" data-lang-en="Yellow" data-lang-cy="Melyn">Yellow</option>
-                                
-                                <option value="black" data-lang-en="Black" data-lang-cy="Du">Black</option>
-                                <option value="green" data-lang-en="Green" data-lang-cy="Gwyrdd">Green</option>
-                                <option value="blue" data-lang-en="Blue" data-lang-cy="Glas">Blue</option>
-                                <option value="red" data-lang-en="Red" data-lang-cy="Coch">Red</option>
-                            </select>
-                        </div>
-        
-                         <div class="form-group col-md-4">
-                            <label class="form-label"data-lang-en="Select cloud measurement:" data-lang-cy="Dewiswch fesuriad y cwmwl:" >Select cloud measurement:</label>
-                            <select name="cloud_measure" class="form-control" title="Changing this will regenerate the word cloud">
-                               <option value="KENESS" data-lang-en="Keyness" data-lang-cy="Allweddeirwydd">Keyness</option>
-                                <option value="Frequency" data-lang-en="Frequency" data-lang-cy="Amlder">Frequency</option>
-                                <option value="Log-Likelihood" data-lang-en="Log-Likelihood" data-lang-cy="Tebygolrwydd-Log">Log-Likelihood</option>
-                                 
-                            </select>
-                        </div>                     
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: center; height: 170vh;">
-                        <img id="wordCloudImage" src="" alt="Word Cloud Image">
-                    </div>
-                    
-                    
-                </form> 
-                <a href="/get-word-cloud" download>
-                    <button class="analyze-btn" data-lang-en="Download Word Cloud image" data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau" >Download  Word Cloud image</button>
-                </a>
-                <h2 data-lang-en="Word List" data-lang-cy="Rhestr Geiriau" >Word List</h2>
-        
+                <option value="black" data-lang-en="Black" data-lang-cy="Du">
+                  Black
+                </option>
+                <option
+                  value="green"
+                  data-lang-en="Green"
+                  data-lang-cy="Gwyrdd"
+                >
+                  Green
+                </option>
+                <option value="blue" data-lang-en="Blue" data-lang-cy="Glas">
+                  Blue
+                </option>
+                <option value="red" data-lang-en="Red" data-lang-cy="Coch">
+                  Red
+                </option>
+              </select>
             </div>
-            <div id= wordListContainer class="word-checkbox-list"></div>
-        
- 
-        
-            <!--class="form-group col-md-4"-->
-        </div>
-      <div id="tab4" class="tab-content">
-        
-            <h2 data-lang-en="Select a word for analysis" data-lang-cy="Dewiswch air i'w ddadansoddi">Select a word for analysis</h2>
-        <form action="/Keyword_collocation" method="post">
-            <div>
-                <!-- Initial Category Radio Buttons -->
-                <label class="form-label" data-lang-en="Select Category" data-lang-cy="Dewiswch Gategori">Select Category</label>
-                <div class="sentiment-option">
-                    <input type="radio" id="wordRadio" name="category" value="word" onclick="handleCategoryChange()" checked>
-                    <label for="wordRadio" data-lang-en="Word" data-lang-cy="Gair">Word</label>
+
+            <div class="form-group col-md-4">
+              <label
+                class="form-label"
+                data-lang-en="Select cloud measurement:"
+                data-lang-cy="Dewiswch fesuriad y cwmwl:"
+                >Select cloud measurement:</label
+              >
+              <select
+                name="cloud_measure"
+                class="form-control"
+                title="Changing this will regenerate the word cloud"
+              >
+                <option
+                  value="KENESS"
+                  data-lang-en="Keyness"
+                  data-lang-cy="Allweddeirwydd"
+                >
+                  Keyness
+                </option>
+                <option
+                  value="Frequency"
+                  data-lang-en="Frequency"
+                  data-lang-cy="Amlder"
+                >
+                  Frequency
+                </option>
+                <option
+                  value="Log-Likelihood"
+                  data-lang-en="Log-Likelihood"
+                  data-lang-cy="Tebygolrwydd-Log"
+                >
+                  Log-Likelihood
+                </option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div id="cloudLoading" class="container cloud-loading">
+        <h1>Loading word cloud...</h1>
+      </div>
+      <div
+        id="wordListOuterContainer"
+        class="responsive-flex rounded border border-light shadow my-5 border border-primary"
+      >
+        <div
+          id="responsive-flex-first"
+          class="d-flex flex-column align-items-center search-container"
+        >
+          <div class="rounded p-4 w-100 border border-light bg-light">
+            <div class="pb-4 w-100">
+              <input
+                id="cloud-search"
+                class="p-2 form-control w-100"
+                type="search"
+                placeholder="Search in cloud..."
+                oninput="handleWordCloudSearchChange(event)"
+              />
+            </div>
+            <div
+              id="sem-tags-radio-selection"
+              class="container-fluid align-items-center mb-4"
+              style="display: none"
+            >
+              <div class="d-flex flex-column">
+                <div class="form-check">
+                  <input
+                    id="show-semantic-tags"
+                    name="sem-tags-words-rad"
+                    type="radio"
+                    class="form-check-input"
+                    checked
+                  />
+                  <label
+                    class="form-check-label"
+                    for="show-semantic-tags"
+                    data-lang-en="Show semantic tags"
+                    data-lang-cy="Dangos tagiau semantig"
+                  >
+                    Show Tags
+                  </label>
                 </div>
-                <div class="sentiment-option">
-                    <input type="radio" id="posTagRadio" name="category" value="posTag" onclick="handleCategoryChange()">
-                    <label for="posTagRadio" data-lang-en="POS Tag" data-lang-cy="Tag POS" >POS Tag</label>
+                <div class="form-check">
+                  <input
+                    id="show-words"
+                    name="sem-tags-words-rad"
+                    type="radio"
+                    class="form-check-input"
+                  />
+                  <label
+                    class="form-check-label"
+                    for="show-words"
+                    data-lang-en="Show words with semantic tags"
+                    data-lang-cy="Dangos geiriau gyda thagiau semantig"
+                  >
+                    Show Words With Tags
+                  </label>
                 </div>
-                <div class="sentiment-option">
-                    <input type="radio" id="semanticTagRadio" name="category" value="semanticTag"onclick="handleCategoryChange()">
-                    <label for="semanticTagRadio" data-lang-en="Semantic Tag" data-lang-cy="Tag Semantig">Semantic Tag</label>
+              </div>
+            </div>
+            <div
+              class="container align-items-center d-flex flex-column overflow-scroll-container p-0"
+            >
+              <div
+                id="wordListContainer"
+                class="word-checkbox-list w-100 d-flex flex-column"
+                style="min-width: 100%"
+              ></div>
+            </div>
+            <div class="w-100 d-flex justify-content-center pt-4">
+              <input
+                id="word-changes-submit"
+                class="p-2 btn btn-outline-primary w-100"
+                type="submit"
+                value="Submit selection"
+                onclick="regenerateWordCloud()"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          id="wordCloudImageContainer"
+          class="container-fluid d-flex flex-column justify-content-center align-items-center mw-100 position-relative p-0 m-0"
+          style="max-height: 100vh"
+        >
+          <div
+            id="word-cloud-enlarge-reduce-icon"
+            class="position-absolute p-2"
+            style="top: 0; right: 0"
+          >
+            <label class="size-btn">
+              <input
+                type="checkbox"
+                class="hidden"
+                onchange="handleWordCloudPosChange(event)" /><i
+                id="word-cloud-control-icon"
+                class="fa-solid fa-expand"
+                style="font-size: 30px"
+              ></i
+            ></label>
+          </div>
+          <img id="wordCloudImage" src="" alt="Word Cloud Image" />
+        </div>
+      </div>
+
+      <div
+        id="tag-words-associations-container"
+        class="container-fluid p-0"
+        style="display: none"
+      >
+        <div
+          class="flex-container align-items-center justify-content-center mb-5"
+        >
+          <h2
+            class="mr-2"
+            data-lang-en="Word and Tag Associations"
+            data-lang-cy="Cysylltiadau gair a thag"
+          >
+            Word &amp; Tag Associations
+          </h2>
+          <label class="form-check-label size-btn" style="width: 30px">
+            <input
+              type="checkbox"
+              class="hidden form-check-input"
+              onchange="handleWordTagListVis(event)"
+            />
+            <i
+              id="word-tag-list-icon"
+              class="fa-solid fa-eye-slash"
+              style="font-size: 30px; min-width: 30px"
+            ></i>
+          </label>
+        </div>
+
+        <div
+          id="tag-words-associations-list"
+          class="container-fluid w-100 row row-cols-1 row-cols-sm-2 row-cols-lg-4 m-0"
+        ></div>
+      </div>
+      <a id="word-cloud-download-1" href="/get-word-cloud" download>
+        <button
+          class="analyze-btn"
+          data-lang-en="Download Word Cloud image"
+          data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau"
+        >
+          Download Word Cloud image
+        </button>
+      </a>
+      <a
+        id="word-cloud-download-2"
+        href="/get-sec-word-cloud"
+        style="display: none"
+        download
+      >
+        <button
+          class="analyze-btn mt-2"
+          data-lang-en="Download Word Cloud image (2)"
+          data-lang-cy="Lawrlwytho delwedd Cwmwl Geiriau (2)"
+        >
+          Download Word Cloud image (Semantic Tags)
+        </button>
+      </a>
+    </div>
+    <div id="tab4" class="tab-content">
+      <h2
+        data-lang-en="Select a word for analysis"
+        data-lang-cy="Dewiswch air i'w ddadansoddi"
+      >
+        Select a word for analysis
+      </h2>
+      <form action="/Keyword_collocation" method="post">
+        <div class="mb-4">
+          <!-- Initial Category Radio Buttons -->
+          <label
+            class="form-label"
+            data-lang-en="Select Category"
+            data-lang-cy="Dewiswch Gategori"
+            >Select Category</label
+          >
+          <div class="sentiment-option">
+            <input
+              type="radio"
+              id="wordRadio"
+              name="category"
+              value="word"
+              onclick="handleCategoryChange()"
+              checked
+            />
+            <label for="wordRadio" data-lang-en="Word" data-lang-cy="Gair"
+              >Word</label
+            >
+          </div>
+          <div class="sentiment-option">
+            <input
+              type="radio"
+              id="posTagRadio"
+              name="category"
+              value="posTag"
+              onclick="handleCategoryChange()"
+            />
+            <label
+              for="posTagRadio"
+              data-lang-en="POS Tag"
+              data-lang-cy="Tag POS"
+              >POS Tag</label
+            >
+          </div>
+          <div class="sentiment-option">
+            <input
+              type="radio"
+              id="semanticTagRadio"
+              name="category"
+              value="semanticTag"
+              onclick="handleCategoryChange()"
+            />
+            <label
+              for="semanticTagRadio"
+              data-lang-en="Semantic Tag"
+              data-lang-cy="Tag Semantig"
+              >Semantic Tag</label
+            >
+          </div>
+
+          <!-- Sub-category Dropdown -->
+          <label
+            class="form-label"
+            data-lang-en="Select Option"
+            data-lang-cy="Dewiswch Opsiwn"
+            >Select Option</label
+          >
+
+          <div
+            class="container-fluid d-flex justify-content-start flex-column flex-sm-row p-0"
+          >
+            <div class="dropdown">
+              <button
+                class="btn dropdown-toggle sentiment-option m-0"
+                id="select-option-btn"
+                type="button"
+                id="dropdown-button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-default
+              >
+                -- Select --
+              </button>
+              <div class="dropdown-menu pb-0" aria-labelledby="dropdown-button">
+                <div class="form-group mx-3" style="min-width: 250px">
+                  <input
+                    id="word-use-dd-search"
+                    type="search"
+                    class="form-control w-100"
+                    placeholder="Search in dropdown..."
+                    oninput="handleWordFreqSearchChange(event)"
+                  />
                 </div>
-            
-                <!-- Sub-category Dropdown -->
-                <label class="form-label" data-lang-en="Select Option" data-lang-cy="Dewiswch Opsiwn">Select Option</label>
-                <select id="subCategoryDropdown" class="form-control"></select>
+                <div class="dropdown-divider"></div>
+                <div
+                  id="subCategoryDropdown"
+                  class="word-use-dropdown position-static"
+                ></div>
+              </div>
             </div>
-            <div>
-                <label for="windowSizeRange" data-lang-en="Window Size:" data-lang-cy="Maint y Ffenestr:">Window Size: </label>
-                <input type="range" id="windowSizeRange" name="window_size" min="1" max="10" value="5">
-                <span id="windowSizeValue">5</span> 
+            <!-- For including/excluding filtered data -->
+            <div
+              class="form-check ml-0 mt-3 ml-sm-3 mt-sm-0 d-flex justify-content-start justify-content-sm-center align-items-center"
+            >
+              <div
+                class="container-fluid d-flex m-0 p-0"
+                title="Includes words assigned with the following tags: Grammatical bin, Pronouns, Period, Being, Discourse Bin, Negative, Punctuation, Unmatched."
+              >
+                <input
+                  id="word-freq-include-all-check"
+                  class="form-check-input"
+                  type="checkbox"
+                  onchange="handleWordFreqDatasetChange(event)"
+                />
+                <label
+                  class="form-check-label"
+                  for="word-freq-include-all-check"
+                  data-lang-en="Include all data (stopwords, misfiltered words, etc.)"
+                  data-lang-cy="Cynnwys yr holl ddata (ataleiriau, geiriau wedi'u hidlo'n anghywir, ac ati)"
+                  >Include all data (stopwords, misfiltered words, etc.)</label
+                >
+              </div>
             </div>
-        
+          </div>
+
+          <a href="/get-filtered-word-frequencies-data" download>
+            <button
+              type="button"
+              class="analyze-btn hidden mt-5"
+              data-lang-en="Download Filtered Word Frequency Results"
+              data-lang-cy="Llwytho i lawr Ganlyniadau Amledd Geiriau wedi'u Hidlo"
+            >
+              Download Filtered Word Frequency Results
+            </button>
+          </a>
+          <a href="/get-unfiltered-word-frequencies-data" download>
+            <button
+              type="button"
+              class="analyze-btn hidden mt-2"
+              data-lang-en="Download Unfiltered Word Frequency Results"
+              data-lang-cy="Llwytho i lawr Ganlyniadau Amledd Geiriau heb eu Hidlo"
+            >
+              Download Unfiltered Word Frequency Results
+            </button>
+          </a>
+        </div>
+        <div
+          id="window-size-range-container"
+          class="my-5"
+          style="display: none"
+        >
+          <label
+            for="windowSizeRange"
+            data-lang-en="Window Size:"
+            data-lang-cy="Maint y Ffenestr:"
+            >Window Size:
+          </label>
+          <input
+            type="range"
+            id="windowSizeRange"
+            name="window_size"
+            min="1"
+            max="10"
+            value="5"
+          />
+          <span id="windowSizeValue">5</span>
+        </div>
+
         <!-- KWIC Table -->
-<div id="kwicResults">
-<table id="kwicTable" class="hidden">
-    <thead>
-        <tr>
-            <th data-lang-en="Left Context" data-lang-cy="Cyd-destun chwith">Left Context</th>
-            <th data-lang-en="Keyword" data-lang-cy="Allweddair">Keyword</th>
-            <th data-lang-en="Right Context" data-lang-cy="Cyd-destun de">Right Context</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Filled by JavaScript -->
-    </tbody>
-</table>
-
-</div>
-<a href="/get-keyword-data" download>
-    <button type="button"  class="analyze-btn hidden" data-lang-en="Download Keyword Results" data-lang-cy="Lawrlwytho Canlyniadau Allweddair">Download Keyword Results</button>
-</a>
-<!-- Collocations Table -->
-<table id="collocsTable" class="hidden">
-    <thead>
-        <tr>
-            <th data-lang-en="Word" data-lang-cy="Geiriau">Word</th>
-            <th data-lang-en="Frequency" data-lang-cy="Amlder">Frequency</th>
-            <th>MI</th>
-            <th>LL</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Filled by JavaScript -->
-    </tbody>
-</table>
-<a href="/get-collos-data" download>
-    <button type="button"  class="analyze-btn hidden" data-lang-en="Download Collocations Results" data-lang-cy="Lawrlwytho Canlyniadau Cydleoliadau">Download Collocations Results</button>
-</a>
-<!-- Display Network Visualization -->
-<label for="graphType" class="hidden" data-lang-en="Choose a Graph Type:" data-lang-cy="Dewiswch fath o graff" >Choose a Graph Type:</label>
-<select id="graphType"class="hidden">
-  <option value="frequency"data-lang-en="Frequency"  data-lang-cy="Amlder">Frequency</option>
-  <option value="MI" data-lang-en="Mutual Information"  data-lang-cy="Gwybodaeth gyffredin">Mutual Information</option>
-  <option value="LL" data-lang-en = "Log Likelihood" data-lang-cy="Tebygolrwydd Log">Log Likelihood</option>
-</select>
-<button type="button"  class="analyze-btn hidden" id="generateGraph" data-lang-en="Regenerate Graph" data-lang-cy="Ail-greu Graff">Regenerate Graph</button>
-<div id="graphContainer"></div>
-<a href="/get-graph-path"  download>
-    <button type="button" class="analyze-btn hidden" data-lang-en="Download Interactive Network Graph" 
-    data-lang-cy="Lawrlwytho Graff Rhwydwaith Rhyngweithiol">Download Interactive Network Graph</button>
-</a>     
-</form>
-
-        
+        <div id="kwicResults">
+          <table id="kwicTable" class="hidden">
+            <thead>
+              <tr>
+                <th
+                  data-lang-en="Left Context"
+                  data-lang-cy="Cyd-destun chwith"
+                >
+                  Left Context
+                </th>
+                <th data-lang-en="Keyword" data-lang-cy="Allweddair">
+                  Keyword
+                </th>
+                <th data-lang-en="Right Context" data-lang-cy="Cyd-destun de">
+                  Right Context
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Filled by JavaScript -->
+            </tbody>
+          </table>
         </div>
+        <a href="/get-keyword-data" download>
+          <button
+            type="button"
+            class="analyze-btn hidden"
+            data-lang-en="Download Keyword Results"
+            data-lang-cy="Lawrlwytho Canlyniadau Allweddair"
+          >
+            Download Keyword Results
+          </button>
+        </a>
+        <!-- Collocations Table -->
+        <table id="collocsTable" class="hidden">
+          <thead>
+            <tr>
+              <th data-lang-en="Word" data-lang-cy="Geiriau">Word</th>
+              <th data-lang-en="Frequency" data-lang-cy="Amlder">Frequency</th>
+              <th>MI</th>
+              <th>LL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Filled by JavaScript -->
+          </tbody>
+        </table>
+        <a href="/get-collos-data" download>
+          <button
+            type="button"
+            class="analyze-btn hidden"
+            data-lang-en="Download Collocations Results"
+            data-lang-cy="Lawrlwytho Canlyniadau Cydleoliadau"
+          >
+            Download Collocations Results
+          </button>
+        </a>
+        <!-- Display Network Visualization -->
+        <label
+          for="graphType"
+          class="hidden"
+          data-lang-en="Choose a Graph Type:"
+          data-lang-cy="Dewiswch fath o graff"
+          >Choose a Graph Type:</label
+        >
+        <select id="graphType" class="hidden">
+          <option
+            value="frequency"
+            data-lang-en="Frequency"
+            data-lang-cy="Amlder"
+          >
+            Frequency
+          </option>
+          <option
+            value="MI"
+            data-lang-en="Mutual Information"
+            data-lang-cy="Gwybodaeth gyffredin"
+          >
+            Mutual Information
+          </option>
+          <option
+            value="LL"
+            data-lang-en="Log Likelihood"
+            data-lang-cy="Tebygolrwydd Log"
+          >
+            Log Likelihood
+          </option>
+        </select>
+        <button
+          type="button"
+          class="analyze-btn hidden"
+          id="generateGraph"
+          data-lang-en="Regenerate Graph"
+          data-lang-cy="Ail-greu Graff"
+        >
+          Regenerate Graph
+        </button>
+        <div id="graphContainer"></div>
+        <a href="/get-graph-path" download>
+          <button
+            type="button"
+            class="analyze-btn hidden"
+            data-lang-en="Download Interactive Network Graph"
+            data-lang-cy="Lawrlwytho Graff Rhwydwaith Rhyngweithiol"
+          >
+            Download Interactive Network Graph
+          </button>
+        </a>
+      </form>
+    </div>
 
-        <div id="tab5" class="tab-content">
-         <label for="search_word" data-lang-en="Search Word:" data-lang-cy="Gair Chwilio:">Search Word:</label>
-            <input type="text" id="search_word" name="search_word" >
-            <h5 data-lang-en="This word tree shows the words which commonly occur before and after your searched word. The bigger the font size, the more often the word occurs. The number of times each word occurs is also shown when you scroll over the word (the number after ‘weight’)" 
-            data-lang-cy="Mae'r goeden eiriau yma'n dangos y geiriau sy'n digwydd yn gyffredin cyn ac ar ôl y gair chwilioch chi amdano. Po fwyaf faint y ffont, mwyaf aml mae'r gair yn digwydd.  Hefyd, dangosir y nifer o weithiau mae pob gair yn digwydd pan fyddwch yn sgrolio dros y gair (y rhif ar ôl 'pwysau')">
-                
-                This word tree shows the words which commonly occur before and after your searched word. The bigger the font size, the more often the word occurs. The number of times each word occurs is also shown when you scroll over the word (the number after ‘weight’)</h5>
-
-                <h5 data-lang-en="The word frequency is represented by the weight in the tool tip" 
-                data-lang-cy="Cynrychiolir amlder y gair gan y pwysau yn yr awgrym offer"
-                >The word frequency is represented by the weight in the tool tip</h5>
-            <div id="wordtree_basic" style="width: 1200; height: 800;"></div>
-            <button type="button"  class="analyze-btn" onclick="downloadWordTree()" data-lang-en="Download Interactive WordTree" data-lang-cy="Lawrlwytho Goeden Eiriau Rhyngweithiol">Download Interactive WordTree </button>
-            <iframe id="hiddenIframe" style="display:none; width:0; height:0;"></iframe>
+    <div id="tab5" class="tab-content">
+      <label
+        for="search_word"
+        data-lang-en="Search Word:"
+        data-lang-cy="Gair Chwilio:"
+        >Search Word:</label
+      >
+      <input type="text" id="search_word" name="search_word" />
+      <div id="puncSwitchDiv" class="custom-control custom-switch d-flex">
+        <input type="checkbox" class="custom-control-input" id="puncSwitch" />
+        <label
+          class="custom-control-label"
+          for="puncSwitch"
+          data-lang-en="Show punctuation menu"
+          data-lang-cy="Dangos y ddewislen atalnodi"
+          >Show punctuation menu</label
+        >
+      </div>
+      <div
+        id="allPuncList"
+        class="rounded container-fluid bg-light border border-light p-3 shadow mb-4 mt-2"
+        style="display: none"
+      >
+        <div id="allPuncListInnerContainer" class="container-fluid">
+          <div id="SelectAllPuncContainer" class="row row-cols-auto">
+            <div class="col form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="PSSelectAll"
+              />
+              <label
+                for="PSSelectAll"
+                class="form-check-label"
+                style="color: #8f2b2b"
+                data-lang-en="All"
+                data-lang-cy="Popeth"
+                >All</label
+              >
+            </div>
+          </div>
         </div>
-        <div id="tab6" class="tab-content">
-            
-            <form id='pdfForm' action="/generate-pdf" method="post" enctype="multipart/form-data" target="_blank">
-                <div class="flex-container">
-                <section class="grid">
-                   <!-- Sentiment Analysis
+      </div>
+      <div id="puncKey" class="container-fluid" style="display: none">
+        <div>
+          <div class="d-flex justify-content-center align-items-center">
+            <div class="mx-4">
+              <input class="form-check-input" type="checkbox" checked="" />
+              <p
+                class="ml-1 font-weight-bold"
+                data-lang-en="Included"
+                data-lang-cy="Wedi&rsquo;i gynnwys"
+              >
+                Included
+              </p>
+            </div>
+            <div class="mx-4">
+              <input class="form-check-input" type="checkbox" />
+              <p
+                class="ml-1 font-weight-bold"
+                data-lang-en="Excluded"
+                data-lang-cy="Wedi&rsquo;i hepgor"
+              >
+                Excluded
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h5
+        data-lang-en="This word tree shows the words which commonly occur before and after your searched word. The bigger the font size, the more often the word occurs. The number of times each word occurs is also shown when you scroll over the word (the number after ‘weight’)"
+        data-lang-cy="Mae'r goeden eiriau yma'n dangos y geiriau sy'n digwydd yn gyffredin cyn ac ar ôl y gair chwilioch chi amdano. Po fwyaf faint y ffont, mwyaf aml mae'r gair yn digwydd.  Hefyd, dangosir y nifer o weithiau mae pob gair yn digwydd pan fyddwch yn sgrolio dros y gair (y rhif ar ôl 'pwysau')"
+      >
+        This word tree shows the words which commonly occur before and after
+        your searched word. The bigger the font size, the more often the word
+        occurs. The number of times each word occurs is also shown when you
+        scroll over the word (the number after ‘weight’)
+      </h5>
+
+      <h5
+        data-lang-en="The word frequency is represented by the weight in the tool tip"
+        data-lang-cy="Cynrychiolir amlder y gair gan y pwysau yn yr awgrym offer"
+      >
+        The word frequency is represented by the weight in the tool tip
+      </h5>
+      <h5
+        data-lang-en="You can include or exclude specific punctuation from the word tree"
+        data-lang-cy="Gallwch gynnwys neu hepgor atalnodi penodol o&rsquo;r goeden eiriau"
+      >
+        You can include or exclude specific punctuation from the word tree
+      </h5>
+      <div
+        id="wordtree_basic"
+        style="width: 1200; height: 800; overflow-x: scroll"
+      ></div>
+      <button
+        type="button"
+        class="analyze-btn"
+        onclick="downloadWordTree()"
+        data-lang-en="Download Interactive WordTree"
+        data-lang-cy="Lawrlwytho Goeden Eiriau Rhyngweithiol"
+      >
+        Download Interactive WordTree
+      </button>
+      <iframe
+        id="hiddenIframe"
+        style="display: none; width: 0; height: 0"
+      ></iframe>
+    </div>
+
+    <div id="tab6" class="tab-content">
+      <form
+        id="pdfForm"
+        action="/generate-pdf"
+        method="post"
+        enctype="multipart/form-data"
+        target="_blank"
+      >
+        <div class="flex-container">
+          <section class="grid">
+            <!-- Sentiment Analysis
                     <div class="square checkbox-option background-red" data-checkbox="sentimentData">
                         <i class="fas fa-chart-line text-size-60 text-white"></i>
                         <h3 class="text-strong text-uppercase" data-lang-en="Include Sentiment Analysis" data-lang-cy="Cynnwys Dadansoddi Sentiment">Include Sentiment Analysis</h3>
                     </div>-->
-                    <!-- Sentiment Pie Plot -->
-                    <div class="square checkbox-option background-blue" data-checkbox="sentimentPlotPie">
-                        <i class="fas fa-comments text-size-60 text-white"></i>
-                        <h3 class="text-strong text-uppercase" data-lang-en="Include Sentiment Pie Chart" data-lang-cy="Cynnwys Siart Cylch"> Include Sentiment Pie Chart</h3>
-                    </div>
-                    <!-- Sentiment Bar Plot -->
-                    <div class="square checkbox-option background-green" data-checkbox="sentimentPlotBar">
-                        <i class="fas fa-file-alt text-size-60 text-white"></i>
-                        <h3 class="text-strong text-uppercase" data-lang-en="Include Sentiment Bar Chart" data-lang-cy="Cynnwys Siart Bar">Include Sentiment Bar chart</h3>
-                    </div>
-                    <!-- Word Tree Data -->
-                    <div class="square checkbox-option background-purple" data-checkbox="wordTreeData">
-                        <i class="fas fa-cloud text-size-60 text-white"></i>
-                        <h3 class="text-strong text-uppercase" data-lang-en="Include Word Tree Data" data-lang-cy="Cynnwys Data'r Goeden Eiriau">Include Word Tree Data</h3>
-                    </div>
-                    <!-- Summary -->
-                    <div class="square checkbox-option background-orange" data-checkbox="summary">
-                        <i class="fas fa-link text-size-60 text-white"></i>
-                        <h3 class="text-strong text-uppercase" data-lang-en="Include Summary" data-lang-cy="Cynnwys Crynodeb">Include Summary</h3>
-                    </div>
-                    <!-- Wordcloud -->
-                    <div class="square checkbox-option background-aqua" data-checkbox="wordCloud">
-                        <i class="fas fa-tree text-size-60 text-white"></i>
-                        <h3 class="text-strong text-uppercase" data-lang-en="Include Word Cloud" data-lang-cy="Cynnwys Cwmwl Geiriau">Include Word Cloud</h3>
-                    </div>
-                 
-
-                </section>
-                <div class="generate-button-container">
-                    <button type="button" id="generatePdfBtn" data-lang-en="Generate Pdf" data-lang-cy="Creu Pdf">
-                        <i class="fas fa-file-pdf"></i> Generate PDF
-                    </button>
-                </div>
-                </div>
-                <!-- Hidden checkboxes -->
-               <!-- <input type="checkbox" name="sections" value="sentimentData" id="sentimentData" class="hidden-checkbox">-->
-                <input type="checkbox" name="sections" value="sentimentPlotPie" id="sentimentPlotPie" class="hidden-checkbox">
-                <input type="checkbox" name="sections" value="sentimentPlotBar" id="sentimentPlotBar" class="hidden-checkbox">
-                <input type="checkbox" name="sections" value="wordTreeData" id="wordTreeData" class="hidden-checkbox">
-                <input type="checkbox" name="sections" value="summary" id="summary" class="hidden-checkbox">
-                <input type="checkbox" name="sections" value="wordCloud" id="wordCloud" class="hidden-checkbox">
-        
-                
-            
-            
-    <input type="hidden" name="sentimentViewContent" id="sentimentField">
-   
-    <input  type="hidden" name="wordtree" id="wordtree">
-    <input  type="hidden" id="wordCloudImageSrcField" name="wordCloudImageSrc">
-    <input type="hidden" id="summaryField" name="summaryField">
-   <input type="hidden" name="sentiment_explanation" id="sentiment_explanation"> 
-       <input type="hidden" name="Cloud_type" id="Cloud_type">
-    <input  type="hidden" name="Cloud_measure" id="Cloud_measure">                
-            </form>
-            
+            <!-- Sentiment Pie Plot -->
+            <div
+              class="square checkbox-option background-blue"
+              data-checkbox="sentimentPlotPie"
+            >
+              <i class="fas fa-comments text-size-60 text-white"></i>
+              <h3
+                class="text-strong text-uppercase"
+                data-lang-en="Include Sentiment Pie Chart"
+                data-lang-cy="Cynnwys Siart Cylch"
+              >
+                Include Sentiment Pie Chart
+              </h3>
+            </div>
+            <!-- Sentiment Bar Plot -->
+            <div
+              class="square checkbox-option background-green"
+              data-checkbox="sentimentPlotBar"
+            >
+              <i class="fas fa-file-alt text-size-60 text-white"></i>
+              <h3
+                class="text-strong text-uppercase"
+                data-lang-en="Include Sentiment Bar Chart"
+                data-lang-cy="Cynnwys Siart Bar"
+              >
+                Include Sentiment Bar chart
+              </h3>
+            </div>
+            <!-- Word Tree Data -->
+            <div
+              class="square checkbox-option background-purple"
+              data-checkbox="wordTreeData"
+            >
+              <i class="fas fa-cloud text-size-60 text-white"></i>
+              <h3
+                class="text-strong text-uppercase"
+                data-lang-en="Include Word Tree Data"
+                data-lang-cy="Cynnwys Data'r Goeden Eiriau"
+              >
+                Include Word Tree Data
+              </h3>
+            </div>
+            <!-- Summary -->
+            <div
+              class="square checkbox-option background-orange"
+              data-checkbox="summary"
+            >
+              <i class="fas fa-link text-size-60 text-white"></i>
+              <h3
+                class="text-strong text-uppercase"
+                data-lang-en="Include Summary"
+                data-lang-cy="Cynnwys Crynodeb"
+              >
+                Include Summary
+              </h3>
+            </div>
+            <!-- Wordcloud -->
+            <div
+              class="square checkbox-option background-aqua"
+              data-checkbox="wordCloud"
+            >
+              <i class="fas fa-tree text-size-60 text-white"></i>
+              <h3
+                class="text-strong text-uppercase"
+                data-lang-en="Include Word Cloud"
+                data-lang-cy="Cynnwys Cwmwl Geiriau"
+              >
+                Include Word Cloud
+              </h3>
+            </div>
+          </section>
+          <div class="generate-button-container">
+            <button
+              type="button"
+              id="generatePdfBtn"
+              data-lang-en="Generate PDF"
+              data-lang-cy="Creu PDF"
+            >
+              <i class="fas fa-file-pdf"></i> Generate PDF
+            </button>
+          </div>
         </div>
-    
-</div>
-<!-- Moment.js (required for Date Range Picker) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-<!-- DataTables JS -->
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+        <!-- Hidden checkboxes -->
+        <!-- <input type="checkbox" name="sections" value="sentimentData" id="sentimentData" class="hidden-checkbox">-->
+        <input
+          type="checkbox"
+          name="sections"
+          value="sentimentPlotPie"
+          id="sentimentPlotPie"
+          class="hidden-checkbox"
+        />
+        <input
+          type="checkbox"
+          name="sections"
+          value="sentimentPlotBar"
+          id="sentimentPlotBar"
+          class="hidden-checkbox"
+        />
+        <input
+          type="checkbox"
+          name="sections"
+          value="wordTreeData"
+          id="wordTreeData"
+          class="hidden-checkbox"
+        />
+        <input
+          type="checkbox"
+          name="sections"
+          value="summary"
+          id="summary"
+          class="hidden-checkbox"
+        />
+        <input
+          type="checkbox"
+          name="sections"
+          value="wordCloud"
+          id="wordCloud"
+          class="hidden-checkbox"
+        />
 
-<!-- noUiSlider JS -->
-<script src="https://cdn.jsdelivr.net/npm/nouislider@14.7.0/distribute/nouislider.min.js"></script>
+        <input type="hidden" name="sentimentViewContent" id="sentimentField" />
 
-<!-- Date Range Picker JS -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <input type="hidden" name="wordtree" id="wordtree" />
+        <input
+          type="hidden"
+          id="wordCloudImageSrcField"
+          name="wordCloudImageSrc"
+        />
+        <input type="hidden" id="summaryField" name="summaryField" />
+        <input
+          type="hidden"
+          name="sentiment_explanation"
+          id="sentiment_explanation"
+        />
+        <input type="hidden" name="Cloud_type" id="Cloud_type" />
+        <input type="hidden" name="Cloud_measure" id="Cloud_measure" />
+      </form>
+    </div>
+  </div>
+  <!-- Moment.js (required for Date Range Picker) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <!-- DataTables JS -->
+  <script
+    type="text/javascript"
+    charset="utf8"
+    src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"
+  ></script>
 
-<!-- AG-Grid JS -->
-<script src="https://unpkg.com/@ag-grid-community/all-modules/dist/ag-grid-community.min.noStyle.js"></script>
-<script>
+  <!-- noUiSlider JS -->
+  <script src="https://cdn.jsdelivr.net/npm/nouislider@14.7.0/distribute/nouislider.min.js"></script>
+
+  <!-- Date Range Picker JS -->
+  <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
+  ></script>
+
+  <!-- AG-Grid JS -->
+  <script src="https://unpkg.com/@ag-grid-community/all-modules/dist/ag-grid-community.min.noStyle.js"></script>
+  <script>
     // The JavaScript that manages the clickable grid items
-    document.addEventListener("DOMContentLoaded", function() {
-        const options = document.querySelectorAll('.checkbox-option');
+    document.addEventListener("DOMContentLoaded", function () {
+      const options = document.querySelectorAll(".checkbox-option");
 
-        options.forEach(option => {
-            option.addEventListener('click', function() {
-                const checkboxId = this.getAttribute('data-checkbox');
-                const checkbox = document.getElementById(checkboxId);
+      options.forEach((option) => {
+        option.addEventListener("click", function () {
+          const checkboxId = this.getAttribute("data-checkbox");
+          const checkbox = document.getElementById(checkboxId);
 
-                if (checkbox.checked) {
-                    checkbox.checked = false;
-                    this.classList.remove('selected');
-                } else {
-                    checkbox.checked = true;
-                    this.classList.add('selected');
-                }
-            });
+          if (checkbox.checked) {
+            checkbox.checked = false;
+            this.classList.remove("selected");
+          } else {
+            checkbox.checked = true;
+            this.classList.add("selected");
+          }
         });
+      });
     });
-</script>
-{% endblock %}
+  </script>
+  {% endblock %}
+</div>

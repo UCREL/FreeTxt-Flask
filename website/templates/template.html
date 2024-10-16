@@ -355,6 +355,15 @@ input[type=range] {
     width: 100%; /* Full width of the container */
     margin-top: 10px; /* Space below the slider */
 }
+
+.menu-toggle {
+    display: none; /* Show the menu toggle button */
+}
+
+.primary-menu {
+    display: flex; /* Hide the menu by default */
+}
+
 @media screen and (max-width: 600px) {
     .header-navigation-wrapper {
         position: relative; /* Ensure positioning context */
@@ -443,7 +452,7 @@ input[type=range] {
       <button id="feedback-button" class = 'analyze-btn' data-lang-en="Feedback" data-lang-cy="Adborth">Feedback</button>
       
 
-<form id = "feedback-form"method="post" action="/">
+<form id = "feedback-form" method="post" action="/">
     <div class="question-container">
     <label for="role" data-lang-en="Role and affiliation:" data-lang-cy="Swydd a sefydliad:">Role and affiliation:</label><br>
     <input type="text" id="role" name="role" required><br>
@@ -500,32 +509,32 @@ input[type=range] {
 <div class="question-container">
     <label data-lang-en="Which particular FreeTxt tool(s) do you most like, and why? (Select all that apply)" data-lang-cy="Pa offer(yn) penodol yn TestunRhydd ydych chi'n eu/ei hoffi fwyaf, a pham? (Dewiswch bob un sy'n gymwys)">Which particular FreeTxt tool(s) do you most like, and why? (Select all that apply)</label><br>
     <div class="checkbox-group">
-        <input type="checkbox" id="sentimentAnalysis" name="likedTools" value="Sentiment Analysis">
+        <input type="checkbox" id="liked-sentimentAnalysis" name="likedTools" value="Sentiment Analysis">
         <label for="sentimentAnalysis" data-lang-en="Sentiment analysis (pie chart and bar graph)" data-lang-cy="Dadansoddi sentiment (siart cylch a graff bar)">Sentiment analysis (pie chart and bar graph)</label>
     </div>
     
     <div class="checkbox-group">
-        <input type="checkbox" id="reviewsKeywordScatter" name="likedTools" value="Reviews Keyword Scatter">
+        <input type="checkbox" id="liked-reviewsKeywordScatter" name="likedTools" value="Reviews Keyword Scatter">
         <label for="reviewsKeywordScatter"data-lang-en="Positive and negative reviews: keyword scatter" data-lang-cy="Adolygiadau cadarnhaol a negyddol: gwasgariad allweddeiriau">Positive and negative reviews: keyword scatter</label>
     </div>
 
     <div class="checkbox-group">
-        <input type="checkbox" id="summariser" name="likedTools" value="Summariser">
+        <input type="checkbox" id="liked-summariser" name="likedTools" value="Summariser">
         <label for="summariser"data-lang-en="Summariser" data-lang-cy="Crynodebu">Summariser</label>
     </div>
     
     <div class="checkbox-group">
-        <input type="checkbox" id="wordCloud" name="likedTools" value="Word Cloud">
+        <input type="checkbox" id="liked-wordCloud" name="likedTools" value="Word Cloud">
         <label for="wordCloud"data-lang-en="Word cloud" data-lang-cy="Cwmwl Geiriau">Word cloud</label>
     </div>
 
     <div class="checkbox-group">
-        <input type="checkbox" id="wordUse" name="likedTools" value="Word Use and Relationships">
+        <input type="checkbox" id="liked-wordUse" name="likedTools" value="Word Use and Relationships">
         <label for="wordUse" data-lang-en="Word use and relationships (keyword representation and network graph)" data-lang-cy="Defnydd a pherthnasoedd geiriau (cynrychioli allweddeiriau a graff rhwydweithiau)">Word use and relationships (keyword representation and network graph)</label>
     </div>
 
     <div class="checkbox-group">
-        <input type="checkbox" id="wordTree" name="likedTools" value="Word Tree">
+        <input type="checkbox" id="liked-wordTree" name="likedTools" value="Word Tree">
         <label for="wordTree" data-lang-en="Word tree" data-lang-cy="Coeden Eiriau">Word tree</label>
     </div>
     
@@ -536,32 +545,32 @@ input[type=range] {
 <div class="question-container">
     <label data-lang-en="Which particular FreeTxt tool(s) do you least like, and why? (Select all that apply)" data-lang-cy="Pa offer(yn) penodol yn TestunRhydd ydych chi'n eu/ei hoffi leiaf, a pham? (Dewiswch bob un sy'n gymwys)">Which particular FreeTxt tool(s) do you least like, and why? (Select all that apply)</label><br>
     <div class="checkbox-group">
-        <input type="checkbox" id="sentimentAnalysis" name="least_liked_tools" value="Sentiment Analysis">
+        <input type="checkbox" id="leastLiked-sentimentAnalysis" name="least_liked_tools" value="Sentiment Analysis">
         <label for="sentimentAnalysis" data-lang-en="Sentiment analysis (pie chart and bar graph)" data-lang-cy="Dadansoddi sentiment (siart cylch a graff bar)">Sentiment analysis (pie chart and bar graph)</label>
     </div>
     
     <div class="checkbox-group">
-        <input type="checkbox" id="reviewsKeywordScatter" name="least_liked_tools" value="Reviews Keyword Scatter">
+        <input type="checkbox" id="leastLiked-reviewsKeywordScatter" name="least_liked_tools" value="Reviews Keyword Scatter">
         <label for="reviewsKeywordScatter"data-lang-en="Positive and negative reviews: keyword scatter" data-lang-cy="Adolygiadau cadarnhaol a negyddol: gwasgariad allweddeiriau">Positive and negative reviews: keyword scatter</label>
     </div>
 
     <div class="checkbox-group">
-        <input type="checkbox" id="summariser" name="least_liked_tools" value="Summariser">
+        <input type="checkbox" id="leastLiked-summariser" name="least_liked_tools" value="Summariser">
         <label for="summariser"data-lang-en="Summariser" data-lang-cy="Crynodebu">Summariser</label>
     </div>
     
     <div class="checkbox-group">
-        <input type="checkbox" id="wordCloud" name="least_liked_tools" value="Word Cloud">
+        <input type="checkbox" id="leastLiked-wordCloud" name="least_liked_tools" value="Word Cloud">
         <label for="wordCloud"data-lang-en="Word cloud" data-lang-cy="Cwmwl Geiriau">Word cloud</label>
     </div>
 
     <div class="checkbox-group">
-        <input type="checkbox" id="wordUse" name="least_liked_tools" value="Word Use and Relationships">
+        <input type="checkbox" id="leastLiked-wordUse" name="least_liked_tools" value="Word Use and Relationships">
         <label for="wordUse" data-lang-en="Word use and relationships (keyword representation and network graph)" data-lang-cy="Defnydd a pherthnasoedd geiriau (cynrychioli allweddeiriau a graff rhwydweithiau)">Word use and relationships (keyword representation and network graph)</label>
     </div>
 
     <div class="checkbox-group">
-        <input type="checkbox" id="wordTree" name="least_liked_tools" value="Word Tree">
+        <input type="checkbox" id="leastLiked-wordTree" name="least_liked_tools" value="Word Tree">
         <label for="wordTree" data-lang-en="Word tree" data-lang-cy="Coeden Eiriau">Word tree</label>
     </div>
     
@@ -583,7 +592,7 @@ input[type=range] {
         <textarea id="additional_comments" name="additional_comments" required></textarea>
     </div>
 
-    <button class = 'analyze-btn' type="submit" value="Submit" data-lang-en="Submit" data-lang-cy="Anfon">Submit</button>
+    <button class = 'analyze-btn'  value="Submit" data-lang-en="Submit" data-lang-cy="Anfon">Submit</button>
 </form>  
 
   </div>  

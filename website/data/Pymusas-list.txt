@@ -262,6 +262,7 @@ O4.2-,Judgement of appearance: Ugly
 O4.3,Colour and colour patterns
 O4.4,Shape
 O4.5,Texture
+O4.5+,Texture
 O4.6,Temperature     
 O4.6+,Temperature: Hot / on fire     
 O4.6-,Temperature: Cold     
