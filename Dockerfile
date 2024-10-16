@@ -25,13 +25,3 @@ COPY --chown=user:user . /freetxt
 
 CMD [ "python3", "main.py" ]
 EXPOSE 8000
-
-
-
-#RUN python3 -m venv venv && \
-#    . ./venv/bin/activate && \
-#    pip install --upgrade pip && \
-#    pip install --no-cache-dir -r requirements.txt
-
-#ENV VIRTUAL_ENV /freetxt/venv
-#ENV PATH /freetxt/venv/bin:$PATH
