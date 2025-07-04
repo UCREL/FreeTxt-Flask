@@ -1,6 +1,6 @@
 # The FreeTxt app
 
-Here is the [link to FreeTxt app](https://www.freetxt.app/) which is currently under development. 
+Here is the [link to FreeTxt app](https://freetxt.app/) which is currently under development. 
 
 - FreeTxt was developed as part of an AHRC funded collaborative FreeTxt supporting bilingual free-text survey and questionnaire data analysis research project involving colleagues from Cardiff University and Lancaster University (Grant Number AH/W004844/1).
 
@@ -335,6 +335,6 @@ FreeTxt is licensed under Apache 2.0 and thus is freely available for use by pro
 
 If you use FreeTxt in your research or project, please cite it as follows:
 
-Khallaf, N., Ezeani, I., Knight, D., Rayson, P., El-Haj, M. and Morris, S. (2023). FreeTxt – A Bilingual Free-Text Analysis and Visualisation Toolkit [Software]. Cardiff University and Lancaster University. Available at: [www.freetxt.app](http://www.freetxt.app)
+Khallaf, N., Ezeani, I., Knight, D., Rayson, P., El-Haj, M. and Morris, S. (2023). FreeTxt – A Bilingual Free-Text Analysis and Visualisation Toolkit [Software]. Cardiff University and Lancaster University. Available at: [freetxt.app](http://freetxt.app)
 
 
